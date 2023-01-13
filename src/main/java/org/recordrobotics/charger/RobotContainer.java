@@ -4,10 +4,11 @@
 
 package org.recordrobotics.charger;
 
+import org.recordrobotics.charger.control.DoubleControl;
+import org.recordrobotics.charger.control.IControlInput;
+
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.XboxController;
-import org.recordrobotics.charger.commands.ExampleCommand;
-import org.recordrobotics.charger.subsystems.ExampleSubsystem;
 import edu.wpi.first.wpilibj2.command.Command;
 
 /**
@@ -18,14 +19,13 @@ import edu.wpi.first.wpilibj2.command.Command;
  */
 public class RobotContainer {
 	// The robot's subsystems and commands are defined here...
-	private final ExampleSubsystem m_exampleSubsystem = new ExampleSubsystem();
-
-	private final ExampleCommand m_autoCommand = new ExampleCommand(m_exampleSubsystem);
+	private IControlInput _controlInput;
 
 	/** The container for the robot. Contains subsystems, OI devices, and commands. */
 	public RobotContainer() {
 		// Configure the button bindings
 		configureButtonBindings();
+		_controlInput = new DoubleControl(Constants.Control.DOUBLE_GAMEPAD_1, Constants.Control.DOUBLE_GAMEPAD_2);
 	}
 
 	/**
@@ -34,7 +34,9 @@ public class RobotContainer {
 	 * edu.wpi.first.wpilibj.Joystick} or {@link XboxController}), and then passing it to a {@link
 	 * edu.wpi.first.wpilibj2.command.button.JoystickButton}.
 	 */
-	private void configureButtonBindings() {}
+	private void configureButtonBindings() {
+		_controlInput.getAcqSpin();
+	}
 
 	/**
 	 * Use this to pass the autonomous command to the main {@link Robot} class.
@@ -43,6 +45,6 @@ public class RobotContainer {
 	 */
 	public Command getAutonomousCommand() {
 		// An ExampleCommand will run in autonomous
-		return m_autoCommand;
+		return null;
 	}
 }

@@ -12,4 +12,16 @@ package org.recordrobotics.charger;
  * <p>It is advised to statically import this class (or one of its inner classes) wherever the
  * constants are needed, to reduce verbosity.
  */
-public final class Constants {}
+public final class Constants {
+    /**
+	 * Control ports (PC USB)
+	 */
+	public class Control {
+		// LegacyControl
+		public static final int LEGACY_GAMEPAD = 0;
+
+		// DoubleControl
+		public static final int DOUBLE_GAMEPAD_1 = 0;
+		public static final int DOUBLE_GAMEPAD_2 = 1;
+	}
+}
