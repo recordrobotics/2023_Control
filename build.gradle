@@ -1,12 +1,32 @@
 plugins {
     id "java"
-    id "edu.wpi.first.GradleRIO" version "2023.1.1"
+    id "pmd"
+	id "edu.wpi.first.GradleRIO" version "2022.3.1"
+	id "com.diffplug.spotless" version "6.4.2"
 }
 
 sourceCompatibility = JavaVersion.VERSION_11
 targetCompatibility = JavaVersion.VERSION_11
 
-def ROBOT_MAIN_CLASS = "org.recordrobotics.munchkin.Main"
+def ROBOT_MAIN_CLASS = "org.recordrobotics.charger.Main"
+
+// PMD config
+pmd {
+	consoleOutput = true
+	ignoreFailures = false
+	ruleSetFiles = files("pmd.xml")
+	ruleSets = []
+}
+
+// Spotless config
+spotless {
+	java {
+		trimTrailingWhitespace()
+		indentWithTabs()
+		endWithNewline()
+		removeUnusedImports()
+	}
+}
 
 // Define my targets (RoboRIO) and artifacts (deployable files)
 // This is added by GradleRIO's backing project DeployUtils.
