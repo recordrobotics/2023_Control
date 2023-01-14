@@ -8,7 +8,7 @@ package org.recordrobotics.charger;
  * Put constants here
  */
 public final class Constants {
-    /**
+	/**
 	 * Control ports (PC USB)
 	 */
 	public class Control {

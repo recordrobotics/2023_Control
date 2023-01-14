@@ -49,7 +49,7 @@ public class Robot extends TimedRobot {
 	public void disabledInit() {
 		_robotContainer.toString();
 	}
-	
+
 	/** Runs when the robot is disabled */
 	@Override
 	public void disabledPeriodic() {
