@@ -49,22 +49,33 @@ public class Robot extends TimedRobot {
 	public void disabledInit() {
 		_robotContainer.toString();
 	}
-
+	
+	/** Runs when the robot is disabled */
 	@Override
-	public void disabledPeriodic() {}
+	public void disabledPeriodic() {
+		/** Add anything we need to run when the robot shuts off here */
+	}
 
 	/** This autonomous runs the autonomous command selected by your {@link RobotContainer} class. */
 	@Override
-	public void autonomousInit() {}
+	public void autonomousInit() {
+		/** Add things to run when autonomous starts here */
+	}
 
 	/** This function is called periodically during autonomous. */
 	@Override
-	public void autonomousPeriodic() {}
+	public void autonomousPeriodic() {
+		/** Add things to run when autonomous is active here */
+	}
 
 	@Override
-	public void teleopInit() {}
+	public void teleopInit() {
+		/** Add things to run when the robot enters teleop here */
+	}
 
 	/** This function is called periodically during operator control. */
 	@Override
-	public void teleopPeriodic() {}
+	public void teleopPeriodic() {
+		/** Add things to run when teleop is active here */
+	}
 }
