@@ -7,4 +7,4 @@ _{button/stick}_: _{set file}_; _{what it does}_
 
 Game Controller (specific game systems controller):
 --------
-_{button/stick}_: _{set file}_; _{what it does}_ 
+_{button/stick}_: _{set file}_; _{what it does}_
