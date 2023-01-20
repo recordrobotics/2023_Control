@@ -4,10 +4,17 @@
 
 package org.recordrobotics.charger;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import org.recordrobotics.charger.commands.manual.ManualDrive;
 import org.recordrobotics.charger.control.DoubleControl;
 import org.recordrobotics.charger.control.IControlInput;
+import org.recordrobotics.charger.subsystems.*;
 
+import edu.wpi.first.math.Pair;
 import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.Subsystem;
 
 /**
  * This class is where the bulk of the robot should be declared. Since Command-based is a
@@ -19,11 +26,24 @@ public class RobotContainer {
 	// The robot's subsystems and commands are defined here...
 	@SuppressWarnings({"PMD.SingularField", "unused"})
 	private IControlInput _controlInput;
+	private Drive _drive;
+
+	// Commands
+	@SuppressWarnings({"PMD.SingularField", "unused"})
+	private List<Pair<Subsystem, Command>> _teleopPairs;
 
 	/** The container for the robot. Contains subsystems, OI devices, and commands. */
 	public RobotContainer() {
 		// Configure the button bindings
 		_controlInput = new DoubleControl(Constants.Control.DOUBLE_GAMEPAD_1, Constants.Control.DOUBLE_GAMEPAD_2);
+		_drive = new Drive();
+
+		initTeleopCommands();
+	}
+
+	private void initTeleopCommands() {
+		_teleopPairs = new ArrayList<>();
+		_teleopPairs.add(new Pair<Subsystem, Command>(_drive, new ManualDrive(_drive, _controlInput)));
 	}
 
 	/**
