@@ -30,9 +30,9 @@ public class Arm extends SubsystemBase {
 	public double[] getAnglesOfRotation(double targetX, double targetY) {
 		// law of cosines
 		double side3 = Math.sqrt(Math.pow(targetX, 2) + Math.pow(targetY, 2));
-		double angleC = Math.toDegrees(Math.acos((Math.pow(SECOND_ARM_LENGTH, 2) - Math.pow(FIRST_ARM_LENGTH, 2) - Math.pow(side3, 2))/(side3 * FIRST_ARM_LENGTH * 2)));
+		double angleC = Math.acos((Math.pow(SECOND_ARM_LENGTH, 2) - Math.pow(FIRST_ARM_LENGTH, 2) - Math.pow(side3, 2))/(side3 * FIRST_ARM_LENGTH * 2));
 		// angle of rotation for the first motor
-		double angle1 = (90 - angleC - Math.toDegrees(Math.tan(targetY / targetX)));
+		double angle1 = Math.toDegrees(2 * Math.PI - angleC - Math.atan(targetY / targetX));
 		// law of sines
 		// angle of rotation for the second motor
 		double angle2 = Math.toDegrees(Math.asin(side3 * Math.sin(angleC) / SECOND_ARM_LENGTH));
