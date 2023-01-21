@@ -1,11 +1,11 @@
 This is the 2023 Robot Control Map. This includes the actual button mappings.
 ========
-Drive Controller (drive base controller):
+__Drive Controller (drive base controller):__
 --------
-_LStick_; _Joystick for robot motion_
+LStick; Joystick for robot motion
 _{button/stick}_; _{what it does}_
 
 
-Game Controller (specific game systems controller):
+__Game Controller (specific game systems controller):__
 --------
 _{button/stick}_; _{what it does}_
