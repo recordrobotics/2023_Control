@@ -57,7 +57,7 @@ public class RobotContainer {
 	}
 
 	/**
-	 * Create teleop commands
+	 * Executes teleop commands
 	 */
 	public void teleopInit() {
 		for (Pair<Subsystem, Command> c : _teleopPairs) {
