@@ -7,6 +7,7 @@ package org.recordrobotics.charger;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.recordrobotics.charger.commands.manual.ManualArm;
 import org.recordrobotics.charger.commands.manual.ManualDrive;
 import org.recordrobotics.charger.control.DoubleControl;
 import org.recordrobotics.charger.control.IControlInput;
@@ -27,6 +28,7 @@ public class RobotContainer {
 	@SuppressWarnings({"PMD.SingularField", "unused"})
 	private IControlInput _controlInput;
 	private Drive _drive;
+	private Arm _arm;
 
 	// Commands
 	@SuppressWarnings({"PMD.SingularField", "unused"})
@@ -37,6 +39,7 @@ public class RobotContainer {
 		// Configure the button bindings
 		_controlInput = new DoubleControl(Constants.Control.DOUBLE_GAMEPAD_1, Constants.Control.DOUBLE_GAMEPAD_2);
 		_drive = new Drive();
+		_arm = new Arm();
 
 		initTeleopCommands();
 	}
@@ -44,6 +47,7 @@ public class RobotContainer {
 	private void initTeleopCommands() {
 		_teleopPairs = new ArrayList<>();
 		_teleopPairs.add(new Pair<Subsystem, Command>(_drive, new ManualDrive(_drive, _controlInput)));
+		_teleopPairs.add(new Pair<Subsystem, Command>(_arm, new ManualArm(_arm, _controlInput)));
 	}
 
 	/**

@@ -23,6 +23,16 @@ public class LegacyControl implements IControlInput {
 	}
 
 	@Override
+	public boolean moveToSecond() {
+		return _gamepad.getAButtonPressed();
+	}
+
+	@Override
+	public boolean moveToThird() {
+		return _gamepad.getBButtonPressed();
+	}
+
+	@Override
 	public String toString() {
 		return "Legacy";
 	}
