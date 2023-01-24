@@ -71,6 +71,7 @@ public class Robot extends TimedRobot {
 	@Override
 	public void teleopInit() {
 		/** Add things to run when the robot enters teleop here */
+		_robotContainer.teleopInit();
 	}
 
 	/** This function is called periodically during operator control. */
