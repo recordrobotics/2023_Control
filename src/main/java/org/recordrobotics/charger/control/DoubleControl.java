@@ -24,6 +24,7 @@ public class DoubleControl implements IControlInput {
 		return -_gamepad2.getLeftX();
 	}
 
+	@Override
 	public boolean getClawInput() {
 		return _gamepad2.getXButton();
 	}

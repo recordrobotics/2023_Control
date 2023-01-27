@@ -9,19 +9,19 @@ import com.revrobotics.RelativeEncoder;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
 public class Claw extends SubsystemBase {
-    private CANSparkMax _motor = new CANSparkMax(RobotMap.Claw.CLAW_MOTOR_PORT, MotorType.kBrushless);
+	private CANSparkMax _motor = new CANSparkMax(RobotMap.Claw.CLAW_MOTOR_PORT, MotorType.kBrushless);
 
-    private RelativeEncoder _motorEncoder = _motor.getEncoder();
+	private RelativeEncoder _motorEncoder = _motor.getEncoder();
 
-    public Claw(){
-        _motor.set(0);
-    }
+	public Claw(){
+		_motor.set(0);
+	}
 
-    public void turn(double speed){
-        if((speed > 0 && _motorEncoder.getPosition() < 1) || (speed < 0 && _motorEncoder.getPosition() > -1)){
-            _motor.set(Subsystems.limitSpeed(speed));
-        }else{
-            _motor.set(0);
-        }
-    }
+	public void turn(double speed){
+		if(speed > 0 && _motorEncoder.getPosition() < 1 || speed < 0 && _motorEncoder.getPosition() > -1){
+			_motor.set(Subsystems.limitSpeed(speed));
+		}else{
+			_motor.set(0);
+		}
+	}
 }
