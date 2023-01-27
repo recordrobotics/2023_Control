@@ -24,13 +24,15 @@ public class ManualArm extends CommandBase {
 
 	@Override
 	public void execute() {
+		double[] angles;
 		if (_controls.moveToSecond()) {
-			_arm.getAnglesOfRotation(23, 30);
+			angles = _arm.getAnglesOfRotation(23, 30);
 		} else if (_controls.moveToThird()) {
-			_arm.getAnglesOfRotation(40, 42);
+			angles = _arm.getAnglesOfRotation(40, 42);
 		} else {
-			// reset positions
+			angles = _arm.resetPositions();
 		}
+		_arm.moveAngles(angles[0], angles[1]);
 	}
 
 	@Override

@@ -31,6 +31,10 @@ public class Arm extends SubsystemBase {
 		_entryAngles = tab.add("Angles Of Rotation", new double[] {0, 0}).getEntry();
 	}
 
+	public void moveAngles(double angle1, double angle2) {
+		// move angles
+	}
+
 	/**
 	 * moves motors to reach a certain point on a cartesian plane, with the first motor as the origin point
 	 * @param targetX x value of the cartesian point
@@ -38,15 +42,25 @@ public class Arm extends SubsystemBase {
 	 * @return angles of rotation in array of length 2 IN DEGREES
 	 */
 	public double[] getAnglesOfRotation(double targetX, double targetY) {
+		double[] angles = new double[2];
 		// law of cosines
 		double side3 = Math.sqrt(Math.pow(targetX, 2) + Math.pow(targetY, 2));
 		double angleC = Math.acos((Math.pow(SECOND_ARM_LENGTH, 2) - Math.pow(FIRST_ARM_LENGTH, 2) - Math.pow(side3, 2))/(side3 * FIRST_ARM_LENGTH * 2));
 		// angle of rotation for the first motor
-		_angles[0] = Math.toDegrees(2 * Math.PI - angleC - Math.atan(targetY / targetX));
+		angles[0] = Math.toDegrees(2 * Math.PI - angleC - Math.atan(targetY / targetX));
 		// law of sines
 		// angle of rotation for the second motor
-		_angles[1] = Math.toDegrees(Math.asin(side3 * Math.sin(angleC) / SECOND_ARM_LENGTH));
-		return _angles;
+		angles[1] = Math.toDegrees(Math.asin(side3 * Math.sin(angleC) / SECOND_ARM_LENGTH));
+		_angles = angles;
+		return angles;
+	}
+
+	/**
+	 * resets the position of the arms
+	 * @return the original angles of the arms
+	 */
+	public double[] resetPositions() {
+		return new double[] {0, 0};
 	}
 
 	@Override

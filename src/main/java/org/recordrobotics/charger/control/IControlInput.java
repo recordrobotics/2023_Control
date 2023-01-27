@@ -33,5 +33,5 @@ public interface IControlInput {
 	 */
 	boolean moveToThird();
 
-	
+
 }
