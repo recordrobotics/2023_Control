@@ -18,4 +18,11 @@ public interface IControlInput {
 	 * @return [-1, 0) - left; (0, 1] - right
 	 */
 	double getDriveLat();
+
+	/**
+	 * Latitudinal drive input (left & right) value
+	 *
+	 * @return false open; true closed
+	 */
+	boolean getClawInput();
 }

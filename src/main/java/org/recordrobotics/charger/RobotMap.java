@@ -27,4 +27,8 @@ public class RobotMap {
 		public static final int RIGHT_MIDDLE_MOTOR_PORT = 0;
 		public static final int RIGHT_FRONT_MOTOR_PORT = 3;
 	}
+
+	public class Claw {
+		public static final int CLAW_MOTOR_PORT = 0;
+	}
 }

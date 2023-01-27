@@ -22,6 +22,10 @@ public class SingleControl implements IControlInput {
 		return _gamepad.getLeftX();
 	}
 
+	public boolean getClawInput() {
+		return _gamepad.getXButton();
+	}
+
 	@Override
 	public String toString() {
 		return "Legacy";
