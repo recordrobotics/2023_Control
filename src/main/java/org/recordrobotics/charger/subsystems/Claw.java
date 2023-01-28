@@ -19,7 +19,7 @@ public class Claw extends SubsystemBase {
 
 
 	public void turn(double speed){
-		if(speed > 0 && _motorEncoder.getPosition() < 1 || speed < 0 && _motorEncoder.getPosition() > 0){
+		if(speed > 0 && _motorEncoder.getPosition() < 0.5 || speed < 0 && _motorEncoder.getPosition() > 0){
 			_motor.set(Subsystems.limitSpeed(speed));
 		}else{
 			_motor.set(0);
@@ -27,7 +27,7 @@ public class Claw extends SubsystemBase {
 	}
 
 	public double getPosition(){
-		return _motorEncoder.getPosition();
+		return _motorEncoder.getPosition()/63;
 	}
 
 	public void resetEncoders() {
