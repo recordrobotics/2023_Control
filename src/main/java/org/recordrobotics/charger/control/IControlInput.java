@@ -22,7 +22,14 @@ public interface IControlInput {
 	/**
 	 * Latitudinal drive input (left & right) value
 	 *
-	 * @return false open; true closed
+	 * @return true open
 	 */
-	boolean getClawInput();
+	boolean getClawOpen();
+
+	/**
+	 * Latitudinal drive input (left & right) value
+	 *
+	 * @return true open
+	 */
+	boolean getClawClose();
 }

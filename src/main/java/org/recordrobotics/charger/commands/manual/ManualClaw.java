@@ -25,9 +25,9 @@ public class ManualClaw extends CommandBase {
 
 	@Override
 	public void execute() {
-		if(_controls.getClawInput()){
+		if(_controls.getClawOpen()){
 			_claw.turn(0.3);
-		}else{
+		}else if(_controls.getClawClose()){
 			_claw.turn(-0.3);
 		}
 	}

@@ -25,8 +25,13 @@ public class DoubleControl implements IControlInput {
 	}
 
 	@Override
-	public boolean getClawInput() {
-		return _gamepad2.getXButton();
+	public boolean getClawOpen() {
+		return _gamepad1.getXButton();
+	}
+
+	@Override
+	public boolean getClawClose() {
+		return _gamepad1.getYButton();
 	}
 
 	@Override

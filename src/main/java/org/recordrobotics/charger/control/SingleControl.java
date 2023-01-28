@@ -23,8 +23,13 @@ public class SingleControl implements IControlInput {
 	}
 
 	@Override
-	public boolean getClawInput() {
+	public boolean getClawOpen() {
 		return _gamepad.getXButton();
+	}
+
+	@Override
+	public boolean getClawClose() {
+		return _gamepad.getYButton();
 	}
 
 	@Override
