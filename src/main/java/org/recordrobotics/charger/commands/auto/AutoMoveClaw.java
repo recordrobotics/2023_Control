@@ -6,9 +6,11 @@ import org.recordrobotics.charger.subsystems.Claw;
 public class AutoMoveClaw extends CommandBase{
 	private Claw _claw;
 	private double _speed;
-	private double _clawRotations;
 
 	public AutoMoveClaw(Claw claw, double speed, double clawRotations){
+		if (speed <= 0) {
+			throw new IllegalArgumentException("Speed must be positive");
+		}
 		if (claw == null) {
 			throw new IllegalArgumentException("Drive is null");
 		}
@@ -16,7 +18,6 @@ public class AutoMoveClaw extends CommandBase{
 		_claw = claw;
 
 		_speed = speed;
-		_clawRotations = clawRotations;
 	}
 
 	/**
@@ -27,7 +28,7 @@ public class AutoMoveClaw extends CommandBase{
 	public void initialize() {
 		_claw.resetEncoders();
 
-		if(_claw.getPosition() < _clawRotations/2){
+		if(_claw.getPosition() < _claw._clawMax/2){
 			_claw.turn(_speed);
 		} else {
 			_claw.turn(-_speed);
@@ -39,6 +40,6 @@ public class AutoMoveClaw extends CommandBase{
 	 */
 	@Override
 	public boolean isFinished() {
-		return _claw.getPosition() >= _clawRotations || _claw.getPosition() <= 0;
+		return _claw.getPosition() >= _claw._clawMax || _claw.getPosition() <= 0;
 	}
 }

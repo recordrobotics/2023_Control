@@ -13,13 +13,15 @@ public class Claw extends SubsystemBase {
 
 	public RelativeEncoder _motorEncoder = _motor.getEncoder();
 
+	public double _clawMax;
+
 	public Claw(){
 		_motor.set(0);
 	}
 
 
 	public void turn(double speed){
-		if(speed > 0 && _motorEncoder.getPosition() < 0.5 || speed < 0 && _motorEncoder.getPosition() > 0){
+		if(speed > 0 && getPosition() < _clawMax || speed < 0 && getPosition() > 0){
 			_motor.set(Subsystems.limitSpeed(speed));
 		}else{
 			_motor.set(0);
