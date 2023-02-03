@@ -20,16 +20,9 @@ public interface IControlInput {
 	double getDriveLat();
 
 	/**
-	 * Latitudinal drive input (left & right) value
+	 * Claw state input (cone & cube) value
 	 *
-	 * @return true open
+	 * @return 1 Cube - -1 Cone - 0 neutral
 	 */
-	boolean getClawOpen();
-
-	/**
-	 * Latitudinal drive input (left & right) value
-	 *
-	 * @return true open
-	 */
-	boolean getClawClose();
+	double getClawTurn();
 }

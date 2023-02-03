@@ -7,7 +7,7 @@ public class AutoMoveClaw extends CommandBase{
 	private Claw _claw;
 	private double _speed;
 
-	public AutoMoveClaw(Claw claw, double speed, double clawRotations){
+	public AutoMoveClaw(Claw claw, double speed){
 		if (speed <= 0) {
 			throw new IllegalArgumentException("Speed must be positive");
 		}
@@ -28,7 +28,7 @@ public class AutoMoveClaw extends CommandBase{
 	public void initialize() {
 		_claw.resetEncoders();
 
-		if(_claw.getPosition() < _claw._clawMax/2){
+		if(_claw.getPosition() < Claw.CLAW_NEUTRAL/2){
 			_claw.turn(_speed);
 		} else {
 			_claw.turn(-_speed);
@@ -40,6 +40,6 @@ public class AutoMoveClaw extends CommandBase{
 	 */
 	@Override
 	public boolean isFinished() {
-		return _claw.getPosition() >= _claw._clawMax || _claw.getPosition() <= 0;
+		return _claw.getPosition() >= Claw.CLAW_NEUTRAL || _claw.getPosition() <= 0;
 	}
 }
