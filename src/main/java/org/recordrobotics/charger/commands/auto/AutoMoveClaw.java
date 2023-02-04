@@ -4,20 +4,23 @@ import edu.wpi.first.wpilibj2.command.CommandBase;
 import org.recordrobotics.charger.subsystems.Claw;
 
 public class AutoMoveClaw extends CommandBase{
+	private boolean _endState;
 	private Claw _claw;
 	private double _speed;
 
-	public AutoMoveClaw(Claw claw, double speed){
+	public AutoMoveClaw(Claw claw, double speed, boolean endState){
 		if (speed <= 0) {
 			throw new IllegalArgumentException("Speed must be positive");
 		}
 		if (claw == null) {
-			throw new IllegalArgumentException("Drive is null");
+			throw new IllegalArgumentException("Claw is null");
 		}
 
 		_claw = claw;
 
 		_speed = speed;
+
+		_endState = endState;
 	}
 
 	/**
@@ -28,7 +31,7 @@ public class AutoMoveClaw extends CommandBase{
 	public void initialize() {
 		_claw.resetEncoders();
 
-		if(_claw.getPosition() < Claw.CLAW_NEUTRAL/2){
+		if(_claw.getPosition() > Claw.CLAW_NEUTRAL){
 			_claw.turn(_speed);
 		} else {
 			_claw.turn(-_speed);
@@ -40,6 +43,10 @@ public class AutoMoveClaw extends CommandBase{
 	 */
 	@Override
 	public boolean isFinished() {
-		return _claw.getPosition() >= Claw.CLAW_NEUTRAL || _claw.getPosition() <= 0;
+		if(_endState){
+			return _claw.getPosition() >= Claw.CLAW_NEUTRAL || _claw.getPosition() <= Claw.CLAW_CUBE;
+		} else{
+			return _claw.getPosition() >= Claw.CLAW_NEUTRAL || _claw.getPosition() <= Claw.CLAW_CONE;
+		}
 	}
 }
