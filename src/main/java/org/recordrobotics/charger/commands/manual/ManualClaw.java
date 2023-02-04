@@ -10,6 +10,8 @@ public class ManualClaw extends CommandBase {
 	private Claw _claw;
 	private IControlInput _controls;
 
+	private static final double TURN_SPEED = 0.3;
+
 	public ManualClaw(Claw claw, IControlInput controls) {
 		if (claw == null) {
 			throw new IllegalArgumentException("claw is null");
@@ -27,18 +29,18 @@ public class ManualClaw extends CommandBase {
 	public void execute() {
 		if(_controls.getClawTurn() > 0){
 			if(_claw.getPosition() <= Claw.CLAW_CUBE){
-				_claw.turn(0.3);
+				_claw.turn(TURN_SPEED);
 			}else{
 				_claw.turn(0);
 			}
 		}else if(_controls.getClawTurn() < 0){
 			if(_claw.getPosition() <= Claw.CLAW_CONE){
-				_claw.turn(0.3);
+				_claw.turn(TURN_SPEED);
 			}else{
 				_claw.turn(0);
 			}
 		}else{
-			_claw.turn(-0.3);
+			_claw.turn(-TURN_SPEED);
 		}
 	}
 
