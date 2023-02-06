@@ -31,7 +31,7 @@ public class AutoMoveClaw extends CommandBase{
 	public void initialize() {
 		_claw.resetEncoders();
 
-		if(_claw.getPosition() > Claw.CLAW_NEUTRAL){
+		if(_claw.getPosition() > Claw.CLAW_CUBE/2){
 			_claw.turn(_speed);
 		} else {
 			_claw.turn(-_speed);
