@@ -9,7 +9,13 @@ import org.recordrobotics.charger.RobotMap;
 import com.ctre.phoenix.motorcontrol.FeedbackDevice;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
 
+import edu.wpi.first.math.kinematics.ChassisSpeeds;
+import edu.wpi.first.math.kinematics.DifferentialDriveKinematics;
+import edu.wpi.first.math.kinematics.DifferentialDriveWheelSpeeds;
+import edu.wpi.first.math.util.Units;
+
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
+import edu.wpi.first.wpilibj.drive.DifferentialDrive.WheelSpeeds;
 import edu.wpi.first.wpilibj.motorcontrol.MotorControllerGroup;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
@@ -34,6 +40,12 @@ public class Drive extends SubsystemBase {
 
 	private static final double GEAR_RATIO = 10.75;
 	private static final double WHEEL_DIAMETER = 6 * 25.4; // diameter in inches * conversion rate to millimeters
+
+	DifferentialDriveKinematics kinematics = new DifferentialDriveKinematics(Units.inchesToMeters(27.0));
+	DifferentialDriveWheelSpeeds wheelSpeeds = new DifferentialDriveWheelSpeeds(getRightEncoderSpeed(), getLeftEncoderSpeed());
+	ChassisSpeeds chassisSpeeds = kinematics.toChassisSpeeds(wheelSpeeds);
+	double linearVelocity = chassisSpeeds.vxMetersPerSecond;
+	double angularVelocity = chassisSpeeds.omegaRadiansPerSecond;
 
 	public Drive() {
 		_leftMotors.set(0);
@@ -75,11 +87,19 @@ public class Drive extends SubsystemBase {
 		return (translateUnits(_right[0].getSelectedSensorPosition()) + translateUnits(_right[1].getSelectedSensorPosition()) + translateUnits(_right[2].getSelectedSensorPosition())) / 3;
 	}
 
+	private double getRightEncoderSpeed() {
+		return (translateUnits(_right[0].getSelectedSensorVelocity()) + translateUnits(_right[1].getSelectedSensorVelocity()) + translateUnits(_right[2].getSelectedSensorVelocity())) / 3;
+	}
+
 	/**
 	 * @return The value of the left encoder in MM
 	 */
 	private double getLeftEncoder() {
 		return (translateUnits(_left[0].getSelectedSensorPosition()) + translateUnits(_left[1].getSelectedSensorPosition()) + translateUnits(_left[2].getSelectedSensorPosition())) / 3;
+	}
+
+	private double getLeftEncoderSpeed() {
+		return (translateUnits(_left[0].getSelectedSensorVelocity()) + translateUnits(_left[1].getSelectedSensorVelocity()) + translateUnits(_left[2].getSelectedSensorVelocity())) / 3;
 	}
 
 	/**
