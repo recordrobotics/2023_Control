@@ -24,6 +24,8 @@ public class Arm extends SubsystemBase {
 	private static final double ORIGIN_OFFSET = 0;
 	private static final double CHANGE_OFFSET = 0;
 
+	private static final double TICKS_PER_REV = 2048;
+
 	private GenericEntry _entryAngles;
 
 	private double[] _angles = new double[2];
@@ -41,7 +43,20 @@ public class Arm extends SubsystemBase {
 	 * @param angles the angles to turn the motors (first = origin motor, second = change motor)
 	 */
 	public void moveAngles(double... angles) {
-		// move angles
+		_originMotor.set(0.5);
+		while (true) {
+			if (getOriginEncoder() >= angles[0]) {
+				_originMotor.set(0);
+				break;
+			}
+		}
+		_changeMotor.set(0.5);
+		while (true) {
+			if (getChangeEncoder() >= angles[0]) {
+				_changeMotor.set(0);
+				break;
+			}
+		}
 	}
 
 	/**
@@ -70,6 +85,28 @@ public class Arm extends SubsystemBase {
 	 */
 	public double[] resetPositions() {
 		return new double[] {0, 0};
+	}
+
+	/**
+	 * @return value of origin motor encoder in DEGREES
+	 */
+	public double getOriginEncoder() {
+		return _originMotor.getSelectedSensorPosition() / TICKS_PER_REV * 360;
+	}
+
+	/**
+	 * @return value of change motor encoder in DEGREES
+	 */
+	public double getChangeEncoder() {
+		return _changeMotor.getSelectedSensorPosition() / TICKS_PER_REV * 360;
+	}
+
+	/**
+	 * resets origin and change motor encoders
+	 */
+	public void resetEncoders() {
+		_originMotor.setSelectedSensorPosition(0);
+		_changeMotor.setSelectedSensorPosition(0);
 	}
 
 	@Override
