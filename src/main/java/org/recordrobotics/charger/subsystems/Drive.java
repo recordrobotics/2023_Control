@@ -109,6 +109,7 @@ public class Drive extends SubsystemBase {
 	}
 	
 	public double getAngleSpeed(){
+		angularVelocity = chassisSpeeds.omegaRadiansPerSecond;
 		return angularVelocity;
 	}
 	/**
