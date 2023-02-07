@@ -37,4 +37,13 @@ public class SingleControl implements IControlInput {
 		return "Legacy";
 	}
 
+	@Override
+	public boolean pickUpFromGround() {
+		return _gamepad.getXButtonPressed();
+	}
+
+	@Override
+	public boolean pickUpFromSub() {
+		return _gamepad.getYButtonPressed();
+	}
 }

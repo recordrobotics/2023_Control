@@ -39,4 +39,14 @@ public class DoubleControl implements IControlInput {
 	public String toString() {
 		return "Double";
 	}
+
+	@Override
+	public boolean pickUpFromGround() {
+		return _gamepad2.getYButtonPressed();
+	}
+
+	@Override
+	public boolean pickUpFromSub() {
+		return _gamepad2.getYButtonPressed();
+	}
 }

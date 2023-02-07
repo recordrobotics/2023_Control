@@ -32,6 +32,18 @@ public interface IControlInput {
 	 * @return true - do it, false - don't do it
 	 */
 	boolean moveToThird();
+	
+	/**
+	 * Go to pick up a ball from the ground
+	 *
+	 * @return true - do it, false - don't do it
+	 */
+	boolean pickUpFromGround();
 
-
+	/**
+	 * Go to pick up a ball from a substation
+	 *
+	 * @return true - do it, false - don't do it
+	 */
+	boolean pickUpFromSub();
 }

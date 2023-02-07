@@ -29,10 +29,14 @@ public class ManualArm extends CommandBase {
 			angles = _arm.getAnglesOfRotation(23, 30);
 		} else if (_controls.moveToThird()) {
 			angles = _arm.getAnglesOfRotation(40, 42);
+		} else if (_controls.pickUpFromGround()) {
+			angles = _arm.getAnglesOfRotation(40, 42);
+		} else if (_controls.pickUpFromSub()) {
+			angles = _arm.getAnglesOfRotation(40, 42);
 		} else {
 			angles = _arm.resetPositions();
 		}
-		_arm.moveAngles(angles[0], angles[1]);
+		_arm.moveAngles(angles);
 	}
 
 	@Override
