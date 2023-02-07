@@ -21,8 +21,8 @@ public class Arm extends SubsystemBase {
 
 	// IN DEGREES
 	// negative is in the same direction as the rotation, positive is in the opposite
-	private static final double ORIGIN_ANGLE_FROM_VERTICAL = 0;
-	private static final double CHANGE_ANGLE_FROM_VERTICAL = 0;
+	private static final double ORIGIN_OFFSET = 0;
+	private static final double CHANGE_OFFSET = 0;
 
 	private GenericEntry _entryAngles;
 
@@ -36,7 +36,11 @@ public class Arm extends SubsystemBase {
 		_entryAngles = tab.add("Angles Of Rotation", new double[] {0, 0}).getEntry();
 	}
 
-	public void moveAngles(double[] angles) {
+	/**
+	 * Moves motors to set angles (pid?)
+	 * @param angles the angles to turn the motors (first = origin motor, second = change motor)
+	 */
+	public void moveAngles(double... angles) {
 		// move angles
 	}
 
@@ -52,10 +56,10 @@ public class Arm extends SubsystemBase {
 		double side3 = Math.sqrt(Math.pow(targetX, 2) + Math.pow(targetY, 2));
 		double angleC = Math.acos((Math.pow(SECOND_ARM_LENGTH, 2) - Math.pow(FIRST_ARM_LENGTH, 2) - Math.pow(side3, 2))/(side3 * FIRST_ARM_LENGTH * 2));
 		// angle of rotation for the first motor
-		angles[0] = Math.toDegrees(2 * Math.PI - angleC - Math.atan(targetY / targetX)) + ORIGIN_ANGLE_FROM_VERTICAL;
+		angles[0] = Math.toDegrees(2 * Math.PI - angleC - Math.atan(targetY / targetX)) + ORIGIN_OFFSET;
 		// law of sines
 		// angle of rotation for the second motor
-		angles[1] = Math.toDegrees(Math.asin(side3 * Math.sin(angleC) / SECOND_ARM_LENGTH)) + CHANGE_ANGLE_FROM_VERTICAL;
+		angles[1] = Math.toDegrees(Math.asin(side3 * Math.sin(angleC) / SECOND_ARM_LENGTH)) + CHANGE_OFFSET;
 		_angles = angles;
 		return angles;
 	}

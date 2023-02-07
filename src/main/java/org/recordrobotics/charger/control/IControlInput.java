@@ -32,7 +32,7 @@ public interface IControlInput {
 	 * @return true - do it, false - don't do it
 	 */
 	boolean moveToThird();
-	
+
 	/**
 	 * Go to pick up a ball from the ground
 	 *
