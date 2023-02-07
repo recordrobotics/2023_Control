@@ -19,6 +19,11 @@ public class Arm extends SubsystemBase {
 	private static final double FIRST_ARM_LENGTH = 0;
 	private static final double SECOND_ARM_LENGTH = 0;
 
+	// IN DEGREES
+	// if the motor arms are in the first quadrant on a cartesian plane, these angles are in the second quadrant.
+	private static final double ORIGIN_ANGLE_FROM_VERTICAL = 0;
+	private static final double CHANGE_ANGLE_FROM_VERTICAL = 0;
+
 	private GenericEntry _entryAngles;
 
 	private double[] _angles = new double[2];
@@ -31,7 +36,7 @@ public class Arm extends SubsystemBase {
 		_entryAngles = tab.add("Angles Of Rotation", new double[] {0, 0}).getEntry();
 	}
 
-	public void moveAngles(double angle1, double angle2) {
+	public void moveAngles(double[] angles) {
 		// move angles
 	}
 
@@ -47,10 +52,10 @@ public class Arm extends SubsystemBase {
 		double side3 = Math.sqrt(Math.pow(targetX, 2) + Math.pow(targetY, 2));
 		double angleC = Math.acos((Math.pow(SECOND_ARM_LENGTH, 2) - Math.pow(FIRST_ARM_LENGTH, 2) - Math.pow(side3, 2))/(side3 * FIRST_ARM_LENGTH * 2));
 		// angle of rotation for the first motor
-		angles[0] = Math.toDegrees(2 * Math.PI - angleC - Math.atan(targetY / targetX));
+		angles[0] = Math.toDegrees(2 * Math.PI - angleC - Math.atan(targetY / targetX)) + ORIGIN_ANGLE_FROM_VERTICAL;
 		// law of sines
 		// angle of rotation for the second motor
-		angles[1] = Math.toDegrees(Math.asin(side3 * Math.sin(angleC) / SECOND_ARM_LENGTH));
+		angles[1] = Math.toDegrees(Math.asin(side3 * Math.sin(angleC) / SECOND_ARM_LENGTH)) + CHANGE_ANGLE_FROM_VERTICAL;
 		_angles = angles;
 		return angles;
 	}
