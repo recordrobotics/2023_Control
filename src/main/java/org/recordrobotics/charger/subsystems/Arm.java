@@ -20,7 +20,7 @@ public class Arm extends SubsystemBase {
 	private static final double SECOND_ARM_LENGTH = 0;
 
 	// IN DEGREES
-	// if the motor arms are in the first quadrant on a cartesian plane, these angles are in the second quadrant.
+	// negative is in the same direction as the rotation, positive is in the opposite
 	private static final double ORIGIN_ANGLE_FROM_VERTICAL = 0;
 	private static final double CHANGE_ANGLE_FROM_VERTICAL = 0;
 
