@@ -15,7 +15,6 @@ import edu.wpi.first.math.kinematics.DifferentialDriveWheelSpeeds;
 import edu.wpi.first.math.util.Units;
 
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
-import edu.wpi.first.wpilibj.drive.DifferentialDrive.WheelSpeeds;
 import edu.wpi.first.wpilibj.motorcontrol.MotorControllerGroup;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
@@ -108,7 +107,10 @@ public class Drive extends SubsystemBase {
 	public double getPosition() {
 		return (getRightEncoder() + getLeftEncoder()) / 2;
 	}
-
+	
+	public double getAngleSpeed(){
+		return angularVelocity;
+	}
 	/**
 	 * Reset all encoders to zero
 	 */
