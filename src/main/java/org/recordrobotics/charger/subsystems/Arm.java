@@ -16,8 +16,8 @@ public class Arm extends SubsystemBase {
 
 	private static final FeedbackDevice SELECTED_SENSOR = FeedbackDevice.CTRE_MagEncoder_Relative;
 
-	private static final double FIRST_ARM_LENGTH = 0;
-	private static final double SECOND_ARM_LENGTH = 0;
+	private static final double FIRST_ARM_LENGTH = 30;
+	private static final double SECOND_ARM_LENGTH = 30;
 
 	// IN DEGREES
 	// negative is in the same direction as the rotation, positive is in the opposite
