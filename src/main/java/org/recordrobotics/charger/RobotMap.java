@@ -1,4 +1,5 @@
 package org.recordrobotics.charger;
+import edu.wpi.first.wpilibj.SPI;
 
 /**
  * Hardware ports for computer and robot
@@ -26,5 +27,13 @@ public class RobotMap {
 		public static final int RIGHT_BACK_MOTOR_PORT = 4;
 		public static final int RIGHT_MIDDLE_MOTOR_PORT = 0;
 		public static final int RIGHT_FRONT_MOTOR_PORT = 3;
+	}
+
+	/**
+	 * SPI Port Gyro
+	 */
+	public static class Gyro {
+		public static final SPI.Port GYRO_PORT = SPI.Port.kOnboardCS0;
+
 	}
 }
