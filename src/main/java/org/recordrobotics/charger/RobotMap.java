@@ -1,7 +1,5 @@
 package org.recordrobotics.charger;
 
-import edu.wpi.first.wpilibj.SPI;
-
 /**
  * Hardware ports for computer and robot
  */
