@@ -11,7 +11,7 @@ public class ManualArm extends CommandBase {
 
 	public ManualArm(Arm arm, IControlInput controls) {
 		if (arm == null) {
-			throw new IllegalArgumentException("Drive is null");
+			throw new IllegalArgumentException("Arm is null");
 		}
 		if (controls == null) {
 			throw new IllegalArgumentException("Controls is null");
@@ -24,6 +24,7 @@ public class ManualArm extends CommandBase {
 
 	@Override
 	public void execute() {
+		// sets arm motor angles based on which actions is needed
 		double[] angles;
 		if (_controls.moveToSecond()) {
 			angles = _arm.getAnglesOfRotation(23, 30);
@@ -41,6 +42,7 @@ public class ManualArm extends CommandBase {
 
 	@Override
 	public void end(boolean interrupted) {
+		// sets arm back to 0
 		_arm.getAnglesOfRotation(0, 0);
 	}
 }
