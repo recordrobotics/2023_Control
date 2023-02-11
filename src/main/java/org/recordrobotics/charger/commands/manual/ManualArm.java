@@ -8,7 +8,7 @@ import edu.wpi.first.wpilibj2.command.CommandBase;
 public class ManualArm extends CommandBase {
 	private Arm _arm;
 	private IControlInput _controls;
-	private static double speed = 0.5;
+	private static double speed = 0.1;
 
 	public ManualArm(Arm arm, IControlInput controls) {
 		if (arm == null) {
@@ -39,6 +39,8 @@ public class ManualArm extends CommandBase {
 			angles = _arm.resetPositions();
 		}
 		_arm.moveAngles(speed, angles);
+		System.out.println("change " + _arm.getChangeEncoder());
+		System.out.println("origin " + _arm.getOriginEncoder());
 	}
 
 	@Override

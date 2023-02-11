@@ -14,7 +14,7 @@ public class Arm extends SubsystemBase {
 	private WPI_TalonFX _originMotor = new WPI_TalonFX(RobotMap.Arm.ORIGIN_MOTOR_PORT);
 	private WPI_TalonFX _changeMotor = new WPI_TalonFX(RobotMap.Arm.CHANGE_MOTOR_PORT);
 
-	private static final FeedbackDevice SELECTED_SENSOR = FeedbackDevice.CTRE_MagEncoder_Relative;
+	private static final FeedbackDevice SELECTED_SENSOR = FeedbackDevice.CTRE_MagEncoder_Absolute;
 
 	private static final double FIRST_ARM_LENGTH = 30;
 	private static final double SECOND_ARM_LENGTH = 30;

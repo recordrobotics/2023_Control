@@ -10,9 +10,9 @@ public class RobotMap {
 	 */
 	public class Arm {
 		/** the motor that will be (0,0) in the calculation */
-		public static final int ORIGIN_MOTOR_PORT = 5;
+		public static final int ORIGIN_MOTOR_PORT = 6;
 		/** the motor that will change coords in the calculation */
-		public static final int CHANGE_MOTOR_PORT = 6;
+		public static final int CHANGE_MOTOR_PORT = 7;
 	}
 
 	/**
