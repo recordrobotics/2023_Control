@@ -30,11 +30,12 @@ public class DoubleControl implements IControlInput {
 		boolean cube = _gamepad2.getLeftTriggerAxis() > TRIGGER_THRESHOLD;
 		boolean cone = _gamepad2.getRightTriggerAxis() > TRIGGER_THRESHOLD;
 
-		// Out takes precedence
-		if (cube)
+		// Cube takes precedence
+		if (cube){
 			return 1;
-		else if (cone)
+		}else if (cone){
 			return -1;
+		}
 		return 0;
 	}
 

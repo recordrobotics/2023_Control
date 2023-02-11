@@ -22,7 +22,7 @@ public interface IControlInput {
 	/**
 	 * Claw state input (cone & cube) value
 	 *
-	 * @return 1 Cube - -1 Cone - 0 neutral
+	 * @return [-1, 0) - cone; 0 - neutral; (0, 1] - cube 
 	 */
 	double getClawTurn();
 }

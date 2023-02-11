@@ -27,20 +27,15 @@ public class ManualClaw extends CommandBase {
 
 	@Override
 	public void execute() {
-		if(_controls.getClawTurn() > 0){
-			if(_claw.getPosition() <= Claw.CLAW_CUBE){
-				_claw.turn(TURN_SPEED);
-			}else{
-				_claw.turn(0);
-			}
+		if(_controls.getClawTurn() > 0){		
+				_claw.turn(TURN_SPEED * (Claw.CLAW_CUBE - _claw.getPosition()));
+				
 		}else if(_controls.getClawTurn() < 0){
-			if(_claw.getPosition() <= Claw.CLAW_CONE){
-				_claw.turn(TURN_SPEED);
-			}else{
-				_claw.turn(0);
-			}
+			_claw.turn(TURN_SPEED * (Claw.CLAW_CONE - _claw.getPosition()));
+
 		}else{
 			_claw.turn(-TURN_SPEED);
+
 		}
 	}
 
