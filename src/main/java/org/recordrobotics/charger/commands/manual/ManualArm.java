@@ -9,6 +9,8 @@ public class ManualArm extends CommandBase {
 	private Arm _arm;
 	private IControlInput _controls;
 
+	private static double speed;
+
 	public ManualArm(Arm arm, IControlInput controls) {
 		if (arm == null) {
 			throw new IllegalArgumentException("Arm is null");
@@ -37,7 +39,7 @@ public class ManualArm extends CommandBase {
 		} else {
 			angles = _arm.resetPositions();
 		}
-		_arm.moveAngles(angles);
+		_arm.moveAngles(speed, angles);
 	}
 
 	@Override

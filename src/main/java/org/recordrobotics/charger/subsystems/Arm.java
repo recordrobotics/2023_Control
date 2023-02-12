@@ -42,15 +42,15 @@ public class Arm extends SubsystemBase {
 	 * Moves motors to set angles (pid?)
 	 * @param angles the angles to turn the motors (first = origin motor, second = change motor)
 	 */
-	public void moveAngles(double... angles) {
-		_originMotor.set(0.5);
+	public void moveAngles(double speed, double... angles) {
+		_originMotor.set(speed);
 		while (true) {
 			if (getOriginEncoder() >= angles[0]) {
 				_originMotor.set(0);
 				break;
 			}
 		}
-		_changeMotor.set(0.5);
+		_changeMotor.set(speed);
 		while (true) {
 			if (getChangeEncoder() >= angles[0]) {
 				_changeMotor.set(0);
