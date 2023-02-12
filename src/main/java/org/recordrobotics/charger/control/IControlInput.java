@@ -6,6 +6,18 @@ package org.recordrobotics.charger.control;
 public interface IControlInput {
 
 	/**
+	 * Claw has three states:
+	 * 	CUBE - grabs cube
+	 * 	NEUTRAL - open
+	 * 	CONE - grabs cone
+	 */
+	enum ClawState {
+		CUBE,
+		NEUTRAL,
+		CONE
+	}
+
+	/**
 	 * Logitudinal drive input (forward & backward) value
 	 *
 	 * @return [-1, 0) - backward; (0, 1] - forward
@@ -22,7 +34,7 @@ public interface IControlInput {
 	/**
 	 * Claw state input (cone & cube) value
 	 *
-	 * @return [-1, 0) - cone; 0 - neutral; (0, 1] - cube 
+	 * @return CUBE - closed to cube diameter, NEUTRAL - open, CONE - closed to cone diameter 
 	 */
 	double getClawTurn();
 }
