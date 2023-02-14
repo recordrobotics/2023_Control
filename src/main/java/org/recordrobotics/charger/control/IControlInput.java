@@ -34,7 +34,7 @@ public interface IControlInput {
 	/**
 	 * Claw state input (cone & cube) value
 	 *
-	 * @return CUBE - closed to cube diameter, NEUTRAL - open, CONE - closed to cone diameter 
+	 * @return CUBE - closed to cube diameter, NEUTRAL - open, CONE - closed to cone diameter
 	 */
 	ClawState getClawTurn();
 }
