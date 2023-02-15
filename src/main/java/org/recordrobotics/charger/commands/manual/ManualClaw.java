@@ -38,7 +38,11 @@ public class ManualClaw extends CommandBase {
 				}
 				return;
 			case NEUTRAL:
-				_claw.turn(-TURN_SPEED);
+				if(_claw.getPosition() > Claw.CLAW_NEUTRAL){
+					_claw.turn(TURN_SPEED);
+				}else{
+					_claw.turn(0);
+				}
 				break;
 			case CONE:
 				if(Claw.CLAW_CONE - _claw.getPosition() > 0) {

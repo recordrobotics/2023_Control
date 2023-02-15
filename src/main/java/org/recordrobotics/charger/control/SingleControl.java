@@ -8,9 +8,6 @@ public class SingleControl implements IControlInput {
 
 	private XboxController _gamepad;
 
-	private boolean _lTrig;
-	private boolean _rTrig;
-
 	public SingleControl(int port) {
 		_gamepad = new XboxController(port);
 	}
@@ -27,19 +24,15 @@ public class SingleControl implements IControlInput {
 
 	@Override
 	public ClawState getClawTurn() {
-		// Out mimics button-like behavior
+		// Trigger mimics button-like behavior
 		boolean cube = _gamepad.getLeftTriggerAxis() > TRIGGER_THRESHOLD;
 		boolean cone = _gamepad.getRightTriggerAxis() > TRIGGER_THRESHOLD;
 
-		if (_gamepad.getLeftTriggerAxis() > TRIGGER_THRESHOLD)
-			_lTrig = !_lTrig;
-
-		if (_gamepad.getRightTriggerAxis() > TRIGGER_THRESHOLD)
-			_rTrig = !_rTrig;
-
 		// Cube takes precedence
-		if (cube || cone){
-			return _lTrig ? ClawState.CUBE : ClawState.CONE;
+		if (cube) {
+			return ClawState.CUBE;
+		} else if (cone) {
+			return ClawState.CONE;
 		}
 		return ClawState.NEUTRAL;
 	}
