@@ -11,6 +11,8 @@ public final class Constants {
 	/**
 	 * Control ports (PC USB)
 	 */
+
+	public static final String DATA_TAB = "data";
 	public class Control {
 		// LegacyControl
 		public static final int LEGACY_GAMEPAD = 0;
