@@ -48,7 +48,7 @@ public class Arm extends SubsystemBase {
 		}else{
 			_originMotor.set(0);
 		}
-		
+
 		if (getChangeEncoder() >= angles[0]) {
 			_changeMotor.set(speed);
 		}else{
