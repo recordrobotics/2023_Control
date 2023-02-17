@@ -4,7 +4,7 @@ import org.recordrobotics.charger.subsystems.Arm;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
 
-public class AutoMoveArm extends CommandBase{
+public class AutoMoveArm extends CommandBase {
 
 	private Arm _arm;
 	private double _speed;
