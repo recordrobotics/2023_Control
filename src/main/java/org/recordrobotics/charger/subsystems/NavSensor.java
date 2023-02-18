@@ -14,7 +14,9 @@ public class NavSensor extends SubsystemBase {
 
 	public NavSensor(){
 		ShuffleboardTab tab = Shuffleboard.getTab(Constants.DATA_TAB);
-		tab.add("Pitch", _nav.getPitch());
+		tab.add("Pitch", _nav.getPitch()).getEntry();
+		tab.add("Roll", _nav.getRoll()).getEntry();
+		tab.add("Yaw", _nav.getYaw()).getEntry();
 	}
 
 	double getPitch() {
