@@ -30,8 +30,8 @@ public class Drive extends SubsystemBase {
 	private MotorControllerGroup _rightMotors = new MotorControllerGroup(_right);
 
 	private DifferentialDrive _differentialDrive = new DifferentialDrive(_leftMotors, _rightMotors);
-	
-    NavSensor gyro = new NavSensor();
+
+	NavSensor gyro = new NavSensor();
 
 	private static final FeedbackDevice SELECTED_SENSOR = FeedbackDevice.CTRE_MagEncoder_Relative;
 
