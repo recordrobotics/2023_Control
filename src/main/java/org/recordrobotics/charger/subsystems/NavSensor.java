@@ -40,8 +40,12 @@ public class NavSensor extends SubsystemBase {
 		return _nav.getDisplacementY();
 	}
 
-	double getDisplacementZ() {
-		return _nav.getDisplacementZ();
+	double getAccelX() {
+		return _nav.getRawAccelX();
+	}
+
+	double getAccelY() {
+		return _nav.getRawAccelY();
 	}
 
 	void resetAngle() {
@@ -55,6 +59,10 @@ public class NavSensor extends SubsystemBase {
 	void resetAll(){
 		resetAngle();
 		resetDisplacement();
+	}
+
+	void calibrate() {
+		_nav.calibrate();
 	}
 
 }
