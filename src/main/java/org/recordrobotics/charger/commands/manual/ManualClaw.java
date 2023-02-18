@@ -29,23 +29,23 @@ public class ManualClaw extends CommandBase {
 	public void execute() {
 		switch (_controls.getClawTurn()) {
 			case CUBE:
-				if(Claw.CLAW_CUBE - _claw.getPosition() > 0) {
+				if (Claw.CLAW_CUBE - _claw.getPosition() > 0) {
 					_claw.turn(TURN_SPEED);
-				} else if(Claw.CLAW_CUBE - _claw.getPosition() < 0) {
+				} else if (Claw.CLAW_CUBE - _claw.getPosition() < 0) {
 					_claw.turn(-TURN_SPEED);
 				} else {
 					_claw.turn(0);
 				}
 				return;
 			case NEUTRAL:
-				if(_claw.getPosition() > Claw.CLAW_NEUTRAL){
-					_claw.turn(TURN_SPEED);
-				}else{
+				if (_claw.getPosition() > Claw.CLAW_NEUTRAL) {
+					_claw.turn(-TURN_SPEED);
+				} else {
 					_claw.turn(0);
 				}
 				break;
 			case CONE:
-				if(Claw.CLAW_CONE - _claw.getPosition() > 0) {
+				if (Claw.CLAW_CONE - _claw.getPosition() > 0) {
 					_claw.turn(TURN_SPEED);
 				} else if(Claw.CLAW_CONE - _claw.getPosition() < 0) {
 					_claw.turn(-TURN_SPEED);
