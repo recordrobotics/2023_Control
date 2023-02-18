@@ -13,6 +13,10 @@ import org.recordrobotics.charger.control.IControlInput;
 import org.recordrobotics.charger.subsystems.*;
 import org.recordrobotics.charger.util.Pair;
 
+import edu.wpi.first.math.estimator.DifferentialDrivePoseEstimator;
+import edu.wpi.first.math.geometry.Rotation2d;
+import edu.wpi.first.math.kinematics.DifferentialDriveKinematics;
+import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Subsystem;
 
@@ -27,6 +31,11 @@ public class RobotContainer {
 	@SuppressWarnings({"PMD.SingularField"})
 	private IControlInput _controlInput;
 	private Drive _drive;
+	private DifferentialDrivePoseEstimator _estimator;
+	private DifferentialDriveKinematics _kinematics;
+
+	@SuppressWarnings({"PMD.SingularField","PMD.UnusedPrivateField"})
+	private NavSensor _navSensor;
 
 	// Commands
 	@SuppressWarnings({"PMD.SingularField"})
@@ -37,6 +46,11 @@ public class RobotContainer {
 		// Configure the button bindings
 		_controlInput = new DoubleControl(Constants.Control.DOUBLE_GAMEPAD_1, Constants.Control.DOUBLE_GAMEPAD_2);
 		_drive = new Drive();
+		_navSensor = new NavSensor();
+
+		_kinematics = new DifferentialDriveKinematics(Units.inchesToMeters(20.75));
+		_estimator = new DifferentialDrivePoseEstimator(_kinematics, new Rotation2d(_navSensor.getYaw()), _drive.getLeftEncoder(), _drive.getRightEncoder(), null); //The default standard deviations of the model states are 0.02 meters for x, 0.02 meters for y, and 0.01 radians for heading. The default standard deviations of the vision measurements are 0.1 meters for x, 0.1 meters for y, and 0.1 radians for heading.
+		//TODO: figure out initial pose strategy above
 
 		initTeleopCommands();
 	}

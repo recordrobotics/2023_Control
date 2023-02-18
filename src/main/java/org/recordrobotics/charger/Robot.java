@@ -32,19 +32,18 @@ public class Robot extends TimedRobot {
 
 
     /*placeholder description*/
-    private final Drive drive = new Drive();
-    NavSensor gyro = new NavSensor();
     Vision vision = new Vision();
     private Trajectory trajectory;
     Timer timer = new Timer();
+    private Drive drive;
+    private NavSensor nav;
+    private DifferentialDrivePoseEstimator estimator;
 
     private final RamseteController ramseteController = new RamseteController();
 
     private Field2d field;
 
-    DifferentialDriveKinematics kinematics = new DifferentialDriveKinematics(Units.inchesToMeters(20.75));
-    DifferentialDrivePoseEstimator estimator = new DifferentialDrivePoseEstimator(kinematics, new Rotation2d(gyro.getYaw()), drive.getLeftEncoder(), drive.getRightEncoder(), null); //The default standard deviations of the model states are 0.02 meters for x, 0.02 meters for y, and 0.01 radians for heading. The default standard deviations of the vision measurements are 0.1 meters for x, 0.1 meters for y, and 0.1 radians for heading.
-    //TODO: figure out initial pose strategy above
+
 
     TrajectoryConfig config = new TrajectoryConfig(2, 1); //DEFINE MAX VELOCITY AND ACCELERATION HERE
 
@@ -70,6 +69,7 @@ public class Robot extends TimedRobot {
         System.out.println("Rootinit");
         // Create container
         _robotContainer = new RobotContainer(); 
+        
         var trajectory = getTrajectory(null, config);//TODO: starting pose
         field = new Field2d();
         SmartDashboard.putData(field);
@@ -113,6 +113,7 @@ public class Robot extends TimedRobot {
         System.out.println("Autonomous Init");
         timer.start();
         _autonomousCommand = _robotContainer.getAutonomousCommand();
+        
 
         // schedule the autonomous command (example)
         if (_autonomousCommand != null) {
@@ -130,7 +131,7 @@ public class Robot extends TimedRobot {
         double[] globalPose = Vision.getVisionPoseEstimate(vision.camera, vision.robotToCam);
         Pose2d visPose = new Pose2d(globalPose[0], globalPose[1], new Rotation2d(globalPose[2]));
         estimator.addVisionMeasurement(visPose, Timer.getFPGATimestamp());
-        estimator.update(new Rotation2d(gyro.getYaw()), drive.getLeftEncoder(), drive.getRightEncoder());
+        estimator.update(new Rotation2d(nav.getYaw()), drive.getLeftEncoder(), drive.getRightEncoder());
         if (timer.get() < trajectory.getTotalTimeSeconds()) {
             // Get the desired pose from the trajectory.
             var desiredPose = trajectory.sample(timer.get());

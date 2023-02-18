@@ -10,7 +10,7 @@ import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
 
 public class NavSensor extends SubsystemBase {
-	public AHRS _nav = new AHRS();
+	public AHRS _nav = new AHRS(edu.wpi.first.wpilibj.I2C.Port.kOnboard);
 
 	public NavSensor(){
 		ShuffleboardTab tab = Shuffleboard.getTab(null/*Constants.DATA_TAB*/);
