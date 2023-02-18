@@ -7,6 +7,8 @@ package org.recordrobotics.charger.subsystems;
 import org.recordrobotics.charger.RobotMap;
 
 import com.ctre.phoenix.motorcontrol.FeedbackDevice;
+import com.ctre.phoenix.motorcontrol.TalonFXSensorCollection;
+import com.ctre.phoenix.motorcontrol.can.BaseTalon;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
 
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
@@ -34,6 +36,13 @@ public class Drive extends SubsystemBase {
 	NavSensor gyro = new NavSensor();
 
 	private static final FeedbackDevice SELECTED_SENSOR = FeedbackDevice.CTRE_MagEncoder_Relative;
+	private TalonFXSensorCollection _leftCollection0 = new TalonFXSensorCollection(new BaseTalon(RobotMap.DriveBase.LEFT_FRONT_MOTOR_PORT, "origin"));
+	private TalonFXSensorCollection _leftCollection1 = new TalonFXSensorCollection(new BaseTalon(RobotMap.DriveBase.LEFT_MIDDLE_MOTOR_PORT, "origin"));
+	private TalonFXSensorCollection _leftCollection2 = new TalonFXSensorCollection(new BaseTalon(RobotMap.DriveBase.LEFT_BACK_MOTOR_PORT, "origin"));
+	private TalonFXSensorCollection _rightCollection0 = new TalonFXSensorCollection(new BaseTalon(RobotMap.DriveBase.LEFT_FRONT_MOTOR_PORT, "origin"));
+	private TalonFXSensorCollection _rightCollection1 = new TalonFXSensorCollection(new BaseTalon(RobotMap.DriveBase.LEFT_MIDDLE_MOTOR_PORT, "origin"));
+	private TalonFXSensorCollection _rightCollection2 = new TalonFXSensorCollection(new BaseTalon(RobotMap.DriveBase.LEFT_BACK_MOTOR_PORT, "origin"));
+		
 
 	private static final double GEAR_RATIO = 10.75;
 	private static final double WHEEL_DIAMETER = 6 * 25.4; // diameter in inches * conversion rate to millimeters
@@ -43,6 +52,7 @@ public class Drive extends SubsystemBase {
 	public Drive() {
 		_leftMotors.set(0);
 		_rightMotors.set(0);
+
 		_left[0].configSelectedFeedbackSensor(SELECTED_SENSOR, 0, 10);
 		_left[1].configSelectedFeedbackSensor(SELECTED_SENSOR, 0, 10);
 		_left[2].configSelectedFeedbackSensor(SELECTED_SENSOR, 0, 10);
@@ -77,14 +87,14 @@ public class Drive extends SubsystemBase {
 	 * @return The value of the right encoder in MM
 	 */
 	public double getRightEncoder() {
-		return (translateUnits(_right[0].getSelectedSensorPosition()) + translateUnits(_right[1].getSelectedSensorPosition()) + translateUnits(_right[2].getSelectedSensorPosition())) / 3;
+		return (translateUnits(_rightCollection0.getIntegratedSensorPosition()) + translateUnits(_rightCollection1.getIntegratedSensorPosition()) + translateUnits(_rightCollection2.getIntegratedSensorPosition())) / 3;
 	}
 
 	/**
 	 * @return The value of the left encoder in MM
 	 */
 	public double getLeftEncoder() {
-		return (translateUnits(_left[0].getSelectedSensorPosition()) + translateUnits(_left[1].getSelectedSensorPosition()) + translateUnits(_left[2].getSelectedSensorPosition())) / 3;
+		return (translateUnits(_leftCollection0.getIntegratedSensorPosition()) + translateUnits(_leftCollection1.getIntegratedSensorPosition()) + translateUnits(_leftCollection2.getIntegratedSensorPosition())) / 3;
 	}
 
 	/**
@@ -98,12 +108,12 @@ public class Drive extends SubsystemBase {
 	 * Reset all encoders to zero
 	 */
 	public void resetEncoders() {
-		_left[0].setSelectedSensorPosition(0.0);
-		_left[1].setSelectedSensorPosition(0.0);
-		_left[2].setSelectedSensorPosition(0.0);
-		_right[0].setSelectedSensorPosition(0.0);
-		_right[1].setSelectedSensorPosition(0.0);
-		_right[2].setSelectedSensorPosition(0.0);
+		_leftCollection0.setIntegratedSensorPosition(0,0);
+		_leftCollection1.setIntegratedSensorPosition(0,0);
+		_leftCollection2.setIntegratedSensorPosition(0,0);
+		_rightCollection0.setIntegratedSensorPosition(0,0);
+		_rightCollection1.setIntegratedSensorPosition(0,0);
+		_rightCollection2.setIntegratedSensorPosition(0,0);
 	};
 
 }
