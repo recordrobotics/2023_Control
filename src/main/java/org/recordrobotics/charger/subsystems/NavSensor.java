@@ -10,9 +10,10 @@ import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
 
 public class NavSensor extends SubsystemBase {
-	public AHRS _nav = new AHRS();
+	public AHRS _nav = new AHRS(edu.wpi.first.wpilibj.I2C.Port.kOnboard);
 
 	public NavSensor(){
+		_nav.calibrate();
 		ShuffleboardTab tab = Shuffleboard.getTab(Constants.DATA_TAB);
 		tab.add("Pitch", _nav.getPitch()).getEntry();
 		tab.add("Roll", _nav.getRoll()).getEntry();
@@ -55,4 +56,5 @@ public class NavSensor extends SubsystemBase {
 		resetAngle();
 		resetDisplacement();
 	}
+
 }

@@ -28,6 +28,8 @@ public class RobotContainer {
 	@SuppressWarnings({"PMD.SingularField"})
 	private IControlInput _controlInput;
 	private Drive _drive;
+	@SuppressWarnings({"PMD.SingularField","PMD.UnusedPrivateField"})
+	private NavSensor _navSensor;
 
 	// Commands
 	@SuppressWarnings({"PMD.SingularField"})
@@ -38,6 +40,7 @@ public class RobotContainer {
 		// Configure the button bindings
 		_controlInput = new DoubleControl(Constants.Control.DOUBLE_GAMEPAD_1, Constants.Control.DOUBLE_GAMEPAD_2);
 		_drive = new Drive();
+		_navSensor = new NavSensor();
 
 		initTeleopCommands();
 	}
