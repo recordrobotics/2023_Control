@@ -18,5 +18,6 @@ public final class Constants {
 		// DoubleControl
 		public static final int DOUBLE_GAMEPAD_1 = 0;
 		public static final int DOUBLE_GAMEPAD_2 = 1;
+
 	}
 }

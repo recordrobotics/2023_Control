@@ -13,6 +13,7 @@ import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 import edu.wpi.first.wpilibj.motorcontrol.MotorControllerGroup;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
+@SuppressWarnings({"PMD.SystemPrintln", "PMD.FieldNamingConventions"})
 public class Drive extends SubsystemBase {
 	private WPI_TalonFX[] _left = {
 		new WPI_TalonFX(RobotMap.DriveBase.LEFT_FRONT_MOTOR_PORT),
@@ -29,11 +30,15 @@ public class Drive extends SubsystemBase {
 	private MotorControllerGroup _rightMotors = new MotorControllerGroup(_right);
 
 	private DifferentialDrive _differentialDrive = new DifferentialDrive(_leftMotors, _rightMotors);
+	
+    NavSensor gyro = new NavSensor();
 
 	private static final FeedbackDevice SELECTED_SENSOR = FeedbackDevice.CTRE_MagEncoder_Relative;
 
 	private static final double GEAR_RATIO = 10.75;
 	private static final double WHEEL_DIAMETER = 6 * 25.4; // diameter in inches * conversion rate to millimeters
+
+	//private final DifferentialDriveOdometry odometry;
 
 	public Drive() {
 		_leftMotors.set(0);
@@ -71,14 +76,14 @@ public class Drive extends SubsystemBase {
 	/**
 	 * @return The value of the right encoder in MM
 	 */
-	private double getRightEncoder() {
+	public double getRightEncoder() {
 		return (translateUnits(_right[0].getSelectedSensorPosition()) + translateUnits(_right[1].getSelectedSensorPosition()) + translateUnits(_right[2].getSelectedSensorPosition())) / 3;
 	}
 
 	/**
 	 * @return The value of the left encoder in MM
 	 */
-	private double getLeftEncoder() {
+	public double getLeftEncoder() {
 		return (translateUnits(_left[0].getSelectedSensorPosition()) + translateUnits(_left[1].getSelectedSensorPosition()) + translateUnits(_left[2].getSelectedSensorPosition())) / 3;
 	}
 

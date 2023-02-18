@@ -4,79 +4,170 @@
 
 package org.recordrobotics.charger;
 
+import java.util.ArrayList;
+import org.recordrobotics.charger.subsystems.Drive;
+import org.recordrobotics.charger.subsystems.NavSensor;
+import org.recordrobotics.charger.subsystems.Vision;
+
+import edu.wpi.first.math.controller.RamseteController;
+import edu.wpi.first.math.estimator.DifferentialDrivePoseEstimator;
+import edu.wpi.first.math.geometry.Pose2d;
+import edu.wpi.first.math.geometry.Rotation2d;
+import edu.wpi.first.math.kinematics.DifferentialDriveKinematics;
+import edu.wpi.first.math.trajectory.Trajectory;
+import edu.wpi.first.math.trajectory.TrajectoryConfig;
+import edu.wpi.first.math.trajectory.TrajectoryGenerator;
+import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj.TimedRobot;
+import edu.wpi.first.wpilibj.Timer;
+import edu.wpi.first.wpilibj.smartdashboard.Field2d;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 
-/**
- * The VM is configured to automatically run this class, and to call the functions corresponding to
- * each mode, as described in the TimedRobot documentation. If you change the name of this class or
- * the package after creating this project, you must also update the build.gradle file in the
- * project.
- */
+@SuppressWarnings({"PMD.SystemPrintln", "PMD.FieldNamingConventions"})
 public class Robot extends TimedRobot {
+    private RobotContainer _robotContainer;
+    private Command _autonomousCommand;
 
-	private RobotContainer _robotContainer;
 
-	/**
-	 * This function is run when the robot is first started up and should be used for any
-	 * initialization code.
-	 */
-	@Override
-	public void robotInit() {
-		// Instantiate our RobotContainer.  This will perform all our button bindings, and put our
-		// autonomous chooser on the dashboard.
-		_robotContainer = new RobotContainer();
-	}
+    /*placeholder description*/
+    private final Drive drive = new Drive();
+    NavSensor gyro = new NavSensor();
+    Vision vision = new Vision();
+    private Trajectory trajectory;
+    Timer timer = new Timer();
 
-	/**
-	 * This function is called every 20 ms, no matter the mode. Use this for items like diagnostics
-	 * that you want ran during disabled, autonomous, teleoperated and test.
-	 *
-	 * <p>This runs after the mode specific periodic functions, but before LiveWindow and
-	 * SmartDashboard integrated updating.
-	 */
-	@Override
-	public void robotPeriodic() {
-		// Runs the Scheduler.  This is responsible for polling buttons, adding newly-scheduled
-		// commands, running already-scheduled commands, removing finished or interrupted commands,
-		// and running subsystem periodic() methods.  This must be called from the robot's periodic
-		// block in order for anything in the Command-based framework to work.
-		CommandScheduler.getInstance().run();
-	}
+    private final RamseteController ramseteController = new RamseteController();
 
-	/** This function is called once each time the robot enters Disabled mode. */
-	@Override
-	public void disabledInit() {
-		_robotContainer.toString();
-	}
+    private Field2d field;
 
-	/** Runs when the robot is disabled */
-	@Override
-	public void disabledPeriodic() {
-		/** Add anything we need to run when the robot shuts off here */
-	}
+    DifferentialDriveKinematics kinematics = new DifferentialDriveKinematics(Units.inchesToMeters(20.75));
+    DifferentialDrivePoseEstimator estimator = new DifferentialDrivePoseEstimator(kinematics, new Rotation2d(gyro.getYaw()), drive.getLeftEncoder(), drive.getRightEncoder(), null); //The default standard deviations of the model states are 0.02 meters for x, 0.02 meters for y, and 0.01 radians for heading. The default standard deviations of the vision measurements are 0.1 meters for x, 0.1 meters for y, and 0.1 radians for heading.
+    //TODO: figure out initial pose strategy above
 
-	/** This autonomous runs the autonomous command selected by your {@link RobotContainer} class. */
-	@Override
-	public void autonomousInit() {
-		/** Add things to run when autonomous starts here */
-	}
+    TrajectoryConfig config = new TrajectoryConfig(2, 1); //DEFINE MAX VELOCITY AND ACCELERATION HERE
 
-	/** This function is called periodically during autonomous. */
-	@Override
-	public void autonomousPeriodic() {
-		/** Add things to run when autonomous is active here */
-	}
+    public Trajectory getTrajectory(Pose2d start, TrajectoryConfig config) {
+        Rotation2d angle = new Rotation2d(Math.PI/4);
+        Pose2d ball = new Pose2d(Units.inchesToMeters(277.949), Units.inchesToMeters(36.000), angle);
+        Pose2d score = new Pose2d(Units.inchesToMeters(69.438), Units.inchesToMeters(42.000), angle);
+    
+        ArrayList<Pose2d> waypoints = new ArrayList<>();
+        waypoints.add(start);
+        waypoints.add(ball);
+        waypoints.add(score);
+    
+        return TrajectoryGenerator.generateTrajectory(waypoints, config);
+        }
+    
+    /**
+     * Robot initialization
+     */
 
-	@Override
-	public void teleopInit() {
-		/** Add things to run when the robot enters teleop here */
-		_robotContainer.teleopInit();
-	}
+    @Override
+    public void robotInit() {
+        System.out.println("Rootinit");
+        // Create container
+        _robotContainer = new RobotContainer(); 
+        var trajectory = getTrajectory(null, config);//TODO: starting pose
+        field = new Field2d();
+        SmartDashboard.putData(field);
+        field.getObject("traj").setTrajectory(trajectory);
+    }
 
-	/** This function is called periodically during operator control. */
-	@Override
-	public void teleopPeriodic() {
-		/** Add things to run when teleop is active here */
-	}
-}
+ 
+    /**
+     * Runs every robot tick
+     */
+    @Override
+    public void robotPeriodic() {
+        //System.out.println("Robot periodic");
+        // Run command scheduler
+        CommandScheduler.getInstance().run();
+    }
+
+    /**
+     * Runs when robot enters disabled mode
+     */
+    @Override
+    public void disabledInit() {
+        System.out.println("Disabled init");
+        //_robotContainer.resetCommands();
+    }
+
+    /**
+     * Runs every tick during disabled mode
+     */
+    @Override
+    public void disabledPeriodic() {
+        //System.out.println("Disabled periodic");
+        // TODO
+    }
+
+    /**
+     * Runs when robot enters auto mode
+     */
+    @Override
+    public void autonomousInit() {
+        System.out.println("Autonomous Init");
+        timer.start();
+        _autonomousCommand = _robotContainer.getAutonomousCommand();
+
+        // schedule the autonomous command (example)
+        if (_autonomousCommand != null) {
+            _autonomousCommand.schedule();
+        }
+        //TODO: set an initial value for the estimator here somehow?
+    }
+
+    /**
+     * Runs every tick during auto mode
+     */
+    @Override
+    public void autonomousPeriodic() {
+        System.out.println("Autonomous periodic");
+        double[] globalPose = Vision.getVisionPoseEstimate(vision.camera, vision.robotToCam);
+        Pose2d visPose = new Pose2d(globalPose[0], globalPose[1], new Rotation2d(globalPose[2]));
+        estimator.addVisionMeasurement(visPose, Timer.getFPGATimestamp());
+        estimator.update(new Rotation2d(gyro.getYaw()), drive.getLeftEncoder(), drive.getRightEncoder());
+        if (timer.get() < trajectory.getTotalTimeSeconds()) {
+            // Get the desired pose from the trajectory.
+            var desiredPose = trajectory.sample(timer.get());
+      
+            // Get the reference chassis speeds from the Ramsete controller.
+            var refChassisSpeeds = ramseteController.calculate(estimator.getEstimatedPosition(), desiredPose);
+      
+            // Set the linear and angular speeds.
+            drive.move(refChassisSpeeds.vxMetersPerSecond, refChassisSpeeds.omegaRadiansPerSecond);
+          } else {
+            drive.move(0, 0);
+          }
+    }
+
+    /**
+     * Runs when robot enters teleop mode
+     */
+    @Override
+    public void teleopInit() {
+        System.out.println("Teleop init");
+        // TODO
+        if (_autonomousCommand != null) {
+            _autonomousCommand.cancel();
+        }
+        _robotContainer.teleopInit();
+    }
+
+ 
+     /**
+      * Runs every tick in teleop mode
+      */
+     @Override
+     public void teleopPeriodic() {
+        //placholder
+        }
+
+
+    }
+
+//}
