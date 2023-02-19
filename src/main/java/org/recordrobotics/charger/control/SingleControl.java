@@ -24,7 +24,7 @@ public class SingleControl implements IControlInput {
 
 	@Override
 	public ClawState getClawTurn() {
-		// Trigger mimics button-like behavior
+		// Mimic button-like behavior
 		boolean cube = _gamepad.getLeftTriggerAxis() > TRIGGER_THRESHOLD;
 		boolean cone = _gamepad.getRightTriggerAxis() > TRIGGER_THRESHOLD;
 
@@ -34,12 +34,13 @@ public class SingleControl implements IControlInput {
 		} else if (cone) {
 			return ClawState.CONE;
 		}
+
 		return ClawState.NEUTRAL;
 	}
 
 	@Override
 	public String toString() {
-		return "Legacy";
+		return "Single";
 	}
 
 }

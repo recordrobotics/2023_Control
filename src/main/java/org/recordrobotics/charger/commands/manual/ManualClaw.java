@@ -4,7 +4,6 @@ import edu.wpi.first.wpilibj2.command.CommandBase;
 import org.recordrobotics.charger.subsystems.Claw;
 import org.recordrobotics.charger.control.IControlInput;
 
-
 public class ManualClaw extends CommandBase {
 
 	private Claw _claw;
@@ -68,4 +67,5 @@ public class ManualClaw extends CommandBase {
 	private boolean near(double x0, double x1) {
 		return Math.abs(x0 - x1) < ERROR_MARGIN;
 	}
+
 }

@@ -26,7 +26,7 @@ public class DoubleControl implements IControlInput {
 
 	@Override
 	public ClawState getClawTurn() {
-		// Trigger mimics button-like behavior
+		// Mimic button-like behavior
 		boolean cube = _gamepad2.getLeftTriggerAxis() > TRIGGER_THRESHOLD;
 		boolean cone = _gamepad2.getRightTriggerAxis() > TRIGGER_THRESHOLD;
 
@@ -36,6 +36,7 @@ public class DoubleControl implements IControlInput {
 		} else if (cone) {
 			return ClawState.CONE;
 		}
+
 		return ClawState.NEUTRAL;
 	}
 
