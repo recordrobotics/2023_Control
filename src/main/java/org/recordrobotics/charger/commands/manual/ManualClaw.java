@@ -11,6 +11,8 @@ public class ManualClaw extends CommandBase {
 	private IControlInput _controls;
 
 	private static final double TURN_SPEED = 0.3;
+	// TODO: find a good value experimentally
+	private static final double ERROR_MARGIN = 0.01;
 
 	public ManualClaw(Claw claw, IControlInput controls) {
 		if (claw == null) {
@@ -27,38 +29,43 @@ public class ManualClaw extends CommandBase {
 
 	@Override
 	public void execute() {
+		double currentPos = _claw.getPosition();
+		double target;
 		switch (_controls.getClawTurn()) {
 			case CUBE:
-				if (Claw.CLAW_CUBE - _claw.getPosition() > 0) {
-					_claw.turn(TURN_SPEED);
-				} else if (Claw.CLAW_CUBE - _claw.getPosition() < 0) {
-					_claw.turn(-TURN_SPEED);
-				} else {
-					_claw.turn(0);
-				}
-				return;
-			case NEUTRAL:
-				if (_claw.getPosition() > Claw.CLAW_NEUTRAL) {
-					_claw.turn(-TURN_SPEED);
-				} else {
-					_claw.turn(0);
-				}
+				target = Claw.CLAW_CUBE;
 				break;
 			case CONE:
-				if (Claw.CLAW_CONE - _claw.getPosition() > 0) {
-					_claw.turn(TURN_SPEED);
-				} else if(Claw.CLAW_CONE - _claw.getPosition() < 0) {
-					_claw.turn(-TURN_SPEED);
-				} else {
-					_claw.turn(0);
-				}
+				target = Claw.CLAW_CONE;
+				break;
+			default:
+				target = Claw.CLAW_NEUTRAL;
 				break;
 		}
-	}
 
+		// Floats do not compare cleanly
+		if (near(currentPos, target)) {
+			_claw.turn(0);
+		} else if (currentPos < target) {
+			_claw.turn(TURN_SPEED);
+		} else {
+			_claw.turn(-TURN_SPEED);
+		}
+	}
 
 	@Override
 	public void end(boolean interrupted) {
 		_claw.turn(0);
+	}
+
+	/**
+	 * Check near equality of doubles
+	 *
+	 * @param x0 First number.
+	 * @param x1 Second number.
+	 * @return true - near equal, false - not equal
+	 */
+	private boolean near(double x0, double x1) {
+		return Math.abs(x0 - x1) < ERROR_MARGIN;
 	}
 }
