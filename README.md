@@ -8,6 +8,6 @@ _{button/stick}_; _{what it does}_
 
 __Game Controller (specific game systems controller):__
 --------
-LTrigger; Move claw to cube-grabbing position<br />
-RTrigger; Move claw to cone-grabbing position<br />
+LBumper; Move claw to cube-grabbing position<br />
+RBumper; Move claw to cone-grabbing position<br />
 _{button/stick}_; _{what it does}_
