@@ -2,7 +2,8 @@ package org.recordrobotics.charger.subsystems;
 
 import org.recordrobotics.charger.RobotMap;
 
-import com.ctre.phoenix.motorcontrol.FeedbackDevice;
+import com.ctre.phoenix.motorcontrol.TalonFXSensorCollection;
+import com.ctre.phoenix.motorcontrol.can.BaseTalon;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
 
 import edu.wpi.first.networktables.GenericEntry;
@@ -13,9 +14,8 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 public class Arm extends SubsystemBase {
 	private WPI_TalonFX _originMotor = new WPI_TalonFX(RobotMap.Arm.ORIGIN_MOTOR_PORT);
 	private WPI_TalonFX _changeMotor = new WPI_TalonFX(RobotMap.Arm.CHANGE_MOTOR_PORT);
-
-	private static final FeedbackDevice SELECTED_SENSOR = FeedbackDevice.CTRE_MagEncoder_Absolute;
-
+	private TalonFXSensorCollection _originCollection = new TalonFXSensorCollection(new BaseTalon(RobotMap.Arm.ORIGIN_MOTOR_PORT, "origin"));
+	private TalonFXSensorCollection _changeCollection = new TalonFXSensorCollection(new BaseTalon(RobotMap.Arm.ORIGIN_MOTOR_PORT, "origin"));
 	private static final double FIRST_ARM_LENGTH = 30;
 	private static final double SECOND_ARM_LENGTH = 30;
 
@@ -31,8 +31,8 @@ public class Arm extends SubsystemBase {
 	private double[] _angles = new double[2];
 
 	public Arm() {
-		_originMotor.configSelectedFeedbackSensor(SELECTED_SENSOR, 0, 10);
-		_changeMotor.configSelectedFeedbackSensor(SELECTED_SENSOR, 0, 10);
+		_originCollection.setIntegratedSensorPosition(0, 0);
+		_changeCollection.setIntegratedSensorPosition(0, 0);
 
 		ShuffleboardTab tab = Shuffleboard.getTab("data");
 		_entryAngles = tab.add("Angles Of Rotation", new double[] {0, 0}).getEntry();
@@ -88,22 +88,22 @@ public class Arm extends SubsystemBase {
 	 * @return value of origin motor encoder in DEGREES
 	 */
 	public double getOriginEncoder() {
-		return _originMotor.getSelectedSensorPosition() / TICKS_PER_REV * 360;
+		return _originCollection.getIntegratedSensorPosition() / TICKS_PER_REV * 360;
 	}
 
 	/**
 	 * @return value of change motor encoder in DEGREES
 	 */
 	public double getChangeEncoder() {
-		return _changeMotor.getSelectedSensorPosition() / TICKS_PER_REV * 360;
+		return _changeCollection.getIntegratedSensorPosition() / TICKS_PER_REV * 360;
 	}
 
 	/**
 	 * resets origin and change motor encoders
 	 */
 	public void resetEncoders() {
-		_originMotor.setSelectedSensorPosition(0);
-		_changeMotor.setSelectedSensorPosition(0);
+		_originCollection.setIntegratedSensorPosition(0, 0);
+		_changeCollection.setIntegratedSensorPosition(0, 0);
 	}
 
 	@Override
