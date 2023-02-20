@@ -26,6 +26,7 @@ public class ManualArm extends CommandBase {
 	@Override
 	public void execute() {
 		// sets arm motor angles based on which actions is needed
+		// TODO: Set actual angle values for ALL POSITIONS
 		double[] angles;
 		if (_controls.moveToSecond()) {
 			angles = _arm.getAnglesOfRotation(23, 30);
@@ -46,6 +47,9 @@ public class ManualArm extends CommandBase {
 	@Override
 	public void end(boolean interrupted) {
 		// sets arm back to 0
-		_arm.getAnglesOfRotation(0, 0);
+		double[] angles;
+		angles= _arm.getAnglesOfRotation(0, 0);
+		_arm.moveAngles(speed, angles);
+		
 	}
 }

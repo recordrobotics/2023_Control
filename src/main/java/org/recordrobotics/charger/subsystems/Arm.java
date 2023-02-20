@@ -46,13 +46,11 @@ public class Arm extends SubsystemBase {
 		if (getOriginEncoder() <= angles[0]) {
 			_originMotor.set(speed);
 		}else{
-			_originMotor.set(0);
-		}
-		
-		if (getChangeEncoder() >= angles[0]) {
-			_changeMotor.set(speed);
-		}else{
-			_changeMotor.set(0);
+			if (getChangeEncoder() >= angles[0]) {
+				_changeMotor.set(speed);
+			}else{
+				_changeMotor.set(0);
+			}
 		}
 	}
 
