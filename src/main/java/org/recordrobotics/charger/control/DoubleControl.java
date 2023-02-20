@@ -9,6 +9,11 @@ public class DoubleControl implements IControlInput {
 	private XboxController _gamepad1;
 	private XboxController _gamepad2;
 
+	private boolean _cube;
+	private boolean _cone;
+	private boolean _leftActivated;
+	private boolean _rightActivated;
+
 	public DoubleControl(int port1, int port2) {
 		_gamepad1 = new XboxController(port1);
 		_gamepad2 = new XboxController(port2);
@@ -26,18 +31,25 @@ public class DoubleControl implements IControlInput {
 
 	@Override
 	public ClawState getClawTurn() {
-		// Mimic button-like behavior
-		boolean cube = _gamepad2.getLeftTriggerAxis() > TRIGGER_THRESHOLD;
-		boolean cone = _gamepad2.getRightTriggerAxis() > TRIGGER_THRESHOLD;
-
-		// Cube takes precedence
-		if (cube) {
+		if (_gamepad2.getLeftTriggerAxis() < TRIGGER_THRESHOLD && !_leftActivated) {
+			_cube = !_cube;
+			_leftActivated = true;
+		}
+		if (_gamepad2.getRightTriggerAxis() < TRIGGER_THRESHOLD && !_rightActivated) {
+			_cone = !_cone;
+			_rightActivated = true;
+		}
+		if (_gamepad2.getLeftTriggerAxis() > TRIGGER_THRESHOLD && _leftActivated || _gamepad2.getRightTriggerAxis() > TRIGGER_THRESHOLD && _rightActivated) {
+			_leftActivated = false;
+			_rightActivated = false;
+		}
+		if (!_cube && !_cone) {
+			return ClawState.NEUTRAL;
+		} else if (_cube) {
 			return ClawState.CUBE;
-		} else if (cone) {
+		} else {
 			return ClawState.CONE;
 		}
-
-		return ClawState.NEUTRAL;
 	}
 
 	@Override
