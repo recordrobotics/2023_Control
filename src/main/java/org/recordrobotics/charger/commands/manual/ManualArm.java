@@ -40,8 +40,6 @@ public class ManualArm extends CommandBase {
 			angles = _arm.resetPositions();
 		}
 		_arm.moveAngles(speed, angles);
-		System.out.println("change " + _arm.getChangeEncoder());
-		System.out.println("origin " + _arm.getOriginEncoder());
 	}
 
 	@Override
@@ -50,6 +48,6 @@ public class ManualArm extends CommandBase {
 		double[] angles;
 		angles= _arm.getAnglesOfRotation(0, 0);
 		_arm.moveAngles(speed, angles);
-		
+
 	}
 }
