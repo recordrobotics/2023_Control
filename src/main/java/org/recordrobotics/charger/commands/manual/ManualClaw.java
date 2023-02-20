@@ -9,9 +9,9 @@ public class ManualClaw extends CommandBase {
 	private Claw _claw;
 	private IControlInput _controls;
 
-	private static final double CLAW_NEUTRAL = 0.3;
-	private static final double CLAW_CUBE = 0.1;
-	private static final double CLAW_CONE = 0.0;
+	private static final double NEUTRAL_POS = 0.3;
+	private static final double CUBE_POS = 0.1;
+	private static final double CONE_POS = 0.0;
 
 	private static final double TURN_SPEED = 0.3;
 	// TODO: find a good value experimentally
@@ -36,13 +36,13 @@ public class ManualClaw extends CommandBase {
 		double target;
 		switch (_controls.getClawTurn()) {
 			case CUBE:
-				target = CLAW_CUBE;
+				target = CUBE_POS;
 				break;
 			case CONE:
-				target = CLAW_CONE;
+				target = CONE_POS;
 				break;
 			default:
-				target = CLAW_NEUTRAL;
+				target = NEUTRAL_POS;
 				break;
 		}
 
