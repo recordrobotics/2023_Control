@@ -58,14 +58,14 @@ public class ManualClaw extends CommandBase {
 	}
 
 	/**
-	 * Check near equality of doubles
+	 * Check if two doubles are close enough to be considered equal
 	 *
-	 * @param x0 First number.
-	 * @param x1 Second number.
+	 * @param num0 First number.
+	 * @param num1 Second number.
 	 * @return true - near equal, false - not equal
 	 */
-	private boolean near(double x0, double x1) {
-		return Math.abs(x0 - x1) < ERROR_MARGIN;
+	private boolean near(double num0, double num1) {
+		return Math.abs(num0 - num1) < ERROR_MARGIN;
 	}
 
 }
