@@ -27,7 +27,7 @@ public class Claw extends SubsystemBase {
 	}
 
 	/**
-	 * gets encoder value of 
+	 * gets encoder value of
 	 * @return
 	 */
 	public double getPosition() {
