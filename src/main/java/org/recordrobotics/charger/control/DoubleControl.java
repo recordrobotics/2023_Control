@@ -49,4 +49,34 @@ public class DoubleControl implements IControlInput {
 	public boolean pickUpFromSub() {
 		return _gamepad2.getYButtonPressed();
 	}
+
+	private int booleanToInt(boolean b){
+		if(b == true){
+			return 1;
+		}else{
+			return 0;
+		}
+	}
+
+	@Override
+	public ArmPosition getArmPosition(){
+		if(booleanToInt(_gamepad2.getYButtonPressed()) + booleanToInt(_gamepad2.getXButtonPressed()) + booleanToInt(_gamepad2.getAButtonPressed()) + booleanToInt(_gamepad2.getBButtonPressed())> 1){
+			return ArmPosition.DEFAULT;
+		}else{
+			if(_gamepad2.getYButtonPressed()){
+				return ArmPosition.THIRD;
+			}
+			if(_gamepad2.getXButtonPressed()){
+				return ArmPosition.SECOND;
+			}
+			if(_gamepad2.getBButtonPressed()){
+				return ArmPosition.SUBSTATION;
+			}
+			if(_gamepad2.getAButtonPressed()){
+				return ArmPosition.GROUND;
+			}else{
+				return ArmPosition.DEFAULT;
+			}
+		}
+	}
 }

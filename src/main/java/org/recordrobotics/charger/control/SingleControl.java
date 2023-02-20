@@ -46,4 +46,10 @@ public class SingleControl implements IControlInput {
 	public boolean pickUpFromSub() {
 		return _gamepad.getYButtonPressed();
 	}
+
+	//TODO: Finish This Code after writing the other thing
+	@Override
+	public ArmPosition getArmPosition(){
+		return ArmPosition.DEFAULT;
+	}
 }

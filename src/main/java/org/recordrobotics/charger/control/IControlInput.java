@@ -19,6 +19,15 @@ public interface IControlInput {
 	 */
 	double getDriveLat();
 
+	enum ArmPosition{
+		SUBSTATION,
+		GROUND,
+		SECOND,
+		THIRD,
+		DEFAULT;
+	}
+
+	ArmPosition getArmPosition();
 	/**
 	 * Go to second level in treasury
 	 *
