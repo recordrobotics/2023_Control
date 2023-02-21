@@ -20,15 +20,15 @@ public class NavSensor extends SubsystemBase {
 		tab.add("Yaw", _nav.getYaw()).getEntry();
 	}
 
-	double getPitch() {
+	public double getPitch() {
 		return _nav.getPitch();
 	}
 
-	double getRoll() {
+	public double getRoll() {
 		return _nav.getRoll();
 	}
 
-	double getYaw() {
+	public double getYaw() {
 		return _nav.getYaw();
 	}
 
