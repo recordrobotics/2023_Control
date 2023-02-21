@@ -12,8 +12,7 @@ import org.recordrobotics.charger.commands.manual.ManualClaw;
 //import org.recordrobotics.charger.control.DoubleControl;
 import org.recordrobotics.charger.control.IControlInput;
 import org.recordrobotics.charger.control.SingleControl;
-//import org.recordrobotics.charger.subsystems.*;
-import org.recordrobotics.charger.subsystems.Claw;
+import org.recordrobotics.charger.subsystems.*;
 import org.recordrobotics.charger.util.Pair;
 
 import edu.wpi.first.wpilibj2.command.Command;
