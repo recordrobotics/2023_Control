@@ -8,7 +8,6 @@ import org.recordrobotics.charger.subsystems.Claw;
 public class AutoMoveClaw extends CommandBase{
 	private Claw _claw;
 	private double _speed;
-	private boolean _endState;
 
 	public AutoMoveClaw(Claw claw, double speed){
 		if (speed <= 0) {
@@ -43,9 +42,6 @@ public class AutoMoveClaw extends CommandBase{
 	 */
 	@Override
 	public boolean isFinished() {
-		if (_endState) {
-			return _claw.getPosition() >= ManualClaw.CONE_POS || _claw.getPosition() <= 0;
-		}
 		return _claw.getPosition() >= ManualClaw.CUBE_POS || _claw.getPosition() <= 0;
 	}
 }
