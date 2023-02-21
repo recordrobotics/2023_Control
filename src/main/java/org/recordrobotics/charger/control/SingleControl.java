@@ -4,7 +4,7 @@ import edu.wpi.first.wpilibj.XboxController;
 
 public class SingleControl implements IControlInput {
 
-	private static final double TRIGGER_THRESHOLD = 0.25;
+	//private static final double TRIGGER_THRESHOLD = 0.25;
 
 	private XboxController _gamepad;
 
@@ -24,23 +24,22 @@ public class SingleControl implements IControlInput {
 
 	@Override
 	public ClawState getClawTurn() {
-		// Mimic button-like behavior
-		boolean cube = _gamepad.getLeftTriggerAxis() > TRIGGER_THRESHOLD;
-		boolean cone = _gamepad.getRightTriggerAxis() > TRIGGER_THRESHOLD;
-
+		// Trigger mimics button-like behavior
+		boolean cube = _gamepad.getLeftBumper();
+		boolean cone = _gamepad.getRightBumper();
+		
 		// Cube takes precedence
 		if (cube) {
 			return ClawState.CUBE;
 		} else if (cone) {
 			return ClawState.CONE;
 		}
-
 		return ClawState.NEUTRAL;
 	}
 
 	@Override
 	public String toString() {
-		return "Single";
+		return "Legacy";
 	}
 
 }
