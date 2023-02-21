@@ -2,6 +2,7 @@ package org.recordrobotics.charger.subsystems;
 
 import org.recordrobotics.charger.RobotMap;
 
+import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.TalonFXSensorCollection;
 import com.ctre.phoenix.motorcontrol.can.BaseTalon;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
@@ -33,6 +34,8 @@ public class Arm extends SubsystemBase {
 	public Arm() {
 		_originCollection.setIntegratedSensorPosition(0, 0);
 		_changeCollection.setIntegratedSensorPosition(0, 0);
+		_originMotor.setNeutralMode(NeutralMode.Brake);
+		_changeMotor.setNeutralMode(NeutralMode.Brake);
 
 		ShuffleboardTab tab = Shuffleboard.getTab("data");
 		_entryAngles = tab.add("Angles Of Rotation", new double[] {0, 0}).getEntry();
