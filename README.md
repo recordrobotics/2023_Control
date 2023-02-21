@@ -9,3 +9,7 @@ _{button/stick}_; _{what it does}_
 __Game Controller (specific game systems controller):__
 --------
 _{button/stick}_; _{what it does}_
+A; Move arm to ground level<br />
+B; Move arm to substation level<br />
+X; Move arm to second level<br />
+Y; Move arm to third level<br />
