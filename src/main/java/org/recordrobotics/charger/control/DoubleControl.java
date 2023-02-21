@@ -1,5 +1,7 @@
 package org.recordrobotics.charger.control;
 
+import org.recordrobotics.charger.commands.manual.ArmPosition;
+
 import edu.wpi.first.wpilibj.XboxController;
 
 public class DoubleControl implements IControlInput {
@@ -24,29 +26,32 @@ public class DoubleControl implements IControlInput {
 		return -_gamepad1.getLeftX();
 	}
 
-
-	@Override
-	public boolean moveToSecond() {
-		return _gamepad2.getAButtonPressed();
-	}
-
-	@Override
-	public boolean moveToThird() {
-		return _gamepad2.getBButtonPressed();
-	}
-
 	@Override
 	public String toString() {
 		return "Double";
 	}
 
-	@Override
-	public boolean pickUpFromGround() {
-		return _gamepad2.getYButtonPressed();
+	private int booleanToInt(boolean b) {
+		return b ? 1 : 0;
 	}
 
 	@Override
-	public boolean pickUpFromSub() {
-		return _gamepad2.getYButtonPressed();
+	public ArmPosition getArmPosition() {
+		boolean multiplePressed = booleanToInt(_gamepad2.getYButtonPressed()) + booleanToInt(_gamepad2.getXButtonPressed()) + booleanToInt(_gamepad2.getAButtonPressed()) + booleanToInt(_gamepad2.getBButtonPressed()) > 1;
+		if (multiplePressed) {
+			return ArmPosition.NEUTRAL;
+		} else {
+			if (_gamepad2.getYButtonPressed()) {
+				return ArmPosition.THIRD;
+			} if (_gamepad2.getXButtonPressed()) {
+				return ArmPosition.SECOND;
+			} if (_gamepad2.getBButtonPressed()) {
+				return ArmPosition.SUBSTATION;
+			} if (_gamepad2.getAButtonPressed()) {
+				return ArmPosition.GROUND;
+			} else {
+				return ArmPosition.NEUTRAL;
+			}
+		}
 	}
 }

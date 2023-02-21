@@ -16,7 +16,7 @@ public class Arm extends SubsystemBase {
 	private WPI_TalonFX _originMotor = new WPI_TalonFX(RobotMap.Arm.ORIGIN_MOTOR_PORT);
 	private WPI_TalonFX _changeMotor = new WPI_TalonFX(RobotMap.Arm.CHANGE_MOTOR_PORT);
 	private TalonFXSensorCollection _originCollection = new TalonFXSensorCollection(new BaseTalon(RobotMap.Arm.ORIGIN_MOTOR_PORT, "origin"));
-	private TalonFXSensorCollection _changeCollection = new TalonFXSensorCollection(new BaseTalon(RobotMap.Arm.ORIGIN_MOTOR_PORT, "origin"));
+	private TalonFXSensorCollection _changeCollection = new TalonFXSensorCollection(new BaseTalon(RobotMap.Arm.ORIGIN_MOTOR_PORT, "change"));
 	private static final double FIRST_ARM_LENGTH = 30;
 	private static final double SECOND_ARM_LENGTH = 30;
 
@@ -46,18 +46,13 @@ public class Arm extends SubsystemBase {
 	 * @param angles the angles to turn the motors (first = origin motor, second = change motor)
 	 */
 	public void moveAngles(double speed, double... angles) {
-		_originMotor.set(speed);
-		while (true) {
-			if (getOriginEncoder() >= angles[0]) {
-				_originMotor.set(0);
-				break;
-			}
-		}
-		_changeMotor.set(speed);
-		while (true) {
+		if (getOriginEncoder() <= angles[0]) {
+			_originMotor.set(speed);
+		}else{
 			if (getChangeEncoder() >= angles[0]) {
+				_changeMotor.set(speed);
+			}else{
 				_changeMotor.set(0);
-				break;
 			}
 		}
 	}
