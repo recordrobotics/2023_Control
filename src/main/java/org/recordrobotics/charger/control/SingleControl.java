@@ -23,33 +23,31 @@ public class SingleControl implements IControlInput {
 	}
 
 	@Override
-	public boolean moveToSecond() {
-		return _gamepad.getAButtonPressed();
-	}
-
-	@Override
-	public boolean moveToThird() {
-		return _gamepad.getBButtonPressed();
-	}
-
-	@Override
 	public String toString() {
 		return "Legacy";
 	}
 
-	@Override
-	public boolean pickUpFromGround() {
-		return _gamepad.getXButtonPressed();
+	private int booleanToInt(boolean b) {
+		return b ? 1 : 0;
 	}
 
 	@Override
-	public boolean pickUpFromSub() {
-		return _gamepad.getYButtonPressed();
-	}
-
-	//TODO: Finish This Code after writing the other thing
-	@Override
-	public ArmPosition getArmPosition(){
-		return ArmPosition.DEFAULT;
+	public ArmPosition getArmPosition() {
+		boolean multiplePressed = booleanToInt(_gamepad.getYButtonPressed()) + booleanToInt(_gamepad.getXButtonPressed()) + booleanToInt(_gamepad.getAButtonPressed()) + booleanToInt(_gamepad.getBButtonPressed()) > 1;
+		if (multiplePressed) {
+			return ArmPosition.DEFAULT;
+		} else {
+			if (_gamepad.getYButtonPressed()) {
+				return ArmPosition.THIRD;
+			} if (_gamepad.getXButtonPressed()) {
+				return ArmPosition.SECOND;
+			} if (_gamepad.getBButtonPressed()) {
+				return ArmPosition.SUBSTATION;
+			} if (_gamepad.getAButtonPressed()) {
+				return ArmPosition.GROUND;
+			} else {
+				return ArmPosition.DEFAULT;
+			}
+		}
 	}
 }

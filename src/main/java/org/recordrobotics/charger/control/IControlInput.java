@@ -27,32 +27,10 @@ public interface IControlInput {
 		DEFAULT;
 	}
 
+	/**
+	 * Returns goal of arm movement
+	 * 
+	 * @return ArmPosition.SUBSTATION - go to substation, ArmPosition.GROUND - go to ground, ArmPosition.SECOND - go to second row, ArmPosition.THIRD - go to third row, ArmPosition.DEFAULT - go to neutral position
+	 */
 	ArmPosition getArmPosition();
-	/**
-	 * Go to second level in treasury
-	 *
-	 * @return true - do it, false - don't do it
-	 */
-	boolean moveToSecond();
-
-	/**
-	 * Go to third level in treasury
-	 *
-	 * @return true - do it, false - don't do it
-	 */
-	boolean moveToThird();
-
-	/**
-	 * Go to pick up a ball from the ground
-	 *
-	 * @return true - do it, false - don't do it
-	 */
-	boolean pickUpFromGround();
-
-	/**
-	 * Go to pick up a ball from a substation
-	 *
-	 * @return true - do it, false - don't do it
-	 */
-	boolean pickUpFromSub();
 }
