@@ -1,3 +1,7 @@
+// Copyright (c) FIRST and other WPILib contributors.
+// Open Source Software; you can modify and/or share it under the terms of
+// the WPILib BSD license file in the root directory of this project.
+
 package org.recordrobotics.charger;
 
 import java.util.ArrayList;
@@ -7,8 +11,7 @@ import org.recordrobotics.charger.commands.manual.ManualClaw;
 import org.recordrobotics.charger.commands.manual.ManualDrive;
 import org.recordrobotics.charger.control.DoubleControl;
 import org.recordrobotics.charger.control.IControlInput;
-import org.recordrobotics.charger.subsystems.Claw;
-import org.recordrobotics.charger.subsystems.Drive;
+import org.recordrobotics.charger.subsystems.*;
 import org.recordrobotics.charger.util.Pair;
 
 import edu.wpi.first.wpilibj2.command.Command;
