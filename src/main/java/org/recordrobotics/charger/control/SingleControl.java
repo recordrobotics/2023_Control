@@ -1,5 +1,7 @@
 package org.recordrobotics.charger.control;
 
+import org.recordrobotics.charger.commands.manual.ArmPosition;
+
 import edu.wpi.first.wpilibj.XboxController;
 
 public class SingleControl implements IControlInput {
@@ -35,7 +37,7 @@ public class SingleControl implements IControlInput {
 	public ArmPosition getArmPosition() {
 		boolean multiplePressed = booleanToInt(_gamepad.getYButtonPressed()) + booleanToInt(_gamepad.getXButtonPressed()) + booleanToInt(_gamepad.getAButtonPressed()) + booleanToInt(_gamepad.getBButtonPressed()) > 1;
 		if (multiplePressed) {
-			return ArmPosition.DEFAULT;
+			return ArmPosition.NEUTRAL;
 		} else {
 			if (_gamepad.getYButtonPressed()) {
 				return ArmPosition.THIRD;
@@ -46,7 +48,7 @@ public class SingleControl implements IControlInput {
 			} if (_gamepad.getAButtonPressed()) {
 				return ArmPosition.GROUND;
 			} else {
-				return ArmPosition.DEFAULT;
+				return ArmPosition.NEUTRAL;
 			}
 		}
 	}
