@@ -44,8 +44,8 @@ public class AutoMoveClaw extends CommandBase{
 	@Override
 	public boolean isFinished() {
 		if (_endState) {
-			return _claw.getPosition() >= ManualClaw.CONE_POS|| _claw.getPosition() <= 0;
-		} 
-		return _claw.getPosition() >= ManualClaw.CUBE_POS|| _claw.getPosition() <= 0;
+			return _claw.getPosition() >= ManualClaw.CONE_POS || _claw.getPosition() <= 0;
+		}
+		return _claw.getPosition() >= ManualClaw.CUBE_POS || _claw.getPosition() <= 0;
 	}
 }
