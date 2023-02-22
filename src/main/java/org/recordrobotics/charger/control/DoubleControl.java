@@ -21,12 +21,12 @@ public class DoubleControl implements IControlInput {
 
 	@Override
 	public double getDriveLat() {
-		return -_gamepad2.getLeftX();
+		_gamepad2.getStartButton(); // line here to avoid unused variable error
+		return _gamepad1.getLeftX();
 	}
 
 	@Override
 	public String toString() {
 		return "Double";
 	}
-
 }
