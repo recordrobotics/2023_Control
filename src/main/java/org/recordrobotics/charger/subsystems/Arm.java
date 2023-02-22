@@ -1,5 +1,6 @@
 package org.recordrobotics.charger.subsystems;
 
+import org.recordrobotics.charger.Constants;
 import org.recordrobotics.charger.RobotMap;
 
 import com.ctre.phoenix.motorcontrol.NeutralMode;
@@ -37,7 +38,7 @@ public class Arm extends SubsystemBase {
 		_originMotor.setNeutralMode(NeutralMode.Brake);
 		_changeMotor.setNeutralMode(NeutralMode.Brake);
 
-		ShuffleboardTab tab = Shuffleboard.getTab("data");
+		ShuffleboardTab tab = Shuffleboard.getTab(Constants.DATA_TAB);
 		_entryAngles = tab.add("Angles Of Rotation", new double[] {0, 0}).getEntry();
 	}
 
