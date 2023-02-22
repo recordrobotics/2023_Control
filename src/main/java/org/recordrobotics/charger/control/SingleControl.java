@@ -33,24 +33,24 @@ public class SingleControl implements IControlInput {
 
 	@Override
 	public ArmPosition getArmPosition() {
-		boolean multiplePressed = booleanToInt(_gamepad.getYButtonPressed())
-			+ booleanToInt(_gamepad.getXButtonPressed())
-			+ booleanToInt(_gamepad.getAButtonPressed())
-			+ booleanToInt(_gamepad.getBButtonPressed())
+		boolean multiplePressed = (booleanToInt(_gamepad.getYButton())
+			+ booleanToInt(_gamepad.getXButton())
+			+ booleanToInt(_gamepad.getAButton())
+			+ booleanToInt(_gamepad.getBButton()))
 		> 1;
 		if (multiplePressed) {
 			return ArmPosition.NEUTRAL;
 		}
-		if (_gamepad.getYButtonPressed()) {
+		if (_gamepad.getYButton()) {
 			return ArmPosition.THIRD;
 		}
-		if (_gamepad.getXButtonPressed()) {
+		if (_gamepad.getXButton()) {
 			return ArmPosition.SECOND;
 		}
-		if (_gamepad.getBButtonPressed()) {
+		if (_gamepad.getBButton()) {
 			return ArmPosition.SUBSTATION;
 		}
-		if (_gamepad.getAButtonPressed()) {
+		if (_gamepad.getAButton()) {
 			return ArmPosition.GROUND;
 		}
 		return ArmPosition.NEUTRAL;
