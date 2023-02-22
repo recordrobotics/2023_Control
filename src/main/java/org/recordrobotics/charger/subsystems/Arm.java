@@ -48,12 +48,13 @@ public class Arm extends SubsystemBase {
 	public void moveAngles(double speed, double... angles) {
 		if (getOriginEncoder() <= angles[0]) {
 			_originMotor.set(speed);
-		}else{
-			if (getChangeEncoder() >= angles[0]) {
-				_changeMotor.set(speed);
-			}else{
-				_changeMotor.set(0);
-			}
+		} else {
+			_originMotor.set(0);
+		}
+		if (getChangeEncoder() >= angles[1]) {
+			_changeMotor.set(speed);
+		} else {
+			_changeMotor.set(0);
 		}
 	}
 
