@@ -28,16 +28,22 @@ public class ManualArm extends CommandBase {
 		// sets arm motor angles based on which actions is needed
 		// TODO: Set actual cartesian coords for ALL POSITIONS
 		double[] angles;
-		if (_controls.getArmPosition() == ArmPosition.SECOND) {
-			angles = _arm.getAnglesOfRotation(23, 30);
-		} else if (_controls.getArmPosition() == ArmPosition.THIRD) {
-			angles = _arm.getAnglesOfRotation(40, 42);
-		} else if (_controls.getArmPosition() == ArmPosition.GROUND) {
-			angles = _arm.getAnglesOfRotation(40, 42);
-		} else if (_controls.getArmPosition() == ArmPosition.SUBSTATION) {
-			angles = _arm.getAnglesOfRotation(40, 42);
-		} else {
-			angles = _arm.resetPositions();
+		switch (_controls.getArmPosition()) {
+			case SECOND:
+				angles = _arm.getAnglesOfRotation(23, 30);
+				break;
+			case THIRD:
+				angles = _arm.getAnglesOfRotation(40, 42);
+				break;
+			case GROUND:
+				angles = _arm.getAnglesOfRotation(40, 42);
+				break;
+			case SUBSTATION:
+				angles = _arm.getAnglesOfRotation(40, 42);
+				break;
+			default:
+				angles = _arm.resetPositions();
+				break;
 		}
 		_arm.moveAngles(speed, angles);
 	}

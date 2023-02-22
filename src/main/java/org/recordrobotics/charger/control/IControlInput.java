@@ -1,7 +1,5 @@
 package org.recordrobotics.charger.control;
 
-import org.recordrobotics.charger.commands.manual.ArmPosition;
-
 /**
  * Specifies all control inputs needed for the robot
  */
@@ -24,7 +22,19 @@ public interface IControlInput {
 	/**
 	 * Returns goal of arm movement
 	 *
-	 * @return ArmPosition.SUBSTATION - go to substation, ArmPosition.GROUND - go to ground, ArmPosition.SECOND - go to second row, ArmPosition.THIRD - go to third row, ArmPosition.NEUTRAL - go to neutral position
+	 * @return ArmPosition.SUBSTATION - go to substation
+	 * ArmPosition.GROUND - go to ground
+	 * ArmPosition.SECOND - go to second row
+	 * ArmPosition.THIRD - go to third row
+	 * ArmPosition.NEUTRAL - go to neutral position
 	 */
 	ArmPosition getArmPosition();
+
+	public enum ArmPosition {
+		SUBSTATION,
+		GROUND,
+		SECOND,
+		THIRD,
+		NEUTRAL;
+	}
 }
