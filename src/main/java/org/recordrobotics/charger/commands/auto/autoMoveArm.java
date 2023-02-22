@@ -4,7 +4,7 @@ import org.recordrobotics.charger.subsystems.Arm;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
 
-public class AutoMoveArm extends CommandBase {
+public class autoMoveArm extends CommandBase {
 
 	private Arm _arm;
 	private double _speed;
@@ -12,7 +12,7 @@ public class AutoMoveArm extends CommandBase {
 	private double _targetY;
 	private double[] _angles;
 
-	public AutoMoveArm(Arm arm, double speed, double targetX, double targetY){
+	public autoMoveArm(Arm arm, double speed, double targetX, double targetY){
 		if (speed <= 0) {
 			throw new IllegalArgumentException("Speed must be positive");
 		}
