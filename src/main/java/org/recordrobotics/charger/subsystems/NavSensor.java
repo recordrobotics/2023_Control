@@ -6,18 +6,30 @@ import com.kauailabs.navx.frc.AHRS;
 import org.recordrobotics.charger.Constants;
 
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import edu.wpi.first.networktables.GenericEntry;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
 
 public class NavSensor extends SubsystemBase {
 	public AHRS _nav = new AHRS(edu.wpi.first.wpilibj.I2C.Port.kOnboard);
 
+	GenericEntry _entryPitch;
+	GenericEntry _entryRoll;
+	GenericEntry _entryYaw;
+
 	public NavSensor(){
 		_nav.calibrate();
 		ShuffleboardTab tab = Shuffleboard.getTab(Constants.DATA_TAB);
-		tab.add("Pitch", _nav.getPitch()).getEntry();
-		tab.add("Roll", _nav.getRoll()).getEntry();
-		tab.add("Yaw", _nav.getYaw()).getEntry();
+		_entryPitch = tab.add("Pitch", 0).getEntry();
+		_entryRoll = tab.add("Roll", 0).getEntry();
+		_entryYaw = tab.add("Yaw", 0).getEntry();
+	}
+
+	@Override
+	public void periodic() {
+		_entryPitch.setDouble(getPitch());
+		_entryRoll.setDouble(getRoll());
+		_entryYaw.setDouble(getYaw());
 	}
 
 	public double getPitch() {
