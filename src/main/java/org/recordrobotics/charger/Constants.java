@@ -10,5 +10,5 @@ package org.recordrobotics.charger;
 public final class Constants {
 	public static final String COMMANDS_TAB = "commands";
 	public static final String DATA_TAB = "DATA";
-	
+
 }
