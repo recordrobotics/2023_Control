@@ -45,9 +45,7 @@ public class ManualArm extends CommandBase {
 	@Override
 	public void end(boolean interrupted) {
 		// sets arm back to 0
-		double[] angles;
-		angles= _arm.getAnglesOfRotation(0, 0);
-		_arm.moveAngles(speed, angles);
+		_arm.moveAngles(speed, _arm.getAnglesOfRotation(0, 0));
 
 	}
 }
