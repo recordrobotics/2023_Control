@@ -63,6 +63,14 @@ public class Arm extends SubsystemBase {
 		}
 	}
 
+	public void spinOrigin(double speed){
+		_originMotor.set(speed);
+	}
+
+	public void spinChange(double speed){
+		_changeMotor.set(speed);
+	}
+
 	/**
 	 * moves motors to reach a certain point on a cartesian plane, with the first motor as the origin point
 	 * @param targetX x value of the cartesian point
