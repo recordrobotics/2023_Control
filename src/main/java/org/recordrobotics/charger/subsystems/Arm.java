@@ -1,7 +1,9 @@
 package org.recordrobotics.charger.subsystems;
 
+import org.recordrobotics.charger.Constants;
 import org.recordrobotics.charger.RobotMap;
 
+import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.TalonFXSensorCollection;
 import com.ctre.phoenix.motorcontrol.can.BaseTalon;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
@@ -15,7 +17,7 @@ public class Arm extends SubsystemBase {
 	private WPI_TalonFX _originMotor = new WPI_TalonFX(RobotMap.Arm.ORIGIN_MOTOR_PORT);
 	private WPI_TalonFX _changeMotor = new WPI_TalonFX(RobotMap.Arm.CHANGE_MOTOR_PORT);
 	private TalonFXSensorCollection _originCollection = new TalonFXSensorCollection(new BaseTalon(RobotMap.Arm.ORIGIN_MOTOR_PORT, "origin"));
-	private TalonFXSensorCollection _changeCollection = new TalonFXSensorCollection(new BaseTalon(RobotMap.Arm.ORIGIN_MOTOR_PORT, "origin"));
+	private TalonFXSensorCollection _changeCollection = new TalonFXSensorCollection(new BaseTalon(RobotMap.Arm.ORIGIN_MOTOR_PORT, "change"));
 	private static final double FIRST_ARM_LENGTH = 30;
 	private static final double SECOND_ARM_LENGTH = 30;
 
@@ -33,8 +35,10 @@ public class Arm extends SubsystemBase {
 	public Arm() {
 		_originCollection.setIntegratedSensorPosition(0, 0);
 		_changeCollection.setIntegratedSensorPosition(0, 0);
+		_originMotor.setNeutralMode(NeutralMode.Brake);
+		_changeMotor.setNeutralMode(NeutralMode.Brake);
 
-		ShuffleboardTab tab = Shuffleboard.getTab("data");
+		ShuffleboardTab tab = Shuffleboard.getTab(Constants.DATA_TAB);
 		_entryAngles = tab.add("Angles Of Rotation", new double[] {0, 0}).getEntry();
 	}
 
@@ -43,19 +47,19 @@ public class Arm extends SubsystemBase {
 	 * @param angles the angles to turn the motors (first = origin motor, second = change motor)
 	 */
 	public void moveAngles(double speed, double... angles) {
-		_originMotor.set(speed);
-		while (true) {
-			if (getOriginEncoder() >= angles[0]) {
-				_originMotor.set(0);
-				break;
-			}
+		if (getOriginEncoder() < angles[0]) {
+			_originMotor.set(speed);
+		} else if (getOriginEncoder() > angles[0]) {
+			_originMotor.set(-speed);
+		} else {
+			_originMotor.set(0);
 		}
-		_changeMotor.set(speed);
-		while (true) {
-			if (getChangeEncoder() >= angles[0]) {
-				_changeMotor.set(0);
-				break;
-			}
+		if (getChangeEncoder() > angles[1]) {
+			_changeMotor.set(speed);
+		} else if (getChangeEncoder() < angles[1]) {
+			_changeMotor.set(-speed);
+		} else {
+			_changeMotor.set(0);
 		}
 	}
 

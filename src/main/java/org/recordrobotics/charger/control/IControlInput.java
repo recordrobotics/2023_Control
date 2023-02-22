@@ -20,30 +20,21 @@ public interface IControlInput {
 	double getDriveLat();
 
 	/**
-	 * Go to second level in treasury
+	 * Returns goal of arm movement
 	 *
-	 * @return true - do it, false - don't do it
+	 * @return ArmPosition.SUBSTATION - go to substation
+	 * ArmPosition.GROUND - go to ground
+	 * ArmPosition.SECOND - go to second row
+	 * ArmPosition.THIRD - go to third row
+	 * ArmPosition.NEUTRAL - go to neutral position
 	 */
-	boolean moveToSecond();
+	ArmPosition getArmPosition();
 
-	/**
-	 * Go to third level in treasury
-	 *
-	 * @return true - do it, false - don't do it
-	 */
-	boolean moveToThird();
-
-	/**
-	 * Go to pick up a ball from the ground
-	 *
-	 * @return true - do it, false - don't do it
-	 */
-	boolean pickUpFromGround();
-
-	/**
-	 * Go to pick up a ball from a substation
-	 *
-	 * @return true - do it, false - don't do it
-	 */
-	boolean pickUpFromSub();
+	public enum ArmPosition {
+		SUBSTATION,
+		GROUND,
+		SECOND,
+		THIRD,
+		NEUTRAL;
+	}
 }
