@@ -23,13 +23,10 @@ import edu.wpi.first.wpilibj2.command.Subsystem;
  * subsystems, commands, and button mappings) should be declared here.
  */
 public class RobotContainer {
-	// The robot's subsystems and commands are defined here...
-	@SuppressWarnings({"PMD.SingularField"})
 	private IControlInput _controlInput;
 	private Drive _drive;
 
 	// Commands
-	@SuppressWarnings({"PMD.SingularField"})
 	private List<Pair<Subsystem, Command>> _teleopPairs;
 
 	/** The container for the robot. Contains subsystems, OI devices, and commands. */
