@@ -85,6 +85,21 @@ public class Arm extends SubsystemBase {
 	}
 
 	/**
+	 * moves motors to reach a certain point on a cartesian plane, with the first motor as the origin point
+	 * keeps second arm parallel to the ground
+	 * @param targetY y value of the cartesian point
+	 * @return angles of rotation in array of length 2 IN DEGREES
+	 */
+	public double[] getRelatedAngles(double targetY) {
+		double[] angles = new double[2];
+		// core angle is the complement of angle 1 and supplement of angle 2
+		double coreAngle = Math.asin(targetY / FIRST_ARM_LENGTH);
+		angles[0] = Math.toDegrees(Math.PI / 2 - coreAngle) + ORIGIN_OFFSET;
+		angles[1] = Math.toDegrees(Math.PI - coreAngle) + ORIGIN_OFFSET;
+		return angles;
+	}
+
+	/**
 	 * resets the position of the arms
 	 * @return the original angles of the arms
 	 */

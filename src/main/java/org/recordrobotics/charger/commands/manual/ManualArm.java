@@ -29,16 +29,16 @@ public class ManualArm extends CommandBase {
 		double[] angles;
 		switch (_controls.getArmPosition()) {
 			case SECOND:
-				angles = _arm.getAnglesOfRotation(23, 30);
+				angles = _arm.getRelatedAngles(30);
 				break;
 			case THIRD:
-				angles = _arm.getAnglesOfRotation(40, 42);
+				angles = _arm.getRelatedAngles(42);
 				break;
 			case GROUND:
 				angles = _arm.getAnglesOfRotation(40, 42);
 				break;
 			case SUBSTATION:
-				angles = _arm.getAnglesOfRotation(40, 42);
+				angles = _arm.getRelatedAngles(42);
 				break;
 			default:
 				angles = _arm.resetPositions();
