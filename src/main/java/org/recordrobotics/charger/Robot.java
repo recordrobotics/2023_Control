@@ -42,7 +42,7 @@ public class Robot extends TimedRobot {
 	private Field2d field;
 
     DifferentialDriveKinematics kinematics = new DifferentialDriveKinematics(Units.inchesToMeters(22));
-    DifferentialDrivePoseEstimator estimator = new DifferentialDrivePoseEstimator(kinematics, new Rotation2d(gyro.getYaw()), drive.getLeftEncoder(), drive.getRightEncoder(), null); //The default standard deviations of the model states are 0.02 meters for x, 0.02 meters for y, and 0.01 radians for heading. The default standard deviations of the vision measurements are 0.1 meters for x, 0.1 meters for y, and 0.1 radians for heading.
+    DifferentialDrivePoseEstimator estimator = new DifferentialDrivePoseEstimator(kinematics, new Rotation2d(gyro.getYaw()), drive.getLeftEncoder(), drive.getRightEncoder(), new Pose2d(1.22743, 2.748026, new Rotation2d(0))); //The default standard deviations of the model states are 0.02 meters for x, 0.02 meters for y, and 0.01 radians for heading. The default standard deviations of the vision measurements are 0.1 meters for x, 0.1 meters for y, and 0.1 radians for heading.
     //TODO: figure out initial pose strategy above
 
     /**
@@ -54,7 +54,8 @@ public class Robot extends TimedRobot {
          //System.out.println("Robotinit");
          // Create container
          _robotContainer = new RobotContainer();
-         var trajectory = Trajectories.getTrajectory(null, Trajectories.config);//TODO: starting pose
+         //var trajectory = Trajectories.getTrajectory(null, Trajectories.config);//TODO: starting pose
+         var trajectory = Trajectories.testTrajectory(new Pose2d(1.22743, 2.748026, new Rotation2d(0)), Trajectories.config);
          field = new Field2d();
          SmartDashboard.putData(field);
          field.getObject("traj").setTrajectory(trajectory);
