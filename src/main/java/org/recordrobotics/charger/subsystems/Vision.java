@@ -8,24 +8,25 @@ import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation3d;
 import edu.wpi.first.math.geometry.Transform3d;
 import edu.wpi.first.math.geometry.Translation3d;
+import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 @SuppressWarnings({"PMD.SystemPrintln", "PMD.FieldNamingConventions"})
 public class Vision extends SubsystemBase{
-    
-    public PhotonCamera camera = new PhotonCamera("OV5647"); //IMPORTANT: This camera name MUST match the one on the Raspberry Pi, accessible through the PhotonVision UI.
-    public Transform3d robotToCam = new Transform3d(new Translation3d(0.5, 0.0, 0.5), new Rotation3d(0,0,0)); //The offset from the center of the robot to the camera, and from facing exactly forward to the orientation of the camera.
+
+	public PhotonCamera camera = new PhotonCamera("OV5647"); //IMPORTANT: This camera name MUST match the one on the Raspberry Pi, accessible through the PhotonVision UI.
+	public Transform3d robotToCam = new Transform3d(new Translation3d(Units.inchesToMeters(15), 0.16, 0.1725), new Rotation3d(0,0,0)); //The offset from the center of the robot to the camera, and from facing exactly forward to the orientation of the camera.
 
     static final double[][] tags = {//april tags 1-8 in order. values contained are x, y, z, theta, in that order. x, y, z are distances in meters, theta is in radians.
-        {15.513558, 1.071626, 0.462788, Math.PI}, //tag 1
-        {15.513558, 2.748026, 0.462788, Math.PI}, //tag 2
-        {15.513558, 4.424426, 0.462788, Math.PI}, //tag 3
-        {16.178784, 6.749796, 0.695452, Math.PI}, //tag 4
-        {0.36195, 6.749796, 0.695452, 0}, //tag 5
-        {1.02743, 4.424426, 0.462788, 0}, //tag 6
-        {1.02743, 2.748026, 0.462788, 0}, //tag 7
-        {1.02743, 1.071626, 0.462788, 0}}; //tag 8
-    double[] fieldDimensions = {16.54175, 8.0137};//x, y. The origin is at the bottom corner of the blue alliance wall as seen on the field drawings. 0 radians is parallel to the positive x-axis. Distances are meters.
+		{15.513558, 1.071626, 0.462788, Math.PI}, //tag 1
+		{15.513558, 2.748026, 0.462788, Math.PI}, //tag 2
+		{15.513558, 4.424426, 0.462788, Math.PI}, //tag 3
+		{16.178784, 6.749796, 0.695452, Math.PI}, //tag 4
+		{0.36195, 6.749796, 0.695452, 0}, //tag 5
+		{1.02743, 4.424426, 0.462788, 0}, //tag 6
+		{1.02743, 2.748026, 0.462788, 0}, //tag 7
+		{1.02743, 1.071626, 0.462788, 0}}; //tag 8
+	double[] fieldDimensions = {16.54175, 8.0137};//x, y. The origin is at the bottom corner of the blue alliance wall as seen on the field drawings. 0 radians is parallel to the positive x-axis. Distances are meters.
 
     public static double getTagAngle(PhotonTrackedTarget target){//Currently not in use, but being left in for future reference.
 		double bottomLeftY = target.getDetectedCorners().get(0).y;

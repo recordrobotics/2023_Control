@@ -25,20 +25,21 @@ import edu.wpi.first.wpilibj2.command.CommandScheduler;
 
 @SuppressWarnings({"PMD.SystemPrintln", "PMD.FieldNamingConventions"})
 public class Robot extends TimedRobot {
-    private RobotContainer _robotContainer;
-    private Command _autonomousCommand;
+	private RobotContainer _robotContainer;
+	private Command _autonomousCommand;
 
 
-    /*placeholder description*/
-    private final Drive drive = new Drive();
-    NavSensor gyro = new NavSensor();
-    Vision vision = new Vision();
-    private Trajectory trajectory;
-    Timer timer = new Timer();
+	/*placeholder description*/
+	private final Drive drive = new Drive();
+	NavSensor gyro = new NavSensor();
+	Vision vision = new Vision();
+	private Trajectory trajectory;
+	Timer timer = new Timer();
 
-    private final RamseteController ramseteController = new RamseteController();
+	private final RamseteController ramseteController = new RamseteController();
 
-    private Field2d field;
+	@SuppressWarnings("PMD.SingularField")
+	private Field2d field;
 
     DifferentialDriveKinematics kinematics = new DifferentialDriveKinematics(Units.inchesToMeters(22));
     DifferentialDrivePoseEstimator estimator = new DifferentialDrivePoseEstimator(kinematics, new Rotation2d(gyro.getYaw()), drive.getLeftEncoder(), drive.getRightEncoder(), null); //The default standard deviations of the model states are 0.02 meters for x, 0.02 meters for y, and 0.01 radians for heading. The default standard deviations of the vision measurements are 0.1 meters for x, 0.1 meters for y, and 0.1 radians for heading.
@@ -48,37 +49,31 @@ public class Robot extends TimedRobot {
      * Robot initialization
      */
 
-    @Override
-    public void robotInit() {
-        System.out.println("Rootinit");
-        // Create container
-        _robotContainer = new RobotContainer(); 
-        var trajectory = Trajectories.getTrajectory(null, Trajectories.config);//TODO: starting pose
-        field = new Field2d();
-        SmartDashboard.putData(field);
-        field.getObject("traj").setTrajectory(trajectory);
-    }
-
+     @Override
+     public void robotInit() {
+         //System.out.println("Robotinit");
+         // Create container
+         _robotContainer = new RobotContainer();
+         var trajectory = Trajectories.getTrajectory(new Pose2d(1.5, 3.0, new Rotation2d(3.0)), Trajectories.config);//TODO: starting pose
+         field = new Field2d();
+         SmartDashboard.putData(field);
+         field.getObject("traj").setTrajectory(trajectory);
  
-    /**
-     * Runs every robot tick
-     */
-    @Override
-    public void robotPeriodic() {
-        //System.out.println("Robot periodic");
-        // Run command scheduler
-        CommandScheduler.getInstance().run();
-    }
-
-    /**
-     * Runs when robot enters disabled mode
-     */
-    @Override
-    public void disabledInit() {
-        System.out.println("Disabled init");
-        //_robotContainer.resetCommands();
-    }
-
+ 
+         System.out.println("LMAOOO (end of robot init)");
+     }
+ 
+ 
+     /**
+      * Runs every robot tick
+      */
+     @Override
+     public void robotPeriodic() {
+         //System.out.println("Robot periodic");
+         // Run command scheduler
+         CommandScheduler.getInstance().run();
+     }
+ 
     /**
      * Runs every tick during disabled mode
      */
