@@ -17,7 +17,7 @@ public class Arm extends SubsystemBase {
 	private WPI_TalonFX _originMotor = new WPI_TalonFX(RobotMap.Arm.ORIGIN_MOTOR_PORT);
 	private WPI_TalonFX _changeMotor = new WPI_TalonFX(RobotMap.Arm.CHANGE_MOTOR_PORT);
 	private TalonFXSensorCollection _originCollection = new TalonFXSensorCollection(new BaseTalon(RobotMap.Arm.ORIGIN_MOTOR_PORT, "origin"));
-	private TalonFXSensorCollection _changeCollection = new TalonFXSensorCollection(new BaseTalon(RobotMap.Arm.ORIGIN_MOTOR_PORT, "change"));
+	private TalonFXSensorCollection _changeCollection = new TalonFXSensorCollection(new BaseTalon(RobotMap.Arm.CHANGE_MOTOR_PORT, "change"));
 	private static final double FIRST_ARM_LENGTH = 30;
 	private static final double SECOND_ARM_LENGTH = 30;
 
@@ -27,6 +27,7 @@ public class Arm extends SubsystemBase {
 	private static final double CHANGE_OFFSET = 0;
 
 	private static final double TICKS_PER_REV = 2048;
+	private static final double GEAR_RATIO = 16;
 
 	private GenericEntry _entryAngles;
 
@@ -95,14 +96,14 @@ public class Arm extends SubsystemBase {
 	 * @return value of origin motor encoder in DEGREES
 	 */
 	public double getOriginEncoder() {
-		return _originCollection.getIntegratedSensorPosition() / TICKS_PER_REV * 360;
+		return _originCollection.getIntegratedSensorPosition() / TICKS_PER_REV * 360 * GEAR_RATIO;
 	}
 
 	/**
 	 * @return value of change motor encoder in DEGREES
 	 */
 	public double getChangeEncoder() {
-		return _changeCollection.getIntegratedSensorPosition() / TICKS_PER_REV * 360;
+		return _changeCollection.getIntegratedSensorPosition() / TICKS_PER_REV * 360 * GEAR_RATIO;
 	}
 
 	/**
