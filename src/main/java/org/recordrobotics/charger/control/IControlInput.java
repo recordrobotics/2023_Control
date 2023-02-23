@@ -12,8 +12,9 @@ public interface IControlInput {
 	 * 	CONE - grabs cone
 	 */
 	enum ClawState {
-		CLOSED,
+		CONE,
 		NEUTRAL,
+		CUBE
 	}
 
 	/**

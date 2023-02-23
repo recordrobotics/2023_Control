@@ -9,6 +9,10 @@ public class ManualClaw extends CommandBase {
 	private Claw _claw;
 	private IControlInput _controls;
 
+	private static final double NEUTRAL_POS = -0.15;
+	private static final double CUBE_POS = -0.1;
+	private static final double CONE_POS = 0.1;
+
 	private static final double TURN_SPEED = 0.05;
 	// TODO: find a good value experimentally
 	private static final double ERROR_MARGIN = 0.01;
@@ -33,13 +37,28 @@ public class ManualClaw extends CommandBase {
 
 	@Override
 	public void execute() {
+		double currentPos = _claw.getPosition();
+		double target;
 		switch (_controls.getClawTurn()) {
-			case CLOSED: 
+			case CUBE:
+				target = CUBE_POS;
 				_claw.turn(TURN_SPEED);
 				break;
-			default:
-				_claw.turn(-TURN_SPEED);
+			case CONE:
+				target = CONE_POS;
 				break;
+			default:
+				target = NEUTRAL_POS;
+				break;
+			}
+
+		// Floats do not compare cleanly
+		if (near(currentPos, target)) {
+			_claw.turn(0);
+		} else if (currentPos < target) {
+			_claw.turn(TURN_SPEED);
+		} else {
+			_claw.turn(-TURN_SPEED);
 		}
 	}
 
@@ -58,5 +77,4 @@ public class ManualClaw extends CommandBase {
 	private boolean near(double num0, double num1) {
 		return Math.abs(num0 - num1) < ERROR_MARGIN;
 	}
-
 }
