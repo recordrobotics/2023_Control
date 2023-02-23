@@ -56,9 +56,9 @@ public class Arm extends SubsystemBase {
 			_originMotor.set(0);
 		}
 		if (getChangeEncoder() > angles[1]) {
-			_changeMotor.set(speed);
-		} else if (getChangeEncoder() < angles[1]) {
 			_changeMotor.set(-speed);
+		} else if (getChangeEncoder() < angles[1]) {
+			_changeMotor.set(speed);
 		} else {
 			_changeMotor.set(0);
 		}
@@ -96,14 +96,14 @@ public class Arm extends SubsystemBase {
 	 * @return value of origin motor encoder in DEGREES
 	 */
 	public double getOriginEncoder() {
-		return _originCollection.getIntegratedSensorPosition() / TICKS_PER_REV * 360 * GEAR_RATIO;
+		return _originCollection.getIntegratedSensorPosition() / TICKS_PER_REV * 360 / GEAR_RATIO;
 	}
 
 	/**
 	 * @return value of change motor encoder in DEGREES
 	 */
 	public double getChangeEncoder() {
-		return _changeCollection.getIntegratedSensorPosition() / TICKS_PER_REV * 360 * GEAR_RATIO;
+		return _changeCollection.getIntegratedSensorPosition() / TICKS_PER_REV * 360 / GEAR_RATIO;
 	}
 
 	/**

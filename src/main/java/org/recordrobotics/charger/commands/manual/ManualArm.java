@@ -2,7 +2,6 @@ package org.recordrobotics.charger.commands.manual;
 
 import org.recordrobotics.charger.subsystems.Arm;
 import org.recordrobotics.charger.control.IControlInput;
-
 import edu.wpi.first.wpilibj2.command.CommandBase;
 
 public class ManualArm extends CommandBase {
