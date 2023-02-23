@@ -9,6 +9,7 @@ import java.util.List;
 
 import org.recordrobotics.charger.commands.manual.ManualClaw;
 //import org.recordrobotics.charger.commands.manual.ManualDrive;
+//import org.recordrobotics.charger.control.DoubleControl;
 import org.recordrobotics.charger.control.IControlInput;
 import org.recordrobotics.charger.control.SingleControl;
 import org.recordrobotics.charger.subsystems.*;
