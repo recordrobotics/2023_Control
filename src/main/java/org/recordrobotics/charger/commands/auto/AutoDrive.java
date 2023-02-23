@@ -22,7 +22,7 @@ public class AutoDrive extends CommandBase {
 		_speed = speed;
 		_targetDistance = targetDistance;
 
-        addRequirements(_drive);
+		addRequirements(_drive);
 	}
 
 	/**
@@ -34,10 +34,10 @@ public class AutoDrive extends CommandBase {
 		_direction = _targetDistance > 0 ? Direction.FORWARD : Direction.BACKWARD;
 	}
 
-    @Override
-    public void execute() {
-        _drive.move(_speed * _direction.value(), 0);
-    }
+	@Override
+	public void execute() {
+		_drive.move(_speed * _direction.value(), 0);
+	}
 
 	/**
 	 * command ends when encoders reach or pass the target distance
