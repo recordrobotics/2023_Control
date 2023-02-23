@@ -15,7 +15,6 @@ import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.kinematics.DifferentialDriveKinematics;
 import edu.wpi.first.math.trajectory.Trajectory;
-import edu.wpi.first.math.trajectory.TrajectoryConfig;
 import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.Timer;
@@ -36,17 +35,6 @@ public class Robot extends TimedRobot {
     Vision vision = new Vision();
     private Trajectory trajectory;
     Timer timer = new Timer();
-
-
-    //Temporary time thing I am writing
-    /*public class newTimer extends TimedRobot {
-        long init_time;
-        long stopwatch;
-    }
-    Date date = new Date();
-    long start_time = date.getTime();
-    newTimer tempTimer = new newTimer();*/
-
 
     private final RamseteController ramseteController = new RamseteController();
 
@@ -125,11 +113,6 @@ public class Robot extends TimedRobot {
         Pose2d visPose = new Pose2d(globalPose[0], globalPose[1], new Rotation2d(globalPose[2]));
         if (Vision.checkForTarget(vision.camera, vision.robotToCam)){
             estimator.addVisionMeasurement(visPose, timer.get());
-            /*Date current_date = new Date();
-            long current_time = current_date.getTime();
-            long stopwatch = 0;
-
-            estimator.addVisionMeasurement(visPose, 5);*/
         }
         estimator.update(new Rotation2d(gyro.getYaw()), drive.getLeftEncoder(), drive.getRightEncoder());
         if (timer.get() < trajectory.getTotalTimeSeconds()) {
@@ -158,7 +141,6 @@ public class Robot extends TimedRobot {
         }
         _robotContainer.teleopInit();
     }
-
  
      /**
       * Runs every tick in teleop mode

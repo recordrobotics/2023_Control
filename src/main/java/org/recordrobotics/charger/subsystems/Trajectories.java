@@ -26,4 +26,19 @@ public class Trajectories {
     
         return TrajectoryGenerator.generateTrajectory(waypoints, config);
         }
+
+    public static Trajectory testTrajectory(){
+        Rotation2d startAngle = new Rotation2d(0);
+        Rotation2d ballAngle = new Rotation2d(0);
+        Rotation2d scoreAngle = new Rotation2d(Math.PI/2);
+        Pose2d start = new Pose2d(1.22743, 2.748026, startAngle);
+        Pose2d ball = new Pose2d(1.42743, 2.748026, ballAngle);
+        Pose2d score = new Pose2d(1.42743, 3.048026, scoreAngle);
+    
+        ArrayList<Pose2d> waypoints = new ArrayList<>();
+        waypoints.add(start);
+        waypoints.add(ball);
+        waypoints.add(score);
+        return TrajectoryGenerator.generateTrajectory(waypoints, config);
+    }
 }
