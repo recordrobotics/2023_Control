@@ -46,11 +46,11 @@ public class Vision extends SubsystemBase{
             PhotonTrackedTarget target = result.getBestTarget();//Choose the closest Apriltag
             int targetID = target.getFiducialId();//get the ID
             Transform3d bestRobotToTarget = target.getBestCameraToTarget().plus(robotToCam.inverse());//getting the transform from the robot center to the tag. This transform's values are robot relative, and so will be converted to global coordinates.
-            double yaw = target.getYaw();//getting the angle to the robot from the center of the april tag.
+            double yaw = target.getYaw()*Math.PI/180;//getting the angle to the robot from the center of the april tag.
             double distance = Math.sqrt(bestRobotToTarget.getX()*bestRobotToTarget.getX() + bestRobotToTarget.getY()*bestRobotToTarget.getY());//getting the distance between the camera and tag from the x and y components of the transform.
             double x_transform = Math.cos(yaw)*distance;//getting the x transform from the tag to the robot.
             double y_transform = Math.sin(yaw)*distance;//getting the y transform from the tag to the robot.
-            double global_x = tags[targetID][0] + x_transform;//the x transform from the tag to the robot is added to the tag's x coordinate to get the robot's global x coordinate.
+            double global_x = tags[targetID][0] + Math.cos(tags[targetID][3])*x_transform;//the x transform from the tag to the robot is added to the tag's x coordinate to get the robot's global x coordinate.
             double global_y = tags[targetID][1] + y_transform;//the y transform from the tag to the robot is added to the tag's y coordinate to get the robot's global y coordinate.
             double global_theta = tags[targetID][3] + Math.PI + bestRobotToTarget.getRotation().toRotation2d().getRadians(); //getting the orientation of the robot from the tag's orientation and the transform. Pi is added because if the camera sees the tag, it is necessarily looking in the direction opposite the tag's orientation.
             double[] globalPose = {global_x, global_y, global_theta};//returns a [x, y, theta] vector. The z of the robot is irrelevant for pose estimation this year, and so ignored here.

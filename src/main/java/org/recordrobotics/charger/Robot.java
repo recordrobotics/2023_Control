@@ -56,6 +56,7 @@ public class Robot extends TimedRobot {
          _robotContainer = new RobotContainer();
          //var trajectory = Trajectories.getTrajectory(null, Trajectories.config);//TODO: starting pose
          var trajectory = Trajectories.testTrajectory(new Pose2d(1.22743, 2.748026, new Rotation2d(0)), Trajectories.config);
+         //var trajectory = Trajectories.visTestTrajectory(new Pose2d(1.62743, 2.748026, new Rotation2d(Math.PI)), Trajectories.config);
          field = new Field2d();
          SmartDashboard.putData(field);
          field.getObject("traj").setTrajectory(trajectory);

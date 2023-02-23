@@ -39,4 +39,17 @@ public class Trajectories {
         waypoints.add(score);
         return TrajectoryGenerator.generateTrajectory(waypoints, config);
     }
+
+    public static Trajectory visTestTrajectory(Pose2d start, TrajectoryConfig config){
+        Rotation2d Angle1 = new Rotation2d(Math.PI/2);
+        Rotation2d Angle2 = new Rotation2d(0);
+        Pose2d Pose1 = new Pose2d(1.32743, 2.748026, Angle1);
+        Pose2d Pose2 = new Pose2d(1.32743, 3.248026, Angle2);
+    
+        ArrayList<Pose2d> waypoints = new ArrayList<>();
+        waypoints.add(start);
+        waypoints.add(Pose1);
+        waypoints.add(Pose2);
+        return TrajectoryGenerator.generateTrajectory(waypoints, config);
+    }
 }
