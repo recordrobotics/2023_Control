@@ -27,20 +27,31 @@ public class Vision extends SubsystemBase{
         {1.02743, 1.071626, 0.462788, 0}}; //tag 8
     double[] fieldDimensions = {16.54175, 8.0137};//x, y. The origin is at the bottom corner of the blue alliance wall as seen on the field drawings. 0 radians is parallel to the positive x-axis. Distances are meters.
 
+    public static double getTagAngle(PhotonTrackedTarget target){//Currently not in use, but being left in for future reference.
+		double bottomLeftY = target.getDetectedCorners().get(0).y;
+		double topRightX = target.getDetectedCorners().get(2).x;
+		double topLeftX = target.getDetectedCorners().get(3).x;
+		double topLeftY = target.getDetectedCorners().get(3).y;
+		double height = topLeftY - bottomLeftY;
+		double width = topLeftX - topRightX;
+		double angle = Math.asin(width/height);
+		return angle;
+	}
+
     public static double[] getVisionPoseEstimate(PhotonCamera camera, Transform3d robotToCam){
         var result = camera.getLatestResult();//get a frame from the camera
         boolean hasTargets = result.hasTargets();//check for targets. This MUST be checked for, otherwise an error will occur if there isn't a target.
         if (hasTargets){
             PhotonTrackedTarget target = result.getBestTarget();//Choose the closest Apriltag
             int targetID = target.getFiducialId();//get the ID
-            Transform3d bestCameraToTarget = target.getBestCameraToTarget();//getting the transform from the camera to the tag. This transform's values are robot relative, and so will be converted to global coordinates.
+            Transform3d bestRobotToTarget = target.getBestCameraToTarget().plus(robotToCam.inverse());//getting the transform from the robot center to the tag. This transform's values are robot relative, and so will be converted to global coordinates.
             double yaw = target.getYaw();//getting the angle to the robot from the center of the april tag.
-            double distance = Math.sqrt(bestCameraToTarget.getX()*bestCameraToTarget.getX() + bestCameraToTarget.getY()*bestCameraToTarget.getY());//getting the distance between the camera and tag from the x and y components of the transform.
+            double distance = Math.sqrt(bestRobotToTarget.getX()*bestRobotToTarget.getX() + bestRobotToTarget.getY()*bestRobotToTarget.getY());//getting the distance between the camera and tag from the x and y components of the transform.
             double x_transform = Math.cos(yaw)*distance;//getting the x transform from the tag to the robot.
             double y_transform = Math.sin(yaw)*distance;//getting the y transform from the tag to the robot.
             double global_x = tags[targetID][0] + x_transform;//the x transform from the tag to the robot is added to the tag's x coordinate to get the robot's global x coordinate.
             double global_y = tags[targetID][1] + y_transform;//the y transform from the tag to the robot is added to the tag's y coordinate to get the robot's global y coordinate.
-            double global_theta = tags[targetID][3] + Math.PI + bestCameraToTarget.getRotation().toRotation2d().getRadians(); //getting the orientation of the robot from the tag's orientation and the transform. Pi is added because if the camera sees the tag, it is necessarily looking in the direction opposite the tag's orientation.
+            double global_theta = tags[targetID][3] + Math.PI + bestRobotToTarget.getRotation().toRotation2d().getRadians(); //getting the orientation of the robot from the tag's orientation and the transform. Pi is added because if the camera sees the tag, it is necessarily looking in the direction opposite the tag's orientation.
             double[] globalPose = {global_x, global_y, global_theta};//returns a [x, y, theta] vector. The z of the robot is irrelevant for pose estimation this year, and so ignored here.
             return globalPose;
         } else
@@ -52,15 +63,22 @@ public class Vision extends SubsystemBase{
         boolean hasTargets = result.hasTargets();//check for targets. This MUST be checked for, otherwise an error will occur if there isn't a target.
         if (hasTargets){
             PhotonTrackedTarget target = result.getBestTarget();//Choose the closest colored object of the type being looked for
-            Transform3d bestCameraToTarget = target.getBestCameraToTarget();//getting the transform from the camera to the object. These coordinates are robot-relative, and so for trajectory following will be converted to global coordinates below.
+            Transform3d bestRobotToTarget = target.getBestCameraToTarget().plus(robotToCam.inverse());//getting the transform from the robot center to the object. These coordinates are robot-relative, and so for trajectory following will be converted to global coordinates below.
             Pose2d robotPose = estimator.getEstimatedPosition();
-            double distance = Math.sqrt(bestCameraToTarget.getX()*bestCameraToTarget.getX() + bestCameraToTarget.getY()*bestCameraToTarget.getY());//getting the distance between the camera and the object from the x and y components of the transform.
+            double distance = Math.sqrt(bestRobotToTarget.getX()*bestRobotToTarget.getX() + bestRobotToTarget.getY()*bestRobotToTarget.getY());//getting the distance between the camera and the object from the x and y components of the transform.
             double globalX = Math.cos(robotPose.getRotation().getRadians())*distance;
             double globalY = Math.sin(robotPose.getRotation().getRadians())*distance;
-            double globalTheta = bestCameraToTarget.getRotation().toRotation2d().getRadians() + robotPose.getRotation().getRadians();
+            double globalTheta = bestRobotToTarget.getRotation().toRotation2d().getRadians() + robotPose.getRotation().getRadians();
             double[] globalPose = {globalX, globalY, globalTheta};
             return globalPose;
         } else
         return null;
     }
+
+    public static boolean checkForTarget(PhotonCamera camera, Transform3d robotToCam){
+        var result = camera.getLatestResult();//get a frame from the camera
+        boolean hasTargets = result.hasTargets();//check for targets. This MUST be checked for, otherwise an error will occur if there isn't a target.
+        return hasTargets;
+    }
 }
+//TODO: figure out integration of colored objects and similar into auto routine, make vision more reliable, pipeline switching, integration into teleop

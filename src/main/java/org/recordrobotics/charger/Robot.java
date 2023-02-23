@@ -4,9 +4,9 @@
 
 package org.recordrobotics.charger;
 
-import java.util.ArrayList;
 import org.recordrobotics.charger.subsystems.Drive;
 import org.recordrobotics.charger.subsystems.NavSensor;
+import org.recordrobotics.charger.subsystems.Trajectories;
 import org.recordrobotics.charger.subsystems.Vision;
 
 import edu.wpi.first.math.controller.RamseteController;
@@ -16,7 +16,6 @@ import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.kinematics.DifferentialDriveKinematics;
 import edu.wpi.first.math.trajectory.Trajectory;
 import edu.wpi.first.math.trajectory.TrajectoryConfig;
-import edu.wpi.first.math.trajectory.TrajectoryGenerator;
 import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.Timer;
@@ -38,29 +37,25 @@ public class Robot extends TimedRobot {
     private Trajectory trajectory;
     Timer timer = new Timer();
 
+
+    //Temporary time thing I am writing
+    /*public class newTimer extends TimedRobot {
+        long init_time;
+        long stopwatch;
+    }
+    Date date = new Date();
+    long start_time = date.getTime();
+    newTimer tempTimer = new newTimer();*/
+
+
     private final RamseteController ramseteController = new RamseteController();
 
     private Field2d field;
 
-    DifferentialDriveKinematics kinematics = new DifferentialDriveKinematics(Units.inchesToMeters(20.75));
+    DifferentialDriveKinematics kinematics = new DifferentialDriveKinematics(Units.inchesToMeters(22));
     DifferentialDrivePoseEstimator estimator = new DifferentialDrivePoseEstimator(kinematics, new Rotation2d(gyro.getYaw()), drive.getLeftEncoder(), drive.getRightEncoder(), null); //The default standard deviations of the model states are 0.02 meters for x, 0.02 meters for y, and 0.01 radians for heading. The default standard deviations of the vision measurements are 0.1 meters for x, 0.1 meters for y, and 0.1 radians for heading.
     //TODO: figure out initial pose strategy above
 
-    TrajectoryConfig config = new TrajectoryConfig(2, 1); //DEFINE MAX VELOCITY AND ACCELERATION HERE
-
-    public Trajectory getTrajectory(Pose2d start, TrajectoryConfig config) {
-        Rotation2d angle = new Rotation2d(Math.PI/4);
-        Pose2d ball = new Pose2d(Units.inchesToMeters(277.949), Units.inchesToMeters(36.000), angle);
-        Pose2d score = new Pose2d(Units.inchesToMeters(69.438), Units.inchesToMeters(42.000), angle);
-    
-        ArrayList<Pose2d> waypoints = new ArrayList<>();
-        waypoints.add(start);
-        waypoints.add(ball);
-        waypoints.add(score);
-    
-        return TrajectoryGenerator.generateTrajectory(waypoints, config);
-        }
-    
     /**
      * Robot initialization
      */
@@ -70,7 +65,7 @@ public class Robot extends TimedRobot {
         System.out.println("Rootinit");
         // Create container
         _robotContainer = new RobotContainer(); 
-        var trajectory = getTrajectory(null, config);//TODO: starting pose
+        var trajectory = Trajectories.getTrajectory(null, Trajectories.config);//TODO: starting pose
         field = new Field2d();
         SmartDashboard.putData(field);
         field.getObject("traj").setTrajectory(trajectory);
@@ -118,7 +113,6 @@ public class Robot extends TimedRobot {
         if (_autonomousCommand != null) {
             _autonomousCommand.schedule();
         }
-        //TODO: set an initial value for the estimator here somehow?
     }
 
     /**
@@ -129,7 +123,14 @@ public class Robot extends TimedRobot {
         System.out.println("Autonomous periodic");
         double[] globalPose = Vision.getVisionPoseEstimate(vision.camera, vision.robotToCam);
         Pose2d visPose = new Pose2d(globalPose[0], globalPose[1], new Rotation2d(globalPose[2]));
-        estimator.addVisionMeasurement(visPose, Timer.getFPGATimestamp());
+        if (Vision.checkForTarget(vision.camera, vision.robotToCam)){
+            estimator.addVisionMeasurement(visPose, timer.get());
+            /*Date current_date = new Date();
+            long current_time = current_date.getTime();
+            long stopwatch = 0;
+
+            estimator.addVisionMeasurement(visPose, 5);*/
+        }
         estimator.update(new Rotation2d(gyro.getYaw()), drive.getLeftEncoder(), drive.getRightEncoder());
         if (timer.get() < trajectory.getTotalTimeSeconds()) {
             // Get the desired pose from the trajectory.
@@ -169,5 +170,4 @@ public class Robot extends TimedRobot {
 
 
     }
-
-//}
+    
