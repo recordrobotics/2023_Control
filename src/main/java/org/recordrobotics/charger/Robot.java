@@ -54,13 +54,10 @@ public class Robot extends TimedRobot {
          //System.out.println("Robotinit");
          // Create container
          _robotContainer = new RobotContainer();
-         var trajectory = Trajectories.getTrajectory(new Pose2d(1.5, 3.0, new Rotation2d(3.0)), Trajectories.config);//TODO: starting pose
+         var trajectory = Trajectories.getTrajectory(null, Trajectories.config);//TODO: starting pose
          field = new Field2d();
          SmartDashboard.putData(field);
          field.getObject("traj").setTrajectory(trajectory);
- 
- 
-         System.out.println("LMAOOO (end of robot init)");
      }
  
  
@@ -73,7 +70,16 @@ public class Robot extends TimedRobot {
          // Run command scheduler
          CommandScheduler.getInstance().run();
      }
- 
+
+     /**
+	 * Runs when robot enters disabled mode
+	 */
+     @Override
+	public void disabledInit() {
+		System.out.println("Disabled init");
+		//_robotContainer.resetCommands();
+	}
+    
     /**
      * Runs every tick during disabled mode
      */
