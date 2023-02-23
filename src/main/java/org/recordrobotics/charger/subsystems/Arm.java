@@ -87,7 +87,7 @@ public class Arm extends SubsystemBase {
 		angles[0] = Math.toDegrees(2 * Math.PI - angleC - Math.atan(targetY / targetX)) + ORIGIN_OFFSET;
 		// law of sines
 		// angle of rotation for the second motor
-		angles[1] = Math.toDegrees(Math.asin(side3 * Math.sin(angleC) / SECOND_ARM_LENGTH)) + CHANGE_OFFSET;
+		angles[1] = -Math.toDegrees(Math.asin(side3 * Math.sin(angleC) / SECOND_ARM_LENGTH)) + CHANGE_OFFSET;
 		_angles = angles;
 		return angles;
 	}

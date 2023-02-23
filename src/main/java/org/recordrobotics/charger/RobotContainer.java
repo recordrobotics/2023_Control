@@ -12,10 +12,10 @@ import org.recordrobotics.charger.commands.manual.ManualArm;
 import org.recordrobotics.charger.commands.manual.ManualDrive;
 import org.recordrobotics.charger.control.DoubleControl;
 import org.recordrobotics.charger.control.IControlInput;
-import org.recordrobotics.charger.control.SingleControl;
 import org.recordrobotics.charger.subsystems.*;
 import org.recordrobotics.charger.util.Pair;
 
+import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
 import edu.wpi.first.wpilibj2.command.Command;
@@ -33,6 +33,8 @@ public class RobotContainer {
 	private IControlInput _controlInput;
 	private Drive _drive;
 	private Arm _arm;
+	private PIDController _pid1;
+	private PIDController _pid2;
 
 	// Commands
 	@SuppressWarnings({"PMD.SingularField"})
@@ -41,17 +43,19 @@ public class RobotContainer {
 	/** The container for the robot. Contains subsystems, OI devices, and commands. */
 	public RobotContainer() {
 		// Configure the button bindings
-		_controlInput = new SingleControl(RobotMap.Control.LEGACY_GAMEPAD);//DoubleControl(RobotMap.Control.DOUBLE_GAMEPAD_1, RobotMap.Control.DOUBLE_GAMEPAD_2);
-		//_drive = new Drive();
+		_controlInput = new DoubleControl(RobotMap.Control.DOUBLE_GAMEPAD_1, RobotMap.Control.DOUBLE_GAMEPAD_2);
+		_drive = new Drive();
 		_arm = new Arm();
+		_pid1 = new PIDController(0, 0, 0);
+		_pid2 = new PIDController(0, 0, 0);
 
 		initTeleopCommands();
 	}
 
 	private void initTeleopCommands() {
 		_teleopPairs = new ArrayList<>();
-		//_teleopPairs.add(new Pair<Subsystem, Command>(_drive, new ManualDrive(_drive, _controlInput)));
-		_teleopPairs.add(new Pair<Subsystem, Command>(_arm, new ManualArm(_arm, _controlInput)));
+		_teleopPairs.add(new Pair<Subsystem, Command>(_drive, new ManualDrive(_drive, _controlInput)));
+		_teleopPairs.add(new Pair<Subsystem, Command>(_arm, new ManualArm(_arm, _controlInput, _pid1, _pid2)));
 	}
 
 	/**
