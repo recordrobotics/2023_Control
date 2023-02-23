@@ -18,13 +18,11 @@ public class Arm extends SubsystemBase {
 	private WPI_TalonFX _changeMotor = new WPI_TalonFX(RobotMap.Arm.CHANGE_MOTOR_PORT);
 	private TalonFXSensorCollection _originCollection = new TalonFXSensorCollection(new BaseTalon(RobotMap.Arm.ORIGIN_MOTOR_PORT, "origin"));
 	private TalonFXSensorCollection _changeCollection = new TalonFXSensorCollection(new BaseTalon(RobotMap.Arm.ORIGIN_MOTOR_PORT, "change"));
-	private static final double FIRST_ARM_LENGTH = 30;
-	private static final double SECOND_ARM_LENGTH = 30;
+	private static final double ARM_LENGTH = 38;
 
 	// IN DEGREES
 	// negative is in the same direction as the rotation, positive is in the opposite
 	private static final double ORIGIN_OFFSET = 0;
-	private static final double CHANGE_OFFSET = 0;
 
 	private static final double TICKS_PER_REV = 2048;
 
@@ -65,21 +63,15 @@ public class Arm extends SubsystemBase {
 
 	/**
 	 * moves motors to reach a certain point on a cartesian plane, with the first motor as the origin point
+	 * WARNING: DOES NOT WORK FOR GROUNDED PICKUPS
 	 * @param targetX x value of the cartesian point
 	 * @param targetY y value of the cartesian point
 	 * @return angles of rotation in array of length 2 IN DEGREES
 	 */
 	public double[] getAnglesOfRotation(double targetX, double targetY) {
 		double[] angles = new double[2];
-		// law of cosines
-		double side3 = Math.sqrt(Math.pow(targetX, 2) + Math.pow(targetY, 2));
-		double angleC = Math.acos((Math.pow(SECOND_ARM_LENGTH, 2) - Math.pow(FIRST_ARM_LENGTH, 2) - Math.pow(side3, 2))/(side3 * FIRST_ARM_LENGTH * 2));
-		// angle of rotation for the first motor
-		angles[0] = Math.toDegrees(2 * Math.PI - angleC - Math.atan(targetY / targetX)) + ORIGIN_OFFSET;
-		// law of sines
-		// angle of rotation for the second motor
-		angles[1] = Math.toDegrees(Math.asin(side3 * Math.sin(angleC) / SECOND_ARM_LENGTH)) + CHANGE_OFFSET;
-		_angles = angles;
+		angles[0] = Math.toDegrees(Math.PI / 2 - Math.asin(targetY / ARM_LENGTH)) + ORIGIN_OFFSET;
+		angles[1] = 180 - angles[0];
 		return angles;
 	}
 
