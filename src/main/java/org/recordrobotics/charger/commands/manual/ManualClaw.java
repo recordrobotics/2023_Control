@@ -42,7 +42,6 @@ public class ManualClaw extends CommandBase {
 		switch (_controls.getClawTurn()) {
 			case CUBE:
 				target = CUBE_POS;
-				_claw.turn(TURN_SPEED);
 				break;
 			case CONE:
 				target = CONE_POS;
@@ -50,7 +49,7 @@ public class ManualClaw extends CommandBase {
 			default:
 				target = NEUTRAL_POS;
 				break;
-			}
+		}
 
 		// Floats do not compare cleanly
 		if (near(currentPos, target)) {
@@ -77,4 +76,5 @@ public class ManualClaw extends CommandBase {
 	private boolean near(double num0, double num1) {
 		return Math.abs(num0 - num1) < ERROR_MARGIN;
 	}
+
 }
