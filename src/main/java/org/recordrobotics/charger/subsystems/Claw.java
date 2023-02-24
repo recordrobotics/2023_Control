@@ -31,7 +31,7 @@ public class Claw extends SubsystemBase {
 
 	@Override
 	public void periodic() {
-		_voltageEntry.setDouble(_motor.getBusVoltage());
+		_voltageEntry.setDouble(_motor.getVoltageCompensationNominalVoltage());
 		_encoderEntry.setDouble(getPosition());
 	}
 
