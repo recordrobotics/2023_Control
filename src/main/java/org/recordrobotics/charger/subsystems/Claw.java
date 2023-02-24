@@ -19,7 +19,6 @@ public class Claw extends SubsystemBase {
 
 	private GenericEntry _voltageEntry;
 	private GenericEntry _encoderEntry;
-	private GenericEntry _voltageEntry;
 
 	public Claw() {
 		_motor.set(0);

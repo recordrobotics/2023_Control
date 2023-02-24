@@ -4,13 +4,10 @@ import edu.wpi.first.wpilibj.XboxController;
 
 public class DoubleControl implements IControlInput {
 
-	// private static final double TRIGGER_THRESHOLD = 0.25
+	private static final double TRIGGER_THRESHOLD = 0.25;
 
 	private XboxController _gamepad1;
 	private XboxController _gamepad2;
-
-	private boolean _cube;
-	private boolean _cone;
 
 	public DoubleControl(int port1, int port2) {
 		_gamepad1 = new XboxController(port1);
@@ -29,10 +26,10 @@ public class DoubleControl implements IControlInput {
 
 	@Override
 	public ClawState getClawTurn() {
-		if (_gamepad2.getLeftTriggerAxis() < _TRIGGER_THRESHOLD) {
+		if (_gamepad2.getLeftTriggerAxis() < TRIGGER_THRESHOLD) {
 			return ClawState.OPEN;
 		}
-		else if (_gamepad2.getRightTriggerAxis() < _TRIGGER_THRESHOLD) {
+		else if (_gamepad2.getRightTriggerAxis() < TRIGGER_THRESHOLD) {
 			return ClawState.CLOSE;
 		}
 		else {

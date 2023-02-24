@@ -10,6 +10,7 @@ public class ManualClaw extends CommandBase {
 	private IControlInput _controls;
 
 	private static final double TURN_SPEED = 0.2;
+	private static final double MAX = 0.1;
 	// TODO: find a good value experimentally
 
 	public ManualClaw(Claw claw, IControlInput controls) {
@@ -34,7 +35,7 @@ public class ManualClaw extends CommandBase {
 	public void execute() {
 		switch (_controls.getClawTurn()) {
 			case OPEN:
-				if (_claw.getPosition() < 0.1) {
+				if (_claw.getPosition() < MAX) {
 					_claw.turn(TURN_SPEED);
 				} else {
 					_claw.turn(0);
