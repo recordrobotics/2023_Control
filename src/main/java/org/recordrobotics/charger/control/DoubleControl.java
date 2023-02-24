@@ -1,7 +1,5 @@
 package org.recordrobotics.charger.control;
 
-import org.recordrobotics.charger.commands.manual.ArmPosition;
-
 import edu.wpi.first.wpilibj.XboxController;
 
 public class DoubleControl implements IControlInput {
