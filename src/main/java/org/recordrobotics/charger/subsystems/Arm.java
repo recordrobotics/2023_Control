@@ -24,6 +24,7 @@ public class Arm extends SubsystemBase {
 
 	private static final double TICKS_PER_REV = 2048;
 	private static final double GEAR_RATIO = 16;
+	private static final double ERROR_MARGIN = 10;
 
 	private GenericEntry _entryAngles;
 
@@ -44,20 +45,28 @@ public class Arm extends SubsystemBase {
 	 * @param angles the angles to turn the motors (first = origin motor, second = change motor)
 	 */
 	public void moveAngles(double speed, double... angles) {
-		if (getOriginEncoder() < angles[0]) {
+		if (near(getOriginEncoder(), angles[0])) {
+			_originMotor.set(0);
+		} else if (getOriginEncoder() < angles[0]) {
 			_originMotor.set(speed);
 		} else if (getOriginEncoder() > angles[0]) {
 			_originMotor.set(-speed);
 		} else {
 			_originMotor.set(0);
 		}
-		if (getChangeEncoder() > angles[1]) {
+		if (near(getChangeEncoder(), angles[1])) {
+			_changeMotor.set(0);
+		} else if (getChangeEncoder() > angles[1]) {
 			_changeMotor.set(-speed);
 		} else if (getChangeEncoder() < angles[1]) {
 			_changeMotor.set(speed);
 		} else {
 			_changeMotor.set(0);
 		}
+	}
+
+	private boolean near(double encoderVal, double angleVal) {
+		return Math.abs(encoderVal - angleVal) < ERROR_MARGIN;
 	}
 
 	/**
