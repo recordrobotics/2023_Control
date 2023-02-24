@@ -4,8 +4,6 @@ import org.recordrobotics.charger.Constants;
 import org.recordrobotics.charger.RobotMap;
 
 import com.ctre.phoenix.motorcontrol.NeutralMode;
-import com.ctre.phoenix.motorcontrol.TalonFXSensorCollection;
-import com.ctre.phoenix.motorcontrol.can.BaseTalon;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
 
 import edu.wpi.first.networktables.GenericEntry;
@@ -16,8 +14,6 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 public class Arm extends SubsystemBase {
 	private WPI_TalonFX _originMotor = new WPI_TalonFX(RobotMap.Arm.ORIGIN_MOTOR_PORT);
 	private WPI_TalonFX _changeMotor = new WPI_TalonFX(RobotMap.Arm.CHANGE_MOTOR_PORT);
-	private TalonFXSensorCollection _originCollection = new TalonFXSensorCollection(new BaseTalon(RobotMap.Arm.ORIGIN_MOTOR_PORT, "origin"));
-	private TalonFXSensorCollection _changeCollection = new TalonFXSensorCollection(new BaseTalon(RobotMap.Arm.CHANGE_MOTOR_PORT, "change"));
 	private static final double FIRST_ARM_LENGTH = 30;
 	private static final double SECOND_ARM_LENGTH = 30;
 
@@ -34,8 +30,8 @@ public class Arm extends SubsystemBase {
 	private double[] _angles = new double[2];
 
 	public Arm() {
-		_originCollection.setIntegratedSensorPosition(0, 0);
-		_changeCollection.setIntegratedSensorPosition(0, 0);
+		_originMotor.setSelectedSensorPosition(0);
+		_changeMotor.setSelectedSensorPosition(0);
 		_originMotor.setNeutralMode(NeutralMode.Brake);
 		_changeMotor.setNeutralMode(NeutralMode.Brake);
 
@@ -111,22 +107,22 @@ public class Arm extends SubsystemBase {
 	 * @return value of origin motor encoder in DEGREES
 	 */
 	public double getOriginEncoder() {
-		return _originCollection.getIntegratedSensorPosition() / TICKS_PER_REV * 360 / GEAR_RATIO;
+		return _originMotor.getSelectedSensorPosition() / TICKS_PER_REV * 360 / GEAR_RATIO;
 	}
 
 	/**
 	 * @return value of change motor encoder in DEGREES
 	 */
 	public double getChangeEncoder() {
-		return _changeCollection.getIntegratedSensorPosition() / TICKS_PER_REV * 360 / GEAR_RATIO;
+		return _changeMotor.getSelectedSensorPosition() / TICKS_PER_REV * 360 / GEAR_RATIO;
 	}
 
 	/**
 	 * resets origin and change motor encoders
 	 */
 	public void resetEncoders() {
-		_originCollection.setIntegratedSensorPosition(0, 0);
-		_changeCollection.setIntegratedSensorPosition(0, 0);
+		_originMotor.setSelectedSensorPosition(0);
+		_changeMotor.setSelectedSensorPosition(0);
 	}
 
 	@Override
