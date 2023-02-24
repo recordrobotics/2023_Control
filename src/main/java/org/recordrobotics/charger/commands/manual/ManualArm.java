@@ -12,10 +12,10 @@ public class ManualArm extends CommandBase {
 	private double _speed = 0.1;
 	private PIDController _originPid;
 	private PIDController _changePid;
-	private double _okp;
+	private double _okp = 0.01;
 	private double _oki;
 	private double _okd;
-	private double _ckp;
+	private double _ckp = 0.01;
 	private double _cki;
 	private double _ckd;
 	private double _changeTolerance = 5;
@@ -54,13 +54,13 @@ public class ManualArm extends CommandBase {
 				angles = _arm.getRelatedAngles(30);
 				break;
 			case THIRD:
-				angles = _arm.getRelatedAngles(42);
+				angles = _arm.getRelatedAngles(22);
 				break;
 			case GROUND:
 				angles = _arm.getAnglesOfRotation(40, 42);
 				break;
 			case SUBSTATION:
-				angles = _arm.getRelatedAngles(42);
+				angles = _arm.getRelatedAngles(28);
 				break;
 			default:
 				angles = _arm.resetPositions();

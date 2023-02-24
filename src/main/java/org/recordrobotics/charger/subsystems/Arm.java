@@ -84,10 +84,10 @@ public class Arm extends SubsystemBase {
 		double side3 = Math.sqrt(Math.pow(targetX, 2) + Math.pow(targetY, 2));
 		double angleC = Math.acos((Math.pow(SECOND_ARM_LENGTH, 2) - Math.pow(FIRST_ARM_LENGTH, 2) - Math.pow(side3, 2))/(side3 * FIRST_ARM_LENGTH * 2));
 		// angle of rotation for the first motor
-		angles[0] = Math.toDegrees(2 * Math.PI - angleC - Math.atan(targetY / targetX)) + ORIGIN_OFFSET;
+		angles[0] = -(Math.toDegrees(2 * Math.PI - angleC - Math.atan(targetY / targetX)) + ORIGIN_OFFSET);
 		// law of sines
 		// angle of rotation for the second motor
-		angles[1] = -Math.toDegrees(Math.asin(side3 * Math.sin(angleC) / SECOND_ARM_LENGTH)) + CHANGE_OFFSET;
+		angles[1] = -(Math.toDegrees(Math.asin(side3 * Math.sin(angleC) / SECOND_ARM_LENGTH)) + CHANGE_OFFSET);
 		_angles = angles;
 		return angles;
 	}
@@ -119,14 +119,14 @@ public class Arm extends SubsystemBase {
 	 * @return value of origin motor encoder in DEGREES
 	 */
 	public double getOriginEncoder() {
-		return _originCollection.getIntegratedSensorPosition() / TICKS_PER_REV * 360 / GEAR_RATIO;
+		return _originMotor.getSelectedSensorPosition() / TICKS_PER_REV * 360 / GEAR_RATIO;
 	}
 
 	/**
 	 * @return value of change motor encoder in DEGREES
 	 */
 	public double getChangeEncoder() {
-		return _changeCollection.getIntegratedSensorPosition() / TICKS_PER_REV * 360 / GEAR_RATIO;
+		return _changeMotor.getSelectedSensorPosition() / TICKS_PER_REV * 360 / GEAR_RATIO;
 	}
 
 	/**
