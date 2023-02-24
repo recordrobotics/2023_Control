@@ -9,7 +9,7 @@ public class ManualClaw extends CommandBase {
 	private Claw _claw;
 	private IControlInput _controls;
 
-	private static final double TURN_SPEED = 0.2;
+	private static final double TURN_SPEED = 0.05;
 	private static final double MAX = 0.1;
 	// TODO: find a good value experimentally
 
