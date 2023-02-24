@@ -14,6 +14,9 @@ import org.recordrobotics.charger.control.IControlInput;
 import org.recordrobotics.charger.subsystems.*;
 import org.recordrobotics.charger.util.Pair;
 
+import edu.wpi.first.math.controller.PIDController;
+import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
+import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Subsystem;
 
@@ -28,6 +31,8 @@ public class RobotContainer {
 	private IControlInput _controlInput;
 	private Drive _drive;
 	private Arm _arm;
+	private PIDController _pid1;
+	private PIDController _pid2;
 
 	// Commands
 	private List<Pair<Subsystem, Command>> _teleopPairs;
@@ -38,6 +43,8 @@ public class RobotContainer {
 		_controlInput = new DoubleControl(RobotMap.Control.DOUBLE_GAMEPAD_1, RobotMap.Control.DOUBLE_GAMEPAD_2);
 		_drive = new Drive();
 		_arm = new Arm();
+		_pid1 = new PIDController(0, 0, 0);
+		_pid2 = new PIDController(0, 0, 0);
 
 		initTeleopCommands();
 	}
@@ -45,7 +52,7 @@ public class RobotContainer {
 	private void initTeleopCommands() {
 		_teleopPairs = new ArrayList<>();
 		_teleopPairs.add(new Pair<Subsystem, Command>(_drive, new ManualDrive(_drive, _controlInput)));
-		_teleopPairs.add(new Pair<Subsystem, Command>(_arm, new ManualArm(_arm, _controlInput)));
+		_teleopPairs.add(new Pair<Subsystem, Command>(_arm, new ManualArm(_arm, _controlInput, _pid1, _pid2)));
 	}
 
 	/**

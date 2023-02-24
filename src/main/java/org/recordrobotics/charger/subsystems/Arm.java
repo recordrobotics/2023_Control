@@ -19,8 +19,8 @@ public class Arm extends SubsystemBase {
 
 	// IN DEGREES
 	// negative is in the same direction as the rotation, positive is in the opposite
-	private static final double ORIGIN_OFFSET = 0;
-	private static final double CHANGE_OFFSET = 0;
+	private static final double ORIGIN_START_OFFSET = 0;
+	private static final double CHANGE_START_OFFSET = -90;
 
 	private static final double TICKS_PER_REV = 2048;
 	private static final double GEAR_RATIO = 16;
@@ -31,8 +31,8 @@ public class Arm extends SubsystemBase {
 	private double[] _angles = new double[2];
 
 	public Arm() {
-		_originMotor.setSelectedSensorPosition(0);
-		_changeMotor.setSelectedSensorPosition(0);
+		_originMotor.setSelectedSensorPosition(ORIGIN_START_OFFSET);
+		_changeMotor.setSelectedSensorPosition(CHANGE_START_OFFSET);
 		_originMotor.setNeutralMode(NeutralMode.Brake);
 		_changeMotor.setNeutralMode(NeutralMode.Brake);
 
@@ -81,10 +81,10 @@ public class Arm extends SubsystemBase {
 		double side3 = Math.sqrt(Math.pow(targetX, 2) + Math.pow(targetY, 2));
 		double angleC = Math.acos((Math.pow(SECOND_ARM_LENGTH, 2) - Math.pow(FIRST_ARM_LENGTH, 2) - Math.pow(side3, 2))/(side3 * FIRST_ARM_LENGTH * 2));
 		// angle of rotation for the first motor
-		angles[0] = Math.toDegrees(2 * Math.PI - angleC - Math.atan(targetY / targetX)) + ORIGIN_OFFSET;
+		angles[0] = -Math.toDegrees(2 * Math.PI - angleC - Math.atan(targetY / targetX));
 		// law of sines
 		// angle of rotation for the second motor
-		angles[1] = Math.toDegrees(Math.asin(side3 * Math.sin(angleC) / SECOND_ARM_LENGTH)) + CHANGE_OFFSET;
+		angles[1] = -Math.toDegrees(Math.asin(side3 * Math.sin(angleC) / SECOND_ARM_LENGTH));
 		_angles = angles;
 		return angles;
 	}
@@ -99,8 +99,8 @@ public class Arm extends SubsystemBase {
 		double[] angles = new double[2];
 		// core angle is the complement of angle 1 and supplement of angle 2
 		double coreAngle = Math.asin(targetY / FIRST_ARM_LENGTH);
-		angles[0] = Math.toDegrees(Math.PI / 2 - coreAngle) + ORIGIN_OFFSET;
-		angles[1] = Math.toDegrees(Math.PI - coreAngle) + ORIGIN_OFFSET;
+		angles[0] = Math.toDegrees(Math.PI / 2 - coreAngle);
+		angles[1] = Math.toDegrees(Math.PI - coreAngle);
 		return angles;
 	}
 
