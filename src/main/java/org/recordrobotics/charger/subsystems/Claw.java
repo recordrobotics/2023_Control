@@ -13,20 +13,21 @@ import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
 public class Claw extends SubsystemBase {
 
-	private static final double GEAR_RATIO = 16;
+	private static final double GEAR_RATIO = 80;
 
 	private CANSparkMax _motor = new CANSparkMax(RobotMap.Claw.MOTOR_PORT, MotorType.kBrushless);
 
 	private GenericEntry _voltageEntry;
 	private GenericEntry _encoderEntry;
+	private GenericEntry _voltageEntry;
 
 	public Claw() {
 		_motor.set(0);
 		_motor.getEncoder().setPositionConversionFactor(1 / GEAR_RATIO);
 
 		ShuffleboardTab tab = Shuffleboard.getTab(Constants.constants.DATA_TAB);
-		_voltageEntry = tab.add("Voltage", 0).getEntry();
-		_encoderEntry = tab.add("Drive Encoders", 0).getEntry();
+		_voltageEntry = tab.add("Motor Voltage", 0).getEntry();
+		_encoderEntry = tab.add("Encoder Value", 0).getEntry();
 	}
 
 	@Override
