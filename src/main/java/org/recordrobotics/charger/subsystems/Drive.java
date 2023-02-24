@@ -124,6 +124,6 @@ public class Drive extends SubsystemBase {
 
 	@Override
 	public void periodic() {
-		_encoderEntry.setDouble(translateUnits(getPosition()));
+		_encoderEntry.setDouble(getPosition());
 	}
 }

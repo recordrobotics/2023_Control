@@ -48,7 +48,7 @@ public class RobotContainer {
 	}
 
 	private void initAutoCommand() {
-		_autoCommand = new AutoDrive(_drive, 0.3, 1000);
+		_autoCommand = new AutoDrive(_drive, 0.45, 1000);
 	}
 
 	/**
