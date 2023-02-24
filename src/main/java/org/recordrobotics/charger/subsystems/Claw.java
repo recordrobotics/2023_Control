@@ -17,6 +17,7 @@ public class Claw extends SubsystemBase {
 
 	private CANSparkMax _motor = new CANSparkMax(RobotMap.Claw.MOTOR_PORT, MotorType.kBrushless);
 
+	private GenericEntry _voltageEntry;
 	private GenericEntry _encoderEntry;
 
 	public Claw() {
@@ -24,12 +25,14 @@ public class Claw extends SubsystemBase {
 		_motor.getEncoder().setPositionConversionFactor(1 / GEAR_RATIO);
 
 		ShuffleboardTab tab = Shuffleboard.getTab(Constants.constants.DATA_TAB);
+		_voltageEntry = tab.add("Voltage", 0).getEntry();
 		_encoderEntry = tab.add("Drive Encoders", 0).getEntry();
 	}
 
 	@Override
 	public void periodic() {
-		_encoderEntry.setDouble(_motor.getBusVoltage());
+		_voltageEntry.setDouble(_motor.getBusVoltage());
+		_encoderEntry.setDouble(getPosition());
 	}
 
 	/**

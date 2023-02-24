@@ -27,10 +27,10 @@ public class SingleControl implements IControlInput {
 	@Override
 	public ClawState getClawTurn() {
 		if (_gamepad.getLeftTriggerAxis() < _TRIGGER_THRESHOLD) {
-			return ClawState.CUBE;
+			return ClawState.OPEN;
 		}
 		else if (_gamepad.getRightTriggerAxis() < _TRIGGER_THRESHOLD) {
-			return ClawState.CONE;
+			return ClawState.CLOSE;
 		}
 		else {
 			return ClawState.NEUTRAL;

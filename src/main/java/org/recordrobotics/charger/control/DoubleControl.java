@@ -29,10 +29,10 @@ public class DoubleControl implements IControlInput {
 	@Override
 	public ClawState getClawTurn() {
 		if (_gamepad2.getLeftTriggerAxis() < _TRIGGER_THRESHOLD) {
-			return ClawState.CUBE;
+			return ClawState.OPEN;
 		}
 		else if (_gamepad2.getRightTriggerAxis() < _TRIGGER_THRESHOLD) {
-			return ClawState.CONE;
+			return ClawState.CLOSE;
 		}
 		else {
 			return ClawState.NEUTRAL;
