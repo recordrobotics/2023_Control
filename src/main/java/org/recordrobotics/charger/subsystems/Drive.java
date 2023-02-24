@@ -36,6 +36,8 @@ public class Drive extends SubsystemBase {
 
 	private DifferentialDrive _differentialDrive = new DifferentialDrive(_leftMotors, _rightMotors);
 
+	private static final FeedbackDevice SELECTED_SENSOR = FeedbackDevice.IntegratedSensor;
+
 	private TalonFXSensorCollection[] _leftCollections = {
 		new TalonFXSensorCollection(new BaseTalon(RobotMap.DriveBase.LEFT_FRONT_MOTOR_PORT, "left1")),
 		new TalonFXSensorCollection(new BaseTalon(RobotMap.DriveBase.LEFT_MIDDLE_MOTOR_PORT, "left2")),
@@ -55,12 +57,12 @@ public class Drive extends SubsystemBase {
 	public Drive() {
 		_leftMotors.set(0);
 		_rightMotors.set(0);
-		_left[0].configSelectedFeedbackSensor(FeedbackDevice.IntegratedSensor, 0, 0);
-		_left[1].configSelectedFeedbackSensor(FeedbackDevice.IntegratedSensor, 0, 0);
-		_left[2].configSelectedFeedbackSensor(FeedbackDevice.IntegratedSensor, 0, 0);
-		_right[0].configSelectedFeedbackSensor(FeedbackDevice.IntegratedSensor, 0, 0);
-		_right[1].configSelectedFeedbackSensor(FeedbackDevice.IntegratedSensor, 0, 0);
-		_right[2].configSelectedFeedbackSensor(FeedbackDevice.IntegratedSensor, 0, 0);
+		_left[0].configSelectedFeedbackSensor(SELECTED_SENSOR, 0, 0);
+		_left[1].configSelectedFeedbackSensor(SELECTED_SENSOR, 0, 0);
+		_left[2].configSelectedFeedbackSensor(SELECTED_SENSOR, 0, 0);
+		_right[0].configSelectedFeedbackSensor(SELECTED_SENSOR, 0, 0);
+		_right[1].configSelectedFeedbackSensor(SELECTED_SENSOR, 0, 0);
+		_right[2].configSelectedFeedbackSensor(SELECTED_SENSOR, 0, 0);
 		_leftCollections[0].setIntegratedSensorPosition(0, 0);
 		_leftCollections[1].setIntegratedSensorPosition(0, 0);
 		_leftCollections[2].setIntegratedSensorPosition(0, 0);
