@@ -5,7 +5,7 @@ import org.recordrobotics.charger.subsystems.Arm;
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 
-public class ArmHoldPosition extends CommandBase{
+public class ArmHoldPosition extends CommandBase {
 	private PIDController _pid;
 	private double _tolerance = 3;
 	private Arm _arm;
@@ -13,7 +13,7 @@ public class ArmHoldPosition extends CommandBase{
 	private boolean _clawDone;
 
 	@SuppressWarnings({"PMD.UseVarargs","PMD.ArrayIsStoredDirectly"})
-	public ArmHoldPosition(Arm arm, double[] target){
+	public ArmHoldPosition(Arm arm, double[] target) {
 		_pid = new PIDController(0, 0, 0);
 		_arm = arm;
 		_target = target;
@@ -30,12 +30,12 @@ public class ArmHoldPosition extends CommandBase{
 	}
 
 	@Override
-	public boolean isFinished(){
+	public boolean isFinished() {
 		return _clawDone;
 	}
 
 	@Override
-	public void end(boolean interrupted){
+	public void end(boolean interrupted) {
 		_arm.spinOrigin(0);
 		_arm.spinChange(0);
 	}
