@@ -21,7 +21,7 @@ public class DoubleControl implements IControlInput {
 
 	@Override
 	public double getDriveLat() {
-		return -_gamepad2.getLeftX();
+		return -_gamepad1.getLeftX();
 	}
 
 	@Override

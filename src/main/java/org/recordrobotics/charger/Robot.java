@@ -5,8 +5,10 @@
 package org.recordrobotics.charger;
 
 import java.util.ArrayList;
+
 import org.recordrobotics.charger.subsystems.Drive;
 import org.recordrobotics.charger.subsystems.NavSensor;
+import org.recordrobotics.charger.subsystems.Trajectories;
 import org.recordrobotics.charger.subsystems.Vision;
 
 import edu.wpi.first.math.controller.RamseteController;
@@ -27,8 +29,8 @@ import edu.wpi.first.wpilibj2.command.CommandScheduler;
 
 @SuppressWarnings({"PMD.SystemPrintln", "PMD.FieldNamingConventions"})
 public class Robot extends TimedRobot {
-    private RobotContainer _robotContainer;
-    private Command _autonomousCommand;
+	private RobotContainer _robotContainer;
+	private Command _autonomousCommand;
 
 
     /*placeholder description*/
@@ -39,63 +41,48 @@ public class Robot extends TimedRobot {
     private NavSensor nav;
     private DifferentialDrivePoseEstimator estimator;
 
-    private final RamseteController ramseteController = new RamseteController();
+	private final RamseteController ramseteController = new RamseteController();
 
-    private Field2d field;
-
-
-
-    TrajectoryConfig config = new TrajectoryConfig(2, 1); //DEFINE MAX VELOCITY AND ACCELERATION HERE
-
-    public Trajectory getTrajectory(Pose2d start, TrajectoryConfig config) {
-        Rotation2d angle = new Rotation2d(Math.PI/4);
-        Pose2d ball = new Pose2d(Units.inchesToMeters(277.949), Units.inchesToMeters(36.000), angle);
-        Pose2d score = new Pose2d(Units.inchesToMeters(69.438), Units.inchesToMeters(42.000), angle);
-    
-        ArrayList<Pose2d> waypoints = new ArrayList<>();
-        waypoints.add(start);
-        waypoints.add(ball);
-        waypoints.add(score);
-    
-        return TrajectoryGenerator.generateTrajectory(waypoints, config);
-        }
+	@SuppressWarnings("PMD.SingularField")
+	private Field2d field;
     
     /**
      * Robot initialization
      */
 
-    @Override
-    public void robotInit() {
-        System.out.println("Rootinit");
-        // Create container
-        _robotContainer = new RobotContainer(); 
-        
-        var trajectory = getTrajectory(null, config);//TODO: starting pose
-        field = new Field2d();
-        SmartDashboard.putData(field);
-        field.getObject("traj").setTrajectory(trajectory);
-    }
-
+     @Override
+     public void robotInit() {
+         //System.out.println("Robotinit");
+         // Create container
+         _robotContainer = new RobotContainer();
+         //var trajectory = Trajectories.getTrajectory(null, Trajectories.config);//TODO: starting pose
+         var trajectory = Trajectories.testTrajectory(new Pose2d(1.22743, 2.748026, new Rotation2d(0)), Trajectories.config);
+         //var trajectory = Trajectories.visTestTrajectory(new Pose2d(1.62743, 2.748026, new Rotation2d(Math.PI)), Trajectories.config);
+         field = new Field2d();
+         SmartDashboard.putData(field);
+         field.getObject("traj").setTrajectory(trajectory);
+     }
  
-    /**
-     * Runs every robot tick
-     */
-    @Override
-    public void robotPeriodic() {
-        //System.out.println("Robot periodic");
-        // Run command scheduler
-        CommandScheduler.getInstance().run();
-    }
+ 
+     /**
+      * Runs every robot tick
+      */
+     @Override
+     public void robotPeriodic() {
+         //System.out.println("Robot periodic");
+         // Run command scheduler
+         CommandScheduler.getInstance().run();
+     }
 
-    /**
-     * Runs when robot enters disabled mode
-     */
-    @Override
-    public void disabledInit() {
-        System.out.println("Disabled init");
-        //_robotContainer.resetCommands();
-    }
-
+     /**
+	 * Runs when robot enters disabled mode
+	 */
+     @Override
+	public void disabledInit() {
+		System.out.println("Disabled init");
+		//_robotContainer.resetCommands();
+	}
+    
     /**
      * Runs every tick during disabled mode
      */
@@ -119,7 +106,6 @@ public class Robot extends TimedRobot {
         if (_autonomousCommand != null) {
             _autonomousCommand.schedule();
         }
-        //TODO: set an initial value for the estimator here somehow?
     }
 
     /**
@@ -130,7 +116,9 @@ public class Robot extends TimedRobot {
         System.out.println("Autonomous periodic");
         double[] globalPose = Vision.getVisionPoseEstimate(vision.camera, vision.robotToCam);
         Pose2d visPose = new Pose2d(globalPose[0], globalPose[1], new Rotation2d(globalPose[2]));
-        estimator.addVisionMeasurement(visPose, Timer.getFPGATimestamp());
+        if (Vision.checkForTarget(vision.camera, vision.robotToCam)){
+            estimator.addVisionMeasurement(visPose, timer.get());
+        }
         estimator.update(new Rotation2d(nav.getYaw()), drive.getLeftEncoder(), drive.getRightEncoder());
         if (timer.get() < trajectory.getTotalTimeSeconds()) {
             // Get the desired pose from the trajectory.
@@ -158,7 +146,6 @@ public class Robot extends TimedRobot {
         }
         _robotContainer.teleopInit();
     }
-
  
      /**
       * Runs every tick in teleop mode
@@ -170,5 +157,4 @@ public class Robot extends TimedRobot {
 
 
     }
-
-//}
+    
