@@ -13,7 +13,7 @@ public class ManualClaw extends CommandBase {
 	public static final double CUBE_POS = 0.1;
 	public static final double CONE_POS = 0.0;
 
-	private static final double TURN_SPEED = 0.3;
+	private static final double TURN_SPEED = 0.05;
 	// TODO: find a good value experimentally
 	private static final double ERROR_MARGIN = 0.01;
 
@@ -28,6 +28,11 @@ public class ManualClaw extends CommandBase {
 		_claw = claw;
 		_controls = controls;
 		addRequirements(claw);
+	}
+
+	@Override
+	public void initialize() {
+		_claw.resetEncoders();
 	}
 
 	@Override

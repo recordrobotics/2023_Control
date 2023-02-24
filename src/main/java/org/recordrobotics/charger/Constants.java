@@ -19,4 +19,8 @@ public final class Constants {
 		public static final int DOUBLE_GAMEPAD_1 = 0;
 		public static final int DOUBLE_GAMEPAD_2 = 1;
 	}
+
+	public class constants {
+		public static final String DATA_TAB = "data";
+	}
 }
