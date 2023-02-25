@@ -20,4 +20,6 @@ public final class Constants {
 		public static final int DOUBLE_GAMEPAD_2 = 1;
 
 	}
+
+    public static final String DATA_TAB = null;
 }

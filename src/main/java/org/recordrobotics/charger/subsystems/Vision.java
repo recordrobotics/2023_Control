@@ -1,7 +1,11 @@
 package org.recordrobotics.charger.subsystems;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.photonvision.PhotonCamera;
 import org.photonvision.targeting.PhotonTrackedTarget;
+import org.photonvision.targeting.TargetCorner;
 
 import edu.wpi.first.math.estimator.DifferentialDrivePoseEstimator;
 import edu.wpi.first.math.geometry.Pose2d;
@@ -76,10 +80,44 @@ public class Vision extends SubsystemBase{
         return null;
     }
 
+    public static double getYawToObject(PhotonCamera camera, Transform3d robotToCam){
+        var result = camera.getLatestResult();//get a frame from the camera
+        boolean hasTargets = result.hasTargets();//check for targets. This MUST be checked for, otherwise an error will occur if there isn't a target.
+        if (hasTargets){
+            PhotonTrackedTarget target = result.getBestTarget();//Choose the closest colored object of the type being looked for
+            double yaw = target.getYaw();
+            return yaw;
+        }else{
+            System.out.println("no target");
+            return 0;
+        }
+    }
+
+    public static double getDistanceToObject(PhotonCamera camera, Transform3d robotToCam){
+        var result = camera.getLatestResult();//get a frame from the camera
+        boolean hasTargets = result.hasTargets();//check for targets. This MUST be checked for, otherwise an error will occur if there isn't a target.
+        if (hasTargets){
+            PhotonTrackedTarget target = result.getBestTarget();//Choose the closest colored object of the type being looked for
+            List<TargetCorner> corners = target.getMinAreaRectCorners();
+            TargetCorner bottomLeft = corners.get(0);
+            TargetCorner bottomRight = corners.get(1);
+            TargetCorner topRight = corners.get(2);
+            TargetCorner topLeft = corners.get(3);
+            double height = topLeft.y - bottomLeft.y;
+            double width = bottomRight.x - bottomLeft.x;
+            
+            double distance = 0;
+            return distance;
+        }else{
+            System.out.println("no target");
+            return 0;
+        }
+    }
+
     public static boolean checkForTarget(PhotonCamera camera, Transform3d robotToCam){
         var result = camera.getLatestResult();//get a frame from the camera
         boolean hasTargets = result.hasTargets();//check for targets. This MUST be checked for, otherwise an error will occur if there isn't a target.
         return hasTargets;
     }
 }
-//TODO: figure out integration of colored objects and similar into auto routine, make vision more reliable, pipeline switching, integration into teleop
+//TODO: figure out integration of colored objects and similar into auto routine, make vision more reliable, pipeline switching, integration into teleop. 1.1665444975?

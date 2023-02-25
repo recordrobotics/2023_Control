@@ -33,8 +33,10 @@ public class Robot extends TimedRobot {
 	private final Drive drive = new Drive();
 	NavSensor gyro = new NavSensor();
 	Vision vision = new Vision();
-	private Trajectory trajectory;
+	public Trajectory trajectory;//This was private in the example code, I changed it as it may be part of an issue
 	Timer timer = new Timer();
+
+    int autoPhase = 0;
 
 	private final RamseteController ramseteController = new RamseteController();
 
@@ -55,11 +57,12 @@ public class Robot extends TimedRobot {
          // Create container
          _robotContainer = new RobotContainer();
          //var trajectory = Trajectories.getTrajectory(null, Trajectories.config);//TODO: starting pose
-         var trajectory = Trajectories.testTrajectory(new Pose2d(1.22743, 2.748026, new Rotation2d(0)), Trajectories.config);
+         trajectory = Trajectories.testTrajectory(new Pose2d(1.22743, 2.748026, new Rotation2d(0)), Trajectories.config);
          //var trajectory = Trajectories.visTestTrajectory(new Pose2d(1.62743, 2.748026, new Rotation2d(Math.PI)), Trajectories.config);
          field = new Field2d();
          SmartDashboard.putData(field);
          field.getObject("traj").setTrajectory(trajectory);
+         vision.camera.setPipelineIndex(2);
      }
  
  
@@ -112,9 +115,10 @@ public class Robot extends TimedRobot {
     @Override
     public void autonomousPeriodic() {
         System.out.println("Autonomous periodic");
-        double[] globalPose = Vision.getVisionPoseEstimate(vision.camera, vision.robotToCam);
-        Pose2d visPose = new Pose2d(globalPose[0], globalPose[1], new Rotation2d(globalPose[2]));
+
         if (Vision.checkForTarget(vision.camera, vision.robotToCam)){
+            double[] globalPose = Vision.getVisionPoseEstimate(vision.camera, vision.robotToCam);
+            Pose2d visPose = new Pose2d(globalPose[0], globalPose[1], new Rotation2d(globalPose[2]));
             estimator.addVisionMeasurement(visPose, timer.get());
         }
         estimator.update(new Rotation2d(gyro.getYaw()), drive.getLeftEncoder(), drive.getRightEncoder());
@@ -130,8 +134,8 @@ public class Robot extends TimedRobot {
           } else {
             drive.move(0, 0);
           }
-    }
-
+          }
+        
     /**
      * Runs when robot enters teleop mode
      */
@@ -155,4 +159,3 @@ public class Robot extends TimedRobot {
 
 
     }
-    

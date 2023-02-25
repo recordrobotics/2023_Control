@@ -30,8 +30,8 @@ public class Trajectories {
     public static Trajectory testTrajectory(Pose2d start, TrajectoryConfig config){
         Rotation2d ballAngle = new Rotation2d(0);
         Rotation2d scoreAngle = new Rotation2d(Math.PI/2);
-        Pose2d ball = new Pose2d(1.42743, 2.748026, ballAngle);
-        Pose2d score = new Pose2d(1.42743, 3.048026, scoreAngle);
+        Pose2d ball = new Pose2d(2.22743, 2.748026, ballAngle);
+        Pose2d score = new Pose2d(2.22743, 4.048026, scoreAngle);
     
         ArrayList<Pose2d> waypoints = new ArrayList<>();
         waypoints.add(start);
@@ -43,8 +43,8 @@ public class Trajectories {
     public static Trajectory visTestTrajectory(Pose2d start, TrajectoryConfig config){
         Rotation2d Angle1 = new Rotation2d(Math.PI/2);
         Rotation2d Angle2 = new Rotation2d(0);
-        Pose2d Pose1 = new Pose2d(1.32743, 2.748026, Angle1);
-        Pose2d Pose2 = new Pose2d(1.32743, 3.248026, Angle2);
+        Pose2d Pose1 = new Pose2d(2.22743, 2.748026, Angle1);
+        Pose2d Pose2 = new Pose2d(2.22743, 4.048026, Angle2);
     
         ArrayList<Pose2d> waypoints = new ArrayList<>();
         waypoints.add(start);
@@ -52,4 +52,16 @@ public class Trajectories {
         waypoints.add(Pose2);
         return TrajectoryGenerator.generateTrajectory(waypoints, config);
     }
+
+    /*
+     * The above functions are all for test purposes. Final trajectories should go below.
+     */
+    public static Trajectory placeholderTrajectory(Pose2d start, TrajectoryConfig config) {
+    
+        ArrayList<Pose2d> waypoints = new ArrayList<>();
+        waypoints.add(start);
+        waypoints.add(null);
+    
+        return TrajectoryGenerator.generateTrajectory(waypoints, config);
+        }
 }
