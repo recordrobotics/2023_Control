@@ -7,6 +7,7 @@ public class DoubleControl implements IControlInput {
 	// private static final double TRIGGER_THRESHOLD = 0.25;
 
 	private XboxController _gamepad1;
+	@SuppressWarnings({"PMD.UnusedPrivateField", "PMD.SingularField"})
 	private XboxController _gamepad2;
 
 	public DoubleControl(int port1, int port2) {
@@ -21,12 +22,11 @@ public class DoubleControl implements IControlInput {
 
 	@Override
 	public double getDriveLat() {
-		return -_gamepad2.getLeftX();
+		return _gamepad1.getLeftX();
 	}
 
 	@Override
 	public String toString() {
 		return "Double";
 	}
-
 }
