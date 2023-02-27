@@ -7,6 +7,7 @@ package org.recordrobotics.charger;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.recordrobotics.charger.commands.auto.ChargeStationBalance;
 import org.recordrobotics.charger.commands.manual.ManualDrive;
 import org.recordrobotics.charger.control.DoubleControl;
 import org.recordrobotics.charger.control.IControlInput;
@@ -15,6 +16,7 @@ import org.recordrobotics.charger.util.Pair;
 
 
 import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import edu.wpi.first.wpilibj2.command.Subsystem;
 
 /**
@@ -25,10 +27,8 @@ import edu.wpi.first.wpilibj2.command.Subsystem;
  */
 public class RobotContainer {
 	// The robot's subsystems and commands are defined here...
-	@SuppressWarnings({"PMD.SingularField"})
 	private IControlInput _controlInput;
 	private Drive _drive;
-	@SuppressWarnings({"PMD.SingularField","PMD.UnusedPrivateField"})
 	private NavSensor _navSensor;
 
 	// Commands
@@ -57,7 +57,7 @@ public class RobotContainer {
 	 */
 	public Command getAutonomousCommand() {
 		// An ExampleCommand will run in autonomous
-		return null;
+		return new ChargeStationBalance(_drive, _navSensor);
 	}
 
 	/**
@@ -67,5 +67,19 @@ public class RobotContainer {
 		for (Pair<Subsystem, Command> c : _teleopPairs) {
 			c.getKey().setDefaultCommand(c.getValue());
 		}
+	}
+
+	/**
+	 * Create autonomous mode commands
+	 */
+	public void autoInit() {
+		CommandScheduler.getInstance().schedule(getAutonomousCommand());
+	}
+
+	/**
+	 * Clear commands
+	 */
+	public void resetCommands() {
+		CommandScheduler.getInstance().cancelAll();
 	}
 }
