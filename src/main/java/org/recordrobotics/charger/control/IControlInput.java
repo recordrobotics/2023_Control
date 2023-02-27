@@ -18,4 +18,18 @@ public interface IControlInput {
 	 * @return [-1, 0) - left; (0, 1] - right
 	 */
 	double getDriveLat();
+
+	/**
+	 * Determines the speed the robot drives at
+	 *
+	 * @return true - lower speed; false - faster speed
+	 */
+	boolean isSlow();
+
+	/**
+	 * Enables/disables left and right turning
+	 *
+	 * @return true - can turn; false - cannot turn
+	 */
+	boolean canTurn();
 }

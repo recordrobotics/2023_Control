@@ -29,4 +29,14 @@ public class DoubleControl implements IControlInput {
 	public String toString() {
 		return "Double";
 	}
+
+	@Override
+	public boolean isSlow() {
+		return _gamepad1.getLeftBumper();
+	}
+
+	@Override
+	public boolean canTurn() {
+		return !_gamepad1.getRightBumper();
+	}
 }

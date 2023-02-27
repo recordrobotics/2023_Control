@@ -27,4 +27,14 @@ public class SingleControl implements IControlInput {
 		return "Legacy";
 	}
 
+	@Override
+	public boolean isSlow() {
+		return _gamepad.getLeftBumper();
+	}
+
+	@Override
+	public boolean canTurn() {
+		return !_gamepad.getRightBumper();
+	}
+
 }
