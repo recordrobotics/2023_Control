@@ -4,8 +4,6 @@ import edu.wpi.first.wpilibj.XboxController;
 
 public class DoubleControl implements IControlInput {
 
-	// private static final double TRIGGER_THRESHOLD = 0.25
-
 	private XboxController _gamepad1;
 	private XboxController _gamepad2;
 

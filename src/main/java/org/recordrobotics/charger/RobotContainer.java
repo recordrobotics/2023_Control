@@ -8,7 +8,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.recordrobotics.charger.commands.manual.ManualClaw;
-//import org.recordrobotics.charger.commands.manual.ManualDrive;
 import org.recordrobotics.charger.control.IControlInput;
 import org.recordrobotics.charger.control.SingleControl;
 import org.recordrobotics.charger.subsystems.*;
@@ -26,7 +25,6 @@ import edu.wpi.first.wpilibj2.command.Subsystem;
 public class RobotContainer {
 	// The robot's subsystems and commands are defined here...
 	private IControlInput _controlInput;
-	//private Drive _drive;
 	private Claw _claw;
 
 	// Commands
@@ -36,7 +34,6 @@ public class RobotContainer {
 	/** The container for the robot. Contains subsystems, OI devices, and commands. */
 	public RobotContainer() {
 		// Configure the button bindings
-		// _controlInput = new DoubleControl(Constants.Control.DOUBLE_GAMEPAD_1, Constants.Control.DOUBLE_GAMEPAD_2);
 		_controlInput = new SingleControl(Constants.Control.LEGACY_GAMEPAD);
 		//_drive = new Drive();
 		_claw = new Claw();
@@ -46,7 +43,6 @@ public class RobotContainer {
 
 	private void initTeleopCommands() {
 		_teleopPairs = new ArrayList<>();
-		//_teleopPairs.add(new Pair<Subsystem, Command>(_drive, new ManualDrive(_drive, _controlInput)));
 		_teleopPairs.add(new Pair<Subsystem, Command>(_claw, new ManualClaw(_claw, _controlInput)));
 	}
 
