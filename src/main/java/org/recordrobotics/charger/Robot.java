@@ -4,22 +4,15 @@
 
 package org.recordrobotics.charger;
 
-import java.util.ArrayList;
-
 import org.recordrobotics.charger.subsystems.Drive;
 import org.recordrobotics.charger.subsystems.NavSensor;
-import org.recordrobotics.charger.subsystems.Trajectories;
 import org.recordrobotics.charger.subsystems.Vision;
 
 import edu.wpi.first.math.controller.RamseteController;
 import edu.wpi.first.math.estimator.DifferentialDrivePoseEstimator;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
-import edu.wpi.first.math.kinematics.DifferentialDriveKinematics;
 import edu.wpi.first.math.trajectory.Trajectory;
-import edu.wpi.first.math.trajectory.TrajectoryConfig;
-import edu.wpi.first.math.trajectory.TrajectoryGenerator;
-import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.smartdashboard.Field2d;
@@ -33,128 +26,124 @@ public class Robot extends TimedRobot {
 	private Command _autonomousCommand;
 
 
-    /*placeholder description*/
-    Vision vision = new Vision();
-    private Trajectory trajectory;
-    Timer timer = new Timer();
-    private Drive drive;
-    private NavSensor nav;
-    private DifferentialDrivePoseEstimator estimator;
+	/*placeholder description*/
+	Vision vision = new Vision();
+	private Trajectory trajectory;
+	Timer timer = new Timer();
+	private Drive drive;
+	private NavSensor nav;
+	private DifferentialDrivePoseEstimator estimator;
 
 	private final RamseteController ramseteController = new RamseteController();
 
 	@SuppressWarnings("PMD.SingularField")
 	private Field2d field;
-    
-    /**
-     * Robot initialization
-     */
 
-     @Override
-     public void robotInit() {
-         //System.out.println("Robotinit");
-         // Create container
-         _robotContainer = new RobotContainer();
-         //var trajectory = Trajectories.getTrajectory(null, Trajectories.config);//TODO: starting pose
-         var trajectory = Trajectories.testTrajectory(new Pose2d(1.22743, 2.748026, new Rotation2d(0)), Trajectories.config);
-         //var trajectory = Trajectories.visTestTrajectory(new Pose2d(1.62743, 2.748026, new Rotation2d(Math.PI)), Trajectories.config);
-         field = new Field2d();
-         SmartDashboard.putData(field);
-         field.getObject("traj").setTrajectory(trajectory);
-     }
- 
- 
-     /**
-      * Runs every robot tick
-      */
-     @Override
-     public void robotPeriodic() {
-         //System.out.println("Robot periodic");
-         // Run command scheduler
-         CommandScheduler.getInstance().run();
-     }
+	/**
+	 * Robot initialization
+	 */
 
-     /**
+	@Override
+	public void robotInit() {
+		//System.out.println("Robotinit");
+		// Create container
+		_robotContainer = new RobotContainer();
+		field = new Field2d();
+		SmartDashboard.putData(field);
+		field.getObject("traj").setTrajectory(trajectory);
+	}
+
+
+	/**
+	* Runs every robot tick
+	*/
+	@Override
+	public void robotPeriodic() {
+		//System.out.println("Robot periodic");
+		// Run command scheduler
+		CommandScheduler.getInstance().run();
+	}
+
+	/**
 	 * Runs when robot enters disabled mode
 	 */
-     @Override
+	@Override
 	public void disabledInit() {
 		System.out.println("Disabled init");
 		//_robotContainer.resetCommands();
 	}
-    
-    /**
-     * Runs every tick during disabled mode
-     */
-    @Override
-    public void disabledPeriodic() {
-        //System.out.println("Disabled periodic");
-        // TODO
-    }
 
-    /**
-     * Runs when robot enters auto mode
-     */
-    @Override
-    public void autonomousInit() {
-        System.out.println("Autonomous Init");
-        timer.start();
-        _autonomousCommand = _robotContainer.getAutonomousCommand();
-        
+	/**
+	 * Runs every tick during disabled mode
+	 */
+	@Override
+	public void disabledPeriodic() {
+		//System.out.println("Disabled periodic");
+		// TODO
+	}
 
-        // schedule the autonomous command (example)
-        if (_autonomousCommand != null) {
-            _autonomousCommand.schedule();
-        }
-    }
-
-    /**
-     * Runs every tick during auto mode
-     */
-    @Override
-    public void autonomousPeriodic() {
-        System.out.println("Autonomous periodic");
-        double[] globalPose = Vision.getVisionPoseEstimate(vision.camera, vision.robotToCam);
-        Pose2d visPose = new Pose2d(globalPose[0], globalPose[1], new Rotation2d(globalPose[2]));
-        if (Vision.checkForTarget(vision.camera, vision.robotToCam)){
-            estimator.addVisionMeasurement(visPose, timer.get());
-        }
-        estimator.update(new Rotation2d(nav.getYaw()), drive.getLeftEncoder(), drive.getRightEncoder());
-        if (timer.get() < trajectory.getTotalTimeSeconds()) {
-            // Get the desired pose from the trajectory.
-            var desiredPose = trajectory.sample(timer.get());
-      
-            // Get the reference chassis speeds from the Ramsete controller.
-            var refChassisSpeeds = ramseteController.calculate(estimator.getEstimatedPosition(), desiredPose);
-      
-            // Set the linear and angular speeds.
-            drive.move(refChassisSpeeds.vxMetersPerSecond, refChassisSpeeds.omegaRadiansPerSecond);
-          } else {
-            drive.move(0, 0);
-          }
-    }
-
-    /**
-     * Runs when robot enters teleop mode
-     */
-    @Override
-    public void teleopInit() {
-        System.out.println("Teleop init");
-        // TODO
-        if (_autonomousCommand != null) {
-            _autonomousCommand.cancel();
-        }
-        _robotContainer.teleopInit();
-    }
- 
-     /**
-      * Runs every tick in teleop mode
-      */
-     @Override
-     public void teleopPeriodic() {
-        //placholder
-        }
+	/**
+	 * Runs when robot enters auto mode
+	 */
+	@Override
+	public void autonomousInit() {
+		System.out.println("Autonomous Init");
+		timer.start();
+		_autonomousCommand = _robotContainer.getAutonomousCommand();
 
 
-    }
-    
+		// schedule the autonomous command (example)
+		if (_autonomousCommand != null) {
+			_autonomousCommand.schedule();
+		}
+	}
+
+	/**
+	 * Runs every tick during auto mode
+	 */
+	@Override
+	public void autonomousPeriodic() {
+		System.out.println("Autonomous periodic");
+		double[] globalPose = Vision.getVisionPoseEstimate(vision.camera, vision.robotToCam);
+		Pose2d visPose = new Pose2d(globalPose[0], globalPose[1], new Rotation2d(globalPose[2]));
+		if (Vision.checkForTarget(vision.camera, vision.robotToCam)){
+			estimator.addVisionMeasurement(visPose, timer.get());
+		}
+		estimator.update(new Rotation2d(nav.getYaw()), drive.getLeftEncoder(), drive.getRightEncoder());
+		if (timer.get() < trajectory.getTotalTimeSeconds()) {
+			// Get the desired pose from the trajectory.
+			var desiredPose = trajectory.sample(timer.get());
+
+			// Get the reference chassis speeds from the Ramsete controller.
+			var refChassisSpeeds = ramseteController.calculate(estimator.getEstimatedPosition(), desiredPose);
+
+			// Set the linear and angular speeds.
+			drive.move(refChassisSpeeds.vxMetersPerSecond, refChassisSpeeds.omegaRadiansPerSecond);
+		} else {
+			drive.move(0, 0);
+		}
+	}
+
+	/**
+	 * Runs when robot enters teleop mode
+	 */
+	@Override
+	public void teleopInit() {
+		System.out.println("Teleop init");
+		// TODO
+		if (_autonomousCommand != null) {
+			_autonomousCommand.cancel();
+		}
+		_robotContainer.teleopInit();
+	}
+
+	/**
+	* Runs every tick in teleop mode
+	*/
+	@Override
+	public void teleopPeriodic() {
+		//placholder
+		}
+
+
+	}

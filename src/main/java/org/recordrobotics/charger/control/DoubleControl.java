@@ -7,6 +7,7 @@ public class DoubleControl implements IControlInput {
 	// private static final double TRIGGER_THRESHOLD = 0.25;
 
 	private XboxController _gamepad1;
+	@SuppressWarnings({"PMD.UnusedPrivateField"})
 	private XboxController _gamepad2;
 
 	public DoubleControl(int port1, int port2) {

@@ -42,7 +42,7 @@ public class Drive extends SubsystemBase {
 	private TalonFXSensorCollection _rightCollection0 = new TalonFXSensorCollection(new BaseTalon(RobotMap.DriveBase.LEFT_FRONT_MOTOR_PORT, "origin"));
 	private TalonFXSensorCollection _rightCollection1 = new TalonFXSensorCollection(new BaseTalon(RobotMap.DriveBase.LEFT_MIDDLE_MOTOR_PORT, "origin"));
 	private TalonFXSensorCollection _rightCollection2 = new TalonFXSensorCollection(new BaseTalon(RobotMap.DriveBase.LEFT_BACK_MOTOR_PORT, "origin"));
-		
+
 
 	private static final double GEAR_RATIO = 10.75;
 	private static final double WHEEL_DIAMETER = 6 * 25.4; // diameter in inches * conversion rate to millimeters

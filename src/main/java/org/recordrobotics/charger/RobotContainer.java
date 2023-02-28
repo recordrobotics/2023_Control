@@ -7,6 +7,7 @@ package org.recordrobotics.charger;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.recordrobotics.charger.commands.auto.FullAutoSequence;
 import org.recordrobotics.charger.commands.manual.ManualDrive;
 import org.recordrobotics.charger.control.DoubleControl;
 import org.recordrobotics.charger.control.IControlInput;
@@ -14,8 +15,10 @@ import org.recordrobotics.charger.subsystems.*;
 import org.recordrobotics.charger.util.Pair;
 
 import edu.wpi.first.math.estimator.DifferentialDrivePoseEstimator;
+import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.kinematics.DifferentialDriveKinematics;
+import edu.wpi.first.math.trajectory.Trajectory;
 import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Subsystem;
@@ -28,13 +31,16 @@ import edu.wpi.first.wpilibj2.command.Subsystem;
  */
 public class RobotContainer {
 	// The robot's subsystems and commands are defined here...
-	@SuppressWarnings({"PMD.SingularField"})
+	@SuppressWarnings({"PMD.SingularField","AvoidDuplicateLiterals"})
 	private IControlInput _controlInput;
 	private Drive _drive;
-	private DifferentialDrivePoseEstimator _estimator;
-	private DifferentialDriveKinematics _kinematics;
-
 	@SuppressWarnings({"PMD.SingularField","PMD.UnusedPrivateField"})
+	private DifferentialDrivePoseEstimator _estimator;
+	@SuppressWarnings({"PMD.SingularField"})
+	private DifferentialDriveKinematics _kinematics;
+	@SuppressWarnings({"PMD.SingularField","PMD.UnusedLocalVariable"})
+	private Trajectory _trajcetory;
+	@SuppressWarnings({"PMD.SingularField"})
 	private NavSensor _navSensor;
 
 	// Commands
@@ -50,6 +56,12 @@ public class RobotContainer {
 
 		_kinematics = new DifferentialDriveKinematics(Units.inchesToMeters(20.75));
 		_estimator = new DifferentialDrivePoseEstimator(_kinematics, new Rotation2d(_navSensor.getYaw()), _drive.getLeftEncoder(), _drive.getRightEncoder(), null); //The default standard deviations of the model states are 0.02 meters for x, 0.02 meters for y, and 0.01 radians for heading. The default standard deviations of the vision measurements are 0.1 meters for x, 0.1 meters for y, and 0.1 radians for heading.
+
+		//var trajectory = Trajectories.getTrajectory(null, Trajectories.config);//TODO: starting pose
+		@SuppressWarnings({"PMD.UnusuedPrivateField"})
+		Trajectory _trajectory = Trajectories.testTrajectory(new Pose2d(1.22743, 2.748026, new Rotation2d(0)), Trajectories.config);
+		//var trajectory = Trajectories.visTestTrajectory(new Pose2d(1.62743, 2.748026, new Rotation2d(Math.PI)), Trajectories.config);
+
 		//TODO: figure out initial pose strategy above
 
 		initTeleopCommands();
@@ -67,7 +79,7 @@ public class RobotContainer {
 	 */
 	public Command getAutonomousCommand() {
 		// An ExampleCommand will run in autonomous
-		return null;
+		return new FullAutoSequence();
 	}
 
 	/**

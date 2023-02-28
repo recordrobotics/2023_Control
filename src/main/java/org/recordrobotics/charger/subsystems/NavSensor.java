@@ -6,8 +6,6 @@ import com.kauailabs.navx.frc.AHRS;
 //import org.recordrobotics.charger.Constants;
 
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
-import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
-import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
 
 public class NavSensor extends SubsystemBase {
 	public AHRS _nav = new AHRS(edu.wpi.first.wpilibj.I2C.Port.kMXP);
