@@ -31,13 +31,12 @@ public class RobotContainer {
 	private NavSensor _nav;
 
 	// Commands
-	@SuppressWarnings({"PMD.SingularField"})
 	private List<Pair<Subsystem, Command>> _teleopPairs;
 
 	/** The container for the robot. Contains subsystems, OI devices, and commands. */
 	public RobotContainer() {
 		// Configure the button bindings
-		_controlInput = new DoubleControl(Constants.Control.DOUBLE_GAMEPAD_1, Constants.Control.DOUBLE_GAMEPAD_2);
+		_controlInput = new DoubleControl(RobotMap.Control.DOUBLE_GAMEPAD_1, RobotMap.Control.DOUBLE_GAMEPAD_2);
 		_drive = new Drive();
 		_nav = new NavSensor();
 

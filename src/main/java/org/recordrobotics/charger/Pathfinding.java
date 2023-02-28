@@ -10,6 +10,8 @@ import edu.wpi.first.math.trajectory.TrajectoryConfig;
 import edu.wpi.first.math.trajectory.TrajectoryGenerator;
 import edu.wpi.first.math.util.Units;
 
+@SuppressWarnings({"PMD"})
+
 public class Pathfinding {
 
 	TrajectoryConfig forward = new TrajectoryConfig(3, 1);
