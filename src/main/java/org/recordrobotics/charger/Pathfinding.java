@@ -1,4 +1,4 @@
-package org.recordrobotics.munchkin.commands;
+package org.recordrobotics.charger;
 
 import java.util.ArrayList;
 
@@ -10,7 +10,7 @@ import edu.wpi.first.math.trajectory.TrajectoryConfig;
 import edu.wpi.first.math.trajectory.TrajectoryGenerator;
 import edu.wpi.first.math.util.Units;
 
-public class Pathfinding {	
+public class Pathfinding {
 
 	TrajectoryConfig forward = new TrajectoryConfig(3, 1);
 	TrajectoryConfig backward = new TrajectoryConfig(3, 1);
@@ -26,7 +26,7 @@ public class Pathfinding {
 		// config = c;
 		double robotBuffer = 19;
 		routine = r;
-		
+
 		// coordinates for what side we're on
 		if(start.getX() < Units.inchesToMeters(325.16)) {
 			side = 'B';
@@ -60,7 +60,7 @@ public class Pathfinding {
 		}
 
 		backward.setReversed(true);
-		
+
 	}
 
 	public ArrayList<Trajectory> docking(Pose2d start) {
@@ -91,13 +91,13 @@ public class Pathfinding {
 			path1.add(adjustPose(score, Units.inchesToMeters(buffer), false));
 			path2.add(adjustPose(score, Units.inchesToMeters(buffer), false));
 		} else {
-			path1.add(adjustPose(score, Units.inchesToMeters(buffer), true)); 
-			path2.add(adjustPose(score, Units.inchesToMeters(buffer), true)); 
+			path1.add(adjustPose(score, Units.inchesToMeters(buffer), true));
+			path2.add(adjustPose(score, Units.inchesToMeters(buffer), true));
 		}
 
 		trajectories.add(TrajectoryGenerator.generateTrajectory(path1, forward));
 
-		path2.add(dock); 
+		path2.add(dock);
 		trajectories.add(TrajectoryGenerator.generateTrajectory(path2, backward));
 
 		for(Pose2d p: path1) {
@@ -119,7 +119,7 @@ public class Pathfinding {
 			double scoreToDock = getDistance(score, dock);
 			distances.add(startToScore + scoreToDock);
 		}
-		
+
 		Pose2d ret = scoreSpots.get(0);
 		double retDist = distances.get(0);
 
@@ -161,16 +161,16 @@ public class Pathfinding {
 		if(leftIntersects && rightIntersects) {
 			double dist1 = linearDistance(a.getX(), a.getY(), tLeft.getX(), tLeft.getY()) + linearDistance(tLeft.getX(), tLeft.getY(), tRight.getX(), tRight.getY()) + linearDistance(tRight.getX(), tRight.getY(), b.getX(), b.getY());
 			double dist2 = linearDistance(a.getX(), a.getY(), bLeft.getX(), bLeft.getY()) + linearDistance(bLeft.getX(), bLeft.getY(), bRight.getX(), bRight.getY()) + linearDistance(bRight.getX(), bRight.getY(), b.getX(), b.getY());
-			
+
 			if(dist1 < dist2) {
 
-				// do a and tRight intersect? 
+				// do a and tRight intersect?
 				slope = (tRight.getY()-a.getY()) / (tRight.getX()-a.getX());
 				yIntercept = a.getY() - slope*a.getX();
 				leftY = slope*tLeft.getX() + yIntercept;
 				leftIntersects = doesIntersect(leftY);
 
-				// do tLeft and b intersect? 
+				// do tLeft and b intersect?
 				slope = (tLeft.getY()-b.getY()) / (tLeft.getX()-b.getX());
 				yIntercept = b.getY() - slope*b.getX();
 				rightY = slope*tRight.getX() + yIntercept;
@@ -199,16 +199,16 @@ public class Pathfinding {
 					ret[0] = new Pose2d(tRight.getX(), tRight.getY(), new Rotation2d(angle));
 
 				}
-				
+
 			} else {
 
-				// do a and bRight intersect? 
+				// do a and bRight intersect?
 				slope = (bRight.getY()-a.getY()) / (bRight.getX()-a.getX());
 				yIntercept = a.getY() - slope*a.getX();
 				leftY = slope*bLeft.getX() + yIntercept;
 				leftIntersects = doesIntersect(leftY);
 
-				// do bLeft and b intersect? 
+				// do bLeft and b intersect?
 				slope = (bLeft.getY()-b.getY()) / (bLeft.getX()-b.getX());
 				yIntercept = b.getY() - slope*b.getX();
 				rightY = slope*bRight.getX() + yIntercept;
@@ -243,7 +243,7 @@ public class Pathfinding {
 			}
 
 		} else if(leftIntersects) {
-			if(b.getY() > a.getY()) { 
+			if(b.getY() > a.getY()) {
 				double angle = Math.atan( (b.getY()-a.getY()) / (b.getX()-a.getX()) );
 				if(dir.equals("left")) angle += Math.PI;
 				ret[0] = new Pose2d(tLeft.getX(), tLeft.getY(), new Rotation2d(angle));
@@ -253,7 +253,7 @@ public class Pathfinding {
 				ret[0] = new Pose2d(bLeft.getX(), bLeft.getY(), new Rotation2d(angle));
 			}
 		} else if(rightIntersects) {
-			if(b.getY() > a.getY()) { 
+			if(b.getY() > a.getY()) {
 				double angle = Math.atan( (b.getY()-a.getY()) / (b.getX()-a.getX()) );
 				if(dir.equals("left")) angle += Math.PI;
 				ret[0] = new Pose2d(bRight.getX(), bRight.getY(), new Rotation2d(angle));
@@ -296,15 +296,15 @@ public class Pathfinding {
 			double dist2 = linearDistance(a.getX(), a.getY(), bLeft.getX(), bLeft.getY()) + linearDistance(bLeft.getX(), bLeft.getY(), bRight.getX(), bRight.getY()) + linearDistance(bRight.getX(), bRight.getY(), b.getX(), b.getY());
 			return Math.min(dist1, dist2);
 		} else if(leftIntersects) {
-			if(b.getY() < a.getY()) { 
+			if(b.getY() < a.getY()) {
 				return linearDistance(a.getX(), a.getY(), tLeft.getX(), tLeft.getY()) + linearDistance(tLeft.getX(), tLeft.getY(), b.getX(), b.getY());
-			} else { 
+			} else {
 				return linearDistance(a.getX(), a.getY(), bLeft.getX(), bLeft.getY()) + linearDistance(bLeft.getX(), bLeft.getY(), b.getX(), b.getY());
 			}
 		} else if(rightIntersects) {
-			if(b.getY() > a.getY()) { 
+			if(b.getY() > a.getY()) {
 				return linearDistance(a.getX(), a.getY(), bRight.getX(), bRight.getY()) + linearDistance(bRight.getX(), bRight.getY(), b.getX(), b.getY());
-			} else { 
+			} else {
 				return linearDistance(a.getX(), a.getY(), tRight.getX(), tRight.getY()) + linearDistance(tRight.getX(), tRight.getY(), b.getX(), b.getY());
 			}
 		} else {
@@ -322,7 +322,7 @@ public class Pathfinding {
 	public ArrayList<Trajectory> scoring(Pose2d start) {
 		ArrayList<Pose2d> origPath = new ArrayList<>();
 		ArrayList<Pose2d> path = new ArrayList<>();
-		
+
 		ArrayList<Pose2d> scoreSpots2 = new ArrayList<>();
 		scoreSpots2.addAll(scoreSpots);
 		ArrayList<Pose2d> gamepieces2 = new ArrayList<>();
@@ -400,7 +400,7 @@ public class Pathfinding {
 		}
 
 		printWaypoints(origPath);
-		
+
 		// add intermediate points
 		boolean reverse = false;
 		path.add(origPath.get(0));
@@ -433,7 +433,7 @@ public class Pathfinding {
 		printWaypoints(path);
 
 		ArrayList<Trajectory> trajectories = new ArrayList<>();
-		
+
 		reverse = false;
 		int begin = 0;
 
@@ -480,20 +480,20 @@ public class Pathfinding {
 
 		if(begin != path.size()-2) {
 			if(!reverse) {
-				trajectories.add(TrajectoryGenerator.generateTrajectory(path.subList(begin, path.size()), forward)); 
+				trajectories.add(TrajectoryGenerator.generateTrajectory(path.subList(begin, path.size()), forward));
 				System.out.println(begin + " " + path.size() + " " + reverse);
 			} else {
-				trajectories.add(TrajectoryGenerator.generateTrajectory(path.subList(begin, path.size()), backward)); 
+				trajectories.add(TrajectoryGenerator.generateTrajectory(path.subList(begin, path.size()), backward));
 				System.out.println(begin + " " + path.size() + " " + reverse);
 			}
 		}
 
-		// concatenate trajectories? 
+		// concatenate trajectories?
 		return trajectories;
 
 	}
 
-	public Rotation2d getAngle(char side) { 
+	public Rotation2d getAngle(char side) {
 		if(side == 'B') {
 			return new Rotation2d(Math.PI);
 		} else {
@@ -523,4 +523,3 @@ public class Pathfinding {
 		System.out.println();
 	}
 }
-
