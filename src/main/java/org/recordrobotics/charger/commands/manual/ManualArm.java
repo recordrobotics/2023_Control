@@ -20,6 +20,7 @@ public class ManualArm extends CommandBase {
 	private double _ckd;
 	private double _changeTolerance = 5;
 	private double _originTolerance = 5;
+	private double _maxSpeed = 0.5;
 
 	public ManualArm(Arm arm, IControlInput controls, PIDController originPid, PIDController changePid) {
 		if (arm == null) {
@@ -70,6 +71,12 @@ public class ManualArm extends CommandBase {
 		_changePid.setSetpoint(angles[1]);
 		double _originSpeed = _originPid.calculate(_arm.getOriginEncoder());
 		double _changeSpeed = _changePid.calculate(_arm.getChangeEncoder());
+		if(Math.abs(_originSpeed) > _maxSpeed){
+			_originSpeed = _maxSpeed * Math.signum(_originSpeed);
+		}
+		if(Math.abs(_changeSpeed) > _maxSpeed){
+			_changeSpeed = _maxSpeed * Math.signum(_changeSpeed);
+		}
 
 		_arm.spinOrigin(_originSpeed);
 		_arm.spinChange(_changeSpeed);
