@@ -8,8 +8,8 @@ public class RobotMap {
 	 * Control ports (PC USB)
 	 */
 	public class Control {
-		// LegacyControl
-		public static final int LEGACY_GAMEPAD = 0;
+		// SingleControl
+		public static final int SINGLE_GAMEPAD = 0;
 
 		// DoubleControl
 		public static final int DOUBLE_GAMEPAD_1 = 0;
