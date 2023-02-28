@@ -69,8 +69,7 @@ public class Robot extends TimedRobot {
 	 */
 	@Override
 	public void disabledInit() {
-		System.out.println("Disabled init");
-		//_robotContainer.resetCommands();
+		_robotContainer.resetCommands();
 	}
 
 	/**
@@ -103,25 +102,7 @@ public class Robot extends TimedRobot {
 	 */
 	@Override
 	public void autonomousPeriodic() {
-		System.out.println("Autonomous periodic");
-		double[] globalPose = Vision.getVisionPoseEstimate(vision.camera, vision.robotToCam);
-		Pose2d visPose = new Pose2d(globalPose[0], globalPose[1], new Rotation2d(globalPose[2]));
-		if (Vision.checkForTarget(vision.camera, vision.robotToCam)){
-			estimator.addVisionMeasurement(visPose, timer.get());
-		}
-		estimator.update(new Rotation2d(nav.getYaw()), drive.getLeftEncoder(), drive.getRightEncoder());
-		if (timer.get() < trajectory.getTotalTimeSeconds()) {
-			// Get the desired pose from the trajectory.
-			var desiredPose = trajectory.sample(timer.get());
-
-			// Get the reference chassis speeds from the Ramsete controller.
-			var refChassisSpeeds = ramseteController.calculate(estimator.getEstimatedPosition(), desiredPose);
-
-			// Set the linear and angular speeds.
-			drive.move(refChassisSpeeds.vxMetersPerSecond, refChassisSpeeds.omegaRadiansPerSecond);
-		} else {
-			drive.move(0, 0);
-		}
+		//placeholder
 	}
 
 	/**
