@@ -15,7 +15,6 @@ public class ManualClaw extends CommandBase {
 
 	private static final double TURN_SPEED = 0.3;
 	// TODO: find a good value experimentally
-	private static final double ERROR_MARGIN = 0.01;
 
 	public ManualClaw(Claw claw, IControlInput controls) {
 		if (claw == null) {
@@ -49,16 +48,4 @@ public class ManualClaw extends CommandBase {
 	public void end(boolean interrupted) {
 		_claw.turn(0);
 	}
-
-	/**
-	 * Check if two doubles are close enough to be considered equal
-	 *
-	 * @param num0 First number.
-	 * @param num1 Second number.
-	 * @return true - near equal, false - not equal
-	 */
-	private boolean near(double num0, double num1) {
-		return Math.abs(num0 - num1) < ERROR_MARGIN;
-	}
-
 }

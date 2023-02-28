@@ -6,8 +6,6 @@ public class SingleControl implements IControlInput {
 
 	private XboxController _gamepad;
 
-	private boolean _cube;
-	private boolean _cone;
 
 	public SingleControl(int port) {
 		_gamepad = new XboxController(port);
@@ -24,20 +22,13 @@ public class SingleControl implements IControlInput {
 	}
 
 	@Override
-	public ClawState getClawTurn() {
+	public int getClawTurn() {
 		if (_gamepad.getLeftBumperPressed()) {
-			_cube = !_cube;
-		}
-		if (_gamepad.getRightBumperPressed()) {
-			_cone = !_cone;
-		}
-
-		if (_cube) {
-			return ClawState.CUBE;
-		} else if (_cone) {
-			return ClawState.CONE;
+			return -1;
+		} else if (_gamepad.getRightBumperPressed()) {
+			return 1;
 		} else {
-			return ClawState.NEUTRAL;
+			return 0;
 		}
 	}
 

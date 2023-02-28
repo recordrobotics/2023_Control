@@ -29,7 +29,7 @@ public class DoubleControl implements IControlInput {
 		} else if (_gamepad2.getRightBumperPressed()) {
 			return 1;
 		} else {
-			return 0;	
+			return 0;
 		}
 	}
 

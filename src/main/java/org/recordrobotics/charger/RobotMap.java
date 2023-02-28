@@ -30,7 +30,7 @@ public class RobotMap {
 
 	public class Claw {
 		public static final int LIMIT_SWITCH = 0;
-		
+
 		public static final int MOTOR_PORT = 2;
 	}
 }
