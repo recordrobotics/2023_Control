@@ -7,9 +7,6 @@ public class DoubleControl implements IControlInput {
 	private XboxController _gamepad1;
 	private XboxController _gamepad2;
 
-	private boolean _cube;
-	private boolean _cone;
-
 	public DoubleControl(int port1, int port2) {
 		_gamepad1 = new XboxController(port1);
 		_gamepad2 = new XboxController(port2);
@@ -26,20 +23,13 @@ public class DoubleControl implements IControlInput {
 	}
 
 	@Override
-	public ClawState getClawTurn() {
+	public int getClawTurn() {
 		if (_gamepad2.getLeftBumperPressed()) {
-			_cube = !_cube;
-		}
-		if (_gamepad2.getRightBumperPressed()) {
-			_cone = !_cone;
-		}
-
-		if (_cube) {
-			return ClawState.CUBE;
-		} else if (_cone) {
-			return ClawState.CONE;
+			return -1;
+		} else if (_gamepad2.getRightBumperPressed()) {
+			return 1;
 		} else {
-			return ClawState.NEUTRAL;
+			return 0;	
 		}
 	}
 

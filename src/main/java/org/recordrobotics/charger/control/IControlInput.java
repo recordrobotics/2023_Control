@@ -32,9 +32,9 @@ public interface IControlInput {
 	double getDriveLat();
 
 	/**
-	 * Claw state input (cone & cube) value
+	 * Claw Turn Direction(Open & Close)
 	 *
-	 * @return CUBE - closed to cube diameter, NEUTRAL - open, CONE - closed to cone diameter
+	 * @return 1 Opening, -1 Closing, 0 No Movment
 	 */
-	ClawState getClawTurn();
+	int getClawTurn();
 }

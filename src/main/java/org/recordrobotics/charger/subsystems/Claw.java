@@ -1,6 +1,7 @@
 package org.recordrobotics.charger.subsystems;
 
 import edu.wpi.first.networktables.GenericEntry;
+import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
@@ -16,16 +17,17 @@ public class Claw extends SubsystemBase {
 	private static final double GEAR_RATIO = 80;
 
 	private CANSparkMax _motor = new CANSparkMax(RobotMap.Claw.MOTOR_PORT, MotorType.kBrushless);
+	private DigitalInput _limitSwitch = new DigitalInput(RobotMap.Claw.LIMIT_SWITCH);
 
-	private GenericEntry _encoderEntry;
 	private GenericEntry _voltageEntry;
+	private GenericEntry _encoderEntry;
 
 	public Claw() {
 		_motor.set(0);
 		_motor.getEncoder().setPositionConversionFactor(1 / GEAR_RATIO);
 
 		ShuffleboardTab tab = Shuffleboard.getTab(Constants.constants.DATA_TAB);
-		_voltageEntry = tab.add("Motor Voltage", 0).getEntry();
+		_voltageEntry = tab.add("Motor Current", 0).getEntry();
 		_encoderEntry = tab.add("Encoder Value", 0).getEntry();
 	}
 
@@ -33,7 +35,14 @@ public class Claw extends SubsystemBase {
 	public void periodic() {
 		_voltageEntry.setDouble(_motor.getOutputCurrent());
 		_encoderEntry.setDouble(getPosition());
+	}
 
+	/*
+	 * Returns the the Claw Switch
+	 *  @return true if Claw in boundary
+	 */
+	public boolean getSwitchState(){
+		return !_limitSwitch.get();
 	}
 
 	/**
