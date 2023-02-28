@@ -33,4 +33,10 @@ public class AutoMoveArm extends CommandBase {
 	public boolean isFinished() {
 		return _arm.getOriginEncoder() == _angles[0] && _arm.getChangeEncoder() == _angles[1];
 	}
+
+	@Override
+	public void end(boolean interrupted) {
+		_arm.spinOrigin(0);
+		_arm.spinChange(0);
+	}
 }

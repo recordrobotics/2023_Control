@@ -47,8 +47,6 @@ public class Arm extends SubsystemBase {
 	public void moveAngles(double speed, double... angles) {
 		if (near(getOriginEncoder(), angles[0])) {
 			_originMotor.set(0);
-		} else if (getOriginEncoder() < angles[0]) {
-			_originMotor.set(speed);
 		} else if (getOriginEncoder() > angles[0]) {
 			_originMotor.set(-speed);
 		} else {
@@ -58,8 +56,6 @@ public class Arm extends SubsystemBase {
 			_changeMotor.set(0);
 		} else if (getChangeEncoder() > angles[1]) {
 			_changeMotor.set(-speed);
-		} else if (getChangeEncoder() < angles[1]) {
-			_changeMotor.set(speed);
 		} else {
 			_changeMotor.set(0);
 		}
