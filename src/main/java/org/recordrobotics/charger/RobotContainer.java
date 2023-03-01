@@ -8,6 +8,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.recordrobotics.charger.commands.auto.FullAutoSequence;
+import org.recordrobotics.charger.commands.manual.ManualArm;
 import org.recordrobotics.charger.commands.manual.ManualDrive;
 import org.recordrobotics.charger.commands.dash.DashRunFunc;
 import org.recordrobotics.charger.control.DoubleControl;
@@ -24,6 +25,7 @@ import edu.wpi.first.math.trajectory.Trajectory;
 import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
+import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import edu.wpi.first.wpilibj2.command.Subsystem;
@@ -43,7 +45,10 @@ public class RobotContainer {
 	private DifferentialDriveKinematics _kinematics;
 	private Trajectory _trajcetory;
 	private NavSensor _navSensor;
-	private Vision _vision;
+	private Vision _vision;	private Arm _arm;
+	private PIDController _pid1;
+	private PIDController _pid2;
+
 	// Commands
 	private List<Pair<Subsystem, Command>> _teleopPairs;
 	private Command _autoCommand;
@@ -66,19 +71,18 @@ public class RobotContainer {
 		//var trajectory = Trajectories.visTestTrajectory(new Pose2d(1.62743, 2.748026, new Rotation2d(Math.PI)), Trajectories.config);
 
 		//TODO: figure out initial pose strategy above
+		_arm = new Arm();
+		_pid1 = new PIDController(0, 0, 0);
+		_pid2 = new PIDController(0, 0, 0);
 
 		initTeleopCommands();
 		initDashCommands();
-		initAutoCommand();
 	}
 
 	private void initTeleopCommands() {
 		_teleopPairs = new ArrayList<>();
 		_teleopPairs.add(new Pair<Subsystem, Command>(_drive, new ManualDrive(_drive, _controlInput)));
-	}
-
-	private void initAutoCommand() {
-		_autoCommand = new FullAutoSequence(_vision, _drive, _trajcetory, _estimator, _navSensor);
+		_teleopPairs.add(new Pair<Subsystem, Command>(_arm, new ManualArm(_arm, _controlInput, _pid1, _pid2)));
 	}
 
 	private void initDashCommands() {

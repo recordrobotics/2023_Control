@@ -22,7 +22,7 @@ public class DoubleControl implements IControlInput {
 
 	@Override
 	public double getDriveLat() {
-		return _gamepad1.getLeftX();
+		return -_gamepad1.getLeftX();
 	}
 
 	@Override
@@ -30,4 +30,32 @@ public class DoubleControl implements IControlInput {
 		return "Double";
 	}
 
+	private int booleanToInt(boolean b) {
+		return b ? 1 : 0;
+	}
+
+	@Override
+	public ArmPosition getArmPosition() {
+		boolean multiplePressed = (booleanToInt(_gamepad2.getYButton())
+			+ booleanToInt(_gamepad2.getXButton())
+			+ booleanToInt(_gamepad2.getAButton())
+			+ booleanToInt(_gamepad2.getBButton()))
+		> 1;
+		if (multiplePressed) {
+			return ArmPosition.NEUTRAL;
+		}
+		if (_gamepad2.getYButton()) {
+			return ArmPosition.THIRD;
+		}
+		if (_gamepad2.getXButton()) {
+			return ArmPosition.SECOND;
+		}
+		if (_gamepad2.getBButton()) {
+			return ArmPosition.SUBSTATION;
+		}
+		if (_gamepad2.getAButton()) {
+			return ArmPosition.GROUND;
+		}
+		return ArmPosition.NEUTRAL;
+	}
 }

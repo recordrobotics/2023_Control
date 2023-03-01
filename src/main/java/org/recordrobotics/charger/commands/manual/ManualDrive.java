@@ -33,6 +33,7 @@ public class ManualDrive extends CommandBase {
 
 	@Override
 	public void execute() {
+		// moves robot based on how much the controller is pushed
 		_drive.move(_controls.getDriveLong() * SPEED_MODIFIER,
 			_controls.getDriveLat() * SPEED_MODIFIER);
 	}

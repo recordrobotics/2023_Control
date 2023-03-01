@@ -18,4 +18,25 @@ public interface IControlInput {
 	 * @return [-1, 0) - left; (0, 1] - right
 	 */
 	double getDriveLat();
+
+	/**
+	 * Returns goal of arm movement
+	 *
+	 * @return ArmPosition.SUBSTATION - go to substation
+	 * ArmPosition.GROUND - go to ground
+	 * ArmPosition.SECOND - go to second row
+	 * ArmPosition.THIRD - go to third row
+	 * ArmPosition.NEUTRAL - go to neutral position
+	 */
+	ArmPosition getArmPosition();
+
+	public enum ArmPosition {
+		SUBSTATION,
+		GROUND,
+		SECOND,
+		THIRD,
+		NEUTRAL, 
+		FLIP_GROUND_ORIGIN, 
+		FLIP_GROUND_CHANGE;
+	}
 }
