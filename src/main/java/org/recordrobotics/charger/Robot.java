@@ -3,18 +3,7 @@
 // the WPILib BSD license file in the root directory of this project.
 
 package org.recordrobotics.charger;
-
-import org.recordrobotics.charger.subsystems.Drive;
-import org.recordrobotics.charger.subsystems.NavSensor;
-import org.recordrobotics.charger.subsystems.Vision;
-
-import edu.wpi.first.math.controller.RamseteController;
-import edu.wpi.first.math.estimator.DifferentialDrivePoseEstimator;
-import edu.wpi.first.math.geometry.Pose2d;
-import edu.wpi.first.math.geometry.Rotation2d;
-import edu.wpi.first.math.trajectory.Trajectory;
 import edu.wpi.first.wpilibj.TimedRobot;
-import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.smartdashboard.Field2d;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
@@ -26,15 +15,6 @@ public class Robot extends TimedRobot {
 	private Command _autonomousCommand;
 
 
-	/*placeholder description*/
-	Vision vision = new Vision();
-	private Trajectory trajectory;
-	Timer timer = new Timer();
-	private Drive drive;
-	private NavSensor nav;
-	private DifferentialDrivePoseEstimator estimator;
-
-	private final RamseteController ramseteController = new RamseteController();
 
 	@SuppressWarnings("PMD.SingularField")
 	private Field2d field;
@@ -50,7 +30,6 @@ public class Robot extends TimedRobot {
 		_robotContainer = new RobotContainer();
 		field = new Field2d();
 		SmartDashboard.putData(field);
-		field.getObject("traj").setTrajectory(trajectory);
 	}
 
 
@@ -87,7 +66,6 @@ public class Robot extends TimedRobot {
 	@Override
 	public void autonomousInit() {
 		System.out.println("Autonomous Init");
-		timer.start();
 		_autonomousCommand = _robotContainer.getAutonomousCommand();
 
 

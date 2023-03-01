@@ -8,6 +8,8 @@ package org.recordrobotics.charger;
  * Put constants here
  */
 public final class Constants {
+	public static final String COMMANDS_TAB = "commands";
+	public static final String DATA_TAB = "data";
 	/**
 	 * Control ports (PC USB)
 	 */
@@ -20,6 +22,5 @@ public final class Constants {
 		public static final int DOUBLE_GAMEPAD_2 = 1;
 
 	}
-	public static final String COMMANDS_TAB = "commands";
-	public static final String DATA_TAB = "data";
+
 }

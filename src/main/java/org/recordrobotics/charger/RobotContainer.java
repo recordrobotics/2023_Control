@@ -8,7 +8,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.recordrobotics.charger.commands.auto.FullAutoSequence;
-import org.recordrobotics.charger.commands.auto.AutoDrive;
 import org.recordrobotics.charger.commands.manual.ManualDrive;
 import org.recordrobotics.charger.commands.dash.DashRunFunc;
 import org.recordrobotics.charger.control.DoubleControl;
@@ -35,21 +34,17 @@ import edu.wpi.first.wpilibj2.command.Subsystem;
  * periodic methods (other than the scheduler calls). Instead, the structure of the robot (including
  * subsystems, commands, and button mappings) should be declared here.
  */
+@SuppressWarnings({"PMD.SingularField","PMD.UnusedPrivateField"})
 public class RobotContainer {
 	// The robot's subsystems and commands are defined here...
-	@SuppressWarnings({"PMD.SingularField","AvoidDuplicateLiterals"})
 	private IControlInput _controlInput;
 	private Drive _drive;
-	@SuppressWarnings({"PMD.SingularField","PMD.UnusedPrivateField"})
 	private DifferentialDrivePoseEstimator _estimator;
-	@SuppressWarnings({"PMD.SingularField"})
 	private DifferentialDriveKinematics _kinematics;
-	@SuppressWarnings({"PMD.SingularField","PMD.UnusedLocalVariable"})
 	private Trajectory _trajcetory;
-	@SuppressWarnings({"PMD.SingularField"})
 	private NavSensor _navSensor;
+	private Vision _vision;
 	// Commands
-	@SuppressWarnings({"PMD.SingularField"})
 	private List<Pair<Subsystem, Command>> _teleopPairs;
 	private Command _autoCommand;
 
@@ -60,11 +55,13 @@ public class RobotContainer {
 		_drive = new Drive();
 		_navSensor = new NavSensor();
 
+		_vision = new Vision();
 		_kinematics = new DifferentialDriveKinematics(Units.inchesToMeters(20.75));
 		_estimator = new DifferentialDrivePoseEstimator(_kinematics, new Rotation2d(_navSensor.getYaw()), _drive.getLeftEncoder(), _drive.getRightEncoder(), null); //The default standard deviations of the model states are 0.02 meters for x, 0.02 meters for y, and 0.01 radians for heading. The default standard deviations of the vision measurements are 0.1 meters for x, 0.1 meters for y, and 0.1 radians for heading.
 
+
 		//var trajectory = Trajectories.getTrajectory(null, Trajectories.config);//TODO: starting pose
-		@SuppressWarnings({"PMD.UnusuedPrivateField"})
+		@SuppressWarnings({"PMD.UnusedLocalVariable"})
 		Trajectory _trajectory = Trajectories.testTrajectory(new Pose2d(1.22743, 2.748026, new Rotation2d(0)), Trajectories.config);
 		//var trajectory = Trajectories.visTestTrajectory(new Pose2d(1.62743, 2.748026, new Rotation2d(Math.PI)), Trajectories.config);
 
@@ -81,7 +78,7 @@ public class RobotContainer {
 	}
 
 	private void initAutoCommand() {
-		_autoCommand = new AutoDrive(_drive, 0.45, 1000);
+		_autoCommand = new FullAutoSequence(_vision, _drive, _trajcetory, _estimator, _navSensor);
 	}
 
 	private void initDashCommands() {
