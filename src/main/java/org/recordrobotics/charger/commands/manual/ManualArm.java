@@ -22,6 +22,16 @@ public class ManualArm extends CommandBase {
 	private double _originTolerance = 5;
 	private double _maxSpeed = 0.5;
 
+	private static double _SECOND = 30;
+	private static double _THIRD = 22;
+	private static double _GROUND[] = {40, 42};
+	private static double _SUBSTATION = 28;
+
+	private static double _FLIP_GROUND_ORIGIN_X = 22;
+	private static double _FLIP_GROUND_ORIGIN_Y = 22;
+	private static double _FLIP_GROUND_CHANGE_X = 22;
+	private static double _FLIP_GROUND_CHANGE_Y = 22;
+
 	public ManualArm(Arm arm, IControlInput controls, PIDController originPid, PIDController changePid) {
 		if (arm == null) {
 			throw new IllegalArgumentException("Arm is null");
@@ -52,17 +62,21 @@ public class ManualArm extends CommandBase {
 		double[] angles;
 		switch (_controls.getArmPosition()) {
 			case SECOND:
-				angles = _arm.getRelatedAngles(30);
+				angles = _arm.getRelatedAngles(_SECOND);
 				break;
 			case THIRD:
-				angles = _arm.getRelatedAngles(22);
+				angles = _arm.getRelatedAngles(_THIRD);
 				break;
 			case GROUND:
-				angles = _arm.getAnglesOfRotation(40, 42);
+				angles = _arm.getAnglesOfRotation(_GROUND[0], _GROUND[1]);
 				break;
 			case SUBSTATION:
-				angles = _arm.getRelatedAngles(28);
+				angles = _arm.getRelatedAngles(_SUBSTATION);
 				break;
+			case FLIP_GROUND_ORIGIN:
+				angles = _arm.getAnglesOfRotation(_FLIP_GROUND_ORIGIN_X,_FLIP_GROUND_ORIGIN_Y);
+			case FLIP_GROUND_CHANGE:
+				angles = _arm.getAnglesOfRotation(_FLIP_GROUND_CHANGE_X, _FLIP_GROUND_CHANGE_Y);
 			default:
 				angles = _arm.resetPositions();
 				break;
@@ -80,6 +94,14 @@ public class ManualArm extends CommandBase {
 
 		_arm.spinOrigin(_originSpeed);
 		_arm.spinChange(_changeSpeed);
+	}
+
+	public boolean originIsFliped(){
+		return _originPid.atSetpoint();
+	}
+
+	public boolean _changeIsFliped(){
+		return _changePid.atSetpoint();
 	}
 
 	@Override

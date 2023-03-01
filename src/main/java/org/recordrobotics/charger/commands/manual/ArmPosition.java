@@ -5,5 +5,7 @@ public enum ArmPosition {
 	GROUND,
 	SECOND,
 	THIRD,
-	NEUTRAL;
+	NEUTRAL,
+	FLIP_GROUND_ORIGIN,
+	FLIP_GROUND_CHANGE;
 }
