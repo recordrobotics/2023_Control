@@ -8,6 +8,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.recordrobotics.charger.commands.auto.FullAutoSequence;
+import org.recordrobotics.charger.commands.manual.ManualClaw;
 import org.recordrobotics.charger.commands.manual.ManualArm;
 import org.recordrobotics.charger.commands.manual.ManualDrive;
 import org.recordrobotics.charger.commands.dash.DashRunFunc;
@@ -40,12 +41,14 @@ import edu.wpi.first.wpilibj2.command.Subsystem;
 public class RobotContainer {
 	// The robot's subsystems and commands are defined here...
 	private IControlInput _controlInput;
+	private Claw _claw;
 	private Drive _drive;
 	private DifferentialDrivePoseEstimator _estimator;
 	private DifferentialDriveKinematics _kinematics;
 	private Trajectory _trajcetory;
 	private NavSensor _navSensor;
-	private Vision _vision;	private Arm _arm;
+	private Vision _vision;	
+	private Arm _arm;
 	private PIDController _pid1;
 	private PIDController _pid2;
 
@@ -59,21 +62,24 @@ public class RobotContainer {
 		_controlInput = new DoubleControl(RobotMap.Control.DOUBLE_GAMEPAD_1, RobotMap.Control.DOUBLE_GAMEPAD_2);
 		_drive = new Drive();
 		_navSensor = new NavSensor();
+		_claw = new Claw();
+		_arm = new Arm();
+		_pid1 = new PIDController(0, 0, 0);
+		_pid2 = new PIDController(0, 0, 0);
 
 		_vision = new Vision();
 		_kinematics = new DifferentialDriveKinematics(Units.inchesToMeters(20.75));
 		_estimator = new DifferentialDrivePoseEstimator(_kinematics, new Rotation2d(_navSensor.getYaw()), _drive.getLeftEncoder(), _drive.getRightEncoder(), null); //The default standard deviations of the model states are 0.02 meters for x, 0.02 meters for y, and 0.01 radians for heading. The default standard deviations of the vision measurements are 0.1 meters for x, 0.1 meters for y, and 0.1 radians for heading.
+		
 
 
 		//var trajectory = Trajectories.getTrajectory(null, Trajectories.config);//TODO: starting pose
 		@SuppressWarnings({"PMD.UnusedLocalVariable"})
 		Trajectory _trajectory = Trajectories.testTrajectory(new Pose2d(1.22743, 2.748026, new Rotation2d(0)), Trajectories.config);
 		//var trajectory = Trajectories.visTestTrajectory(new Pose2d(1.62743, 2.748026, new Rotation2d(Math.PI)), Trajectories.config);
+		_autoCommand = new FullAutoSequence(_vision, _drive, _trajectory, _estimator, _navSensor);
 
 		//TODO: figure out initial pose strategy above
-		_arm = new Arm();
-		_pid1 = new PIDController(0, 0, 0);
-		_pid2 = new PIDController(0, 0, 0);
 
 		initTeleopCommands();
 		initDashCommands();
@@ -82,6 +88,7 @@ public class RobotContainer {
 	private void initTeleopCommands() {
 		_teleopPairs = new ArrayList<>();
 		_teleopPairs.add(new Pair<Subsystem, Command>(_drive, new ManualDrive(_drive, _controlInput)));
+		_teleopPairs.add(new Pair<Subsystem, Command>(_claw, new ManualClaw(_claw, _controlInput)));
 		_teleopPairs.add(new Pair<Subsystem, Command>(_arm, new ManualArm(_arm, _controlInput, _pid1, _pid2)));
 	}
 

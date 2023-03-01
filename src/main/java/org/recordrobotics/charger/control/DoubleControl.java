@@ -4,8 +4,6 @@ import edu.wpi.first.wpilibj.XboxController;
 
 public class DoubleControl implements IControlInput {
 
-	// private static final double TRIGGER_THRESHOLD = 0.25;
-
 	private XboxController _gamepad1;
 	@SuppressWarnings({"PMD.UnusedPrivateField","PMD.SingularField"})
 	private XboxController _gamepad2;
@@ -23,6 +21,17 @@ public class DoubleControl implements IControlInput {
 	@Override
 	public double getDriveLat() {
 		return -_gamepad1.getLeftX();
+	}
+
+	@Override
+	public int getClawTurn() {
+		if (_gamepad2.getLeftBumperPressed()) {
+			return -1;
+		} else if (_gamepad2.getRightBumperPressed()) {
+			return 1;
+		} else {
+			return 0;
+		}
 	}
 
 	@Override

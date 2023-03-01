@@ -4,9 +4,8 @@ import edu.wpi.first.wpilibj.XboxController;
 
 public class SingleControl implements IControlInput {
 
-	// private static final double TRIGGER_THRESHOLD = 0.25;
-
 	private XboxController _gamepad;
+
 
 	public SingleControl(int port) {
 		_gamepad = new XboxController(port);
@@ -23,8 +22,19 @@ public class SingleControl implements IControlInput {
 	}
 
 	@Override
+	public int getClawTurn() {
+		if (_gamepad.getLeftBumperPressed()) {
+			return -1;
+		} else if (_gamepad.getRightBumperPressed()) {
+			return 1;
+		} else {
+			return 0;
+		}
+	}
+
+	@Override
 	public String toString() {
-		return "Legacy";
+		return "Single";
 	}
 
 	private int booleanToInt(boolean b) {
