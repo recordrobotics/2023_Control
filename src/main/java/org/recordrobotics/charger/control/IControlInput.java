@@ -47,8 +47,8 @@ public interface IControlInput {
 		GROUND,
 		SECOND,
 		THIRD,
-		NEUTRAL, 
-		FLIP_GROUND_ORIGIN, 
+		NEUTRAL,
+		FLIP_GROUND_ORIGIN,
 		FLIP_GROUND_CHANGE;
 	}
 		/**

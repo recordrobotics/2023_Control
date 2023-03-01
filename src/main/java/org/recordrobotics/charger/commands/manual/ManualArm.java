@@ -6,10 +6,12 @@ import org.recordrobotics.charger.control.IControlInput;
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 
+@SuppressWarnings({"PMD.TooManyFields","PMD.FieldNamingConventions"})
 public class ManualArm extends CommandBase {
 	private Arm _arm;
 	private IControlInput _controls;
 	private double _speed = 0.1;
+
 	private PIDController _originPid;
 	private PIDController _changePid;
 	private double _okp = 0.01;
@@ -22,15 +24,15 @@ public class ManualArm extends CommandBase {
 	private double _originTolerance = 5;
 	private double _maxSpeed = 0.5;
 
-	private static double _SECOND = 30;
-	private static double _THIRD = 22;
-	private static double _GROUND[] = {40, 42};
-	private static double _SUBSTATION = 28;
+	private static double _second = 30;
+	private static double _third = 22;
+	private static double _ground[] = {40, 42};
+	private static double _substation = 28;
 
-	private static double _FLIP_GROUND_ORIGIN_X = 22;
-	private static double _FLIP_GROUND_ORIGIN_Y = 22;
-	private static double _FLIP_GROUND_CHANGE_X = 22;
-	private static double _FLIP_GROUND_CHANGE_Y = 22;
+	private static double _flipGroundOriginX = 22;
+	private static double _flipGroundOriginY = 22;
+	private static double _flipGroundChangeX = 22;
+	private static double _flipGroundChangeY = 22;
 
 	public ManualArm(Arm arm, IControlInput controls, PIDController originPid, PIDController changePid) {
 		if (arm == null) {
@@ -62,21 +64,23 @@ public class ManualArm extends CommandBase {
 		double[] angles;
 		switch (_controls.getArmPosition()) {
 			case SECOND:
-				angles = _arm.getRelatedAngles(_SECOND);
+				angles = _arm.getRelatedAngles(_second);
 				break;
 			case THIRD:
-				angles = _arm.getRelatedAngles(_THIRD);
+				angles = _arm.getRelatedAngles(_third);
 				break;
 			case GROUND:
-				angles = _arm.getAnglesOfRotation(_GROUND[0], _GROUND[1]);
+				angles = _arm.getAnglesOfRotation(_ground[0], _ground[1]);
 				break;
 			case SUBSTATION:
-				angles = _arm.getRelatedAngles(_SUBSTATION);
+				angles = _arm.getRelatedAngles(_substation);
 				break;
 			case FLIP_GROUND_ORIGIN:
-				angles = _arm.getAnglesOfRotation(_FLIP_GROUND_ORIGIN_X,_FLIP_GROUND_ORIGIN_Y);
+				angles = _arm.getAnglesOfRotation(_flipGroundOriginX,_flipGroundOriginY);
+				break;
 			case FLIP_GROUND_CHANGE:
-				angles = _arm.getAnglesOfRotation(_FLIP_GROUND_CHANGE_X, _FLIP_GROUND_CHANGE_Y);
+				angles = _arm.getAnglesOfRotation(_flipGroundChangeX, _flipGroundChangeY);
+				break;
 			default:
 				angles = _arm.resetPositions();
 				break;

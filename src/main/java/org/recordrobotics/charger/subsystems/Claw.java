@@ -26,7 +26,7 @@ public class Claw extends SubsystemBase {
 		_motor.set(0);
 		_motor.getEncoder().setPositionConversionFactor(1 / GEAR_RATIO);
 
-		ShuffleboardTab tab = Shuffleboard.getTab(Constants.constants.DATA_TAB);
+		ShuffleboardTab tab = Shuffleboard.getTab(Constants.DATA_TAB);
 		_voltageEntry = tab.add("Motor Current", 0).getEntry();
 		_encoderEntry = tab.add("Encoder Value", 0).getEntry();
 	}

@@ -47,7 +47,7 @@ public class RobotContainer {
 	private DifferentialDriveKinematics _kinematics;
 	private Trajectory _trajcetory;
 	private NavSensor _navSensor;
-	private Vision _vision;	
+	private Vision _vision;
 	private Arm _arm;
 	private PIDController _pid1;
 	private PIDController _pid2;
@@ -70,7 +70,7 @@ public class RobotContainer {
 		_vision = new Vision();
 		_kinematics = new DifferentialDriveKinematics(Units.inchesToMeters(20.75));
 		_estimator = new DifferentialDrivePoseEstimator(_kinematics, new Rotation2d(_navSensor.getYaw()), _drive.getLeftEncoder(), _drive.getRightEncoder(), null); //The default standard deviations of the model states are 0.02 meters for x, 0.02 meters for y, and 0.01 radians for heading. The default standard deviations of the vision measurements are 0.1 meters for x, 0.1 meters for y, and 0.1 radians for heading.
-		
+
 
 
 		//var trajectory = Trajectories.getTrajectory(null, Trajectories.config);//TODO: starting pose
