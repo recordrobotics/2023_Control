@@ -4,13 +4,17 @@
 
 package org.recordrobotics.charger.subsystems;
 
+import org.recordrobotics.charger.Constants;
 import org.recordrobotics.charger.RobotMap;
 
 import com.ctre.phoenix.motorcontrol.FeedbackDevice;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
 
+import edu.wpi.first.networktables.GenericEntry;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 import edu.wpi.first.wpilibj.motorcontrol.MotorControllerGroup;
+import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
+import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 public class Drive extends SubsystemBase {
@@ -30,20 +34,31 @@ public class Drive extends SubsystemBase {
 
 	private DifferentialDrive _differentialDrive = new DifferentialDrive(_leftMotors, _rightMotors);
 
-	private static final FeedbackDevice SELECTED_SENSOR = FeedbackDevice.CTRE_MagEncoder_Relative;
+	private static final FeedbackDevice SELECTED_SENSOR = FeedbackDevice.IntegratedSensor;
 
 	private static final double GEAR_RATIO = 10.75;
 	private static final double WHEEL_DIAMETER = 6 * 25.4; // diameter in inches * conversion rate to millimeters
 
+	private GenericEntry _encoderEntry;
+
 	public Drive() {
 		_leftMotors.set(0);
 		_rightMotors.set(0);
-		_left[0].configSelectedFeedbackSensor(SELECTED_SENSOR, 0, 10);
-		_left[1].configSelectedFeedbackSensor(SELECTED_SENSOR, 0, 10);
-		_left[2].configSelectedFeedbackSensor(SELECTED_SENSOR, 0, 10);
-		_right[0].configSelectedFeedbackSensor(SELECTED_SENSOR, 0, 10);
-		_right[1].configSelectedFeedbackSensor(SELECTED_SENSOR, 0, 10);
-		_right[2].configSelectedFeedbackSensor(SELECTED_SENSOR, 0, 10);
+		_left[0].configSelectedFeedbackSensor(SELECTED_SENSOR, 0, 0);
+		_left[1].configSelectedFeedbackSensor(SELECTED_SENSOR, 0, 0);
+		_left[2].configSelectedFeedbackSensor(SELECTED_SENSOR, 0, 0);
+		_right[0].configSelectedFeedbackSensor(SELECTED_SENSOR, 0, 0);
+		_right[1].configSelectedFeedbackSensor(SELECTED_SENSOR, 0, 0);
+		_right[2].configSelectedFeedbackSensor(SELECTED_SENSOR, 0, 0);
+		_left[0].setSelectedSensorPosition(0);
+		_left[1].setSelectedSensorPosition(0);
+		_left[2].setSelectedSensorPosition(0);
+		_right[0].setSelectedSensorPosition(0);
+		_right[1].setSelectedSensorPosition(0);
+		_right[2].setSelectedSensorPosition(0);
+
+		ShuffleboardTab tab = Shuffleboard.getTab(Constants.DATA_TAB);
+		_encoderEntry = tab.add("Drive Encoders", 0).getEntry();
 	}
 
 	/**
@@ -65,21 +80,27 @@ public class Drive extends SubsystemBase {
 	 * @return
 	 */
 	private double translateUnits(double position) {
-		return position * (WHEEL_DIAMETER * Math.PI / GEAR_RATIO);
+		return position / (WHEEL_DIAMETER * Math.PI / GEAR_RATIO) * 2;
 	}
 
 	/**
 	 * @return The value of the right encoder in MM
 	 */
 	private double getRightEncoder() {
-		return (translateUnits(_right[0].getSelectedSensorPosition()) + translateUnits(_right[1].getSelectedSensorPosition()) + translateUnits(_right[2].getSelectedSensorPosition())) / 3;
+		return (translateUnits(_right[0].getSelectedSensorPosition())
+			+ translateUnits(_right[1].getSelectedSensorPosition())
+			+ translateUnits(_right[2].getSelectedSensorPosition()))
+		/ 3;
 	}
 
 	/**
 	 * @return The value of the left encoder in MM
 	 */
 	private double getLeftEncoder() {
-		return (translateUnits(_left[0].getSelectedSensorPosition()) + translateUnits(_left[1].getSelectedSensorPosition()) + translateUnits(_left[2].getSelectedSensorPosition())) / 3;
+		return -(translateUnits(_left[0].getSelectedSensorPosition())
+			+ translateUnits(_left[1].getSelectedSensorPosition())
+			+ translateUnits(_left[2].getSelectedSensorPosition()))
+		/ 3;
 	}
 
 	/**
@@ -101,4 +122,8 @@ public class Drive extends SubsystemBase {
 		_right[2].setSelectedSensorPosition(0.0);
 	};
 
+	@Override
+	public void periodic() {
+		_encoderEntry.setDouble(getPosition());
+	}
 }

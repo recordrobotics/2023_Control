@@ -5,6 +5,7 @@ import edu.wpi.first.wpilibj.XboxController;
 public class DoubleControl implements IControlInput {
 
 	private XboxController _gamepad1;
+	@SuppressWarnings({"PMD.UnusedPrivateField", "PMD.SingularField"})
 	private XboxController _gamepad2;
 
 	public DoubleControl(int port1, int port2) {
@@ -19,7 +20,7 @@ public class DoubleControl implements IControlInput {
 
 	@Override
 	public double getDriveLat() {
-		return -_gamepad2.getLeftX();
+		return _gamepad1.getLeftX();
 	}
 
 	@Override
@@ -37,5 +38,4 @@ public class DoubleControl implements IControlInput {
 	public String toString() {
 		return "Double";
 	}
-
 }

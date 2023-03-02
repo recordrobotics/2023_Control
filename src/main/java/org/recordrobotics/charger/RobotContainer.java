@@ -7,13 +7,19 @@ package org.recordrobotics.charger;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.recordrobotics.charger.commands.auto.AutoDrive;
+import org.recordrobotics.charger.commands.dash.DashRunFunc;
 import org.recordrobotics.charger.commands.manual.ManualClaw;
+import org.recordrobotics.charger.commands.manual.ManualDrive;
 import org.recordrobotics.charger.control.IControlInput;
 import org.recordrobotics.charger.control.SingleControl;
 import org.recordrobotics.charger.subsystems.*;
 import org.recordrobotics.charger.util.Pair;
 
+import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
+import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
 import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import edu.wpi.first.wpilibj2.command.Subsystem;
 
 /**
@@ -26,34 +32,38 @@ public class RobotContainer {
 	// The robot's subsystems and commands are defined here...
 	private IControlInput _controlInput;
 	private Claw _claw;
+	private Drive _drive;
 
 	// Commands
-	@SuppressWarnings({"PMD.SingularField"})
 	private List<Pair<Subsystem, Command>> _teleopPairs;
+	private Command _autoCommand;
 
 	/** The container for the robot. Contains subsystems, OI devices, and commands. */
 	public RobotContainer() {
 		// Configure the button bindings
 		_controlInput = new SingleControl(Constants.Control.LEGACY_GAMEPAD);
-		//_drive = new Drive();
+		_drive = new Drive();
 		_claw = new Claw();
 
 		initTeleopCommands();
+		initDashCommands();
+		initAutoCommand();
 	}
 
 	private void initTeleopCommands() {
 		_teleopPairs = new ArrayList<>();
 		_teleopPairs.add(new Pair<Subsystem, Command>(_claw, new ManualClaw(_claw, _controlInput)));
+		_teleopPairs.add(new Pair<Subsystem, Command>(_drive, new ManualDrive(_drive, _controlInput)));
 	}
 
-	/**
-	 * Use this to pass the autonomous command to the main {@link Robot} class.
-	 *
-	 * @return the command to run in autonomous
-	 */
-	public Command getAutonomousCommand() {
-		// An ExampleCommand will run in autonomous
-		return null;
+	private void initAutoCommand() {
+		_autoCommand = new AutoDrive(_drive, 0.45, 1000);
+	}
+
+	private void initDashCommands() {
+		ShuffleboardTab tab = Shuffleboard.getTab(Constants.COMMANDS_TAB);
+		tab.add("Single Control", new DashRunFunc(this::singleControl));
+		tab.add("Double Control", new DashRunFunc(this::doubleControl));
 	}
 
 	/**
@@ -63,5 +73,40 @@ public class RobotContainer {
 		for (Pair<Subsystem, Command> c : _teleopPairs) {
 			c.getKey().setDefaultCommand(c.getValue());
 		}
+	}
+
+	/**
+	 * Create autonomous mode commands
+	 */
+	public void autoInit() {
+		CommandScheduler.getInstance().schedule(_autoCommand);
+	}
+
+	/**
+	 * Set control scheme to Single
+	 */
+	private void singleControl() {
+		resetCommands();
+		_controlInput = new SingleControl(RobotMap.Control.SINGLE_GAMEPAD);
+		initTeleopCommands();
+		teleopInit();
+	}
+
+	/**
+	 * Set control scheme to Double
+	 */
+	private void doubleControl() {
+		resetCommands();
+		_controlInput = new DoubleControl(RobotMap.Control.DOUBLE_GAMEPAD_1,
+			RobotMap.Control.DOUBLE_GAMEPAD_2);
+		initTeleopCommands();
+		teleopInit();
+	}
+
+	/**
+	 * Clear commands
+	 */
+	public void resetCommands() {
+		CommandScheduler.getInstance().cancelAll();
 	}
 }
