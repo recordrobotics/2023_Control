@@ -24,7 +24,12 @@ public class ManualArm extends CommandBase {
 	private double _originTolerance = 5;
 	private double _maxSpeed = 0.5;
 
-	private static double _second = 30;
+	private static double _second[] = {57.58, 147.58 + (5/7 * 57.58)};
+	private static double _third[] = {34.03, 126.57 + (5/7 * 34.03)};
+	private static double _substation[] = {10.41, 100.41 + (5/7 * 10.41)};
+	private static double _placehold[];
+
+	/*private static double _second = 30;
 	private static double _third = 22;
 	private static double _ground[] = {40, 42};
 	private static double _substation = 28;
@@ -32,7 +37,7 @@ public class ManualArm extends CommandBase {
 	private static double _flipGroundOriginX = 22;
 	private static double _flipGroundOriginY = 22;
 	private static double _flipGroundChangeX = 22;
-	private static double _flipGroundChangeY = 22;
+	private static double _flipGroundChangeY = 22;*/
 
 	public ManualArm(Arm arm, IControlInput controls, PIDController originPid, PIDController changePid) {
 		if (arm == null) {
@@ -64,22 +69,22 @@ public class ManualArm extends CommandBase {
 		double[] angles;
 		switch (_controls.getArmPosition()) {
 			case SECOND:
-				angles = _arm.getRelatedAngles(_second);
+				angles = _second;//_arm.getRelatedAngles(_second);
 				break;
 			case THIRD:
-				angles = _arm.getRelatedAngles(_third);
+				angles = _third;//_arm.getRelatedAngles(_third);
 				break;
 			case GROUND:
-				angles = _arm.getAnglesOfRotation(_ground[0], _ground[1]);
+				angles = _placehold;//_arm.getAnglesOfRotation(_ground[0], _ground[1]);
 				break;
 			case SUBSTATION:
-				angles = _arm.getRelatedAngles(_substation);
+				angles = _substation;//_arm.getRelatedAngles(_substation);
 				break;
 			case FLIP_GROUND_ORIGIN:
-				angles = _arm.getAnglesOfRotation(_flipGroundOriginX,_flipGroundOriginY);
+				angles = _placehold;//_arm.getAnglesOfRotation(_flipGroundOriginX,_flipGroundOriginY);
 				break;
 			case FLIP_GROUND_CHANGE:
-				angles = _arm.getAnglesOfRotation(_flipGroundChangeX, _flipGroundChangeY);
+				angles = _placehold;//_arm.getAnglesOfRotation(_flipGroundChangeX, _flipGroundChangeY);
 				break;
 			default:
 				angles = _arm.resetPositions();

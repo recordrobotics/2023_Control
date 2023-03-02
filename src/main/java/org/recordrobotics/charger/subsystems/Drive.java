@@ -71,8 +71,8 @@ public class Drive extends SubsystemBase {
 		// Arcade drive expects rotational inputs, while get translational
 		// inputs. Therefore the values must be switched around
 		// https://docs.wpilib.org/en/stable/docs/software/hardware-apis/motors/wpi-drive-classes.html
-		_differentialDrive.arcadeDrive(Subsystems.limitSpeed(latSpeed),
-			Subsystems.limitSpeed(longSpeed));
+		_differentialDrive.arcadeDrive(Subsystems.limitSpeed(-latSpeed),
+			Subsystems.limitSpeed(-longSpeed));
 	}
 
 	/**
@@ -88,7 +88,7 @@ public class Drive extends SubsystemBase {
 	 * @return The value of the right encoder in MM
 	 */
 	public double getRightEncoder() {
-		return (translateUnits(_right[0].getSelectedSensorPosition())
+		return -(translateUnits(_right[0].getSelectedSensorPosition())
 			+ translateUnits(_right[1].getSelectedSensorPosition())
 			+ translateUnits(_right[2].getSelectedSensorPosition()))
 		/ 3;
@@ -98,7 +98,7 @@ public class Drive extends SubsystemBase {
 	 * @return The value of the left encoder in MM
 	 */
 	public double getLeftEncoder() {
-		return -(translateUnits(_left[0].getSelectedSensorPosition())
+		return (translateUnits(_left[0].getSelectedSensorPosition())
 			+ translateUnits(_left[1].getSelectedSensorPosition())
 			+ translateUnits(_left[2].getSelectedSensorPosition()))
 		/ 3;

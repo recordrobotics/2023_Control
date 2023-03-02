@@ -6,8 +6,7 @@ package org.recordrobotics.charger;
 
 import java.util.ArrayList;
 import java.util.List;
-
-import org.recordrobotics.charger.commands.auto.FullAutoSequence;
+import org.recordrobotics.charger.commands.auto.ParallelFullAuto;
 import org.recordrobotics.charger.commands.manual.ManualClaw;
 import org.recordrobotics.charger.commands.manual.ManualArm;
 import org.recordrobotics.charger.commands.manual.ManualDrive;
@@ -69,7 +68,7 @@ public class RobotContainer {
 
 		_vision = new Vision();
 		_kinematics = new DifferentialDriveKinematics(Units.inchesToMeters(20.75));
-		_estimator = new DifferentialDrivePoseEstimator(_kinematics, new Rotation2d(_navSensor.getYaw()), _drive.getLeftEncoder(), _drive.getRightEncoder(), null); //The default standard deviations of the model states are 0.02 meters for x, 0.02 meters for y, and 0.01 radians for heading. The default standard deviations of the vision measurements are 0.1 meters for x, 0.1 meters for y, and 0.1 radians for heading.
+		_estimator = new DifferentialDrivePoseEstimator(_kinematics, new Rotation2d(_navSensor.getYaw()), _drive.getLeftEncoder(), _drive.getRightEncoder(), new Pose2d()); //The default standard deviations of the model states are 0.02 meters for x, 0.02 meters for y, and 0.01 radians for heading. The default standard deviations of the vision measurements are 0.1 meters for x, 0.1 meters for y, and 0.1 radians for heading.
 
 
 
@@ -77,7 +76,7 @@ public class RobotContainer {
 		@SuppressWarnings({"PMD.UnusedLocalVariable"})
 		Trajectory _trajectory = Trajectories.testTrajectory(new Pose2d(1.22743, 2.748026, new Rotation2d(0)), Trajectories.config);
 		//var trajectory = Trajectories.visTestTrajectory(new Pose2d(1.62743, 2.748026, new Rotation2d(Math.PI)), Trajectories.config);
-		_autoCommand = new FullAutoSequence(_vision, _drive, _trajectory, _estimator, _navSensor);
+		_autoCommand = new ParallelFullAuto(_vision, _drive, _arm, _pid1, _pid2, _trajectory, _estimator, _navSensor);
 
 		//TODO: figure out initial pose strategy above
 
