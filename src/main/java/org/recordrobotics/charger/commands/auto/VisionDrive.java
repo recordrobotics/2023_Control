@@ -41,16 +41,16 @@ public class VisionDrive extends CommandBase {
 
 	@Override
 	public void initialize() {
-		Timer _timer = new Timer();
+		_timer = new Timer();
 		_timer.start();
 		_vision.camera.setPipelineIndex(_target);
 	}
 
 	@Override
 	public void execute() {
-		double[] globalPose = Vision.getVisionPoseEstimate(_vision.camera, _vision.robotToCam);
-		Pose2d visPose = new Pose2d(globalPose[0], globalPose[1], new Rotation2d(globalPose[2]));
 		if (Vision.checkForTarget(_vision.camera, _vision.robotToCam)){
+			double[] globalPose = Vision.getVisionPoseEstimate(_vision.camera, _vision.robotToCam);
+			Pose2d visPose = new Pose2d(globalPose[0], globalPose[1], new Rotation2d(globalPose[2]));
 			_estimator.addVisionMeasurement(visPose, _timer.get());
 		}
 		_estimator.update(new Rotation2d(_nav.getYaw()), _drive.getLeftEncoder(), _drive.getRightEncoder());
