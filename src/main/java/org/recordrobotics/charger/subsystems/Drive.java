@@ -57,7 +57,7 @@ public class Drive extends SubsystemBase {
 		_right[1].setSelectedSensorPosition(0);
 		_right[2].setSelectedSensorPosition(0);
 
-		ShuffleboardTab tab = Shuffleboard.getTab(Constants.DATA_TAB);
+		ShuffleboardTab tab = Shuffleboard.getTab(Constants.Tab.DATA_TAB);
 		_encoderEntry = tab.add("Drive Encoders", 0).getEntry();
 	}
 

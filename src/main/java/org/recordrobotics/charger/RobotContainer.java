@@ -11,6 +11,7 @@ import org.recordrobotics.charger.commands.auto.AutoDrive;
 import org.recordrobotics.charger.commands.dash.DashRunFunc;
 import org.recordrobotics.charger.commands.manual.ManualClaw;
 import org.recordrobotics.charger.commands.manual.ManualDrive;
+import org.recordrobotics.charger.control.DoubleControl;
 import org.recordrobotics.charger.control.IControlInput;
 import org.recordrobotics.charger.control.SingleControl;
 import org.recordrobotics.charger.subsystems.*;
@@ -61,7 +62,7 @@ public class RobotContainer {
 	}
 
 	private void initDashCommands() {
-		ShuffleboardTab tab = Shuffleboard.getTab(Constants.COMMANDS_TAB);
+		ShuffleboardTab tab = Shuffleboard.getTab(Constants.Tab.COMMANDS_TAB);
 		tab.add("Single Control", new DashRunFunc(this::singleControl));
 		tab.add("Double Control", new DashRunFunc(this::doubleControl));
 	}
