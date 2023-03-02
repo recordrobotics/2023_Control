@@ -12,7 +12,7 @@ public final class Constants {
 	 * Control ports (PC USB)
 	 */
 
-	 
+
 	public class Control {
 		// LegacyControl
 		public static final int LEGACY_GAMEPAD = 0;
