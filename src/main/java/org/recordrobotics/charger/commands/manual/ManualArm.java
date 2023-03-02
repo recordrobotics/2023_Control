@@ -23,6 +23,7 @@ public class ManualArm extends CommandBase {
 	private double _changeTolerance = 5;
 	private double _originTolerance = 5;
 	private double _maxSpeed = 0.5;
+	private double _maxDownSpeed = 0.2;
 
 	private static double _second[] = {57.58, 147.58 + (5/7 * 57.58)};
 	private static double _third[] = {34.03, 126.57 + (5/7 * 34.03)};
@@ -95,10 +96,18 @@ public class ManualArm extends CommandBase {
 		double _originSpeed = _originPid.calculate(_arm.getOriginEncoder());
 		double _changeSpeed = _changePid.calculate(_arm.getChangeEncoder());
 		if(Math.abs(_originSpeed) > _maxSpeed){
-			_originSpeed = _maxSpeed * Math.signum(_originSpeed);
+			if(Math.sin(_arm.getOriginEncoder()) < Math.sqrt(2)/2){
+				_originSpeed = _maxDownSpeed * Math.signum(_originSpeed);
+			}else{
+				_originSpeed = _maxSpeed * Math.signum(_originSpeed);
+			}
 		}
 		if(Math.abs(_changeSpeed) > _maxSpeed){
-			_changeSpeed = _maxSpeed * Math.signum(_changeSpeed);
+			if(Math.sin(_arm.getChangeEncoder() + _arm.getOriginEncoder() * 5/7) < Math.sqrt(2)/2){
+			_changeSpeed = _maxDownSpeed * Math.signum(_changeSpeed);
+			}else{
+				_changeSpeed = _maxSpeed * Math.signum(_changeSpeed);
+			}
 		}
 
 		_arm.spinOrigin(_originSpeed);
