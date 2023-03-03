@@ -76,7 +76,7 @@ public class RobotContainer {
 		@SuppressWarnings({"PMD.UnusedLocalVariable"})
 		Trajectory _trajectory = Trajectories.testTrajectory(new Pose2d(1.22743, 2.748026, new Rotation2d(0)), Trajectories.config);
 		//var trajectory = Trajectories.visTestTrajectory(new Pose2d(1.62743, 2.748026, new Rotation2d(Math.PI)), Trajectories.config);
-		_autoCommand = new ParallelFullAuto(_vision, _drive, _arm, _pid1, _pid2, _trajectory, _estimator, _navSensor);
+		_autoCommand = new ParallelFullAuto(_vision, _drive, _arm, _claw, _pid1, _pid2, _trajectory, _estimator, _navSensor);
 
 		//TODO: figure out initial pose strategy above
 
