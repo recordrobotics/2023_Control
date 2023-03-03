@@ -10,7 +10,7 @@ public class ManualClaw extends CommandBase {
 	private Claw _claw;
 	private IControlInput _controls;
 
-
+	private static final double CURRENT_GRAB_THRESHOLD = 5;
 	private static final double TURN_SPEED = 0.05;
 
 	public ManualClaw(Claw claw, IControlInput controls) {
@@ -38,7 +38,11 @@ public class ManualClaw extends CommandBase {
 				_claw.turn(TURN_SPEED);
 				break;
 			case -1:
-				_claw.turn(-TURN_SPEED);
+				if (_claw.getCurrent() < CURRENT_GRAB_THRESHOLD) {
+					_claw.turn(-TURN_SPEED);
+				} else {
+					_claw.turn(0);
+				}
 				break;
 			default:
 			 	_claw.turn(0);

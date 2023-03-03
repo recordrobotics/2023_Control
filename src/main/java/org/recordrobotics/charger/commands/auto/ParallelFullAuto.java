@@ -16,7 +16,7 @@ public class ParallelFullAuto extends ParallelCommandGroup {
     
 
 
-    public ParallelFullAuto(Vision vision, Drive drive, Arm arm, PIDController originPid, PIDController changePid,Trajectory trajectory, DifferentialDrivePoseEstimator estimator, NavSensor nav){
+    public ParallelFullAuto(Vision vision, Drive drive, Arm arm, PIDController originPid, PIDController changePid, Trajectory trajectory, DifferentialDrivePoseEstimator estimator, NavSensor nav){
        
         AutoMoveArm moveArm = new AutoMoveArm(arm, originPid, changePid, armPosition);
 

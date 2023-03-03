@@ -54,11 +54,15 @@ public class Claw extends SubsystemBase {
 	}
 
 	/**
-	 * gets encoder value of
-	 * @return
+	 * gets encoder value of the claw
+	 * @return The encoder value
 	 */
 	public double getPosition() {
 		return _motor.getEncoder().getPosition();
+	}
+
+	public double getCurrent() {
+		return _motor.getOutputCurrent();
 	}
 
 	/**

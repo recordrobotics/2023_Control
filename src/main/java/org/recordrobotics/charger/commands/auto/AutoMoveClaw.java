@@ -8,8 +8,14 @@ import org.recordrobotics.charger.subsystems.Claw;
 public class AutoMoveClaw extends CommandBase{
 	private Claw _claw;
 	private double _speed;
+	private int _status;
 
-	public AutoMoveClaw(Claw claw, double speed){
+	/**
+	 * @param claw Claw object
+	 * @param speed speed to turn
+	 * @param status grab or release, 1 is grab, -1 is release
+	 */
+	public AutoMoveClaw(Claw claw, double speed, int status){
 		if (speed <= 0) {
 			throw new IllegalArgumentException("Speed must be positive");
 		}
@@ -18,8 +24,8 @@ public class AutoMoveClaw extends CommandBase{
 		}
 
 		_claw = claw;
-
 		_speed = speed;
+		_status = status;
 	}
 
 	/**
@@ -28,11 +34,7 @@ public class AutoMoveClaw extends CommandBase{
 	@Override
 
 	public void initialize() {
-		_claw.resetEncoders();
-
-		if(_claw.getPosition() < ManualClaw.CONE_POS/2){
-			_claw.turn(_speed);
-		} else {
+		if (_status == 1) {
 			_claw.turn(-_speed);
 		}
 	}
