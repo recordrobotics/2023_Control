@@ -26,11 +26,11 @@ public class AutoMoveArm extends CommandBase {
 	private ArmPosition _armPosition;
 	private Timer _timer;
 
-	private static double _second[] = {57.58, 147.58 + (5/7 * 57.58)};
-	private static double _third[] = {40.21, 139.87 + (5/7 * 40.21)};
-	private static double _substation[] = {10.41, 100.41 + (5/7 * 10.41)};
+	private static double _second[] = {57.58, -147.58 - (5/7 * 57.58)};
+	private static double _third[] = {40.21, -139.87 - (5/7 * 40.21)};
+	private static double _substation[] = {10.41, -100.41 - (5/7 * 10.41)};
 	private static double _placehold[];
-
+	
 	public AutoMoveArm(Arm arm, PIDController originPid, PIDController changePid, ArmPosition armPosition) {
 		if (arm == null) {
 			throw new IllegalArgumentException("Arm is null");
