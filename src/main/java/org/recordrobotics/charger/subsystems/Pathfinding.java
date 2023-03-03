@@ -47,9 +47,9 @@ public class Pathfinding {
 		scoreSpots = new ArrayList<>();
 		for(Pose2d scoreSpot : score) {
 			if(side == 'B') {
-				scoreSpots.add(new Pose2d(scoreSpot.getX(), scoreSpot.getY(), new Rotation2d(Math.PI)));
+				scoreSpots.add(new Pose2d(Units.inchesToMeters(54.25), scoreSpot.getY(), new Rotation2d(Math.PI)));
 			} else {
-				scoreSpots.add(new Pose2d(scoreSpot.getX(), scoreSpot.getY(), new Rotation2d(0)));
+				scoreSpots.add(new Pose2d(Units.inchesToMeters(596.07), scoreSpot.getY(), new Rotation2d(0)));
 			}
 		}
 
