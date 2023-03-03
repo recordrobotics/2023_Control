@@ -26,7 +26,7 @@ public class ManualArm extends CommandBase {
 	private double _maxDownSpeed = 0.2;
 
 	private static double _second[] = {57.58, 147.58 + (5/7 * 57.58)};
-	private static double _third[] = {34.03, 126.57 + (5/7 * 34.03)};
+	private static double _third[] = {40.21, 139.87 + (5/7 * 40.21)};
 	private static double _substation[] = {10.41, 100.41 + (5/7 * 10.41)};
 	private static double _placehold[];
 
