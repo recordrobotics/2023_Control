@@ -42,7 +42,7 @@ public class Claw extends SubsystemBase {
 	 *  @return true if Claw in boundary
 	 */
 	public boolean getSwitchState(){
-		return !_limitSwitch.get();
+		return _limitSwitch.get();
 	}
 
 	/**
