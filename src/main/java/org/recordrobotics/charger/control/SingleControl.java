@@ -25,7 +25,7 @@ public class SingleControl implements IControlInput {
 	public int getClawTurn() {
 		if (_gamepad.getLeftBumperPressed()) {
 			return -1;
-		} else if (_gamepad.getRightBumperPressed()) {
+		} else if (_gamepad.getRightBumperPressed()) {//this moves the arm back??????
 			return 1;
 		} else {
 			return 0;
