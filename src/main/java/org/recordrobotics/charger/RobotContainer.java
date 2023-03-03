@@ -44,7 +44,7 @@ public class RobotContainer {
 	private Drive _drive;
 	private DifferentialDrivePoseEstimator _estimator;
 	private DifferentialDriveKinematics _kinematics;
-	private Trajectory _trajcetory;
+	private Trajectory _trajectory;
 	private NavSensor _navSensor;
 	private Vision _vision;
 	private Arm _arm;
