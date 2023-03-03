@@ -6,7 +6,7 @@ public class SingleControl implements IControlInput {
 
 	private XboxController _gamepad;
 
-	private static double _TRIGGER_THRESHOLD = 0.25;
+	private double _TRIGGER_THRESHOLD = 0.25;
 
 	public SingleControl(int port) {
 		_gamepad = new XboxController(port);

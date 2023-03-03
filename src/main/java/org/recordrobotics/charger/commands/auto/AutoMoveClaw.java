@@ -2,13 +2,14 @@ package org.recordrobotics.charger.commands.auto;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
 
-import org.recordrobotics.charger.commands.manual.ManualClaw;
 import org.recordrobotics.charger.subsystems.Claw;
 
 public class AutoMoveClaw extends CommandBase{
 	private Claw _claw;
 	private double _speed;
 	private int _status;
+
+	private int _grab = 1;
 
 	/**
 	 * @param claw Claw object
@@ -34,14 +35,16 @@ public class AutoMoveClaw extends CommandBase{
 	@Override
 
 	public void initialize() {
-		if (_status == 1) {
-			if (_claw.getCurrent() > 5.0 || _claw.getSwitchState()) {
+		if (_status == _grab) {
+			if (_claw.getCurrent() > _claw._CURRENT_GRAB_THRESHOLD || _claw.getSwitchState()) {
 				_claw.turn(0);
 			} else {
 				_claw.turn(-_speed);
 			}
 		} else {
-			_claw.turn(_speed);
+			if (_claw.getPosition() >= _claw._OPEN_CLAW_ENCODER) {
+				_claw.turn(_speed);
+			}
 		}
 	}
 
@@ -50,6 +53,6 @@ public class AutoMoveClaw extends CommandBase{
 	 */
 	@Override
 	public boolean isFinished() {
-		return _claw.getPosition() >= ManualClaw.CUBE_POS || _claw.getSwitchState();
+		return _claw.getPosition() >= _claw._OPEN_CLAW_ENCODER || _claw.getSwitchState();
 	}
 }

@@ -12,13 +12,13 @@ import edu.wpi.first.math.trajectory.Trajectory;
 import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 
 public class ParallelFullAuto extends ParallelCommandGroup {
-    private ArmPosition armPosition = ArmPosition.NEUTRAL;
+    private ArmPosition _armPosition = ArmPosition.NEUTRAL;
     
 
 
     public ParallelFullAuto(Vision vision, Drive drive, Arm arm, PIDController originPid, PIDController changePid, Trajectory trajectory, DifferentialDrivePoseEstimator estimator, NavSensor nav){
        
-        AutoMoveArm moveArm = new AutoMoveArm(arm, originPid, changePid, armPosition);
+        AutoMoveArm moveArm = new AutoMoveArm(arm, originPid, changePid, _armPosition);
 
         addCommands(
             moveArm,

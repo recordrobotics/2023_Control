@@ -14,13 +14,16 @@ import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
 public class Claw extends SubsystemBase {
 
-	private static final double GEAR_RATIO = 80;
+	private static final double GEAR_RATIO = 125;
 
 	private CANSparkMax _motor = new CANSparkMax(RobotMap.Claw.MOTOR_PORT, MotorType.kBrushless);
 	private DigitalInput _limitSwitch = new DigitalInput(RobotMap.Claw.LIMIT_SWITCH);
 
 	private GenericEntry _voltageEntry;
 	private GenericEntry _encoderEntry;
+
+	public double _OPEN_CLAW_ENCODER = 0.2;
+	public double _CURRENT_GRAB_THRESHOLD = 5;
 
 	public Claw() {
 		_motor.set(0);

@@ -8,6 +8,8 @@ public class DoubleControl implements IControlInput {
 	@SuppressWarnings({"PMD.UnusedPrivateField","PMD.SingularField"})
 	private XboxController _gamepad2;
 
+	private double _TRIGGER_THRESHOLD = 0.75;
+
 	public DoubleControl(int port1, int port2) {
 		_gamepad1 = new XboxController(port1);
 		_gamepad2 = new XboxController(port2);
@@ -25,9 +27,9 @@ public class DoubleControl implements IControlInput {
 
 	@Override
 	public int getClawTurn() {
-		if (_gamepad2.getLeftBumperPressed()) {
+		if (_gamepad2.getLeftTriggerAxis() >= _TRIGGER_THRESHOLD) {
 			return -1;
-		} else if (_gamepad2.getRightBumperPressed()) {
+		} else if (_gamepad2.getRightTriggerAxis() >= _TRIGGER_THRESHOLD) {
 			return 1;
 		} else {
 			return 0;
