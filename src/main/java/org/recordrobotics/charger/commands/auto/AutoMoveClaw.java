@@ -53,6 +53,6 @@ public class AutoMoveClaw extends CommandBase{
 	 */
 	@Override
 	public boolean isFinished() {
-		return _claw.getPosition() >= _claw._OPEN_CLAW_ENCODER || _claw.getSwitchState();
+		return _claw.getPosition() >= _claw._OPEN_CLAW_ENCODER || _claw.getSwitchState() || _claw.getCurrent() > _claw._CURRENT_GRAB_THRESHOLD;
 	}
 }
