@@ -35,7 +35,7 @@ public class AutoMoveClaw extends CommandBase{
 
 	public void initialize() {
 		if (_status == 1) {
-			if (_claw.getCurrent() > 5.0 || _claw.getSwitchState()) {
+			if (_claw.getSwitchState()) {
 				_claw.turn(0);
 			} else {
 				_claw.turn(-_speed);
@@ -50,6 +50,6 @@ public class AutoMoveClaw extends CommandBase{
 	 */
 	@Override
 	public boolean isFinished() {
-		return _claw.getPosition() >= ManualClaw.CUBE_POS || _claw.getSwitchState();
+		return _claw.getPosition() >= ManualClaw.CUBE_POS || _claw.getSwitchState() || _claw.getCurrent() > 5.0;
 	}
 }
