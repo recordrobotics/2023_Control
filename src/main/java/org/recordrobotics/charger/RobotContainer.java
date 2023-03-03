@@ -46,7 +46,10 @@ public class RobotContainer {
 	private DifferentialDrivePoseEstimator _estimator;
 	private DifferentialDriveKinematics _kinematics;
 	private Trajectory _trajectory;
+<<<<<<< HEAD
 	private Pathfinding _pathfinding;
+=======
+>>>>>>> c984298ef7ac0e75d6a73f1ba3437956e9836a64
 	private NavSensor _navSensor;
 	private Vision _vision;
 	private Arm _arm;
@@ -73,9 +76,19 @@ public class RobotContainer {
 		_estimator = new DifferentialDrivePoseEstimator(_kinematics, new Rotation2d(_navSensor.getYaw()), _drive.getLeftEncoder(), _drive.getRightEncoder(), new Pose2d()); //The default standard deviations of the model states are 0.02 meters for x, 0.02 meters for y, and 0.01 radians for heading. The default standard deviations of the vision measurements are 0.1 meters for x, 0.1 meters for y, and 0.1 radians for heading.
 		//TODO: set an initial pose
 
+<<<<<<< HEAD
 		_pathfinding = new Pathfinding(null, null, null, null);
 		_trajectory = new Trajectory();//TODO: set a trajectory
 		_autoCommand = new ParallelFullAuto(_vision, _drive, _arm, _pid1, _pid2, _trajectory, _estimator, _navSensor);
+=======
+
+
+		//var trajectory = Trajectories.getTrajectory(null, Trajectories.config);//TODO: starting pose
+		@SuppressWarnings({"PMD.UnusedLocalVariable"})
+		Trajectory _trajectory = Trajectories.testTrajectory(new Pose2d(1.22743, 2.748026, new Rotation2d(0)), Trajectories.config);
+		//var trajectory = Trajectories.visTestTrajectory(new Pose2d(1.62743, 2.748026, new Rotation2d(Math.PI)), Trajectories.config);
+		_autoCommand = new ParallelFullAuto(_vision, _drive, _arm, _claw, _pid1, _pid2, _trajectory, _estimator, _navSensor);
+>>>>>>> c984298ef7ac0e75d6a73f1ba3437956e9836a64
 
 		initTeleopCommands();
 		initDashCommands();

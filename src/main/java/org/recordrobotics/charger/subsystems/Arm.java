@@ -19,8 +19,8 @@ public class Arm extends SubsystemBase {
 
 	// IN DEGREES
 	// negative is in the same direction as the rotation, positive is in the opposite
-	private static final double ORIGIN_START_OFFSET = 0;
-	private static final double CHANGE_START_OFFSET = -90;
+	private static final double ORIGIN_START_OFFSET = 41.33;
+	private static final double CHANGE_START_OFFSET = 0;//-90;
 
 	private static final double TICKS_PER_REV = 2048;
 	private static final double GEAR_RATIO = 16;
@@ -35,6 +35,8 @@ public class Arm extends SubsystemBase {
 		_changeMotor.setSelectedSensorPosition(CHANGE_START_OFFSET);
 		_originMotor.setNeutralMode(NeutralMode.Brake);
 		_changeMotor.setNeutralMode(NeutralMode.Brake);
+		_originMotor.set(0);
+		_changeMotor.set(0);
 
 		ShuffleboardTab tab = Shuffleboard.getTab(Constants.DATA_TAB);
 		_entryAngles = tab.add("Angles Of Rotation", new double[] {0, 0}).getEntry();

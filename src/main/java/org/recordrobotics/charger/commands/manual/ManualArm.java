@@ -22,12 +22,12 @@ public class ManualArm extends CommandBase {
 	private double _ckd;
 	private double _changeTolerance = 5;
 	private double _originTolerance = 5;
-	private double _maxSpeed = 0.5;
-	private double _maxDownSpeed = 0.2;
+	private double _maxSpeed = 0.2;
+	private double _maxDownSpeed = 0.1;
 
-	private static double _second[] = {57.58, 147.58 + (5/7 * 57.58)};
-	private static double _third[] = {40.21, 139.87 + (5/7 * 40.21)};
-	private static double _substation[] = {10.41, 100.41 + (5/7 * 10.41)};
+	private static double _second[] = {-57.58, -147.58 - 5/7 * -57.58};
+	private static double _third[] = {-40.21, -139.87 - 5/7 * -40.21};
+	private static double _substation[] = {-10.41, -100.41 - 5/7 * -10.41};
 	private static double _placehold[];
 
 	/*private static double _second = 30;
@@ -112,6 +112,7 @@ public class ManualArm extends CommandBase {
 
 		_arm.spinOrigin(_originSpeed);
 		_arm.spinChange(_changeSpeed);
+		System.out.println(_arm.getOriginEncoder() + " " + angles[0]);
 	}
 
 	public boolean originIsFliped(){
