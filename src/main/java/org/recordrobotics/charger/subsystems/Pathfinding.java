@@ -10,12 +10,20 @@ import edu.wpi.first.math.trajectory.TrajectoryConfig;
 import edu.wpi.first.math.trajectory.TrajectoryGenerator;
 import edu.wpi.first.math.util.Units;
 
-@SuppressWarnings({"PMD"})
+/*
+ * quote from Lauren: 
+ * Ok so basically, you want to make a Pathfinding object. 
+ * If you look at the constructor, it takes in Pose2d start, ArrayLists for scoring nodes and game pieces, and a String for the routine we're executing. 
+ * So pass in the robot's starting position, the list of poses of the possible scoring nodes that we're aiming for during the round, list of game piece poses, 
+ * and then either "docking" (going onto the charge station) or "scoring" (continuously picking up and scoring pieces) for the routine. 
+ * When the object is created, it will make a docking or scoring routine/trajectory for the robot that's stored in the variable finalPath. It's a list of trajectories.
+ */
 
+@SuppressWarnings({"PMD"})
 public class Pathfinding {
 
-	TrajectoryConfig forward = new TrajectoryConfig(3, 1);
-	TrajectoryConfig backward = new TrajectoryConfig(3, 1);
+	TrajectoryConfig forward = new TrajectoryConfig(2, 1);
+	TrajectoryConfig backward = new TrajectoryConfig(2, 1);
 
 	char side;
 	ArrayList<Pose2d> scoreSpots;

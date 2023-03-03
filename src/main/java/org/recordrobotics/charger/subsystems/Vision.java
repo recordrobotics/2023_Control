@@ -16,6 +16,7 @@ public class Vision extends SubsystemBase{
 
 	public PhotonCamera camera = new PhotonCamera("OV5647"); //IMPORTANT: This camera name MUST match the one on the Raspberry Pi, accessible through the PhotonVision UI.
 	public Transform3d robotToCam = new Transform3d(new Translation3d(Units.inchesToMeters(15), 0.16, 0.1725), new Rotation3d(0,0,0)); //The offset from the center of the robot to the camera, and from facing exactly forward to the orientation of the camera.
+	//TODO: SET TRANSFORM!!!!!!
 
 	static final double[][] tags = {//april tags 1-8 in order. values contained are x, y, z, theta, in that order. x, y, z are distances in meters, theta is in radians.
 		{15.513558, 1.071626, 0.462788, Math.PI}, //tag 1
@@ -35,7 +36,7 @@ public class Vision extends SubsystemBase{
 		double topLeftY = target.getDetectedCorners().get(3).y;
 		double height = topLeftY - bottomLeftY;
 		double width = topLeftX - topRightX;
-		double angle = Math.asin(width/height);
+		double angle = Math.PI - Math.asin(width/height);//necessary to get the angle off of the line normal to the tag
 		return angle;
 	}
 
@@ -46,10 +47,11 @@ public class Vision extends SubsystemBase{
 			PhotonTrackedTarget target = result.getBestTarget();//Choose the closest Apriltag
 			int targetID = target.getFiducialId();//get the ID
 			Transform3d bestRobotToTarget = target.getBestCameraToTarget().plus(robotToCam.inverse());//getting the transform from the robot center to the tag. This transform's values are robot relative, and so will be converted to global coordinates.
-			double yaw = target.getYaw()*Math.PI/180;//getting the angle to the robot from the center of the april tag.
+			//double yaw = target.getYaw()*Math.PI/180
+			double targetAngle = getTagAngle(target);//getting the angle to the robot from the center of the april tag.
 			double distance = Math.sqrt(bestRobotToTarget.getX()*bestRobotToTarget.getX() + bestRobotToTarget.getY()*bestRobotToTarget.getY());//getting the distance between the camera and tag from the x and y components of the transform.
-			double x_transform = Math.cos(yaw)*distance;//getting the x transform from the tag to the robot.
-			double y_transform = Math.sin(yaw)*distance;//getting the y transform from the tag to the robot.
+			double x_transform = Math.cos(targetAngle)*distance;//getting the x transform from the tag to the robot.
+			double y_transform = Math.sin(targetAngle)*distance;//getting the y transform from the tag to the robot.
 			double global_x = tags[targetID][0] + Math.cos(tags[targetID][3])*x_transform;//the x transform from the tag to the robot is added to the tag's x coordinate to get the robot's global x coordinate.
 			double global_y = tags[targetID][1] + y_transform;//the y transform from the tag to the robot is added to the tag's y coordinate to get the robot's global y coordinate.
 			double global_theta = tags[targetID][3] + Math.PI + bestRobotToTarget.getRotation().toRotation2d().getRadians(); //getting the orientation of the robot from the tag's orientation and the transform. Pi is added because if the camera sees the tag, it is necessarily looking in the direction opposite the tag's orientation.
@@ -59,7 +61,7 @@ public class Vision extends SubsystemBase{
 		return null;//if no tag is visible, nothing will be returned.
 	}
 
-	public static double[] getColoredObjectPose(PhotonCamera camera, Transform3d robotToCam, DifferentialDrivePoseEstimator estimator){
+	public static double[] getColoredObjectPose(PhotonCamera camera, Transform3d robotToCam, DifferentialDrivePoseEstimator estimator){//THIS DOES NOT WORK; NO 3D FUNCTIONS FOR THIS YEARS GAME PIECES
 		var result = camera.getLatestResult();//get a frame from the camera
 		boolean hasTargets = result.hasTargets();//check for targets. This MUST be checked for, otherwise an error will occur if there isn't a target.
 		if (hasTargets){
@@ -76,10 +78,23 @@ public class Vision extends SubsystemBase{
 		return null;
 	}
 
-	public static boolean checkForTarget(PhotonCamera camera, Transform3d robotToCam){
+	public static boolean checkForTarget(PhotonCamera camera){
 		var result = camera.getLatestResult();//get a frame from the camera
 		boolean hasTargets = result.hasTargets();//check for targets. This MUST be checked for, otherwise an error will occur if there isn't a target.
 		return hasTargets;
 	}
+
+	public static boolean checkForTargetAndAmbiguity(PhotonCamera camera){
+		var result = camera.getLatestResult();//get a frame from the camera
+		boolean hasTargets = result.hasTargets();//check for targets. This MUST be checked for, otherwise an error will occur if there isn't a target.
+		boolean ambiguityAcceptible = false;
+		if (hasTargets){
+			PhotonTrackedTarget target = result.getBestTarget();//Choose the closest Apriltag
+			ambiguityAcceptible = target.getPoseAmbiguity() <= 0.2;}
+		if (hasTargets && ambiguityAcceptible){
+			return true;
+		} else {
+			return false;
+		}
 }
-//TODO: figure out integration of colored objects and similar into auto routine, make vision more reliable, pipeline switching, integration into teleop
+}
