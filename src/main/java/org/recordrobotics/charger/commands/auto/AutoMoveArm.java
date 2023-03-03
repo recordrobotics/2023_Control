@@ -23,14 +23,12 @@ public class AutoMoveArm extends CommandBase {
 	private double _originTolerance = 5;
 	private double _maxSpeed = 0.5;
 
-	private static final double START_OFFSET = 41.33;
-
 	private ArmPosition _armPosition;
 	private Timer _timer;
 
-	private static double _second[] = {-57.58 + START_OFFSET, -147.58 - 5/7 * -57.58};
-	private static double _third[] = {-40.21 + START_OFFSET, -139.87 - 5/7 * -40.21};
-	private static double _substation[] = {-10.41 + START_OFFSET, -100.41 - 5/7 * -10.41};
+	private static double _second[] = {-57.58, -147.58 - 5/7 * -57.58};
+	private static double _third[] = {-40.21, -139.87 - 5/7 * -40.21};
+	private static double _substation[] = {-10.41, -100.41 - 5/7 * -10.41};
 	private static double _placehold[];
 
 	public AutoMoveArm(Arm arm, PIDController originPid, PIDController changePid, ArmPosition armPosition) {

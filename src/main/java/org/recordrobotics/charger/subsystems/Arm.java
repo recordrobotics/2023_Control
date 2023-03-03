@@ -19,7 +19,7 @@ public class Arm extends SubsystemBase {
 
 	// IN DEGREES
 	// negative is in the same direction as the rotation, positive is in the opposite
-	private static final double ORIGIN_START_OFFSET = 0;
+	private static final double ORIGIN_START_OFFSET = 41.33;
 	private static final double CHANGE_START_OFFSET = 0;//-90;
 
 	private static final double TICKS_PER_REV = 2048;
