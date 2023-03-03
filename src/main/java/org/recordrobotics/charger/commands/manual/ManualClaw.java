@@ -4,17 +4,14 @@ import edu.wpi.first.wpilibj2.command.CommandBase;
 import org.recordrobotics.charger.subsystems.Claw;
 import org.recordrobotics.charger.control.IControlInput;
 
+
 public class ManualClaw extends CommandBase {
 
 	private Claw _claw;
 	private IControlInput _controls;
 
-	public static final double NEUTRAL_POS = 0.3;
-	public static final double CUBE_POS = 0.1;
-	public static final double CONE_POS = 0.0;
-
-	private static final double TURN_SPEED = 0.3;
-	// TODO: find a good value experimentally
+	private static final double CURRENT_GRAB_THRESHOLD = 5;
+	private static final double TURN_SPEED = 0.05;
 
 	public ManualClaw(Claw claw, IControlInput controls) {
 		if (claw == null) {
@@ -30,22 +27,33 @@ public class ManualClaw extends CommandBase {
 	}
 
 	@Override
-	public void execute() {
-		if (_claw.getSwitchState() || _controls.getClawTurn() > 0){
-			if(_controls.getClawTurn() > 0){
-				_claw.turn(TURN_SPEED);
-			} else if(_controls.getClawTurn() < 0){
-				_claw.turn(-TURN_SPEED);
-			} else {
-				_claw.turn(0);
-			}
-		} else {
-			_claw.turn(0);
-		}
+	public void initialize() {
+		_claw.resetEncoders();
 	}
+
+	@Override
+	public void execute() {
+		switch (_controls.getClawTurn()) {
+			case 1:
+				_claw.turn(TURN_SPEED);
+				break;
+			case -1:
+				if (_claw.getCurrent() < CURRENT_GRAB_THRESHOLD) {
+					_claw.turn(-TURN_SPEED);
+				} else {
+					_claw.turn(0);
+				}
+				break;
+			default:
+			 	_claw.turn(0);
+				break;
+			}
+	}
+
 
 	@Override
 	public void end(boolean interrupted) {
 		_claw.turn(0);
 	}
+
 }
