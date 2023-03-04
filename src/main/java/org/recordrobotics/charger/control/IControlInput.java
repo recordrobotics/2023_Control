@@ -65,9 +65,9 @@ public interface IControlInput {
 		FLIP_GROUND_CHANGE;
 	}
 		/**
-	 * Claw Turn Direction(Open & Close)
+	 * Claw Turn Direction(Release & Grab)
 	 *
-	 * @return 1 Opening, -1 Closing, 0 No Movment
+	 * @return 1 Releasing, -1 Grabbing, 0 No Movement
 	 */
 	int getClawTurn();
 }
