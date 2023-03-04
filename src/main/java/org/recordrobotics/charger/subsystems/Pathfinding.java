@@ -24,7 +24,7 @@ import edu.wpi.first.math.util.Units;
 @SuppressWarnings({"PMD"})
 public class Pathfinding {
 
-	TrajectoryConfig forward = new TrajectoryConfig(6, 3);
+	public TrajectoryConfig forward = new TrajectoryConfig(6, 3);
 	TrajectoryConfig backward = new TrajectoryConfig(6, 3);
 
 	char side;

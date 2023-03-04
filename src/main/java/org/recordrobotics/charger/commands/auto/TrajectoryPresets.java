@@ -7,6 +7,8 @@ import org.recordrobotics.charger.subsystems.Pathfinding;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.trajectory.Trajectory;
+import edu.wpi.first.math.trajectory.TrajectoryGenerator;
+import edu.wpi.first.math.util.Units;
 
 public class TrajectoryPresets {
 
@@ -165,5 +167,29 @@ public class TrajectoryPresets {
         ArrayList<Pose2d> pieces = new ArrayList<Pose2d>();
         _pathfinding = new Pathfinding(start, score, pieces, "docking");
         return _pathfinding.finalPath;
+    }
+
+    public Trajectory blueNoScoring(){
+        Pose2d start = new Pose2d(1.74, 2.75, new Rotation2d(Math.PI));//middle start, facing outwards
+        Pose2d outOfCommunity = new Pose2d(6.22, 2.75, new Rotation2d(Math.PI));
+        Pose2d dock = new Pose2d(Units.inchesToMeters(153.0025), Units.inchesToMeters(108.015), new Rotation2d(Math.PI));
+        ArrayList<Pose2d> poses = new ArrayList<Pose2d>();
+        poses.add(start);
+        poses.add(outOfCommunity);
+        poses.add(dock);
+        Trajectory traj = TrajectoryGenerator.generateTrajectory(poses, _pathfinding.forward);
+        return traj;
+    }
+
+    public Trajectory redNoScoring(){
+        Pose2d start = new Pose2d(15.5, 2.75, new Rotation2d(0));
+        Pose2d outOfCommunity = new Pose2d(10.28, 2.75, new Rotation2d());
+        Pose2d dock = new Pose2d(Units.inchesToMeters(497.3175), Units.inchesToMeters(108.015), new Rotation2d(0));
+        ArrayList<Pose2d> poses = new ArrayList<Pose2d>();
+        poses.add(start);
+        poses.add(outOfCommunity);
+        poses.add(dock);
+        Trajectory traj = TrajectoryGenerator.generateTrajectory(poses, _pathfinding.forward);
+        return traj;
     }
 }
