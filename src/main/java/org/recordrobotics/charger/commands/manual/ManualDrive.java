@@ -36,9 +36,9 @@ public class ManualDrive extends CommandBase {
 	@Override
 	public void execute() {
 		if (_controls.isSlow()) {
-			_speedModifier = LOW_SPEED_MODIFIER;
-		} else {
 			_speedModifier = HIGH_SPEED_MODIFIER;
+		} else {
+			_speedModifier = LOW_SPEED_MODIFIER;
 		}
 		if (_controls.canTurn()) {
 			_drive.move(_controls.getDriveLong() * _speedModifier,
