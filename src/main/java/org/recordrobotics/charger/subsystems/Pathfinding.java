@@ -83,7 +83,7 @@ public class Pathfinding {
 
 		Pose2d dock = new Pose2d(Units.inchesToMeters(153.0025), Units.inchesToMeters(108.015), new Rotation2d(Math.PI));
 		if(side == 'R') {
-			dir = "right";
+		dir = "right";
 			dock = new Pose2d(Units.inchesToMeters(497.3175), Units.inchesToMeters(108.015), new Rotation2d(0));
 		}
 
