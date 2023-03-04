@@ -26,10 +26,18 @@ public class AutoMoveArm extends CommandBase {
 	private ArmPosition _armPosition;
 	private Timer _timer;
 
-	private static double _second[] = {-57.58, -147.58 - 5/7 * -57.58};
-	private static double _third[] = {-40.21, -139.87 - 5/7 * -40.21};
-	private static double _substation[] = {-10.41, -100.41 - 5/7 * -10.41};
+	//private static double _second[] = {-122.42, -147.58 - 5/7 * -122.42};
+	//private static double _third[] = {-139.79, -139.87 - 5/7 * -139.79};
 	private static double _placehold[];
+
+	private static double _second = 46;
+	private static double _third = 34;
+	//private static double _ground[] = {40, 42};
+	private static double _substation = 37.375;
+
+	/*private static double _flipGroundOriginX = 22;
+	private static double _flipGroundOriginY = 22;
+	private static double _flipGroundChangeX = 22;*/
 	private static double _autoDefault[] = {-41.33 , 0 - 5/7 * -41.33};
 
 	public AutoMoveArm(Arm arm, PIDController originPid, PIDController changePid, ArmPosition armPosition) {
@@ -59,16 +67,16 @@ public class AutoMoveArm extends CommandBase {
 		double[] angles;
 		switch (_armPosition) {
 			case SECOND:
-				angles = _second;//_arm.getRelatedAngles(_second);
+				angles = _arm.getRelatedAngles(_second);
 				break;
 			case THIRD:
-				angles = _third;//_arm.getRelatedAngles(_third);
+				angles = _arm.getRelatedAngles(_third);
 				break;
 			case GROUND:
 				angles = _placehold;//_arm.getAnglesOfRotation(_ground[0], _ground[1]);
 				break;
 			case SUBSTATION:
-				angles = _substation;//_arm.getRelatedAngles(_substation);
+				angles = _arm.getRelatedAngles(_substation);
 				break;
 			case FLIP_GROUND_ORIGIN:
 				angles = _placehold;//_arm.getAnglesOfRotation(_flipGroundOriginX,_flipGroundOriginY);

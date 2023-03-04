@@ -104,8 +104,8 @@ public class Arm extends SubsystemBase {
 	public double[] getRelatedAngles(double targetY) {
 		double[] angles = new double[2];
 		// core angle is the complement of angle 1 and supplement of angle 2
-		double coreAngle = Math.asin(targetY / FIRST_ARM_LENGTH);
-		angles[0] = Math.toDegrees(Math.PI / 2 - coreAngle);
+		double coreAngle = Math.asin((targetY - 13.625) / FIRST_ARM_LENGTH);
+		angles[0] = Math.toDegrees(Math.PI - coreAngle);
 		angles[1] = Math.toDegrees(Math.PI - coreAngle);
 		return angles;
 	}

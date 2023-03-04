@@ -17,6 +17,8 @@ import edu.wpi.first.math.util.Units;
  * So pass in the robot's starting position, the list of poses of the possible scoring nodes that we're aiming for during the round, list of game piece poses, 
  * and then either "docking" (going onto the charge station) or "scoring" (continuously picking up and scoring pieces) for the routine. 
  * When the object is created, it will make a docking or scoring routine/trajectory for the robot that's stored in the variable finalPath. It's a list of trajectories.
+ * docking: score the preloaded piece, dock at charge station
+ * scoring: score repeatedly, only score
  */
 
 @SuppressWarnings({"PMD"})
