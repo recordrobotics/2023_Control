@@ -23,8 +23,8 @@ public class ManualArm extends CommandBase {
 	private double _ckd;
 	private double _changeTolerance = 5;
 	private double _originTolerance = 5;
-	private double _maxSpeed = 0.2;
-	private double _maxDownSpeed = 0.1;
+	private double _maxSpeed = 0.4;
+	private double _maxDownSpeed = 0.2;
 
 	//private static double _second[] = {-122.42, -147.58 - 5/7 * -122.42};
 	//private static double _third[] = {-139.79, -139.87 - 5/7 * -139.79};

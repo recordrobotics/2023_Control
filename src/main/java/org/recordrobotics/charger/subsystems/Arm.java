@@ -19,7 +19,7 @@ public class Arm extends SubsystemBase {
 
 	// IN DEGREES
 	// negative is in the same direction as the rotation, positive is in the opposite
-	private static final double ORIGIN_START_OFFSET = 41.33;
+	private static final double ORIGIN_START_OFFSET = -41.33;
 	private static final double CHANGE_START_OFFSET = 0;//-90;
 
 	private static final double TICKS_PER_REV = 2048;
@@ -31,8 +31,8 @@ public class Arm extends SubsystemBase {
 	private double[] _angles = new double[2];
 
 	public Arm() {
-		_originMotor.setSelectedSensorPosition(ORIGIN_START_OFFSET);
-		_changeMotor.setSelectedSensorPosition(CHANGE_START_OFFSET);
+		_originMotor.setSelectedSensorPosition(0 * ORIGIN_START_OFFSET * TICKS_PER_REV / 360 * GEAR_RATIO * Math.sqrt(10));
+		_changeMotor.setSelectedSensorPosition(CHANGE_START_OFFSET * TICKS_PER_REV / 360 * GEAR_RATIO * Math.sqrt(10));
 		_originMotor.setNeutralMode(NeutralMode.Brake);
 		_changeMotor.setNeutralMode(NeutralMode.Brake);
 		_originMotor.set(0);
@@ -105,7 +105,7 @@ public class Arm extends SubsystemBase {
 		double[] angles = new double[2];
 		// core angle is the complement of angle 1 and supplement of angle 2
 		double coreAngle = Math.asin((targetY - 13.625) / FIRST_ARM_LENGTH);
-		angles[0] = Math.toDegrees(Math.PI - coreAngle);
+		angles[0] = -Math.toDegrees(Math.PI - coreAngle) - ORIGIN_START_OFFSET;
 		angles[1] = Math.toDegrees(Math.PI - coreAngle);
 		return angles;
 	}
@@ -122,7 +122,7 @@ public class Arm extends SubsystemBase {
 	 * @return value of origin motor encoder in DEGREES
 	 */
 	public double getOriginEncoder() {
-		return _originMotor.getSelectedSensorPosition() / TICKS_PER_REV * 360 / GEAR_RATIO;
+		return (_originMotor.getSelectedSensorPosition() / TICKS_PER_REV * 360 / GEAR_RATIO);
 	}
 
 	/**
