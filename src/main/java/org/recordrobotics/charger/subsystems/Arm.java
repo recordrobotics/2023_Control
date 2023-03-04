@@ -4,7 +4,9 @@ import org.recordrobotics.charger.Constants;
 import org.recordrobotics.charger.RobotMap;
 
 import com.ctre.phoenix.motorcontrol.NeutralMode;
+import com.ctre.phoenix.motorcontrol.can.TalonFXConfiguration;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
+import com.ctre.phoenix.sensors.SensorInitializationStrategy;
 
 import edu.wpi.first.networktables.GenericEntry;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
@@ -28,11 +30,16 @@ public class Arm extends SubsystemBase {
 
 	private GenericEntry _entryAngles;
 
+	private static final TalonFXConfiguration armConfig = new TalonFXConfiguration();
+
 	private double[] _angles = new double[2];
 
 	public Arm() {
-		_originMotor.setSelectedSensorPosition(0 * ORIGIN_START_OFFSET * TICKS_PER_REV / 360 * GEAR_RATIO * Math.sqrt(10));
-		_changeMotor.setSelectedSensorPosition(CHANGE_START_OFFSET * TICKS_PER_REV / 360 * GEAR_RATIO * Math.sqrt(10));
+		armConfig.initializationStrategy = SensorInitializationStrategy.BootToZero;
+		_originMotor.configAllSettings(armConfig);
+		_changeMotor.configAllSettings(armConfig);
+		//_originMotor.setSelectedSensorPosition(0 * ORIGIN_START_OFFSET * TICKS_PER_REV / 360 * GEAR_RATIO * Math.sqrt(10));
+		//_changeMotor.setSeglectedSensorPosition(CHANGE_START_OFFSET * TICKS_PER_REV / 360 * GEAR_RATIO * Math.sqrt(10));
 		_originMotor.setNeutralMode(NeutralMode.Brake);
 		_changeMotor.setNeutralMode(NeutralMode.Brake);
 		_originMotor.set(0);
