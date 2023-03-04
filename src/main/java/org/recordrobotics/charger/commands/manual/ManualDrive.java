@@ -13,7 +13,7 @@ import edu.wpi.first.wpilibj2.command.CommandBase;
  */
 public class ManualDrive extends CommandBase {
 
-	private static final double SPEED_MODIFIER = 0.6;
+	private static final double SPEED_MODIFIER = 0.5;
 
 	private Drive _drive;
 	private IControlInput _controls;
