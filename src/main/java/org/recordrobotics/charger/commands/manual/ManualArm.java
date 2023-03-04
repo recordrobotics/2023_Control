@@ -95,15 +95,15 @@ public class ManualArm extends CommandBase {
 		double _originSpeed = _originPid.calculate(_arm.getOriginEncoder());
 		double _changeSpeed = _changePid.calculate(_arm.getChangeEncoder());
 		if(Math.abs(_originSpeed) > _maxSpeed){
-			if(Math.sin(_arm.getOriginEncoder()) < Math.sqrt(2)/2){
+			if(Math.sin(_arm.getOriginEncoder()) < Math.sqrt(2)/2){ // see below
 				_originSpeed = _maxDownSpeed * Math.signum(_originSpeed);
 			}else{
 				_originSpeed = _maxSpeed * Math.signum(_originSpeed);
 			}
 		}
 		if(Math.abs(_changeSpeed) > _maxSpeed){
-			if(Math.sin(_arm.getChangeEncoder() + _arm.getOriginEncoder() * 5/7) < Math.sqrt(2)/2){
-			_changeSpeed = _maxDownSpeed * Math.signum(_changeSpeed);
+			if(Math.sin(_arm.getChangeEncoder() + _arm.getOriginEncoder() * 5/7) < Math.sqrt(2)/2){ // maybe can directly compare the angles?
+				_changeSpeed = _maxDownSpeed * Math.signum(_changeSpeed);
 			}else{
 				_changeSpeed = _maxSpeed * Math.signum(_changeSpeed);
 			}
