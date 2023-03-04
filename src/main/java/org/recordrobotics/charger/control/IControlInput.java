@@ -32,6 +32,19 @@ public interface IControlInput {
 	double getDriveLat();
 
 	/**
+	 * Determines the speed the robot drives at
+	 *
+	 * @return true - lower speed; false - faster speed
+	 */
+	boolean isSlow();
+
+	/**
+	 * Enables/disables left and right turning
+	 *
+	 * @return true - can turn; false - cannot turn
+	 */
+	boolean canTurn();
+  /**
 	 * Returns goal of arm movement
 	 *
 	 * @return ArmPosition.SUBSTATION - go to substation
