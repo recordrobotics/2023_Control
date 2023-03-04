@@ -3,81 +3,106 @@
 // the WPILib BSD license file in the root directory of this project.
 
 package org.recordrobotics.charger;
-
 import edu.wpi.first.wpilibj.TimedRobot;
+import edu.wpi.first.wpilibj.smartdashboard.Field2d;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 
-/**
- * The VM is configured to automatically run this class, and to call the functions corresponding to
- * each mode, as described in the TimedRobot documentation. If you change the name of this class or
- * the package after creating this project, you must also update the build.gradle file in the
- * project.
- */
+@SuppressWarnings({"PMD.SystemPrintln", "PMD.FieldNamingConventions"})
 public class Robot extends TimedRobot {
-
 	private RobotContainer _robotContainer;
+	private Command _autonomousCommand;
+
+
+
+	@SuppressWarnings("PMD.SingularField")
+	private Field2d field;
 
 	/**
-	 * This function is run when the robot is first started up and should be used for any
-	 * initialization code.
+	 * Robot initialization
 	 */
+
 	@Override
 	public void robotInit() {
-		// Instantiate our RobotContainer.  This will perform all our button bindings, and put our
-		// autonomous chooser on the dashboard.
+		//System.out.println("Robotinit");
+		// Create container
 		_robotContainer = new RobotContainer();
+		field = new Field2d();
+		SmartDashboard.putData(field);
 	}
 
+
 	/**
-	 * This function is called every 20 ms, no matter the mode. Use this for items like diagnostics
-	 * that you want ran during disabled, autonomous, teleoperated and test.
-	 *
-	 * <p>This runs after the mode specific periodic functions, but before LiveWindow and
-	 * SmartDashboard integrated updating.
-	 */
+	* Runs every robot tick
+	*/
 	@Override
 	public void robotPeriodic() {
-		// Runs the Scheduler.  This is responsible for polling buttons, adding newly-scheduled
-		// commands, running already-scheduled commands, removing finished or interrupted commands,
-		// and running subsystem periodic() methods.  This must be called from the robot's periodic
-		// block in order for anything in the Command-based framework to work.
+		//System.out.println("Robot periodic");
+		// Run command scheduler
 		CommandScheduler.getInstance().run();
 	}
 
-	/** This function is called once each time the robot enters Disabled mode. */
+	/**
+	 * Runs when robot enters disabled mode
+	 */
 	@Override
 	public void disabledInit() {
-		_robotContainer.toString();
+		_robotContainer.resetCommands();
 	}
 
-	/** Runs when the robot is disabled */
+	/**
+	 * Runs every tick during disabled mode
+	 */
 	@Override
 	public void disabledPeriodic() {
-		/** Add anything we need to run when the robot shuts off here */
+		//System.out.println("Disabled periodic");
+		// TODO
 	}
 
-	/** This autonomous runs the autonomous command selected by your {@link RobotContainer} class. */
+	/**
+	 * Runs when robot enters auto mode
+	 */
 	@Override
 	public void autonomousInit() {
-		_robotContainer.resetCommands();
-		_robotContainer.autoInit();
+		System.out.println("Autonomous Init");
+		_autonomousCommand = _robotContainer.getAutonomousCommand();
+
+
+		// schedule the autonomous command (example)
+		if (_autonomousCommand != null) {
+			_autonomousCommand.schedule();
+		}
 	}
 
-	/** This function is called periodically during autonomous. */
+	/**
+	 * Runs every tick during auto mode
+	 */
 	@Override
 	public void autonomousPeriodic() {
-		/** Add things to run when autonomous is active here */
+		//placeholder
 	}
 
+	/**
+	 * Runs when robot enters teleop mode
+	 */
 	@Override
 	public void teleopInit() {
-		/** Add things to run when the robot enters teleop here */
+		System.out.println("Teleop init");
+		// TODO
+		if (_autonomousCommand != null) {
+			_autonomousCommand.cancel();
+		}
 		_robotContainer.teleopInit();
 	}
 
-	/** This function is called periodically during operator control. */
+	/**
+	* Runs every tick in teleop mode
+	*/
 	@Override
 	public void teleopPeriodic() {
-		/** Add things to run when teleop is active here */
+		//placholder
+		}
+
+
 	}
-}

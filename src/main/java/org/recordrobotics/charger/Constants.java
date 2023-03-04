@@ -10,4 +10,17 @@ package org.recordrobotics.charger;
 public final class Constants {
 	public static final String COMMANDS_TAB = "commands";
 	public static final String DATA_TAB = "data";
+	/**
+	 * Control ports (PC USB)
+	 */
+	public class Control {
+		// LegacyControl
+		public static final int LEGACY_GAMEPAD = 0;
+
+		// DoubleControl
+		public static final int DOUBLE_GAMEPAD_1 = 0;
+		public static final int DOUBLE_GAMEPAD_2 = 1;
+
+	}
+
 }
