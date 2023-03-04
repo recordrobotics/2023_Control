@@ -38,6 +38,16 @@ public class SingleControl implements IControlInput {
 		return "Single";
 	}
 
+	@Override
+	public boolean isSlow() {
+		return _gamepad.getLeftBumper();
+	}
+
+	@Override
+	public boolean canTurn() {
+		return !_gamepad.getRightBumper();
+	}
+
 	private int booleanToInt(boolean b) {
 		return b ? 1 : 0;
 	}
