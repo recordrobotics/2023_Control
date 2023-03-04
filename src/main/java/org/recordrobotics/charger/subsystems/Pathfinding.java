@@ -24,15 +24,16 @@ import edu.wpi.first.math.util.Units;
 @SuppressWarnings({"PMD"})
 public class Pathfinding {
 
-	TrajectoryConfig forward = new TrajectoryConfig(2, 1);
-	TrajectoryConfig backward = new TrajectoryConfig(2, 1);
+	public TrajectoryConfig forward = new TrajectoryConfig(6, 3);
+	public TrajectoryConfig backward = new TrajectoryConfig(6, 3);
+	public TrajectoryConfig slooooowwww = new TrajectoryConfig(2, 1);
 
 	char side;
 	ArrayList<Pose2d> scoreSpots;
 	Translation2d tLeft, tRight, bLeft, bRight;
 	ArrayList<Pose2d> gamepieces;
 	String routine, armDir;
-	ArrayList<Trajectory> finalPath;
+	public ArrayList<Trajectory> finalPath;
 
 	public Pathfinding(Pose2d start, ArrayList<Pose2d> score, ArrayList<Pose2d> pieces, String r) {
 		// config = c;

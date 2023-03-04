@@ -4,7 +4,11 @@ import java.util.ArrayList;
 
 import org.recordrobotics.charger.subsystems.Pathfinding;
 
+import edu.wpi.first.math.geometry.Pose2d;
+import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.trajectory.Trajectory;
+import edu.wpi.first.math.trajectory.TrajectoryGenerator;
+import edu.wpi.first.math.util.Units;
 
 public class TrajectoryPresets {
 
@@ -22,62 +26,190 @@ public class TrajectoryPresets {
     private Pathfinding _pathfinding;
 
     public ArrayList<Trajectory> blueBottomScoring(){
-        _pathfinding = new Pathfinding(null, null, null, "scoring");
-        return _pathfinding.scoring(null);
+        Pose2d start = new Pose2d(1.74, 1.07, new Rotation2d(Math.PI));
+        ArrayList<Pose2d> score = new ArrayList<Pose2d>();
+        Pose2d score1 = new Pose2d(0.355704, 1.071626, new Rotation2d(Math.PI));
+        Pose2d score2 = new Pose2d(0.800168, 1.071626, new Rotation2d(Math.PI));
+        score.add(score1);
+        score.add(score2);
+        ArrayList<Pose2d> pieces = new ArrayList<Pose2d>();
+        Pose2d piece1 = new Pose2d(7.06755, 0.919106, new Rotation2d(Math.PI));
+        pieces.add(piece1);
+        _pathfinding = new Pathfinding(start, score, pieces, "scoring");
+        return _pathfinding.finalPath;
     }
 
     public ArrayList<Trajectory> blueMidScoring(){
-        _pathfinding = new Pathfinding(null, null, null, "scoring");
-        return null;
+        Pose2d start = new Pose2d(1.74, 2.75, new Rotation2d(Math.PI));
+        ArrayList<Pose2d> score = new ArrayList<Pose2d>();
+        Pose2d score1 = new Pose2d(0.355704, 2.74837, new Rotation2d(Math.PI));
+        Pose2d score2 = new Pose2d(0.800168, 2.74837, new Rotation2d(Math.PI));
+        score.add(score1);
+        score.add(score2);
+        ArrayList<Pose2d> pieces = new ArrayList<Pose2d>();
+        Pose2d piece1 = new Pose2d(7.06755, 2.138426, new Rotation2d(Math.PI));
+        pieces.add(piece1);
+        _pathfinding = new Pathfinding(start, score, pieces, "scoring");
+        return _pathfinding.finalPath;
     }
 
     public ArrayList<Trajectory> blueTopScoring(){
-        _pathfinding = new Pathfinding(null, null, null, "scoring");
-        return null;
+        Pose2d start = new Pose2d(1.74, 4.43, new Rotation2d(Math.PI));
+        ArrayList<Pose2d> score = new ArrayList<Pose2d>();
+        Pose2d score1 = new Pose2d(0.355704, 4.425099, new Rotation2d(Math.PI));
+        Pose2d score2 = new Pose2d(0.800168, 4.425099, new Rotation2d(Math.PI));
+        score.add(score1);
+        score.add(score2);
+        ArrayList<Pose2d> pieces = new ArrayList<Pose2d>();
+        Pose2d piece1 = new Pose2d(7.06755, 4.576882, new Rotation2d(Math.PI));
+        pieces.add(piece1);
+        _pathfinding = new Pathfinding(start, score, pieces, "scoring");
+        return _pathfinding.finalPath;
     }
 
     public ArrayList<Trajectory> redBottomScoring(){
-        _pathfinding = new Pathfinding(null, null, null, "scoring");
-        return null;
+        Pose2d start = new Pose2d(15.5, 1.07, new Rotation2d(0));
+        ArrayList<Pose2d> score = new ArrayList<Pose2d>();
+        Pose2d score1 = new Pose2d(16.185231, 1.071626, new Rotation2d(0));
+        Pose2d score2 = new Pose2d(15.740733, 1.071626, new Rotation2d(0));
+        score.add(score1);
+        score.add(score2);
+        ArrayList<Pose2d> pieces = new ArrayList<Pose2d>();
+        Pose2d piece = new Pose2d(9.473502, 0.919106, new Rotation2d());
+        pieces.add(piece);
+        _pathfinding = new Pathfinding(start, score, pieces, "scoring");
+        return _pathfinding.finalPath;
     }
 
     public ArrayList<Trajectory> redMidScoring(){
-        _pathfinding = new Pathfinding(null, null, null, "scoring");
-        return null;
+        Pose2d start = new Pose2d(15.5, 2.75, new Rotation2d(0));
+        ArrayList<Pose2d> score = new ArrayList<Pose2d>();
+        Pose2d score1 = new Pose2d(16.185231, 2.74837, new Rotation2d(0));
+        Pose2d score2 = new Pose2d(15.740733, 2.74837, new Rotation2d(0));
+        score.add(score1);
+        score.add(score2);
+        ArrayList<Pose2d> pieces = new ArrayList<Pose2d>();
+        Pose2d piece1 = new Pose2d(9.473502, 2.138426, new Rotation2d(0));
+        pieces.add(piece1);
+        _pathfinding = new Pathfinding(start, score, pieces, "scoring");
+        return _pathfinding.finalPath;
     }
 
     public ArrayList<Trajectory> redTopScoring(){
-        _pathfinding = new Pathfinding(null, null, null, "scoring");        
-        return null;
+        Pose2d start = new Pose2d(15.5, 4.43, new Rotation2d(0));
+        ArrayList<Pose2d> score = new ArrayList<Pose2d>();
+        Pose2d score1 = new Pose2d(16.185231, 4.425099, new Rotation2d(0));
+        Pose2d score2 = new Pose2d(15.740733, 4.425099, new Rotation2d(0));
+        score.add(score1);
+        score.add(score2);
+        ArrayList<Pose2d> pieces = new ArrayList<Pose2d>();
+        Pose2d piece1 = new Pose2d(9.473502, 4.576882, new Rotation2d(0));
+        pieces.add(piece1);
+        _pathfinding = new Pathfinding(start, score, pieces, "scoring");
+        return _pathfinding.finalPath;
     }
 
     public ArrayList<Trajectory> blueBottomDocking(){
-        _pathfinding = new Pathfinding(null, null, null, "docking");
-        return null;
+        Pose2d start = new Pose2d(1.74, 1.07, new Rotation2d(Math.PI));
+        ArrayList<Pose2d> score = new ArrayList<Pose2d>();
+        Pose2d score1 = new Pose2d(0.355704, 1.071626, new Rotation2d(Math.PI));
+        score.add(score1);
+        ArrayList<Pose2d> pieces = new ArrayList<Pose2d>();
+        _pathfinding = new Pathfinding(start, score, pieces, "docking");
+        return _pathfinding.finalPath;
     }
 
     public ArrayList<Trajectory> blueMidDocking(){
-        _pathfinding = new Pathfinding(null, null, null, "docking");
-        return null;
+        Pose2d start = new Pose2d(1.74, 2.75, new Rotation2d(Math.PI));
+        ArrayList<Pose2d> score = new ArrayList<Pose2d>();
+        Pose2d score1 = new Pose2d(0.355704, 2.74837, new Rotation2d(Math.PI));
+        score.add(score1);
+        ArrayList<Pose2d> pieces = new ArrayList<Pose2d>();
+        _pathfinding = new Pathfinding(start, score, pieces, "docking");
+        return _pathfinding.finalPath;
     }
 
     public ArrayList<Trajectory> blueTopDocking(){
-        _pathfinding = new Pathfinding(null, null, null, "docking");
-        return null;
+        Pose2d start = new Pose2d(1.74, 4.43, new Rotation2d(Math.PI));
+        ArrayList<Pose2d> score = new ArrayList<Pose2d>();
+        Pose2d score1 = new Pose2d(0.355704, 4.425099, new Rotation2d(Math.PI));
+        score.add(score1);
+        ArrayList<Pose2d> pieces = new ArrayList<Pose2d>();
+        _pathfinding = new Pathfinding(start, score, pieces, "docking");
+        return _pathfinding.finalPath;
     }
 
     public ArrayList<Trajectory> redBottomDocking(){
-        _pathfinding = new Pathfinding(null, null, null, "docking");
-        return null;
+        Pose2d start = new Pose2d(15.5, 1.07, new Rotation2d(0));
+        ArrayList<Pose2d> score = new ArrayList<Pose2d>();
+        Pose2d score1 = new Pose2d(16.185231, 1.071626, new Rotation2d(0));
+        score.add(score1);
+        ArrayList<Pose2d> pieces = new ArrayList<Pose2d>();
+        _pathfinding = new Pathfinding(start, score, pieces, "docking");
+        return _pathfinding.finalPath;
     }
 
     public ArrayList<Trajectory> redMidDocking(){
-        _pathfinding = new Pathfinding(null, null, null, "docking");
-        return null;
+        Pose2d start = new Pose2d(15.5, 2.75, new Rotation2d(0));
+        ArrayList<Pose2d> score = new ArrayList<Pose2d>();
+        Pose2d score1 = new Pose2d(16.185231, 2.74837, new Rotation2d(0));
+        score.add(score1);
+        ArrayList<Pose2d> pieces = new ArrayList<Pose2d>();
+        _pathfinding = new Pathfinding(start, score, pieces, "docking");
+        return _pathfinding.finalPath;
     }
 
     public ArrayList<Trajectory> redTopDocking(){
-        _pathfinding = new Pathfinding(null, null, null, "docking");
-        return null;
+        Pose2d start = new Pose2d(15.5, 4.43, new Rotation2d(0));
+        ArrayList<Pose2d> score = new ArrayList<Pose2d>();
+        Pose2d score1 = new Pose2d(16.185231, 4.425099, new Rotation2d(0));
+        score.add(score1);
+        ArrayList<Pose2d> pieces = new ArrayList<Pose2d>();
+        _pathfinding = new Pathfinding(start, score, pieces, "docking");
+        return _pathfinding.finalPath;
+    }
+
+    public Trajectory blueNoScoring(){
+        Pose2d start = new Pose2d(1.74, 2.75, new Rotation2d(Math.PI));//middle start, facing outwards
+        Pose2d outOfCommunity = new Pose2d(6.22, 2.75, new Rotation2d(Math.PI));
+        Pose2d dock = new Pose2d(Units.inchesToMeters(153.0025), Units.inchesToMeters(108.015), new Rotation2d(Math.PI));
+        ArrayList<Pose2d> poses = new ArrayList<Pose2d>();
+        poses.add(start);
+        poses.add(outOfCommunity);
+        poses.add(dock);
+        Trajectory traj = TrajectoryGenerator.generateTrajectory(poses, _pathfinding.forward);
+        return traj;
+    }
+
+    public Trajectory redNoScoring(){
+        Pose2d start = new Pose2d(15.5, 2.75, new Rotation2d(0));
+        Pose2d outOfCommunity = new Pose2d(10.28, 2.75, new Rotation2d());
+        Pose2d dock = new Pose2d(Units.inchesToMeters(497.3175), Units.inchesToMeters(108.015), new Rotation2d(0));
+        ArrayList<Pose2d> poses = new ArrayList<Pose2d>();
+        poses.add(start);
+        poses.add(outOfCommunity);
+        poses.add(dock);
+        Trajectory traj = TrajectoryGenerator.generateTrajectory(poses, _pathfinding.forward);
+        return traj;
+    }
+
+    public Trajectory blueTaxiOnly(){
+        Pose2d start = new Pose2d(2.54, 4.65, new Rotation2d(Math.PI));//middle start, facing outwards
+            Pose2d outOfCommunity = new Pose2d(4.54, 4.65, new Rotation2d(Math.PI));
+            ArrayList<Pose2d> poses = new ArrayList<Pose2d>();
+            poses.add(start);
+            poses.add(outOfCommunity);
+            Trajectory traj = TrajectoryGenerator.generateTrajectory(poses, _pathfinding.forward);
+            return traj;
+    }
+
+    public Trajectory redTaxiOnly(){
+        Pose2d start = new Pose2d(13.98, 4.65, new Rotation2d(0));
+        Pose2d outOfCommunity = new Pose2d(11.98, 4.65, new Rotation2d(0));
+        ArrayList<Pose2d> poses = new ArrayList<Pose2d>();
+        poses.add(start);
+        poses.add(outOfCommunity);
+        Trajectory traj = TrajectoryGenerator.generateTrajectory(poses, _pathfinding.forward);
+        return traj;
     }
 }
