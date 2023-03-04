@@ -34,7 +34,11 @@ public class ManualClaw extends CommandBase {
 	public void execute() {
 		switch (_controls.getClawTurn()) {
 			case 1:
+			if(!_claw.getSwitchState()){
 				_claw.turn(TURN_SPEED);
+			}else{
+				_claw.turn(0);
+			}
 				break;
 			case -1:
 				if (_claw.getCurrent() < _claw._CURRENT_GRAB_THRESHOLD) {
