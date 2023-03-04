@@ -212,4 +212,14 @@ public class TrajectoryPresets {
         Trajectory traj = TrajectoryGenerator.generateTrajectory(poses, _pathfinding.forward);
         return traj;
     }
+
+    public Trajectory testTraj(){
+        Pose2d start = new Pose2d(2.54, 4.65, new Rotation2d(0));//middle start, facing outwards
+            Pose2d outOfCommunity = new Pose2d(4.54, 4.65, new Rotation2d(0));
+            ArrayList<Pose2d> poses = new ArrayList<Pose2d>();
+            poses.add(start);
+            poses.add(outOfCommunity);
+            Trajectory traj = TrajectoryGenerator.generateTrajectory(poses, _pathfinding.slooooowwww);
+            return traj;
+    }
 }

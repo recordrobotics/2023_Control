@@ -9,6 +9,7 @@ import java.util.List;
 
 import org.recordrobotics.charger.commands.auto.AutoDrive;
 import org.recordrobotics.charger.commands.auto.ParallelFullAuto;
+import org.recordrobotics.charger.commands.auto.TrajectoryPresets;
 import org.recordrobotics.charger.commands.manual.ManualClaw;
 import org.recordrobotics.charger.commands.manual.ManualArm;
 import org.recordrobotics.charger.commands.manual.ManualDrive;
@@ -41,12 +42,13 @@ import edu.wpi.first.wpilibj2.command.Subsystem;
 @SuppressWarnings({"PMD.SingularField","PMD.UnusedPrivateField"})
 public class RobotContainer {
 	// The robot's subsystems and commands are defined here...
+	private TrajectoryPresets _trajectoryPresets;
 	private IControlInput _controlInput;
-	//private Claw _claw;
+	private Claw _claw;
 	private Drive _drive;
 	private DifferentialDrivePoseEstimator _estimator;
 	private DifferentialDriveKinematics _kinematics;
-	private Trajectory _trajectory;
+	private ArrayList<Trajectory> _trajectories;
 	private NavSensor _navSensor;
 	private Vision _vision;
 	private Arm _arm;
@@ -73,7 +75,8 @@ public class RobotContainer {
 		//_estimator = new DifferentialDrivePoseEstimator(_kinematics, new Rotation2d(_navSensor.getYaw()), _drive.getLeftEncoder(), _drive.getRightEncoder(), new Pose2d()); //The default standard deviations of the model states are 0.02 meters for x, 0.02 meters for y, and 0.01 radians for heading. The default standard deviations of the vision measurements are 0.1 meters for x, 0.1 meters for y, and 0.1 radians for heading.
 		//TODO: set an initial pose
 
-		_trajectory = new Trajectory();//TODO: set a trajectory
+		_trajectories = new ArrayList<Trajectory>();//TODO: replace this with whatever trajectory preset is relevant
+		_trajectories.add(_trajectoryPresets.testTraj());
 
 		initTeleopCommands();
 		initDashCommands();
@@ -102,7 +105,7 @@ public class RobotContainer {
 	}
 
 	public Command getAutonomousCommand() {
-		return new AutoDrive(_drive,0.4,3000);//new ParallelFullAuto(_vision, _drive, _arm, _claw, _pid1, _pid2, _trajectory, _estimator, _navSensor)
+		return	new ParallelFullAuto(_vision, _drive, _arm, _claw, _pid1, _pid2, _trajectories, _estimator, _navSensor);
 	}
 	/**
 	 * Set control scheme to Single
