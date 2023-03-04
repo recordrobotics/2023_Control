@@ -192,4 +192,24 @@ public class TrajectoryPresets {
         Trajectory traj = TrajectoryGenerator.generateTrajectory(poses, _pathfinding.forward);
         return traj;
     }
+
+    public Trajectory blueTaxiOnly(){
+        Pose2d start = new Pose2d(2.54, 4.65, new Rotation2d(Math.PI));//middle start, facing outwards
+            Pose2d outOfCommunity = new Pose2d(4.54, 4.65, new Rotation2d(Math.PI));
+            ArrayList<Pose2d> poses = new ArrayList<Pose2d>();
+            poses.add(start);
+            poses.add(outOfCommunity);
+            Trajectory traj = TrajectoryGenerator.generateTrajectory(poses, _pathfinding.forward);
+            return traj;
+    }
+
+    public Trajectory redTaxiOnly(){
+        Pose2d start = new Pose2d(13.98, 4.65, new Rotation2d(0));
+        Pose2d outOfCommunity = new Pose2d(11.98, 4.65, new Rotation2d(0));
+        ArrayList<Pose2d> poses = new ArrayList<Pose2d>();
+        poses.add(start);
+        poses.add(outOfCommunity);
+        Trajectory traj = TrajectoryGenerator.generateTrajectory(poses, _pathfinding.forward);
+        return traj;
+    }
 }

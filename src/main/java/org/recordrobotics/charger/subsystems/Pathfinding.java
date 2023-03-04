@@ -25,7 +25,8 @@ import edu.wpi.first.math.util.Units;
 public class Pathfinding {
 
 	public TrajectoryConfig forward = new TrajectoryConfig(6, 3);
-	TrajectoryConfig backward = new TrajectoryConfig(6, 3);
+	public TrajectoryConfig backward = new TrajectoryConfig(6, 3);
+	public TrajectoryConfig slooooowwww = new TrajectoryConfig(2, 1);
 
 	char side;
 	ArrayList<Pose2d> scoreSpots;
