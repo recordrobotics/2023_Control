@@ -38,7 +38,7 @@ public class TrajectoryPresets {
     }
 
     public ArrayList<Trajectory> blueMidScoring(){
-        Pose2d start = new Pose2d();
+        Pose2d start = new Pose2d(1.74, 2.75, new Rotation2d(Math.PI));
         ArrayList<Pose2d> score = new ArrayList<Pose2d>();
         Pose2d score1 = new Pose2d(0.355704, 2.74837, new Rotation2d(Math.PI));
         Pose2d score2 = new Pose2d(0.800168, 2.74837, new Rotation2d(Math.PI));
@@ -52,7 +52,7 @@ public class TrajectoryPresets {
     }
 
     public ArrayList<Trajectory> blueTopScoring(){
-        Pose2d start = new Pose2d();
+        Pose2d start = new Pose2d(1.74, 4.43, new Rotation2d(Math.PI));
         ArrayList<Pose2d> score = new ArrayList<Pose2d>();
         Pose2d score1 = new Pose2d(0.355704, 4.425099, new Rotation2d(Math.PI));
         Pose2d score2 = new Pose2d(0.800168, 4.425099, new Rotation2d(Math.PI));
@@ -80,7 +80,7 @@ public class TrajectoryPresets {
     }
 
     public ArrayList<Trajectory> redMidScoring(){
-        Pose2d start = new Pose2d();
+        Pose2d start = new Pose2d(15.5, 2.75, new Rotation2d(0));
         ArrayList<Pose2d> score = new ArrayList<Pose2d>();
         Pose2d score1 = new Pose2d(16.185231, 2.74837, new Rotation2d(0));
         Pose2d score2 = new Pose2d(15.740733, 2.74837, new Rotation2d(0));
@@ -94,7 +94,7 @@ public class TrajectoryPresets {
     }
 
     public ArrayList<Trajectory> redTopScoring(){
-        Pose2d start = new Pose2d();
+        Pose2d start = new Pose2d(15.5, 4.43, new Rotation2d(0));
         ArrayList<Pose2d> score = new ArrayList<Pose2d>();
         Pose2d score1 = new Pose2d(16.185231, 4.425099, new Rotation2d(0));
         Pose2d score2 = new Pose2d(15.740733, 4.425099, new Rotation2d(0));
@@ -108,7 +108,7 @@ public class TrajectoryPresets {
     }
 
     public ArrayList<Trajectory> blueBottomDocking(){
-        Pose2d start = new Pose2d();
+        Pose2d start = new Pose2d(1.74, 1.07, new Rotation2d(Math.PI));
         ArrayList<Pose2d> score = new ArrayList<Pose2d>();
         Pose2d score1 = new Pose2d(0.355704, 1.071626, new Rotation2d(Math.PI));
         score.add(score1);
@@ -118,7 +118,7 @@ public class TrajectoryPresets {
     }
 
     public ArrayList<Trajectory> blueMidDocking(){
-        Pose2d start = new Pose2d();
+        Pose2d start = new Pose2d(1.74, 2.75, new Rotation2d(Math.PI));
         ArrayList<Pose2d> score = new ArrayList<Pose2d>();
         Pose2d score1 = new Pose2d(0.355704, 2.74837, new Rotation2d(Math.PI));
         score.add(score1);
@@ -128,7 +128,7 @@ public class TrajectoryPresets {
     }
 
     public ArrayList<Trajectory> blueTopDocking(){
-        Pose2d start = new Pose2d();
+        Pose2d start = new Pose2d(1.74, 4.43, new Rotation2d(Math.PI));
         ArrayList<Pose2d> score = new ArrayList<Pose2d>();
         Pose2d score1 = new Pose2d(0.355704, 4.425099, new Rotation2d(Math.PI));
         score.add(score1);
@@ -138,7 +138,7 @@ public class TrajectoryPresets {
     }
 
     public ArrayList<Trajectory> redBottomDocking(){
-        Pose2d start = new Pose2d();
+        Pose2d start = new Pose2d(15.5, 1.07, new Rotation2d(0));
         ArrayList<Pose2d> score = new ArrayList<Pose2d>();
         Pose2d score1 = new Pose2d(16.185231, 1.071626, new Rotation2d(0));
         score.add(score1);
@@ -148,7 +148,7 @@ public class TrajectoryPresets {
     }
 
     public ArrayList<Trajectory> redMidDocking(){
-        Pose2d start = new Pose2d();
+        Pose2d start = new Pose2d(15.5, 2.75, new Rotation2d(0));
         ArrayList<Pose2d> score = new ArrayList<Pose2d>();
         Pose2d score1 = new Pose2d(16.185231, 2.74837, new Rotation2d(0));
         score.add(score1);
@@ -158,7 +158,7 @@ public class TrajectoryPresets {
     }
 
     public ArrayList<Trajectory> redTopDocking(){
-        Pose2d start = new Pose2d();
+        Pose2d start = new Pose2d(15.5, 4.43, new Rotation2d(0));
         ArrayList<Pose2d> score = new ArrayList<Pose2d>();
         Pose2d score1 = new Pose2d(16.185231, 4.425099, new Rotation2d(0));
         score.add(score1);
