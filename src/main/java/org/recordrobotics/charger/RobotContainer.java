@@ -44,14 +44,14 @@ public class RobotContainer {
 	// The robot's subsystems and commands are defined here...
 	private TrajectoryPresets _trajectoryPresets;
 	private IControlInput _controlInput;
-	private Claw _claw;
+	//private Claw _claw;
 	private Drive _drive;
 	private DifferentialDrivePoseEstimator _estimator;
 	private DifferentialDriveKinematics _kinematics;
 	private ArrayList<Trajectory> _trajectories;
 	private NavSensor _navSensor;
 	private Vision _vision;
-	private Arm _arm;
+	//private Arm _arm;
 	private PIDController _pid1;
 	private PIDController _pid2;
 
@@ -65,8 +65,8 @@ public class RobotContainer {
 		_controlInput = new DoubleControl(RobotMap.Control.DOUBLE_GAMEPAD_1, RobotMap.Control.DOUBLE_GAMEPAD_2);
 		_drive = new Drive();
 		_navSensor = new NavSensor();
-		_claw = new Claw();
-		_arm = new Arm();
+		//_claw = new Claw();
+		//_arm = new Arm();
 		_pid1 = new PIDController(0, 0, 0);
 		_pid2 = new PIDController(0, 0, 0);
 
@@ -86,8 +86,8 @@ public class RobotContainer {
 	private void initTeleopCommands() {
 		_teleopPairs = new ArrayList<>();
 		_teleopPairs.add(new Pair<Subsystem, Command>(_drive, new ManualDrive(_drive, _controlInput)));
-		_teleopPairs.add(new Pair<Subsystem, Command>(_claw, new ManualClaw(_claw, _controlInput)));
-		_teleopPairs.add(new Pair<Subsystem, Command>(_arm, new ManualArm(_arm, _controlInput, _pid1, _pid2)));
+		//_teleopPairs.add(new Pair<Subsystem, Command>(_claw, new ManualClaw(_claw, _controlInput)));
+		//_teleopPairs.add(new Pair<Subsystem, Command>(_arm, new ManualArm(_arm, _controlInput, _pid1, _pid2)));
 	}
 
 	private void initDashCommands() {
