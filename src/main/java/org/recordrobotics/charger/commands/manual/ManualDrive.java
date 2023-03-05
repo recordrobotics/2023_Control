@@ -14,7 +14,8 @@ import edu.wpi.first.wpilibj2.command.CommandBase;
 public class ManualDrive extends CommandBase {
 
 	private static final double HIGH_SPEED_MODIFIER = 0.8;
-	private static final double LOW_SPEED_MODIFIER = 0.55;
+	private static final double MID_SPEED_MODIFIER = 0.55;
+	private static final double SLOW_SPEED_MODIFIER = 0.35;
 	private double _speedModifier;
 
 	private Drive _drive;
@@ -35,10 +36,19 @@ public class ManualDrive extends CommandBase {
 
 	@Override
 	public void execute() {
-		if (_controls.isSlow()) {
-			_speedModifier = HIGH_SPEED_MODIFIER;
-		} else {
-			_speedModifier = LOW_SPEED_MODIFIER;
+		switch (_controls.speedState()) {
+			case FAST:
+				_speedModifier = HIGH_SPEED_MODIFIER;
+				break;
+			case SLOW:
+				_speedModifier = SLOW_SPEED_MODIFIER;
+				break;
+			case NEUTRAL:
+				_speedModifier = MID_SPEED_MODIFIER;
+				break;
+			default:
+				_speedModifier = 0;
+				break;
 		}
 		if (_controls.canTurn()) {
 			_drive.move(_controls.getDriveLong() * _speedModifier,

@@ -18,6 +18,18 @@ public interface IControlInput {
 	}
 
 	/**
+	 * Claw has three states:
+	 * 	FAST - fast speed
+	 * 	NEUTRAL - normal speed
+	 * 	SLOW - slow speed
+	 */
+	enum SpeedState {
+		FAST,
+		NEUTRAL,
+		SLOW
+	}
+
+	/**
 	 * Logitudinal drive input (forward & backward) value
 	 *
 	 * @return [-1, 0) - backward; (0, 1] - forward
@@ -36,7 +48,7 @@ public interface IControlInput {
 	 *
 	 * @return true - lower speed; false - faster speed
 	 */
-	boolean isSlow();
+	SpeedState speedState();
 
 	/**
 	 * Enables/disables left and right turning

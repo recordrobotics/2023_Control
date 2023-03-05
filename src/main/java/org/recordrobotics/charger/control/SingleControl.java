@@ -39,8 +39,11 @@ public class SingleControl implements IControlInput {
 	}
 
 	@Override
-	public boolean isSlow() {
-		return _gamepad.getLeftBumper();
+	public SpeedState speedState() {
+		if (_gamepad.getLeftBumper()) {
+			return SpeedState.SLOW;
+		}
+		return SpeedState.NEUTRAL;
 	}
 
 	@Override
