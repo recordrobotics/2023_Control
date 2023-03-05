@@ -30,8 +30,8 @@ public class ManualArm extends CommandBase {
 	//private static double _third[] = {-139.79, -139.87 - 5/7 * -139.79};
 	private static double _placehold[];
 
-	private static double _second = 46;
-	private static double _third = 34;
+	private static double _second = 34;
+	private static double _third = 46;
 	//private static double _ground[] = {40, 42};
 	private static double _substation = 37.375;
 
