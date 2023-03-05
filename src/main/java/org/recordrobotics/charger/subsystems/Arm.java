@@ -113,7 +113,7 @@ public class Arm extends SubsystemBase {
 		// core angle is the complement of angle 1 and supplement of angle 2
 		double coreAngle = Math.asin((targetY - 13.625) / FIRST_ARM_LENGTH);
 		angles[0] = -Math.toDegrees(Math.PI - coreAngle) - ORIGIN_START_OFFSET;
-		angles[1] = Math.toDegrees(Math.PI - coreAngle);
+		angles[1] = 1/7 * angles[0] - ORIGIN_START_OFFSET;
 		return angles;
 	}
 
