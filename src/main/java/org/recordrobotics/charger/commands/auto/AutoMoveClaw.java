@@ -37,14 +37,14 @@ public class AutoMoveClaw extends CommandBase{
 
 	public void initialize() {
 		if (_status == _grab) {
-			if (_claw.getCurrent() > _claw._CURRENT_GRAB_THRESHOLD || _claw.getSwitchState()) {
+			if (_claw.getCurrent() > _claw._CURRENT_GRAB_THRESHOLD) {
 				_claw.turn(0);
 			}
 			else {
 				_claw.turn(-_speed);
 			}
 		} else if (_status == _release) {
-			if (_claw.getPosition() >= _claw._OPEN_CLAW_ENCODER) {
+			if (_claw.getSwitchState()) {
 				_claw.turn(_speed);
 			}
 			else {
@@ -58,7 +58,7 @@ public class AutoMoveClaw extends CommandBase{
 	 */
 	@Override
 	public boolean isFinished() {
-		return _claw.getPosition() >= _claw._OPEN_CLAW_ENCODER || _claw.getSwitchState() || _claw.getCurrent() > _claw._CURRENT_GRAB_THRESHOLD;
+		return _claw.getSwitchState() || _claw.getCurrent() > _claw._CURRENT_GRAB_THRESHOLD;
 	}
 
 	public void end(boolean interrupted) {

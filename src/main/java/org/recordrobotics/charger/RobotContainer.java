@@ -86,7 +86,7 @@ public class RobotContainer {
 		_teleopPairs = new ArrayList<>();
 		_teleopPairs.add(new Pair<Subsystem, Command>(_drive, new ManualDrive(_drive, _controlInput)));
 		//_teleopPairs.add(new Pair<Subsystem, Command>(_claw, new ManualClaw(_claw, _controlInput)));
-		//_teleopPairs.add(new Pair<Subsystem, Command>(_arm, new ManualArm(_arm, _controlInput, _pid1, _pid2)));
+		_teleopPairs.add(new Pair<Subsystem, Command>(_arm, new ManualArm(_arm, _controlInput, _pid1, _pid2)));
 	}
 
 	private void initDashCommands() {
@@ -105,7 +105,11 @@ public class RobotContainer {
 	}
 
 	public Command getAutonomousCommand() {
+<<<<<<< HEAD
 		return	new ParallelFullAuto(_vision, _drive, _arm, _claw, _pid1, _pid2, _trajectories, _estimator, _navSensor);
+=======
+		return new AutoDrive(_drive,0.4,1750);//new ParallelFullAuto(_vision, _drive, _arm, _claw, _pid1, _pid2, _trajectory, _estimator, _navSensor)
+>>>>>>> cb3aeee6350f97315fd43ed722108f84c76a53db
 	}
 	/**
 	 * Set control scheme to Single

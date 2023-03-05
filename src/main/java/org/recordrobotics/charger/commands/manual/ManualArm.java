@@ -21,17 +21,17 @@ public class ManualArm extends CommandBase {
 	private double _ckp = 0.01;
 	private double _cki;
 	private double _ckd;
-	private double _changeTolerance = 5;
-	private double _originTolerance = 5;
-	private double _maxSpeed = 0.4;
-	private double _maxDownSpeed = 0.2;
+	private double _changeTolerance = 2.5;
+	private double _originTolerance = 2.5;
+	private double _maxSpeed = 0.3;
+	private double _maxDownSpeed = 0.15;
 
 	//private static double _second[] = {-122.42, -147.58 - 5/7 * -122.42};
 	//private static double _third[] = {-139.79, -139.87 - 5/7 * -139.79};
 	private static double _placehold[];
 
-	private static double _second = 46;
-	private static double _third = 34;
+	private static double _second = 34;
+	private static double _third = 46;
 	//private static double _ground[] = {40, 42};
 	private static double _substation = 37.375;
 
@@ -126,7 +126,7 @@ public class ManualArm extends CommandBase {
 	@Override
 	public void end(boolean interrupted) {
 		// sets arm back to 0
-		_arm.moveAngles(_speed, _arm.getAnglesOfRotation(0, 0));
+		_arm.moveAngles(_speed, _arm.getAnglesOfRotation(0, 0));	
 
 	}
 }
