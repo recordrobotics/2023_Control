@@ -35,9 +35,11 @@ public class Arm extends SubsystemBase {
 	private double[] _angles = new double[2];
 
 	public Arm() {
-		armConfig.initializationStrategy = SensorInitializationStrategy.BootToZero;
+		armConfig.initializationStrategy = SensorInitializationStrategy.BootToAbsolutePosition;
 		_originMotor.configAllSettings(armConfig);
 		_changeMotor.configAllSettings(armConfig);
+		_angles[0] = _originMotor.getSelectedSensorPosition();
+		_angles[1] = _changeMotor.getSelectedSensorPosition();
 		//_originMotor.setSelectedSensorPosition(0 * ORIGIN_START_OFFSET * TICKS_PER_REV / 360 * GEAR_RATIO * Math.sqrt(10));
 		//_changeMotor.setSeglectedSensorPosition(CHANGE_START_OFFSET * TICKS_PER_REV / 360 * GEAR_RATIO * Math.sqrt(10));
 		_originMotor.setNeutralMode(NeutralMode.Brake);
@@ -112,8 +114,8 @@ public class Arm extends SubsystemBase {
 		double[] angles = new double[2];
 		// core angle is the complement of angle 1 and supplement of angle 2
 		double coreAngle = Math.asin((targetY - 13.625) / FIRST_ARM_LENGTH);
-		angles[0] = -Math.toDegrees(Math.PI - coreAngle) - ORIGIN_START_OFFSET;
-		angles[1] = 1/7 * angles[0] - ORIGIN_START_OFFSET;
+		angles[0] = (Math.PI/2 - coreAngle);
+		angles[1] = (Math.PI-coreAngle+3*Math.PI/7);
 		return angles;
 	}
 
