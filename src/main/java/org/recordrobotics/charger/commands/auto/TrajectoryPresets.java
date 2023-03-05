@@ -219,6 +219,7 @@ public class TrajectoryPresets {
             ArrayList<Pose2d> poses = new ArrayList<Pose2d>();
             poses.add(start);
             poses.add(outOfCommunity);
+            _pathfinding = new Pathfinding(start, poses, poses, "string");
             Trajectory traj = TrajectoryGenerator.generateTrajectory(poses, _pathfinding.slooooowwww);
             return traj;
     }

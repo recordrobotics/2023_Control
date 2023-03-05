@@ -38,7 +38,7 @@ public class FullAutoSequence extends SequentialCommandGroup {
 			new AutoArmHolder(mover, _pos3),
 			new AutoMoveClaw(claw, clawSpeed, clawRelease)
 		);
-	}
+		}
 		else if (sequenceType == "docking"){
 		addCommands(
 			new AutoArmHolder(mover, _pos1),
