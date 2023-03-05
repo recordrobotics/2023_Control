@@ -40,7 +40,6 @@ public class AutoMoveArm extends CommandBase {
 	/*private static double _flipGroundOriginX = 22;
 	private static double _flipGroundOriginY = 22;
 	private static double _flipGroundChangeX = 22;*/
-	private static double _autoDefault[] = {-41.33 , 0 - 5/7 * -41.33};
 
 	public AutoMoveArm(Arm arm, PIDController originPid, PIDController changePid, ArmPosition armPosition) {
 		if (arm == null) {
@@ -87,7 +86,7 @@ public class AutoMoveArm extends CommandBase {
 				angles = _placehold;//_arm.getAnglesOfRotation(_flipGroundChangeX, _flipGroundChangeY);
 				break;
 			default:
-				angles = _autoDefault;
+				angles = _arm.resetPositions();
 				break;
 		}
 		_originPid.setSetpoint(angles[0]);
