@@ -19,7 +19,7 @@ public class Vision extends SubsystemBase{
 	//TODO: SET TRANSFORM!!!!!!
 
 
-	// This function sends photonvision camera output to shuffleboard
+	// Sends photonvision camera output to shuffleboard
 	public void runDriverMode() {
 		camera.setDriverMode(true);
 		camera.setPipelineIndex(2);
