@@ -8,10 +8,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.recordrobotics.charger.commands.auto.AutoDrive;
-import org.recordrobotics.charger.commands.auto.ParallelFullAuto;
 import org.recordrobotics.charger.commands.auto.TrajectoryPresets;
-import org.recordrobotics.charger.commands.manual.ManualClaw;
-import org.recordrobotics.charger.commands.manual.ManualArm;
+
 import org.recordrobotics.charger.commands.manual.ManualDrive;
 import org.recordrobotics.charger.commands.dash.DashRunFunc;
 import org.recordrobotics.charger.control.DoubleControl;
