@@ -29,6 +29,18 @@ public class DoubleControl implements IControlInput {
 		return "Double";
 	}
 
+	@Override
+	public SpeedState speedState() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public boolean canTurn() {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
 	private int booleanToInt(boolean b) {
 		return b ? 1 : 0;
 	}

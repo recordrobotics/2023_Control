@@ -55,4 +55,16 @@ public class SingleControl implements IControlInput {
 		}
 		return ArmPosition.NEUTRAL;
 	}
+
+	@Override
+	public SpeedState speedState() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public boolean canTurn() {
+		// TODO Auto-generated method stub
+		return false;
+	}
 }
