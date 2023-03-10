@@ -26,14 +26,13 @@ public class DoubleControl implements IControlInput {
 	}
 
 	@Override
-	public int getClawTurn() {
+	public ClawState getClawTurn() {
 		if (_gamepad2.getLeftTriggerAxis() >= _TRIGGER_THRESHOLD) {
-			return -1;
+			return ClawState.OPENING;
 		} else if (_gamepad2.getRightTriggerAxis() >= _TRIGGER_THRESHOLD) {
-			return 1;
-		} else {
-			return 0;
+			return ClawState.GRABING;
 		}
+		return ClawState.NEUTRAL;
 	}
 
 	@Override

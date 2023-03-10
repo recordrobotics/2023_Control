@@ -23,14 +23,13 @@ public class SingleControl implements IControlInput {
 	}
 
 	@Override
-	public int getClawTurn() {
-		if (_gamepad.getLeftTriggerAxis() > _TRIGGER_THRESHOLD) {
-			return -1;
-		} else if (_gamepad.getRightTriggerAxis() > _TRIGGER_THRESHOLD) {
-			return 1;
-		} else {
-			return 0;
+	public ClawState getClawTurn() {
+		if (_gamepad.getLeftTriggerAxis() >= _TRIGGER_THRESHOLD) {
+			return ClawState.OPENING;
+		} else if (_gamepad.getRightTriggerAxis() >= _TRIGGER_THRESHOLD) {
+			return ClawState.GRABING;
 		}
+		return ClawState.NEUTRAL;
 	}
 
 	@Override
