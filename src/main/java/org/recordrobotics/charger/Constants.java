@@ -23,4 +23,11 @@ public final class Constants {
 
 	}
 
+	public class FieldElements {//TODO: verify these values
+		public static final double DISTANCE_TO_FAR_NODE = 1.016;
+		public static final double CUBE_MID_HEIGHT = 0.523113;
+		public static final double CUBE_TOP_HEIGHT = 0.826389;
+		public static final double SUBSTATION_HEIGHT = 0.949327;
+	}
+
 }
