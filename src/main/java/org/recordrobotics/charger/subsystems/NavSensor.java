@@ -1,20 +1,20 @@
 package org.recordrobotics.charger.subsystems;
 
 
-import org.recordrobotics.charger.Constants;
+//import org.recordrobotics.charger.Constants;
 
 import com.kauailabs.navx.frc.AHRS;
 
-import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
-import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
+//import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
+//import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
 
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 public class NavSensor extends SubsystemBase {
 	public AHRS _nav = new AHRS(edu.wpi.first.wpilibj.I2C.Port.kMXP);
 	public NavSensor(){
-		ShuffleboardTab tab = Shuffleboard.getTab(Constants.DATA_TAB);
-		tab.add("Pitch", _nav.getPitch());
+		//ShuffleboardTab tab = Shuffleboard.getTab(Constants.DATA_TAB);
+		//tab.add("Pitch", _nav.getPitch());
 	}
 
 	public double getPitch() {

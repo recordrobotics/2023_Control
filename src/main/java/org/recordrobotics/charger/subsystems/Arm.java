@@ -45,8 +45,8 @@ public class Arm extends SubsystemBase {
 		_originMotor.set(0);
 		_changeMotor.set(0);
 
-		ShuffleboardTab tab = Shuffleboard.getTab(Constants.DATA_TAB);
-		_entryAngles = tab.add("Angles Of Rotation", new double[] {0, 0}).getEntry();
+		//ShuffleboardTab tab = Shuffleboard.getTab(Constants.DATA_TAB);
+		//_entryAngles = tab.add("Angles Of Rotation", new double[] {0, 0}).getEntry();
 	}
 
 	/**

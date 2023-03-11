@@ -9,7 +9,6 @@ import java.util.List;
 
 import org.recordrobotics.charger.commands.auto.AutoDrive;
 import org.recordrobotics.charger.commands.auto.ParallelFullAuto;
-import org.recordrobotics.charger.commands.auto.TrajectoryPresets;
 import org.recordrobotics.charger.commands.manual.ManualClaw;
 import org.recordrobotics.charger.commands.manual.ManualArm;
 import org.recordrobotics.charger.commands.manual.ManualDrive;
@@ -42,7 +41,6 @@ import edu.wpi.first.wpilibj2.command.Subsystem;
 @SuppressWarnings({"PMD.SingularField","PMD.UnusedPrivateField"})
 public class RobotContainer {
 	// The robot's subsystems and commands are defined here...
-	private TrajectoryPresets _trajectoryPresets;
 	private IControlInput _controlInput;
 	//private Claw _claw;
 	private Drive _drive;
@@ -71,13 +69,9 @@ public class RobotContainer {
 		_pid2 = new PIDController(0, 0, 0);
 
 		_vision = new Vision();
-		//_kinematics = new DifferentialDriveKinematics(Units.inchesToMeters(22));//This value should be confirmed when possible
-		//_estimator = new DifferentialDrivePoseEstimator(_kinematics, new Rotation2d(_navSensor.getYaw()), _drive.getLeftEncoder(), _drive.getRightEncoder(), new Pose2d(2.54, 4.65, new Rotation2d(0))); //The default standard deviations of the model states are 0.02 meters for x, 0.02 meters for y, and 0.01 radians for heading. The default standard deviations of the vision measurements are 0.1 meters for x, 0.1 meters for y, and 0.1 radians for heading.
+		_kinematics = new DifferentialDriveKinematics(Units.inchesToMeters(22));//This value should be confirmed when possible
+		_estimator = new DifferentialDrivePoseEstimator(_kinematics, new Rotation2d(_navSensor.getYaw()), _drive.getLeftEncoder(), _drive.getRightEncoder(), new Pose2d(2.54, 4.65, new Rotation2d(0))); //The default standard deviations of the model states are 0.02 meters for x, 0.02 meters for y, and 0.01 radians for heading. The default standard deviations of the vision measurements are 0.1 meters for x, 0.1 meters for y, and 0.1 radians for heading.
 		//TODO: set an initial pose
-
-		_trajectoryPresets = new TrajectoryPresets();
-		_trajectories = new ArrayList<Trajectory>();//TODO: replace this with whatever trajectory preset is relevant
-		_trajectories.add(_trajectoryPresets.testTraj());
 
 		initTeleopCommands();
 		initDashCommands();
@@ -105,9 +99,12 @@ public class RobotContainer {
 		}
 	}
 
-	public Command getAutonomousCommand() {
-		return new AutoDrive(_drive,0.4,1750);//new ParallelFullAuto(_vision, _drive, _arm, _claw, _pid1, _pid2, _trajectory, _estimator, _navSensor)
-	}
+
+	//public Command getAutonomousCommand() {
+	//	return new AutoDrive(_drive,0.4,1750);//new ParallelFullAuto(_vision, _drive, _arm, _claw, _pid1, _pid2, _trajectory, _estimator, _navSensor)
+	//}
+
+
 	/**
 	 * Set control scheme to Single
 	 */
