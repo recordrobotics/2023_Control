@@ -13,12 +13,12 @@ public class ManualArm2 extends CommandBase{
 
 	private PIDController _originPid;
 	private PIDController _changePid;
-	private double _okp = 0;
+	private double _okp = 0.1;
 	private double _oki;
-	private double _okd;
-	private double _ckp = 0;
+	private double _okd = 0.01;
+	private double _ckp = 0.1;
 	private double _cki;
-	private double _ckd;
+	private double _ckd = 0.01;
 	private double _changeTolerance = 2.5;
 	private double _originTolerance = 2.5;
 	private double _maxSpeed = 0.3;
@@ -34,6 +34,7 @@ public class ManualArm2 extends CommandBase{
 		}
 
 		_arm = arm;
+		_arm.resetEncoders();
 		_controls = controls;
 		_originPid = originPid;
 		_originPid.setD(_okd);
@@ -60,17 +61,18 @@ public class ManualArm2 extends CommandBase{
 				angles = _arm.getAngles(Arm2.FIRST_ARM_LENGTH, Arm2.SECOND_ARM_LENGTH, Constants.FieldElements.DISTANCE_TO_FAR_NODE, Constants.FieldElements.CUBE_TOP_HEIGHT, "L");
 				break;
 			case GROUND://How far away must we be
-				angles = null;
+				//angles = null; this still needs to be fixed
+				angles = _arm.getAngles(Arm2.FIRST_ARM_LENGTH, Arm2.SECOND_ARM_LENGTH, Constants.FieldElements.DISTANCE_TO_FAR_NODE, Constants.FieldElements.CUBE_TOP_HEIGHT, "L");
 				break;
 			case SUBSTATION:
 				angles = _arm.getAnglesRestricted(Arm2.FIRST_ARM_LENGTH, Arm2.SECOND_ARM_LENGTH, Constants.FieldElements.SUBSTATION_HEIGHT);
 				break;
-			case FLIP_GROUND_ORIGIN://What is this?
-				angles = null;
-				break;
-			case FLIP_GROUND_CHANGE://What is this?
-				angles = null;
-				break;
+		//	case FLIP_GROUND_ORIGIN://What is this?
+		//		angles = null;
+		//		break;
+		//	case FLIP_GROUND_CHANGE://What is this?
+		//		angles = null;
+		//		break;
 			default:
 				angles = _arm.getAngles(Arm2.FIRST_ARM_LENGTH, Arm2.SECOND_ARM_LENGTH, 1.07, 1.07, "R");//This should extend mostly fully, but not quite
 				break;
@@ -80,18 +82,17 @@ public class ManualArm2 extends CommandBase{
 		_changePid.setSetpoint(angles[1]);
 		double _originSpeed = _originPid.calculate(_arm.getOriginEncoder());
 		double _changeSpeed = _changePid.calculate(_arm.getChangeEncoder());  
-		if (_originSpeed < 0){
-			_originSpeed = Math.max(_originSpeed, _maxSpeed);
-		} else {
-			_originSpeed = Math.min(_originSpeed, _maxSpeed);
-		}
-		if (_changeSpeed < 0){
-			_changeSpeed = Math.max(_changeSpeed, _maxSpeed);
-		} else {
-			_changeSpeed = Math.min(_changeSpeed, _maxSpeed);
-		}
-
+		_originSpeed = Math.min(Math.abs(_originSpeed), _maxSpeed) * Math.signum(_originSpeed);
+		_changeSpeed = Math.min(Math.abs(_changeSpeed), _maxSpeed) * Math.signum(_changeSpeed);
+		
 		_arm.spinOrigin(_originSpeed);
 		_arm.spinChange(_changeSpeed);
+
+		System.out.println("Origin Encoder Value = " + _arm.getOriginEncoder());
+		System.out.println("Origin Speed = " + _originSpeed);
+		System.out.println("Origin Target = " + angles[0]);
+		System.out.println("Change Encoder Value = " + _arm.getChangeEncoder());
+		System.out.println("Change Speed = " + _changeSpeed);
+		System.out.println("Change Target = " + angles[1]);
     }
 }

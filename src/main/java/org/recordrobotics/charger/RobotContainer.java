@@ -61,8 +61,10 @@ public class RobotContainer {
 
 	/** The container for the robot. Contains subsystems, OI devices, and commands. */
 	public RobotContainer() {
+		resetCommands();
+
 		// Configure the button bindings
-		_controlInput = new DoubleControl(RobotMap.Control.DOUBLE_GAMEPAD_1, RobotMap.Control.DOUBLE_GAMEPAD_2);
+		_controlInput = new SingleControl(RobotMap.Control.SINGLE_GAMEPAD);
 		//_drive = new Drive();
 		//_navSensor = new NavSensor();
 		//_claw = new Claw();
@@ -104,6 +106,11 @@ public class RobotContainer {
 			c.getKey().setDefaultCommand(c.getValue());
 		}
 	}
+
+	public void getAutonomousCommand() {
+		resetCommands();
+	}
+
 /*
 	public Command getAutonomousCommand() {
 		return new AutoDrive(_drive,0.4,1750);//new ParallelFullAuto(_vision, _drive, _arm, _claw, _pid1, _pid2, _trajectory, _estimator, _navSensor)

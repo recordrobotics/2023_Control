@@ -41,6 +41,8 @@ public class Arm2 extends SubsystemBase{
 		_originMotor.set(0);
 		_changeMotor.set(0);
 
+		resetEncoders();
+
 		ShuffleboardTab tab = Shuffleboard.getTab(Constants.DATA_TAB);
 		_entryAngles = tab.add("Angles Of Rotation", new double[] {0, 0}).getEntry();
 	}
@@ -99,14 +101,16 @@ public class Arm2 extends SubsystemBase{
 	 * @return value of origin motor encoder in RADIANS
 	 */
 	public double getOriginEncoder() {
-		return (_originMotor.getSelectedSensorPosition() / TICKS_PER_REV * Math.PI / GEAR_RATIO);
+		System.out.println("Origin Encoder Raw = " + _originMotor.getSelectedSensorPosition());
+		return (_originMotor.getSelectedSensorPosition() / TICKS_PER_REV * 2 * Math.PI / GEAR_RATIO);
 	}
 
 	/**
 	 * @return value of change motor encoder in RADIANS
 	 */
 	public double getChangeEncoder() {
-		return _changeMotor.getSelectedSensorPosition() / TICKS_PER_REV * Math.PI / GEAR_RATIO;
+		System.out.println("Change Encoder Raw = " + _changeMotor.getSelectedSensorPosition());
+		return _changeMotor.getSelectedSensorPosition() / TICKS_PER_REV * 2 * Math.PI / GEAR_RATIO;
 	}
 
 	/**
