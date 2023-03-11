@@ -16,7 +16,6 @@ public class ManualDrive extends CommandBase {
 	private static final double HIGH_SPEED_MODIFIER = 0.8;
 	private static final double MID_SPEED_MODIFIER = 0.55;
 	private static final double SLOW_SPEED_MODIFIER = 0.35;
-	private double _speedModifier;
 
 	private Drive _drive;
 	private IControlInput _controls;
@@ -36,25 +35,28 @@ public class ManualDrive extends CommandBase {
 
 	@Override
 	public void execute() {
+		double speedModifier;
+
 		switch (_controls.speedState()) {
 			case FAST:
-				_speedModifier = HIGH_SPEED_MODIFIER;
+				speedModifier = HIGH_SPEED_MODIFIER;
 				break;
 			case SLOW:
-				_speedModifier = SLOW_SPEED_MODIFIER;
+				speedModifier = SLOW_SPEED_MODIFIER;
 				break;
 			case NEUTRAL:
-				_speedModifier = MID_SPEED_MODIFIER;
+				speedModifier = MID_SPEED_MODIFIER;
 				break;
 			default:
-				_speedModifier = 0;
+				speedModifier = 0;
 				break;
 		}
+
 		if (_controls.canTurn()) {
-			_drive.move(_controls.getDriveLong() * _speedModifier,
-				_controls.getDriveLat() * _speedModifier);
+			_drive.move(_controls.getDriveLong() * speedModifier,
+				_controls.getDriveLat() * speedModifier);
 		} else {
-			_drive.move(_controls.getDriveLong() * _speedModifier, 0);
+			_drive.move(_controls.getDriveLong() * speedModifier, 0);
 		}
 	}
 

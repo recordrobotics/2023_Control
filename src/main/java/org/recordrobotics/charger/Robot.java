@@ -9,27 +9,24 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 
-@SuppressWarnings({"PMD.SystemPrintln", "PMD.FieldNamingConventions"})
 public class Robot extends TimedRobot {
+
 	private RobotContainer _robotContainer;
-	private Command _autonomousCommand;
 
-
-
+	// TODO: use this
 	@SuppressWarnings("PMD.SingularField")
-	private Field2d field;
+	private Field2d _field;
 
 	/**
 	 * Robot initialization
 	 */
-
 	@Override
 	public void robotInit() {
-		//System.out.println("Robotinit");
 		// Create container
 		_robotContainer = new RobotContainer();
-		field = new Field2d();
-		SmartDashboard.putData(field);
+
+		_field = new Field2d();
+		SmartDashboard.putData(_field);
 	}
 
 
@@ -38,7 +35,6 @@ public class Robot extends TimedRobot {
 	*/
 	@Override
 	public void robotPeriodic() {
-		//System.out.println("Robot periodic");
 		// Run command scheduler
 		CommandScheduler.getInstance().run();
 	}
@@ -56,8 +52,7 @@ public class Robot extends TimedRobot {
 	 */
 	@Override
 	public void disabledPeriodic() {
-		//System.out.println("Disabled periodic");
-		// TODO
+		// Nothing
 	}
 
 	/**
@@ -65,13 +60,11 @@ public class Robot extends TimedRobot {
 	 */
 	@Override
 	public void autonomousInit() {
-		System.out.println("Autonomous Init");
-		_autonomousCommand = _robotContainer.getAutonomousCommand();
+		Command autoCommand = _robotContainer.getAutoCommand();
 
-
-		// schedule the autonomous command (example)
-		if (_autonomousCommand != null) {
-			_autonomousCommand.schedule();
+		// Schedule auto command
+		if (autoCommand != null) {
+			autoCommand.schedule();
 		}
 	}
 
@@ -80,7 +73,7 @@ public class Robot extends TimedRobot {
 	 */
 	@Override
 	public void autonomousPeriodic() {
-		//placeholder
+		// Nothing
 	}
 
 	/**
@@ -88,11 +81,6 @@ public class Robot extends TimedRobot {
 	 */
 	@Override
 	public void teleopInit() {
-		System.out.println("Teleop init");
-		// TODO
-		if (_autonomousCommand != null) {
-			_autonomousCommand.cancel();
-		}
 		_robotContainer.teleopInit();
 	}
 
@@ -101,8 +89,7 @@ public class Robot extends TimedRobot {
 	*/
 	@Override
 	public void teleopPeriodic() {
-		//placholder
-		}
-
-
+		// Nothing
 	}
+
+}

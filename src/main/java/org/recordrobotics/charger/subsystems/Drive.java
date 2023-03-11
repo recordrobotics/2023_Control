@@ -17,7 +17,6 @@ import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
-@SuppressWarnings({"PMD.SystemPrintln", "PMD.FieldNamingConventions"})
 public class Drive extends SubsystemBase {
 	private WPI_TalonFX[] _left = {
 		new WPI_TalonFX(RobotMap.DriveBase.LEFT_FRONT_MOTOR_PORT),

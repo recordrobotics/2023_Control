@@ -56,7 +56,7 @@ public interface IControlInput {
 	 * @return true - can turn; false - cannot turn
 	 */
 	boolean canTurn();
-  /**
+/**
 	 * Returns goal of arm movement
 	 *
 	 * @return ArmPosition.SUBSTATION - go to substation

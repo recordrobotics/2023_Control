@@ -34,7 +34,6 @@ public class AutoMoveClaw extends CommandBase{
 	 * Open/close claw
 	 */
 	@Override
-
 	public void initialize() {
 		if (_status == _grab) {
 			if (_claw.getCurrent() > _claw._CURRENT_GRAB_THRESHOLD) {
@@ -61,6 +60,7 @@ public class AutoMoveClaw extends CommandBase{
 		return _claw.getSwitchState() || _claw.getCurrent() > _claw._CURRENT_GRAB_THRESHOLD;
 	}
 
+	@Override
 	public void end(boolean interrupted) {
 		_claw.turn(0);
 	}

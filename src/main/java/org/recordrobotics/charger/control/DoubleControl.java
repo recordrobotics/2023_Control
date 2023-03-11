@@ -55,8 +55,8 @@ public class DoubleControl implements IControlInput {
 	@Override
 	public boolean canTurn() {
 		return !_gamepad1.getRightBumper();
-  }
-  
+}
+
 	private int booleanToInt(boolean b) {
 		return b ? 1 : 0;
 	}

@@ -11,14 +11,13 @@ import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 
 public class AutoSequenceOuter extends SequentialCommandGroup{
 
-    public AutoSequenceOuter(Vision vision, Drive drive, Arm arm, Claw claw, PIDController originPid, PIDController changePid, ArrayList<Trajectory> trajectory, DifferentialDrivePoseEstimator estimator, NavSensor nav){
-        
-        addCommands(
-            new AutoMoveClaw(claw, 0.2, 1),
+	public AutoSequenceOuter(Vision vision, Drive drive, Arm arm, Claw claw, PIDController originPid, PIDController changePid, ArrayList<Trajectory> trajectory, DifferentialDrivePoseEstimator estimator, NavSensor nav){
 
-            new ParallelFullAuto(vision, drive, arm, claw, originPid, changePid, trajectory, estimator, nav)
-        );
+		addCommands(
+			new AutoMoveClaw(claw, 0.2, 1),
+			new ParallelFullAuto(vision, drive, arm, claw, originPid, changePid, trajectory, estimator, nav)
+		);
 
-    }
+	}
 
 }
