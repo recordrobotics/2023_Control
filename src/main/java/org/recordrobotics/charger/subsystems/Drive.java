@@ -17,6 +17,7 @@ import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
+@SuppressWarnings({"PMD.SystemPrintln", "PMD.FieldNamingConventions"})
 public class Drive extends SubsystemBase {
 	private WPI_TalonFX[] _left = {
 		new WPI_TalonFX(RobotMap.DriveBase.LEFT_FRONT_MOTOR_PORT),
@@ -70,8 +71,8 @@ public class Drive extends SubsystemBase {
 		// Arcade drive expects rotational inputs, while get translational
 		// inputs. Therefore the values must be switched around
 		// https://docs.wpilib.org/en/stable/docs/software/hardware-apis/motors/wpi-drive-classes.html
-		_differentialDrive.arcadeDrive(Subsystems.limitSpeed(latSpeed),
-			Subsystems.limitSpeed(longSpeed));
+		_differentialDrive.arcadeDrive(Subsystems.limitSpeed(-latSpeed),
+			Subsystems.limitSpeed(-longSpeed));
 	}
 
 	/**
@@ -86,8 +87,8 @@ public class Drive extends SubsystemBase {
 	/**
 	 * @return The value of the right encoder in MM
 	 */
-	private double getRightEncoder() {
-		return (translateUnits(_right[0].getSelectedSensorPosition())
+	public double getRightEncoder() {
+		return -(translateUnits(_right[0].getSelectedSensorPosition())
 			+ translateUnits(_right[1].getSelectedSensorPosition())
 			+ translateUnits(_right[2].getSelectedSensorPosition()))
 		/ 3;
@@ -96,8 +97,8 @@ public class Drive extends SubsystemBase {
 	/**
 	 * @return The value of the left encoder in MM
 	 */
-	private double getLeftEncoder() {
-		return -(translateUnits(_left[0].getSelectedSensorPosition())
+	public double getLeftEncoder() {
+		return (translateUnits(_left[0].getSelectedSensorPosition())
 			+ translateUnits(_left[1].getSelectedSensorPosition())
 			+ translateUnits(_left[2].getSelectedSensorPosition()))
 		/ 3;
@@ -114,12 +115,12 @@ public class Drive extends SubsystemBase {
 	 * Reset all encoders to zero
 	 */
 	public void resetEncoders() {
-		_left[0].setSelectedSensorPosition(0.0);
-		_left[1].setSelectedSensorPosition(0.0);
-		_left[2].setSelectedSensorPosition(0.0);
-		_right[0].setSelectedSensorPosition(0.0);
-		_right[1].setSelectedSensorPosition(0.0);
-		_right[2].setSelectedSensorPosition(0.0);
+		_left[0].setSelectedSensorPosition(0);
+		_left[1].setSelectedSensorPosition(0);
+		_left[2].setSelectedSensorPosition(0);
+		_right[0].setSelectedSensorPosition(0);
+		_right[1].setSelectedSensorPosition(0);
+		_right[2].setSelectedSensorPosition(0);
 	};
 
 	@Override

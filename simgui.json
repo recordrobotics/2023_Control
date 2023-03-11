@@ -1,0 +1,19 @@
+{
+  "HALProvider": {
+    "Other Devices": {
+      "Talon FX[8]/Integrated Sensor": {
+        "header": {
+          "open": true
+        }
+      }
+    }
+  },
+  "NTProvider": {
+    "types": {
+      "/FMSInfo": "FMSInfo",
+      "/Shuffleboard/commands/Double Control": "Command",
+      "/Shuffleboard/commands/Single Control": "Command",
+      "/SmartDashboard/Field": "Field2d"
+    }
+  }
+}
