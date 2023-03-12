@@ -3,6 +3,7 @@ package org.recordrobotics.charger.subsystems;
 import org.recordrobotics.charger.Constants;
 import org.recordrobotics.charger.RobotMap;
 
+import com.ctre.phoenix.motorcontrol.FeedbackDevice;
 import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.can.TalonFXConfiguration;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
@@ -10,6 +11,7 @@ import com.ctre.phoenix.sensors.SensorInitializationStrategy;
 
 import edu.wpi.first.math.util.Units;
 import edu.wpi.first.networktables.GenericEntry;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
@@ -23,7 +25,7 @@ public class Arm2 extends SubsystemBase{
     private static final double FIRST_ARM_ZERO = Math.PI/3;
     private static final double SECOND_ARM_ZERO = Math.PI;
 	private static final double TICKS_PER_REV = 2048;
-	private static final double GEAR_RATIO = 1;//TODO: This should be changed to 16
+	private static final double GEAR_RATIO = 16;//TODO: This should be changed to 16
 	private static final double ERROR_MARGIN = 0;
 
 	private GenericEntry _entryAngles;
@@ -34,6 +36,7 @@ public class Arm2 extends SubsystemBase{
     
     public Arm2() {
 		armConfig.initializationStrategy = SensorInitializationStrategy.BootToZero;
+		armConfig.primaryPID.selectedFeedbackSensor = FeedbackDevice.IntegratedSensor;
 		_originMotor.configAllSettings(armConfig);
 		_changeMotor.configAllSettings(armConfig);
 		_originMotor.setNeutralMode(NeutralMode.Brake);
@@ -44,7 +47,7 @@ public class Arm2 extends SubsystemBase{
 		resetEncoders();
 
 		ShuffleboardTab tab = Shuffleboard.getTab(Constants.DATA_TAB);
-		_entryAngles = tab.add("Angles Of Rotation", new double[] {0, 0}).getEntry();
+		_entryAngles = tab.add("Pure sensor output", new double[] {0, 0}).getEntry();
 	}
 
 
@@ -101,16 +104,16 @@ public class Arm2 extends SubsystemBase{
 	 * @return value of origin motor encoder in RADIANS
 	 */
 	public double getOriginEncoder() {
-		System.out.println("Origin Encoder Raw = " + _originMotor.getSelectedSensorPosition());
-		return (_originMotor.getSelectedSensorPosition() / TICKS_PER_REV * 2 * Math.PI / GEAR_RATIO);
+		_angles[0] = _originMotor.getSelectedSensorPosition();
+		return (_angles[0] / TICKS_PER_REV * 360 / GEAR_RATIO);
 	}
 
 	/**
 	 * @return value of change motor encoder in RADIANS
 	 */
 	public double getChangeEncoder() {
-		System.out.println("Change Encoder Raw = " + _changeMotor.getSelectedSensorPosition());
-		return _changeMotor.getSelectedSensorPosition() / TICKS_PER_REV * 2 * Math.PI / GEAR_RATIO;
+		_angles[1] = _changeMotor.getSelectedSensorPosition();
+		return _angles[1] / TICKS_PER_REV * 360 / GEAR_RATIO;
 	}
 
 	/**
@@ -123,6 +126,8 @@ public class Arm2 extends SubsystemBase{
 
 	@Override
 	public void periodic() {
+		SmartDashboard.putNumber("Raw Origin Encoder", _originMotor.getSelectedSensorPosition());
+		SmartDashboard.putNumber("Raw Change Encoder", _changeMotor.getSelectedSensorPosition());
 		_entryAngles.setDoubleArray(_angles);
 	}
 }
