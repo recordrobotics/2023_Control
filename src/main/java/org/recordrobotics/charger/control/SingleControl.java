@@ -6,7 +6,7 @@ public class SingleControl implements IControlInput {
 
 	private XboxController _gamepad;
 
-	private double _TRIGGER_THRESHOLD = 0.25;
+	private double TRIGGER_THRESHOLD = 0.25;
 
 	public SingleControl(int port) {
 		_gamepad = new XboxController(port);
@@ -23,14 +23,14 @@ public class SingleControl implements IControlInput {
 	}
 
 	@Override
-	public int getClawTurn() {
-		if (_gamepad.getLeftTriggerAxis() > _TRIGGER_THRESHOLD) {
-			return -1;
-		} else if (_gamepad.getRightTriggerAxis() > _TRIGGER_THRESHOLD) {
-			return 1;
-		} else {
-			return 0;
+	public ClawState getClawTurn() {
+		if (_gamepad.getLeftTriggerAxis() > TRIGGER_THRESHOLD) {
+			return ClawState.GRAB;
 		}
+		if (_gamepad.getRightTriggerAxis() > TRIGGER_THRESHOLD) {
+			return ClawState.RELEASE;
+		}	
+		return ClawState.NEUTRAL;
 	}
 
 	@Override

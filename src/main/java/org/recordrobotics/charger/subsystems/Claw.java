@@ -19,57 +19,64 @@ public class Claw extends SubsystemBase {
 	private CANSparkMax _motor = new CANSparkMax(RobotMap.Claw.MOTOR_PORT, MotorType.kBrushless);
 	private DigitalInput _limitSwitch = new DigitalInput(RobotMap.Claw.LIMIT_SWITCH);
 
-	private GenericEntry _voltageEntry;
+	private GenericEntry _currentEntry;
 	private GenericEntry _encoderEntry;
+	private GenericEntry _switchEntry;
 
-	public double _OPEN_CLAW_ENCODER = 0.2;
-	public double _CURRENT_GRAB_THRESHOLD = 5;
+	public double OPEN_CLAW_ENCODER = 0.2;
+	public double CURRENT_GRAB_THRESHOLD = 5;
 
 	public Claw() {
 		_motor.set(0);
 		_motor.getEncoder().setPositionConversionFactor(1 / GEAR_RATIO);
 
 		ShuffleboardTab tab = Shuffleboard.getTab(Constants.DATA_TAB);
-		_voltageEntry = tab.add("Motor Current", 0).getEntry();
+		_currentEntry = tab.add("Motor Current", 0).getEntry();
 		_encoderEntry = tab.add("Encoder Value", 0).getEntry();
+		_switchEntry = tab.add("Limit Switch", false).getEntry();
 	}
 
 	@Override
 	public void periodic() {
-		_voltageEntry.setDouble(_motor.getOutputCurrent());
+		_currentEntry.setDouble(_motor.getOutputCurrent());
 		_encoderEntry.setDouble(getPosition());
+		_switchEntry.setBoolean(getSwitchState());
 	}
 
-	/*
-	 * Returns the the Claw Switch
-	 *  @return true if Claw in boundary
+	/**
+	 * Check if switch is pressed
+	 * @return True if switch is triggered
 	 */
 	public boolean getSwitchState(){
 		return !_limitSwitch.get();
 	}
 
 	/**
-	 * turns motor
-	 * @param speed speed of the motor
+	 * Run motor
+	 * @param speed Speed
 	 */
 	public void turn(double speed) {
 		_motor.set(Subsystems.limitSpeed(speed));
 	}
 
 	/**
-	 * gets encoder value of the claw
+	 * Get encoder value of the claw
 	 * @return The encoder value
 	 */
 	public double getPosition() {
 		return _motor.getEncoder().getPosition();
 	}
 
+	/**
+	 * Get motor current
+	 * @return Motor current
+	 */
 	public double getCurrent() {
 		return _motor.getOutputCurrent();
 	}
 
 	/**
-	 * resets encoder values
+	 * Reset encoder value
 	 */
 	public void resetEncoders() {
 		_motor.getEncoder().setPosition(0);

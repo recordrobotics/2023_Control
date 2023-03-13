@@ -12,21 +12,25 @@ public interface IControlInput {
 	 * 	CONE - grabs cone
 	 */
 	enum ClawState {
-		CUBE,
 		NEUTRAL,
-		CONE
+		GRAB,
+		RELEASE
 	}
 
-	/**
-	 * Claw has three states:
-	 * 	FAST - fast speed
-	 * 	NEUTRAL - normal speed
-	 * 	SLOW - slow speed
-	 */
 	enum SpeedState {
 		FAST,
 		NEUTRAL,
 		SLOW
+	}
+
+	enum ArmPosition {
+		SUBSTATION,
+		GROUND,
+		SECOND,
+		THIRD,
+		NEUTRAL,
+		FLIP_GROUND_ORIGIN,
+		FLIP_GROUND_CHANGE;
 	}
 
 	/**
@@ -56,7 +60,9 @@ public interface IControlInput {
 	 * @return true - can turn; false - cannot turn
 	 */
 	boolean canTurn();
-  /**
+
+	// TODO: update comment
+	  /**
 	 * Returns goal of arm movement
 	 *
 	 * @return ArmPosition.SUBSTATION - go to substation
@@ -67,19 +73,10 @@ public interface IControlInput {
 	 */
 	ArmPosition getArmPosition();
 
-	public enum ArmPosition {
-		SUBSTATION,
-		GROUND,
-		SECOND,
-		THIRD,
-		NEUTRAL,
-		FLIP_GROUND_ORIGIN,
-		FLIP_GROUND_CHANGE;
-	}
-		/**
-	 * Claw Turn Direction(Release & Grab)
+	/**
+	 * Claw Turn Direction (Release & Grab)
 	 *
 	 * @return 1 Releasing, -1 Grabbing, 0 No Movement
 	 */
-	int getClawTurn();
+	ClawState getClawTurn();
 }
