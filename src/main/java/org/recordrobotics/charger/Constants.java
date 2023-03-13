@@ -8,12 +8,15 @@ package org.recordrobotics.charger;
  * Put constants here
  */
 public final class Constants {
+
 	public static final String COMMANDS_TAB = "commands";
 	public static final String DATA_TAB = "data";
+
 	/**
 	 * Control ports (PC USB)
 	 */
 	public class Control {
+
 		// LegacyControl
 		public static final int LEGACY_GAMEPAD = 0;
 
@@ -23,11 +26,14 @@ public final class Constants {
 
 	}
 
-	public class FieldElements {//TODO: verify these values
+	public class FieldElements {
+
+		//TODO: verify these values
 		public static final double DISTANCE_TO_FAR_NODE = 1.016;
 		public static final double CUBE_MID_HEIGHT = 0.523113;
 		public static final double CUBE_TOP_HEIGHT = 0.826389;
 		public static final double SUBSTATION_HEIGHT = 0.949327;
+
 	}
 
 }

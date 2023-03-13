@@ -107,8 +107,8 @@ public class RobotContainer {
 		}
 	}
 
-	public void getAutonomousCommand() {
-		resetCommands();
+	public Command getAutonomousCommand() {
+		return _autoCommand;
 	}
 
 /*

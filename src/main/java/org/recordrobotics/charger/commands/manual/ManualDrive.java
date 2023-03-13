@@ -4,7 +4,10 @@
 
 package org.recordrobotics.charger.commands.manual;
 
+import java.util.Map;
+
 import org.recordrobotics.charger.control.IControlInput;
+import org.recordrobotics.charger.control.IControlInput.SpeedState;
 import org.recordrobotics.charger.subsystems.Drive;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 
@@ -13,10 +16,11 @@ import edu.wpi.first.wpilibj2.command.CommandBase;
  */
 public class ManualDrive extends CommandBase {
 
-	private static final double HIGH_SPEED_MODIFIER = 0.8;
-	private static final double MID_SPEED_MODIFIER = 0.55;
-	private static final double SLOW_SPEED_MODIFIER = 0.35;
-	private double _speedModifier;
+	private static final Map<SpeedState, Double> MODIFIERS = Map.of(
+		SpeedState.FAST, 0.8,
+		SpeedState.NEUTRAL, 0.55,
+		SpeedState.SLOW, 0.35
+	);
 
 	private Drive _drive;
 	private IControlInput _controls;
@@ -36,25 +40,12 @@ public class ManualDrive extends CommandBase {
 
 	@Override
 	public void execute() {
-		switch (_controls.speedState()) {
-			case FAST:
-				_speedModifier = HIGH_SPEED_MODIFIER;
-				break;
-			case SLOW:
-				_speedModifier = SLOW_SPEED_MODIFIER;
-				break;
-			case NEUTRAL:
-				_speedModifier = MID_SPEED_MODIFIER;
-				break;
-			default:
-				_speedModifier = 0;
-				break;
-		}
+		double speedMod = MODIFIERS.get(_controls.speedState());
 		if (_controls.canTurn()) {
-			_drive.move(_controls.getDriveLong() * _speedModifier,
-				_controls.getDriveLat() * _speedModifier);
+			_drive.move(_controls.getDriveLong() * speedMod,
+				_controls.getDriveLat() * speedMod);
 		} else {
-			_drive.move(_controls.getDriveLong() * _speedModifier, 0);
+			_drive.move(_controls.getDriveLong() * speedMod, 0);
 		}
 	}
 

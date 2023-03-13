@@ -4,6 +4,8 @@
 
 package org.recordrobotics.charger.subsystems;
 
+import java.util.function.Consumer;
+
 import org.recordrobotics.charger.Constants;
 import org.recordrobotics.charger.RobotMap;
 
@@ -17,8 +19,8 @@ import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
-@SuppressWarnings({"PMD.SystemPrintln", "PMD.FieldNamingConventions"})
 public class Drive extends SubsystemBase {
+
 	private WPI_TalonFX[] _left = {
 		new WPI_TalonFX(RobotMap.DriveBase.LEFT_FRONT_MOTOR_PORT),
 		new WPI_TalonFX(RobotMap.DriveBase.LEFT_MIDDLE_MOTOR_PORT),
@@ -36,34 +38,32 @@ public class Drive extends SubsystemBase {
 	private DifferentialDrive _differentialDrive = new DifferentialDrive(_leftMotors, _rightMotors);
 
 	private static final FeedbackDevice SELECTED_SENSOR = FeedbackDevice.IntegratedSensor;
-
 	private static final double GEAR_RATIO = 10.75;
-	private static final double WHEEL_DIAMETER = 6 * 25.4; // diameter in inches * conversion rate to millimeters
+	// Diameter in inches * conversion rate to millimeters
+	private static final double WHEEL_DIAMETER = 6 * 25.4;
+	// Units per millimeter
+	private static final double UPMM = WHEEL_DIAMETER * Math.PI * 2 / GEAR_RATIO;
 
 	private GenericEntry _encoderEntry;
 
 	public Drive() {
-		_leftMotors.set(0);
-		_rightMotors.set(0);
-		_left[0].configSelectedFeedbackSensor(SELECTED_SENSOR, 0, 0);
-		_left[1].configSelectedFeedbackSensor(SELECTED_SENSOR, 0, 0);
-		_left[2].configSelectedFeedbackSensor(SELECTED_SENSOR, 0, 0);
-		_right[0].configSelectedFeedbackSensor(SELECTED_SENSOR, 0, 0);
-		_right[1].configSelectedFeedbackSensor(SELECTED_SENSOR, 0, 0);
-		_right[2].configSelectedFeedbackSensor(SELECTED_SENSOR, 0, 0);
-		_left[0].setSelectedSensorPosition(0);
-		_left[1].setSelectedSensorPosition(0);
-		_left[2].setSelectedSensorPosition(0);
-		_right[0].setSelectedSensorPosition(0);
-		_right[1].setSelectedSensorPosition(0);
-		_right[2].setSelectedSensorPosition(0);
+		runForAllMotors(m -> {
+			m.configSelectedFeedbackSensor(SELECTED_SENSOR, 0, 0);
+			m.setSelectedSensorPosition(0);
+			m.set(0);
+		});
 
 		ShuffleboardTab tab = Shuffleboard.getTab(Constants.DATA_TAB);
 		_encoderEntry = tab.add("Drive Encoders", 0).getEntry();
 	}
 
+	@Override
+	public void periodic() {
+		_encoderEntry.setDouble(getPosition());
+	}
+
 	/**
-	 * drive the robot
+	 * Drive the robot
 	 * @param longSpeed forward/backward (positive is forward)
 	 * @param latSpeed rotational speed (positive is clockwise)
 	 */
@@ -76,32 +76,17 @@ public class Drive extends SubsystemBase {
 	}
 
 	/**
-	 * converts encoder units
-	 * @param position
-	 * @return
-	 */
-	private double translateUnits(double position) {
-		return position / (WHEEL_DIAMETER * Math.PI / GEAR_RATIO) * 2;
-	}
-
-	/**
 	 * @return The value of the right encoder in MM
 	 */
 	public double getRightEncoder() {
-		return -(translateUnits(_right[0].getSelectedSensorPosition())
-			+ translateUnits(_right[1].getSelectedSensorPosition())
-			+ translateUnits(_right[2].getSelectedSensorPosition()))
-		/ 3;
+		return averageEncoders(_right);
 	}
 
 	/**
 	 * @return The value of the left encoder in MM
 	 */
 	public double getLeftEncoder() {
-		return (translateUnits(_left[0].getSelectedSensorPosition())
-			+ translateUnits(_left[1].getSelectedSensorPosition())
-			+ translateUnits(_left[2].getSelectedSensorPosition()))
-		/ 3;
+		return averageEncoders(_left);
 	}
 
 	/**
@@ -115,16 +100,39 @@ public class Drive extends SubsystemBase {
 	 * Reset all encoders to zero
 	 */
 	public void resetEncoders() {
-		_left[0].setSelectedSensorPosition(0);
-		_left[1].setSelectedSensorPosition(0);
-		_left[2].setSelectedSensorPosition(0);
-		_right[0].setSelectedSensorPosition(0);
-		_right[1].setSelectedSensorPosition(0);
-		_right[2].setSelectedSensorPosition(0);
+		runForAllMotors(m -> {
+			m.setSelectedSensorPosition(0);
+		});
 	};
 
-	@Override
-	public void periodic() {
-		_encoderEntry.setDouble(getPosition());
+	/**
+	 * Average encoder values of a group
+	 * @param motors Array of motors
+	 * @return Average encoder value in MM
+	 */
+	@SuppressWarnings({"PMD.UseVarargs"})
+	private double averageEncoders(WPI_TalonFX motors[]) {
+		// Varargs not applicable here
+		double sum = 0;
+		for (WPI_TalonFX m : motors) {
+			sum += m.getSelectedSensorPosition();
+		}
+
+		// Average & Convert to millimeters
+		return (sum / motors.length) / UPMM;
 	}
+
+	/**
+	 * Run function for all motors
+	 * @param func Function to run
+	 */
+	private void runForAllMotors(Consumer<WPI_TalonFX> func) {
+		for (WPI_TalonFX lm : _left) {
+			func.accept(lm);
+		}
+		for (WPI_TalonFX lm : _right) {
+			func.accept(lm);
+		}
+	}
+
 }
