@@ -22,8 +22,8 @@ public class ManualArm2 extends CommandBase{
 	private static final double C_KI = 0.001;
 	private static final double C_KD = 0.0005;
 	private static final double O_KP = 0.005;
-	private static final double O_KI = 0.001;
-	private static final double O_KD = 0.0005;
+	private static final double O_KI = 0;
+	private static final double O_KD = 0.0015;
 	private double _changeTolerance = 0;
 	private double _originTolerance = 0;
 	private double _originMaxSpeed = 0.2;
