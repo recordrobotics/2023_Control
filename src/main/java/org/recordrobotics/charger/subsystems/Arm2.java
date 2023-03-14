@@ -20,12 +20,12 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 public class Arm2 extends SubsystemBase{
     private WPI_TalonFX _originMotor = new WPI_TalonFX(RobotMap.Arm.ORIGIN_MOTOR_PORT);
 	private WPI_TalonFX _changeMotor = new WPI_TalonFX(RobotMap.Arm.CHANGE_MOTOR_PORT);
-	public static final double FIRST_ARM_LENGTH = Units.inchesToMeters(40);//TODO: All of these lengths and angles are off slightly, and should be modified
-	public static final double SECOND_ARM_LENGTH = Units.inchesToMeters(20);//TODO: check all of these constants
+	public static final double FIRST_ARM_LENGTH = Units.inchesToMeters(40); // TODO: All of these lengths and angles are off slightly, and should be modified
+	public static final double SECOND_ARM_LENGTH = Units.inchesToMeters(20); // TODO: check all of these constants
     private static final double FIRST_ARM_ZERO = Math.PI/3;
     private static final double SECOND_ARM_ZERO = Math.PI;
 	private static final double TICKS_PER_REV = 2048;
-	private static final double GEAR_RATIO = 16;//TODO: This should be changed to 16
+	private static final double GEAR_RATIO = 16;
 	private static final double ERROR_MARGIN = 0;
 
 	private GenericEntry _entryAngles;
