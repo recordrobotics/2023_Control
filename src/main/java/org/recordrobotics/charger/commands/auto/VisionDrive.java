@@ -53,20 +53,25 @@ public class VisionDrive extends CommandBase {
 			Pose2d visPose = new Pose2d(globalPose[0], globalPose[1], new Rotation2d(globalPose[2]));
 			_estimator.addVisionMeasurement(visPose, _timer.get());
 		}
-		_estimator.update(new Rotation2d(_nav.getYaw()), _drive.getLeftEncoder(), _drive.getRightEncoder());
+		_estimator.update(new Rotation2d(_nav.getYaw()), _drive.getLeftEncoder()/1000, _drive.getRightEncoder()/1000);
 		// Get the desired pose from the trajectory.
-		var desiredPose = _traj.sample(_timer.get());
+		var desiredPose = _traj.sample(_timer.getFPGATimestamp());
+		Pose2d pose = _estimator.getEstimatedPosition();
+		System.out.println(pose.getX() + ", " + pose.getY() + ", " + pose.getRotation().getRadians());
+		System.out.println(desiredPose);
 
 		// Get the reference chassis speeds from the Ramsete controller.
-		var refChassisSpeeds = _ramseteController.calculate(_estimator.getEstimatedPosition(), desiredPose);
+		var refChassisSpeeds = _ramseteController.calculate(pose, desiredPose);
 
+		System.out.println(refChassisSpeeds.vxMetersPerSecond+", "+refChassisSpeeds.omegaRadiansPerSecond);
 		// Set the linear and angular speeds.
-		_drive.move(refChassisSpeeds.vxMetersPerSecond, refChassisSpeeds.omegaRadiansPerSecond);
+		//_drive.move(refChassisSpeeds.vxMetersPerSecond, refChassisSpeeds.omegaRadiansPerSecond);
+		_drive.move(-0.5,0.0);
 	}
 
 	@Override
 	public boolean isFinished() {
-		return _timer.get() > _traj.getTotalTimeSeconds();
+		return _timer.getFPGATimestamp() > 20*_traj.getTotalTimeSeconds();
 	}
 
 }

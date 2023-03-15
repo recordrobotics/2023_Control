@@ -25,9 +25,9 @@ public class FullAutoSequenceTest extends SequentialCommandGroup {
 	 * e
 	 */
 	public FullAutoSequenceTest(Vision vision, Drive drive, ArrayList<Trajectory> trajectory, DifferentialDrivePoseEstimator estimator, NavSensor nav){
-		String sequenceType = "test";
+		String sequenceType = "docking";//TODO:
 
-		if (sequenceType == "scoring"){
+		if (sequenceType.equals("scoring")){
 		addCommands(
 			//new AutoArmHolder(mover, _pos1),
 			//new AutoMoveClaw(claw, clawSpeed, clawRelease),
@@ -39,7 +39,7 @@ public class FullAutoSequenceTest extends SequentialCommandGroup {
 			//new AutoMoveClaw(claw, clawSpeed, clawRelease)
 		);
 		}
-		else if (sequenceType == "docking"){
+		else if (sequenceType.equals("docking")){
 		addCommands(
 			//new AutoArmHolder(mover, _pos1),
 			//new AutoMoveClaw(claw, clawSpeed, clawRelease),
@@ -47,7 +47,7 @@ public class FullAutoSequenceTest extends SequentialCommandGroup {
 			//new ChargeStationBalance(drive, nav)
 		);
 		}
-		else if (sequenceType == "test"){
+		else if (sequenceType.equals("test")){
 			addCommands(
 				new VisionDrive(vision, drive, trajectory.get(0), estimator, nav, 0)
 			);
