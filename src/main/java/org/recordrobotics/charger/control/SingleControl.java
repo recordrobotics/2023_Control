@@ -19,7 +19,7 @@ public class SingleControl implements IControlInput {
 
 	@Override
 	public double getDriveLat() {
-		return _gamepad.getLeftX();
+		return - _gamepad.getLeftX();
 	}
 
 	@Override
