@@ -58,8 +58,8 @@ public class Drive extends SubsystemBase {
 		_right[1].setSelectedSensorPosition(0);
 		_right[2].setSelectedSensorPosition(0);
 
-		ShuffleboardTab tab = Shuffleboard.getTab(Constants.DATA_TAB);
-		_encoderEntry = tab.add("Drive Encoders", 0).getEntry();
+		//ShuffleboardTab tab = Shuffleboard.getTab(Constants.DATA_TAB);
+		//_encoderEntry = tab.add("Drive Encoders", 0).getEntry();
 	}
 
 	/**
@@ -125,6 +125,6 @@ public class Drive extends SubsystemBase {
 
 	@Override
 	public void periodic() {
-		_encoderEntry.setDouble(getPosition());
+		//_encoderEntry.setDouble(getPosition());
 	}
 }
