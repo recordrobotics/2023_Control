@@ -8,6 +8,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.recordrobotics.charger.commands.auto.AutoDrive;
+import org.recordrobotics.charger.commands.auto.FullAutoTest;
 import org.recordrobotics.charger.commands.auto.ParallelFullAuto;
 import org.recordrobotics.charger.commands.auto.TrajectoryPresets;
 import org.recordrobotics.charger.commands.manual.ManualClaw;
@@ -106,7 +107,7 @@ public class RobotContainer {
 	}
 
 	public Command getAutonomousCommand() {
-		return new AutoDrive(_drive,0.4,1750);//new ParallelFullAuto(_vision, _drive, _arm, _claw, _pid1, _pid2, _trajectory, _estimator, _navSensor)
+		return new FullAutoTest(_vision, _drive, _pid2, _pid1, _trajectories, _estimator, _navSensor);//new ParallelFullAuto(_vision, _drive, _arm, _claw, _pid1, _pid2, _trajectories, _estimator, _navSensor), new AutoDrive(_drive,0.4,1750)
 	}
 	/**
 	 * Set control scheme to Single
