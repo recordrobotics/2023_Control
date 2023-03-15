@@ -63,7 +63,7 @@ public class RobotContainer {
 	/** The container for the robot. Contains subsystems, OI devices, and commands. */
 	public RobotContainer() {
 		// Configure the button bindings
-		_controlInput = new DoubleControl(RobotMap.Control.DOUBLE_GAMEPAD_1, RobotMap.Control.DOUBLE_GAMEPAD_2);
+		_controlInput = new SingleControl((RobotMap.Control.SINGLE_GAMEPAD));
 		_drive = new Drive();
 		_navSensor = new NavSensor();
 		//_claw = new Claw();
