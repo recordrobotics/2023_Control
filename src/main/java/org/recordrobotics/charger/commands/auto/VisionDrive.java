@@ -49,7 +49,7 @@ public class VisionDrive extends CommandBase {
 	@Override
 	public void execute() {
 		if (Vision.checkForTarget(_vision.camera)){
-			double[] globalPose = Vision.getVisionPoseEstimate(_vision.camera, _vision.robotToCam);
+			double[] globalPose = Vision.estimateGlobalPose(_vision.camera);
 			Pose2d visPose = new Pose2d(globalPose[0], globalPose[1], new Rotation2d(globalPose[2]));
 			_estimator.addVisionMeasurement(visPose, _timer.get());
 		}
