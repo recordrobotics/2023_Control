@@ -7,6 +7,12 @@ import org.recordrobotics.charger.subsystems.Vision;
 import edu.wpi.first.math.trajectory.Trajectory;
 import edu.wpi.first.math.controller.RamseteController;
 import edu.wpi.first.math.estimator.DifferentialDrivePoseEstimator;
+
+import edu.wpi.first.math.kinematics.DifferentialDriveWheelSpeeds;
+import edu.wpi.first.math.kinematics.DifferentialDriveKinematics;
+
+import edu.wpi.first.math.kinematics.ChassisSpeeds;
+
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.wpilibj.Timer;
@@ -15,6 +21,7 @@ import edu.wpi.first.wpilibj2.command.CommandBase;
 public class VisionDrive extends CommandBase {
 	private Vision _vision;
 	private Drive _drive;
+
 	private Trajectory _traj;
 	private DifferentialDrivePoseEstimator _estimator;
 	private NavSensor _nav;
@@ -64,9 +71,21 @@ public class VisionDrive extends CommandBase {
 		var refChassisSpeeds = _ramseteController.calculate(pose, desiredPose);
 
 		System.out.println(refChassisSpeeds.vxMetersPerSecond+", "+refChassisSpeeds.omegaRadiansPerSecond);
+
+		//var chassisSpeeds = ChassisSpeeds(refChassisSpeeds.vxMetersPerSecond, refChassisSpeeds.omegaRadiansPerSecond);
+	
+		//DifferentialDriveKinematics kinematics = new DifferentialDriveKinematics(adjustedSpeeds);
+		//DifferentialDriveWheelSpeeds wheelSpeeds = kinematics.toWheelSpeeds(adjustedSpeeds);
+
+
+
+
+
 		// Set the linear and angular speeds.
-		//_drive.move(refChassisSpeeds.vxMetersPerSecond, refChassisSpeeds.omegaRadiansPerSecond);
-		_drive.move(-0.5,0.0);
+		_drive.move(refChassisSpeeds.vxMetersPerSecond, refChassisSpeeds.omegaRadiansPerSecond);
+		//_drive.move(-0.5,0.0);
+
+		
 	}
 
 	@Override

@@ -75,6 +75,11 @@ public class Drive extends SubsystemBase {
 			Subsystems.limitSpeed(-longSpeed));
 	}
 
+	public void moveWithWheelSPeedInput(double left_motor_speed, double right_motor_speed) {
+		_leftMotors.set(left_motor_speed);
+		_rightMotors.set(right_motor_speed);
+	}
+
 	/**
 	 * converts encoder units
 	 * @param position
