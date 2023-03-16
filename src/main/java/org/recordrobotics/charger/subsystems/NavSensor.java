@@ -13,28 +13,26 @@ import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 public class NavSensor extends SubsystemBase {
+
+
 	public AHRS _nav = new AHRS(edu.wpi.first.wpilibj.I2C.Port.kOnboard);
+
+
 
 	
 	//public NavSensor(){
 	//	ShuffleboardTab tab = Shuffleboard.getTab(Constants.DATA_TAB);
 	//	tab.add("Pitch", _nav.getPitch());
 
-<<<<<<< Updated upstream
-
-	public NavSensor(){
-		//ShuffleboardTab tab = Shuffleboard.getTab(Constants.DATA_TAB);
-		//tab.add("Pitch", _nav.getPitch());
-	}
-=======
 	//
->>>>>>> Stashed changes
 
 	//System.out.println(_nav.getPitch(), _nav.getRoll(), _nav.getYaw());
 
 	public NavSensor() {
 
 		_nav.calibrate();
+
+		_nav.enableBoardlevelYawReset​(true);
 	}
 
 	public double getPitch() {

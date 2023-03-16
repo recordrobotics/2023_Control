@@ -3,7 +3,6 @@
 // the WPILib BSD license file in the root directory of this project.
 
 package org.recordrobotics.charger;
-<<<<<<< Updated upstream
 import org.recordrobotics.charger.subsystems.Drive;
 import org.recordrobotics.charger.subsystems.NavSensor;
 import org.recordrobotics.charger.subsystems.Vision;
@@ -13,11 +12,9 @@ import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.kinematics.DifferentialDriveKinematics;
 import edu.wpi.first.math.util.Units;
-=======
 
 import org.recordrobotics.charger.subsystems.NavSensor;
 
->>>>>>> Stashed changes
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.smartdashboard.Field2d;
@@ -30,17 +27,17 @@ import edu.wpi.first.wpilibj2.command.CommandScheduler;
 public class Robot extends TimedRobot {
 	private RobotContainer _robotContainer;
 	private Command _autonomousCommand;
-<<<<<<< Updated upstream
 	private Vision _vision;
 	private Timer _timer;
 	private DifferentialDrivePoseEstimator _estimator;
+
+	private NavSensor _navSensor;
+
 	private Drive _drive;
 	private DifferentialDriveKinematics _kinematics = new DifferentialDriveKinematics(22);
 
-=======
 
 	NavSensor nav_object = new NavSensor();
->>>>>>> Stashed changes
 
 	@SuppressWarnings("PMD.SingularField")
 	private Field2d field;
