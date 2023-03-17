@@ -13,7 +13,7 @@ import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class ManualArm2 extends CommandBase{
-    private Arm2 _arm;
+	private Arm2 _arm;
 	private IControlInput _controls;
 
 	private PIDController _originPid;
@@ -38,7 +38,7 @@ public class ManualArm2 extends CommandBase{
 	private GenericEntry _currentChange;
 	private GenericEntry _speedOfChange;
 
-    public ManualArm2(Arm2 arm, IControlInput controls, PIDController originPid, PIDController changePid) {
+	public ManualArm2(Arm2 arm, IControlInput controls, PIDController originPid, PIDController changePid) {
 		if (arm == null) {
 			throw new IllegalArgumentException("Arm is null");
 		}
@@ -69,7 +69,7 @@ public class ManualArm2 extends CommandBase{
 		_speedOfChange = tab.add("Change Speed", new double[] {0}).getEntry();
 	}
 
-    @Override
+	@Override
 	public void execute() {
 		// sets arm motor angles based on which actions is needed
 		double[] angles = {0, 0};
@@ -112,11 +112,11 @@ public class ManualArm2 extends CommandBase{
 		}
 
 		if(angles[0] != prevAngles[0]) {
-    		_originPid.setSetpoint(angles[0]);
+			_originPid.setSetpoint(angles[0]);
 			_targetOrigin.setDouble(angles[0]);
 			SmartDashboard.putNumber("Origin Target", angles[0]);
 			prevAngles[0] = angles[0];
-		}	
+		}
 		if(angles[1] != prevAngles[1]) {
 			_changePid.setSetpoint(angles[1]);
 			_targetChange.setDouble(angles[1]);
@@ -131,14 +131,14 @@ public class ManualArm2 extends CommandBase{
 		_currentChange.setDouble(changePos);
 		SmartDashboard.putNumber("Change Pos", changePos);
 		double _originSpeed = _originPid.calculate(originPos);
-		double _changeSpeed = _changePid.calculate(changePos);  
+		double _changeSpeed = _changePid.calculate(changePos);
 		_originSpeed = Math.min(Math.abs(_originSpeed), _originMaxSpeed) * Math.signum(_originSpeed);
 		_changeSpeed = Math.min(Math.abs(_changeSpeed), _changeMaxSpeed) * Math.signum(_changeSpeed);
 		_speedOfOrigin.setDouble(_originSpeed);
 		SmartDashboard.putNumber("Origin Speed", _originSpeed);
 		_speedOfChange.setDouble(_changeSpeed);
 		SmartDashboard.putNumber("Change Speed", _changeSpeed);
-		
+
 		_arm.spinOrigin(_originSpeed);
 		_arm.spinChange(_changeSpeed);
 
@@ -148,5 +148,5 @@ public class ManualArm2 extends CommandBase{
 	//	System.out.println("Change Encoder Value = " + _arm.getChangeEncoder());
 	//	System.out.println("Change Speed = " + _changeSpeed);
 	//	System.out.println("Change Target = " + angles[1]);
-    }
+	}
 }
