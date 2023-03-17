@@ -28,15 +28,18 @@ public class DoubleControl implements IControlInput {
 
 	@Override
 	public ClawState getClawTurn() {
-		if (_gamepad2.getLeftTriggerAxis() < _TRIGGER_THRESHOLD) {
+		// Trigger mimics button-like behavior
+		boolean cube = _gamepad2.getLeftTriggerAxis() > _TRIGGER_THRESHOLD;
+		boolean cone = _gamepad2.getRightTriggerAxis() > _TRIGGER_THRESHOLD;
+
+		// Cube takes precedence
+		if (cube) {
 			return ClawState.CUBE;
 		}
 		else if (_gamepad2.getRightTriggerAxis() < _TRIGGER_THRESHOLD) {
 			return ClawState.CONE;
 		}
-		else {
-			return ClawState.NEUTRAL;
-		}
+		return ClawState.NEUTRAL;
 	}
 
 	@Override

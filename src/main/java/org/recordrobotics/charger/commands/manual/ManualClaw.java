@@ -4,11 +4,13 @@ import edu.wpi.first.wpilibj2.command.CommandBase;
 import org.recordrobotics.charger.subsystems.Claw;
 import org.recordrobotics.charger.control.IControlInput;
 
+
 public class ManualClaw extends CommandBase {
 
 	private Claw _claw;
 	private IControlInput _controls;
 
+<<<<<<< HEAD
 	private static final double NEUTRAL_POS = -0.15;
 	private static final double CUBE_POS = -0.1;
 	private static final double CONE_POS = 0.1;
@@ -16,6 +18,9 @@ public class ManualClaw extends CommandBase {
 	private static final double TURN_SPEED = 0.05;
 	// TODO: find a good value experimentally
 	private static final double ERROR_MARGIN = 0.01;
+=======
+	//private static final double TURN_SPEED = 0.3;
+>>>>>>> 076f860ed7bc098ed1ce03a391e0afb85b5722bd
 
 	public ManualClaw(Claw claw, IControlInput controls) {
 		if (claw == null) {
@@ -37,6 +42,7 @@ public class ManualClaw extends CommandBase {
 
 	@Override
 	public void execute() {
+<<<<<<< HEAD
 		double currentPos = _claw.getPosition();
 		double target;
 		switch (_controls.getClawTurn()) {
@@ -60,12 +66,17 @@ public class ManualClaw extends CommandBase {
 		} else {
 			_claw.turn(-TURN_SPEED);
 		}
+=======
+		_claw.turn(_controls.getDriveLat());
+>>>>>>> 076f860ed7bc098ed1ce03a391e0afb85b5722bd
 	}
+
 
 	@Override
 	public void end(boolean interrupted) {
 		_claw.turn(0);
 	}
+<<<<<<< HEAD
 
 	/**
 	 * Check if two doubles are close enough to be considered equal
@@ -77,4 +88,6 @@ public class ManualClaw extends CommandBase {
 	private boolean near(double num0, double num1) {
 		return Math.abs(num0 - num1) < ERROR_MARGIN;
 	}
+=======
+>>>>>>> 076f860ed7bc098ed1ce03a391e0afb85b5722bd
 }
