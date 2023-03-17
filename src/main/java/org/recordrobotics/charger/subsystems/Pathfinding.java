@@ -36,7 +36,6 @@ public class Pathfinding {
 	public ArrayList<Trajectory> finalPath;
 
 	public Pathfinding(Pose2d start, ArrayList<Pose2d> score, ArrayList<Pose2d> pieces, String r) {
-		// config = c;
 		double robotBuffer = 19;
 		routine = r;
 
@@ -77,48 +76,21 @@ public class Pathfinding {
 	}
 
 	public ArrayList<Trajectory> docking(Pose2d start) {
-		ArrayList<Pose2d> path1 = new ArrayList<>();
-		ArrayList<Pose2d> path2 = new ArrayList<>();
+		ArrayList<Pose2d> path = new ArrayList<>();
 		ArrayList<Trajectory> trajectories = new ArrayList<>();
-		String dir = "left";
-
-		Pose2d dock = new Pose2d(Units.inchesToMeters(153.0025), Units.inchesToMeters(108.015), new Rotation2d(Math.PI));
-		if(side == 'R') {
-		dir = "right";
-			dock = new Pose2d(Units.inchesToMeters(497.3175), Units.inchesToMeters(108.015), new Rotation2d(0));
-		}
-
-		path1.add(start);
-
-		Pose2d score = bestScoring(start, dock);
-
-		Pose2d[] intermediate = checkIntersection(score, start, dir);
-		for(int i = 0; i < 2; i++) {
-			if(intermediate[i] == null) break;
-			path1.add(intermediate[i]);
-		}
-
-		double buffer = 21;
+		path.add(start);
 
 		if(side == 'B') {
-			path1.add(adjustPose(score, Units.inchesToMeters(buffer), false));
-			path2.add(adjustPose(score, Units.inchesToMeters(buffer), false));
+			path.add(new Pose2d(Units.inchesToMeters(100.45), Units.inchesToMeters(108.015), new Rotation2d(Math.PI)));
+			path.add(new Pose2d(Units.inchesToMeters(153.0025), Units.inchesToMeters(108.015), new Rotation2d(Math.PI)));
 		} else {
-			path1.add(adjustPose(score, Units.inchesToMeters(buffer), true));
-			path2.add(adjustPose(score, Units.inchesToMeters(buffer), true));
+			path.add(new Pose2d(Units.inchesToMeters(557), Units.inchesToMeters(108.015), new Rotation2d(0)));
+			path.add(new Pose2d(Units.inchesToMeters(497.3175), Units.inchesToMeters(108.015), new Rotation2d(0)));
 		}
 
-		trajectories.add(TrajectoryGenerator.generateTrajectory(path1, forward));
+		trajectories.add(TrajectoryGenerator.generateTrajectory(path, backward));
 
-		path2.add(dock);
-		trajectories.add(TrajectoryGenerator.generateTrajectory(path2, backward));
-
-		for(Pose2d p: path1) {
-			//System.out.println(p.getX() + " " + p.getY() + " " + p.getRotation().getRadians());
-		}
-		for(Pose2d p: path2) {
-			//System.out.println(p.getX() + " " + p.getY() + " " + p.getRotation().getRadians());
-		}
+		// printWaypoints(path);
 
 		return trajectories;
 
@@ -346,9 +318,25 @@ public class Pathfinding {
 
 		// pick order of points
 		for(int i = 0; i < 3 && !scoreSpots2.isEmpty() && !gamepieces2.isEmpty(); i++) {
+			// pick a piece
+			Pose2d bestPiece = gamepieces2.get(0);
+			double minDist = getDistance(prev, bestPiece);
+
+			for(int j = 1; j < gamepieces2.size(); j++) {
+				double curDist = getDistance(prev, gamepieces2.get(j));
+				if(curDist < minDist) {
+					bestPiece = gamepieces2.get(j);
+					minDist = curDist;
+				}
+			}
+
+			gamepieces2.remove(bestPiece);
+			origPath.add(bestPiece);
+			prev = bestPiece;
+
 			// pick a scoring
 			Pose2d bestScoring = scoreSpots2.get(0);
-			double minDist = getDistance(prev, bestScoring);
+			minDist = getDistance(prev, bestScoring);
 
 			for(int j = 1; j < scoreSpots2.size(); j++) {
 				double curDist = getDistance(prev, scoreSpots2.get(j));
@@ -362,22 +350,6 @@ public class Pathfinding {
 			origPath.add(bestScoring);
 
 			prev = bestScoring;
-
-			// pick a piece
-			Pose2d bestPiece = gamepieces2.get(0);
-			minDist = getDistance(prev, bestPiece);
-
-			for(int j = 1; j < gamepieces2.size(); j++) {
-				double curDist = getDistance(prev, gamepieces2.get(j));
-				if(curDist < minDist) {
-					bestPiece = gamepieces2.get(j);
-					minDist = curDist;
-				}
-			}
-
-			gamepieces2.remove(bestPiece);
-			origPath.add(bestPiece);
-			prev = bestPiece;
 		}
 
 		// adjust path
@@ -412,10 +384,10 @@ public class Pathfinding {
 
 		}
 
-		printWaypoints(origPath);
+		// printWaypoints(origPath);
 
 		// add intermediate points
-		boolean reverse = false;
+		boolean reverse = true;
 		path.add(origPath.get(0));
 		for(int i = 1; i < origPath.size(); i++) {
 			String dir = "";
@@ -443,11 +415,11 @@ public class Pathfinding {
 			path.add(origPath.get(i));
 		}
 
-		printWaypoints(path);
+		// printWaypoints(path);
 
 		ArrayList<Trajectory> trajectories = new ArrayList<>();
 
-		reverse = false;
+		reverse = true;
 		int begin = 0;
 
 		for(int i = 1; i < path.size(); i++) {
@@ -457,14 +429,12 @@ public class Pathfinding {
 				if(!reverse) {
 					if(cur.getX() > path.get(i-1).getX()) {
 						trajectories.add(TrajectoryGenerator.generateTrajectory(path.subList(begin, i), forward));
-						//System.out.println(begin + " " + i + " " + reverse);
 						begin = i-1;
 						reverse = true;
 					}
 				} else {
 					if(cur.getX() < path.get(i-1).getX()) {
 						trajectories.add(TrajectoryGenerator.generateTrajectory(path.subList(begin, i), backward));
-						//System.out.println(begin + " " + i + " " + reverse);
 						begin = i-1;
 						reverse = false;
 					}
@@ -474,14 +444,12 @@ public class Pathfinding {
 				if(!reverse) {
 					if(cur.getX() < path.get(i-1).getX()) {
 						trajectories.add(TrajectoryGenerator.generateTrajectory(path.subList(begin, i), forward));
-						//System.out.println(begin + " " + i + " " + reverse);
 						begin = i-1;
 						reverse = true;
 					}
 				} else {
 					if(cur.getX() > path.get(i-1).getX()) {
 						trajectories.add(TrajectoryGenerator.generateTrajectory(path.subList(begin, i), backward));
-						//System.out.println(begin + " " + i + " " + reverse);
 						begin = i-1;
 						reverse = false;
 					}
@@ -494,14 +462,11 @@ public class Pathfinding {
 		if(begin != path.size()-2) {
 			if(!reverse) {
 				trajectories.add(TrajectoryGenerator.generateTrajectory(path.subList(begin, path.size()), forward));
-				//System.out.println(begin + " " + path.size() + " " + reverse);
 			} else {
 				trajectories.add(TrajectoryGenerator.generateTrajectory(path.subList(begin, path.size()), backward));
-				//System.out.println(begin + " " + path.size() + " " + reverse);
 			}
 		}
 
-		// concatenate trajectories?
 		return trajectories;
 
 	}
@@ -531,8 +496,8 @@ public class Pathfinding {
 
 	public void printWaypoints(ArrayList<Pose2d> path) {
 		for(Pose2d p: path) {
-			//System.out.println(p.getX() + " " + p.getY() + " " + p.getRotation().getRadians());
+			System.out.println(p.getX() + " " + p.getY() + " " + p.getRotation().getRadians());
 		}
-		//System.out.println();
+		System.out.println();
 	}
 }
