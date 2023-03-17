@@ -29,6 +29,7 @@ spotless {
 	enforceCheck false
 }
 
+
 // Define my targets (RoboRIO) and artifacts (deployable files)
 // This is added by GradleRIO's backing project DeployUtils.
 deploy {

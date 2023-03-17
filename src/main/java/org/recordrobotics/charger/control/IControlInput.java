@@ -12,9 +12,9 @@ public interface IControlInput {
 	 * 	CONE - grabs cone
 	 */
 	enum ClawState {
-		CUBE,
+		OPENING,
 		NEUTRAL,
-		CONE
+		GRABING
 	}
 
 	/**
@@ -56,7 +56,7 @@ public interface IControlInput {
 	 * @return true - can turn; false - cannot turn
 	 */
 	boolean canTurn();
-  /**
+/**
 	 * Returns goal of arm movement
 	 *
 	 * @return ArmPosition.SUBSTATION - go to substation
@@ -81,5 +81,5 @@ public interface IControlInput {
 	 *
 	 * @return 1 Releasing, -1 Grabbing, 0 No Movement
 	 */
-	int getClawTurn();
+	ClawState getClawTurn();
 }
