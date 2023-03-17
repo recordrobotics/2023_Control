@@ -13,8 +13,6 @@ import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.kinematics.DifferentialDriveKinematics;
 import edu.wpi.first.math.util.Units;
 
-import org.recordrobotics.charger.subsystems.NavSensor;
-
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.smartdashboard.Field2d;
@@ -35,9 +33,6 @@ public class Robot extends TimedRobot {
 
 	private Drive _drive;
 	private DifferentialDriveKinematics _kinematics = new DifferentialDriveKinematics(22);
-
-
-	NavSensor nav_object = new NavSensor();
 
 	@SuppressWarnings("PMD.SingularField")
 	private Field2d field;
@@ -71,9 +66,13 @@ public class Robot extends TimedRobot {
 		// Run command scheduler
 		CommandScheduler.getInstance().run();
 		
-		System.out.println(nav_object.getYaw());
-		System.out.println(nav_object.getPitch());
-		System.out.println(nav_object.getRoll());
+		SmartDashboard.putNumber("Yaw", _navSensor.getYaw());
+		SmartDashboard.putNumber("Pitch", _navSensor.getPitch());
+		SmartDashboard.putNumber("Roll", _navSensor.getRoll());
+		
+		System.out.println(_navSensor.getYaw());
+		System.out.println(_navSensor.getPitch());
+		System.out.println(_navSensor.getRoll());
 	}
 
 	/**

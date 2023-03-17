@@ -1,8 +1,5 @@
 package org.recordrobotics.charger.subsystems;
 
-
-import java.io.Serial;
-
 import org.recordrobotics.charger.Constants;
 
 import com.kauailabs.navx.frc.AHRS;
@@ -32,7 +29,7 @@ public class NavSensor extends SubsystemBase {
 
 		_nav.calibrate();
 
-		_nav.enableBoardlevelYawReset​(true);
+		_nav.enableBoardlevelYawReset(true);
 	}
 
 	public double getPitch() {
