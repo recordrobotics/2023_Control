@@ -8,10 +8,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.recordrobotics.charger.commands.auto.AutoDrive;
-import org.recordrobotics.charger.commands.auto.ParallelFullAuto;
 import org.recordrobotics.charger.commands.auto.TrajectoryPresets;
-import org.recordrobotics.charger.commands.manual.ManualClaw;
-import org.recordrobotics.charger.commands.manual.ManualArm;
 import org.recordrobotics.charger.commands.manual.ManualDrive;
 import org.recordrobotics.charger.commands.dash.DashRunFunc;
 import org.recordrobotics.charger.control.DoubleControl;
@@ -21,11 +18,8 @@ import org.recordrobotics.charger.subsystems.*;
 import org.recordrobotics.charger.util.Pair;
 
 import edu.wpi.first.math.estimator.DifferentialDrivePoseEstimator;
-import edu.wpi.first.math.geometry.Pose2d;
-import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.kinematics.DifferentialDriveKinematics;
 import edu.wpi.first.math.trajectory.Trajectory;
-import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
 import edu.wpi.first.math.controller.PIDController;
@@ -98,7 +92,7 @@ public class RobotContainer {
 
 	/**
 	 * Executes teleop commands
-	 */	
+	 */
 	public void teleopInit() {
 		for (Pair<Subsystem, Command> c : _teleopPairs) {
 			c.getKey().setDefaultCommand(c.getValue());

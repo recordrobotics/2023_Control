@@ -10,6 +10,7 @@ import org.recordrobotics.charger.Constants;
 import org.recordrobotics.charger.RobotMap;
 
 import com.revrobotics.CANSparkMax;
+import com.revrobotics.CANSparkMax.IdleMode;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
 public class Claw extends SubsystemBase {
@@ -42,7 +43,7 @@ public class Claw extends SubsystemBase {
 
 	/*
 	 * Returns the the Claw Switch
-	 *  @return true if Claw in boundary
+	 * @return true if Claw in boundary
 	 */
 	public boolean getSwitchState(){
 		return !_limitSwitch.get();
@@ -66,6 +67,14 @@ public class Claw extends SubsystemBase {
 
 	public double getCurrent() {
 		return _motor.getOutputCurrent();
+	}
+
+	public void brake(boolean mode){
+		if(mode){
+			_motor.setIdleMode(IdleMode.kBrake);
+		} else {
+			_motor.setIdleMode(IdleMode.kCoast);
+		}
 	}
 
 	/**

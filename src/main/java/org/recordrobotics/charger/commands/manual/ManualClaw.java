@@ -10,7 +10,6 @@ public class ManualClaw extends CommandBase {
 	private Claw _claw;
 	private IControlInput _controls;
 
-	private boolean closed = false;
 	private static final double TURN_SPEED = 0.05;
 
 	public ManualClaw(Claw claw, IControlInput controls) {
@@ -35,23 +34,19 @@ public class ManualClaw extends CommandBase {
 	public void execute() {
 		switch (_controls.getClawTurn()) {
 			case OPENING:
-			closed = false;
-			if(_claw.getSwitchState()){
-				_claw.turn(TURN_SPEED);
-			}else{
-				_claw.turn(0);
-			}
-				break;
-			case GRABING:
-				if (_claw.getCurrent() < _claw._CURRENT_GRAB_THRESHOLD & !closed) {
-					_claw.turn(-TURN_SPEED);
-				} else {
+				_claw.brake(false);
+				if(_claw.getSwitchState()){
+					_claw.turn(TURN_SPEED);
+				}else{
 					_claw.turn(0);
-					closed = true;
 				}
 				break;
+			case GRABING:
+				_claw.brake(true);
+				break;
 			default:
-			 	_claw.turn(0);
+				_claw.brake(false);
+				_claw.turn(0);
 				break;
 			}
 	}
