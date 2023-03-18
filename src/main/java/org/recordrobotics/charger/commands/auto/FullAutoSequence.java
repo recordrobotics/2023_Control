@@ -1,4 +1,4 @@
-package org.recordrobotics.charger.commands.auto;
+/*package org.recordrobotics.charger.commands.auto;
 
 import java.util.ArrayList;
 
@@ -23,7 +23,7 @@ public class FullAutoSequence extends SequentialCommandGroup {
 
 	/**
 	 * e
-	 */
+	 *
 	public FullAutoSequence(Vision vision, Drive drive, ArrayList<Trajectory> trajectory, DifferentialDrivePoseEstimator estimator, NavSensor nav, AutoMoveArm mover, Claw claw){
 		String sequenceType = "test";
 
@@ -55,3 +55,4 @@ public class FullAutoSequence extends SequentialCommandGroup {
 }
 
 }
+*/

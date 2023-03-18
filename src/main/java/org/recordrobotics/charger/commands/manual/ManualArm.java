@@ -112,7 +112,6 @@ public class ManualArm extends CommandBase {
 
 		_arm.spinOrigin(_originSpeed);
 		_arm.spinChange(_changeSpeed);
-		System.out.println(_arm.getOriginEncoder() + " " + angles[0]);
 	}
 
 	public boolean originIsFliped(){

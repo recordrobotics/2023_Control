@@ -1,4 +1,4 @@
-package org.recordrobotics.charger.commands.auto;
+/*package org.recordrobotics.charger.commands.auto;
 
 import java.util.ArrayList;
 
@@ -22,3 +22,4 @@ public class AutoSequenceOuter extends SequentialCommandGroup{
 	}
 
 }
+*/

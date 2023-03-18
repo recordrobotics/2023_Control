@@ -69,6 +69,9 @@ public class Claw extends SubsystemBase {
 		return _motor.getOutputCurrent();
 	}
 
+	/*
+	 * sets break to true or false
+	 */
 	public void brake(boolean mode){
 		if(mode){
 			_motor.setIdleMode(IdleMode.kBrake);

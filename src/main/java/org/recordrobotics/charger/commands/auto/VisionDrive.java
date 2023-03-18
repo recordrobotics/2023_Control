@@ -1,4 +1,4 @@
-package org.recordrobotics.charger.commands.auto;
+/*package org.recordrobotics.charger.commands.auto;
 
 import org.recordrobotics.charger.subsystems.Drive;
 import org.recordrobotics.charger.subsystems.NavSensor;
@@ -28,7 +28,7 @@ public class VisionDrive extends CommandBase {
 	 * @param drive drivetrain
 	 * @param trajectories trajectories
 	 * @param target 0 for april tag target, 1 for cubes
-	 */
+	 *
 	public VisionDrive(Vision vision, Drive drive, Trajectory trajectory, DifferentialDrivePoseEstimator estimator, NavSensor nav, int target){
 
 		_vision = vision;
@@ -70,3 +70,4 @@ public class VisionDrive extends CommandBase {
 	}
 
 }
+*/
