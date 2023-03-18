@@ -4,7 +4,6 @@
 
 package org.recordrobotics.charger;
 import org.recordrobotics.charger.subsystems.Drive;
-import org.recordrobotics.charger.subsystems.NavSensor;
 import org.recordrobotics.charger.subsystems.Vision;
 
 import edu.wpi.first.math.estimator.DifferentialDrivePoseEstimator;
@@ -12,8 +11,6 @@ import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.kinematics.DifferentialDriveKinematics;
 import edu.wpi.first.math.util.Units;
-
-import org.recordrobotics.charger.subsystems.NavSensor;
 
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.Timer;
@@ -30,7 +27,7 @@ public class Robot extends TimedRobot {
 	private Vision _vision;
 	private Timer _timer;
 
-	private NavSensor _navSensor;
+	//private NavSensor _navSensor;
 
 	private Drive _drive;
 	private DifferentialDriveKinematics _kinematics = new DifferentialDriveKinematics(22);

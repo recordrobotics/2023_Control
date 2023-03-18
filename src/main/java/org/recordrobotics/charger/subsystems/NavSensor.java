@@ -1,8 +1,5 @@
 package org.recordrobotics.charger.subsystems;
 
-
-import java.io.Serial;
-
 import org.recordrobotics.charger.Constants;
 
 import com.kauailabs.navx.frc.AHRS;
