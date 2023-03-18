@@ -26,7 +26,7 @@ public class Arm2 extends SubsystemBase{
     private static final double SECOND_ARM_ZERO = Math.PI;
 	private static final double TICKS_PER_REV = 2048;
 	private static final double GEAR_RATIO = 48;
-	private static final double ERROR_MARGIN = 0;
+	// private static final double ERROR_MARGIN = 0;
 
 	private GenericEntry _entryAngles;
 
