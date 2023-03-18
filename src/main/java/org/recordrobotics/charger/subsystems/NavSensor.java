@@ -6,6 +6,9 @@ import java.io.Serial;
 import org.recordrobotics.charger.Constants;
 
 import com.kauailabs.navx.frc.AHRS;
+import edu.wpi.first.wpilibj.SPI;
+import edu.wpi.first.wpilibj.I2C;
+
 
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
@@ -15,8 +18,8 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 public class NavSensor extends SubsystemBase {
 
 
-	public AHRS _nav = new AHRS(edu.wpi.first.wpilibj.I2C.Port.kOnboard);
-
+	//public AHRS _nav = new AHRS(SPI.Port.kMXP, AHRS.SerialDataType , byte 50);
+	public AHRS _nav = new AHRS(I2C.Port.kMXP);
 
 
 	
@@ -32,7 +35,7 @@ public class NavSensor extends SubsystemBase {
 
 		_nav.calibrate();
 
-		_nav.enableBoardlevelYawReset​(true);
+		//_nav.enableBoardlevelYawReset​(true);
 	}
 
 	public double getPitch() {
@@ -44,7 +47,13 @@ public class NavSensor extends SubsystemBase {
 	}
 
 	public double getYaw() {
+
+		//System.out.println("YEE-YAW: " + _nav.getYaw());
+		//System.out.println("YEE-YAW2: " + _nav.isMoving());
+
+
 		return _nav.getYaw();
+
 	}
 
 	public double getDisplacementX() {
