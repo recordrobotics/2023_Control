@@ -18,6 +18,7 @@ import edu.wpi.first.math.kinematics.ChassisSpeeds;
 
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
+import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
@@ -72,7 +73,8 @@ public class VisionDrive extends CommandBase {
 				double[] globalPose = Vision.estimateGlobalPose(_vision.camera);
 				Pose2d visPose = new Pose2d(globalPose[0], globalPose[1], new Rotation2d(globalPose[5]));
 				_estimator.addVisionMeasurement(visPose, Timer.getFPGATimestamp());
-				//System.out.println("Vision measurement added at: " + globalPose[0] + " " + globalPose[1] + " " + globalPose[5]);}
+				//System.out.println("Vision measurement added at: " + globalPose[0] + " " + globalPose[1] + " " + globalPose[5]);
+			}
 		} catch (NullPointerException e) {}
 
 
@@ -83,42 +85,49 @@ public class VisionDrive extends CommandBase {
 
 
 		// Get the desired pose from the trajectory. Also calculates the desired velocity
-		double current_time = Timer.getFPGATimestamp() // gets current time
-		double MARGIN_FOR_DERIVATIVE = 0.02
-		desired_velocity = _traj.sample
+		double MARGIN_FOR_DERIVATIVE = 0.02;
+		double current_time = Timer.getFPGATimestamp(); // gets current time
+		Translation2d old_traj = _traj.sample(current_time - MARGIN_FOR_DERIVATIVE).poseMeters.getTranslation();
+		Translation2d new_traj = _traj.sample(current_time + MARGIN_FOR_DERIVATIVE).poseMeters.getTranslation();
+		double desired_velocity_meters_per_second = old_traj.getDistance(new_traj)/(2*MARGIN_FOR_DERIVATIVE);
 
-		var desiredPose = _traj.sample(Timer.getFPGATimestamp());
 
-		desiredPose.velocityMetersPerSecond = 0.1;
+		// Gets desired meters per second
+		var desiredPose = _traj.sample(current_time);
+		desiredPose.velocityMetersPerSecond = desired_velocity_meters_per_second;
 
+
+		// Gets current pose
 		Pose2d pose = _estimator.getEstimatedPosition();
+
+
 		//System.out.println("Kalman filter pose: " + pose.getX() + ", " + pose.getY() + ", " + pose.getRotation().getRadians());
 		//System.out.println("Desired pose: " + desiredPose);
+
 
 		// Get the reference chassis speeds from the Ramsete controller.
 		var refChassisSpeeds = _ramseteController.calculate(pose, desiredPose);
 
-
-		ChassisSpeeds adjustedspeeds = _ramseteController.calculate(pose, desiredPose);
-
-		//System.out.println(refChassisSpeeds.vxMetersPerSecond+", "+refChassisSpeeds.omegaRadiansPerSecond);
-
-		//var chassisSpeeds = ChassisSpeeds(refChassisSpeeds.vxMetersPerSecond, refChassisSpeeds.omegaRadiansPerSecond);
-	
-		//DifferentialDriveKinematics kinematics = new DifferentialDriveKinematics(adjustedSpeeds);
-		//DifferentialDriveWheelSpeeds wheelSpeeds = kinematics.toWheelSpeeds(adjustedSpeeds);
+		
+		// Makes the calculations for velocity in terms of drive speed
+		double ROBOT_MAX_SPEED = 7; // In meters per second. Figure this out by using encoders during testing
+		double final_speed = refChassisSpeeds.vxMetersPerSecond/ROBOT_MAX_SPEED;
 
 
-		// Set the linear and angular speeds.
+		// COMMENTS THAT ARE RANDOM :P
+			//ChassisSpeeds adjustedspeeds = _ramseteController.calculate(pose, desiredPose);
+			//System.out.println(refChassisSpeeds.vxMetersPerSecond+", "+refChassisSpeeds.omegaRadiansPerSecond);
+			//var chassisSpeeds = ChassisSpeeds(refChassisSpeeds.vxMetersPerSecond, refChassisSpeeds.omegaRadiansPerSecond);
+			//DifferentialDriveKinematics kinematics = new DifferentialDriveKinematics(adjustedSpeeds);
+			//DifferentialDriveWheelSpeeds wheelSpeeds = kinematics.toWheelSpeeds(adjustedSpeeds);
+			// Set the linear and angular speeds.
+			//System.out.println("adjusted speeds from ramsete x, y, radians: " + adjustedspeeds.vxMetersPerSecond + " " + adjustedspeeds.vyMetersPerSecond + " " + adjustedspeeds.omegaRadiansPerSecond);
 
-		//System.out.println("adjusted speeds from ramsete x, y, radians: " + adjustedspeeds.vxMetersPerSecond + " " + adjustedspeeds.vyMetersPerSecond + " " + adjustedspeeds.omegaRadiansPerSecond);
 
-		//_drive.move(refChassisSpeeds.vxMetersPerSecond, refChassisSpeeds.omegaRadiansPerSecond);
-		//_drive.move(-0.5,0.0);
-
+		//_drive.move(final_speed, refChassisSpeeds.omegaRadiansPerSecond);
 		
 	}
-
+	
 	@Override
 	public boolean isFinished() {
 
