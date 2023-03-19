@@ -69,7 +69,9 @@ public class Claw extends SubsystemBase {
 	 * @return The encoder value
 	 */
 	public double getPosition() {
-		return _motor.getEncoder().getPosition();
+		double position = _motor.getEncoder().getPosition();
+		SmartDashboard.putNumber("claw Encoder", position);
+		return position;
 	}
 
 	public double getCurrent() {
