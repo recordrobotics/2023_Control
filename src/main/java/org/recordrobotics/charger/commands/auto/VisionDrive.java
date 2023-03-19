@@ -11,6 +11,9 @@ import edu.wpi.first.math.estimator.DifferentialDrivePoseEstimator;
 import edu.wpi.first.math.kinematics.DifferentialDriveWheelSpeeds;
 import edu.wpi.first.math.kinematics.DifferentialDriveKinematics;
 
+import edu.wpi.first.math.util.Units;
+
+
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
 
 import edu.wpi.first.math.geometry.Pose2d;
@@ -27,7 +30,7 @@ public class VisionDrive extends CommandBase {
 	private NavSensor _nav;
 	private int _target;
 	private Timer _timer;
-	private final RamseteController _ramseteController = new RamseteController();
+	private RamseteController _ramseteController;
 
 	/**
 	 *
@@ -44,6 +47,10 @@ public class VisionDrive extends CommandBase {
 		_estimator = estimator;
 		_target = target;
 		_nav = nav;
+
+		//_ramseteController = new RamseteController(1, 0);
+		_ramseteController = new RamseteController();
+
 	}
 
 	@Override
@@ -55,22 +62,50 @@ public class VisionDrive extends CommandBase {
 
 	@Override
 	public void execute() {
-		if (Vision.checkForTarget(_vision.camera)){
-			double[] globalPose = Vision.estimateGlobalPose(_vision.camera);
-			Pose2d visPose = new Pose2d(globalPose[0], globalPose[1], new Rotation2d(globalPose[2]));
-			_estimator.addVisionMeasurement(visPose, _timer.get());
+
+		System.out.println("Executing visiondrive! Timer: " + Timer.getFPGATimestamp());
+
+		try {
+			if (Vision.checkForTarget(_vision.camera)){
+				double[] globalPose = Vision.estimateGlobalPose(_vision.camera);
+				Pose2d visPose = new Pose2d(globalPose[0], globalPose[1], new Rotation2d(globalPose[2]));
+				_estimator.addVisionMeasurement(visPose, Timer.getFPGATimestamp());
+
+				System.out.println("Vision measurement added at: " + globalPose[0] + " " + globalPose[1] + " " + globalPose[2]);
+
+			}
+		} catch (NullPointerException e) {
+
 		}
-		_estimator.update(new Rotation2d(_nav.getYaw()), _drive.getLeftEncoder()/1000, _drive.getRightEncoder()/1000);
+
+
+		// Calculates angle measurements given encoder values
+		Rotation2d nav_sensor_spoof = new Rotation2d(
+			((-1*_drive.getRightEncoder()/1000)-(-1*_drive.getLeftEncoder()/1000))/(2*Units.inchesToMeters(11)));
+
+		System.out.println("Nav sensor spoof angle: " + nav_sensor_spoof);
+
+		_estimator.update(nav_sensor_spoof, -1*_drive.getLeftEncoder()/1000, -1*_drive.getRightEncoder()/1000);
+
+
+
 		// Get the desired pose from the trajectory.
-		var desiredPose = _traj.sample(_timer.getFPGATimestamp());
+		
+		var desiredPose = _traj.sample(Timer.getFPGATimestamp());
+
+		desiredPose.velocityMetersPerSecond = 0.1;
+
 		Pose2d pose = _estimator.getEstimatedPosition();
-		System.out.println(pose.getX() + ", " + pose.getY() + ", " + pose.getRotation().getRadians());
-		System.out.println(desiredPose);
+		System.out.println("Kalman filter pose: " + pose.getX() + ", " + pose.getY() + ", " + pose.getRotation().getRadians());
+		System.out.println("Desired pose: " + desiredPose);
 
 		// Get the reference chassis speeds from the Ramsete controller.
 		var refChassisSpeeds = _ramseteController.calculate(pose, desiredPose);
 
-		System.out.println(refChassisSpeeds.vxMetersPerSecond+", "+refChassisSpeeds.omegaRadiansPerSecond);
+
+		ChassisSpeeds adjustedspeeds = _ramseteController.calculate(pose, desiredPose);
+
+		//System.out.println(refChassisSpeeds.vxMetersPerSecond+", "+refChassisSpeeds.omegaRadiansPerSecond);
 
 		//var chassisSpeeds = ChassisSpeeds(refChassisSpeeds.vxMetersPerSecond, refChassisSpeeds.omegaRadiansPerSecond);
 	
@@ -78,10 +113,10 @@ public class VisionDrive extends CommandBase {
 		//DifferentialDriveWheelSpeeds wheelSpeeds = kinematics.toWheelSpeeds(adjustedSpeeds);
 
 
-
-
-
 		// Set the linear and angular speeds.
+
+		System.out.println("adjusted speeds from ramsete x, y, radians: " + adjustedspeeds.vxMetersPerSecond + " " + adjustedspeeds.vyMetersPerSecond + " " + adjustedspeeds.omegaRadiansPerSecond);
+
 		_drive.move(refChassisSpeeds.vxMetersPerSecond, refChassisSpeeds.omegaRadiansPerSecond);
 		//_drive.move(-0.5,0.0);
 
@@ -90,7 +125,7 @@ public class VisionDrive extends CommandBase {
 
 	@Override
 	public boolean isFinished() {
-		return _timer.getFPGATimestamp() > 20*_traj.getTotalTimeSeconds();
+		return Timer.getFPGATimestamp() > 10*_traj.getTotalTimeSeconds();
 	}
 
 }

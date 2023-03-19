@@ -66,6 +66,7 @@ public class Vision extends SubsystemBase{
 			double global_theta = global_to_camera.getRotation().getRadians();
 
 			// Returns final global pose
+			//System.out.println("POSE (x, y, radians): (" + global_x + ", " + global_y + ", " + global_theta + ")");
 			return new double[] {global_x, global_y, global_theta}; // If this line doesnt work create a double[] called "global_pose" and return that instead
 		}
 

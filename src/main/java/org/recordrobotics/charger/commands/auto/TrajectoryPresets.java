@@ -223,4 +223,19 @@ public class TrajectoryPresets {
             Trajectory traj = TrajectoryGenerator.generateTrajectory(poses, _pathfinding.slooooowwww);
             return traj;
     }
+
+    public ArrayList<Trajectory> SpinSpin9000(){
+        Pose2d start = new Pose2d(2.54, 2.748, new Rotation2d(Math.PI));
+
+        ArrayList<Pose2d> score = new ArrayList<Pose2d>();
+        Pose2d score1 = new Pose2d(4, 2.74837, new Rotation2d(Math.PI));
+        score.add(score1);
+        
+        ArrayList<Pose2d> pieces = new ArrayList<Pose2d>();
+        Pose2d piece1 = new Pose2d(4,4, new Rotation2d(Math.PI));
+        pieces.add(piece1);
+
+        _pathfinding = new Pathfinding(start, score, pieces, "docking");
+        return _pathfinding.finalPath;
+    }
 }

@@ -27,8 +27,6 @@ public class FullAutoTest extends ParallelCommandGroup {
             //moveArm,
 
             new FullAutoSequenceTest(vision, drive, trajectory, estimator, nav)
-
-            
         );
     }
 
