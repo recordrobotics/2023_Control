@@ -64,7 +64,7 @@ public class Vision extends SubsystemBase{
 			
 			double roll  = Math.atan2(2*y*w - 2*x*z, 1 - 2*y*y - 2*z*z);
 			double pitch = Math.atan2(2*x*w - 2*y*z, 1 - 2*x*x - 2*z*z);
-			double yaw   =  Math.asin(2*x*y + 2*z*w);
+			double yaw   = Math.asin(2*x*y + 2*z*w);
 
 
 			//Puts the important stuff on the SmartDashboard
@@ -80,7 +80,6 @@ public class Vision extends SubsystemBase{
 				robot_to_global.getY(), 
 				robot_to_global.getZ(),
 				pitch, roll, yaw}; 
-		
 		}
 
 
