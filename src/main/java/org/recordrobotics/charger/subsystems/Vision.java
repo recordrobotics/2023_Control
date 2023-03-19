@@ -1,5 +1,6 @@
 package org.recordrobotics.charger.subsystems;
 
+import org.apache.commons.collections4.functors.TransformerClosure;
 import org.photonvision.PhotonCamera;
 import org.photonvision.targeting.PhotonTrackedTarget;
 
@@ -7,6 +8,9 @@ import edu.wpi.first.math.geometry.*;
 
 import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+
 
 @SuppressWarnings({"PMD.SystemPrintln", "PMD.FieldNamingConventions"})
 public class Vision extends SubsystemBase{
@@ -38,18 +42,43 @@ public class Vision extends SubsystemBase{
 		// Gets a frame from the camera
 		var result = camera.getLatestResult();
 
-		// Checks if there is a target. If there is one, the "if" statement passes. 
-		boolean hasTargets = result.hasTargets();
-		if (hasTargets){
-			
 			// Gets target object from apriltag perspective photonvision
 			PhotonTrackedTarget target = result.getBestTarget();
+
+			//System.out.println("Best Camera to target: " + target.getBestCameraToTarget());
+
 			Transform3d robot_to_april = target.getBestCameraToTarget()/*.plus(robotToCam.inverse())*/; // you could put the offset here if you were testing for reals
+			
+			//System.out.println(robot_to_april.getRotation().getQuaternion());
+			
+			double w = robot_to_april.getRotation().getQuaternion().getW();
+			double x = robot_to_april.getRotation().getQuaternion().getX();
+			double y = robot_to_april.getRotation().getQuaternion().getY();
+			double z = robot_to_april.getRotation().getQuaternion().getZ();
+			
+			double roll  = Math.atan2(2*y*w - 2*x*z, 1 - 2*y*y - 2*z*z);
+			double pitch = Math.atan2(2*x*w - 2*y*z, 1 - 2*x*x - 2*z*z);
+			double yaw   =  Math.asin(2*x*y + 2*z*w);
+
+			double robot_to_april_x = robot_to_april.getX();
+			double robot_to_april_y = robot_to_april.getY();
+			double robot_to_april_z = robot_to_april.getZ();
+
+
+			// if camera is upside down, rotates it. Comment out the below code if the camera is not upside down
+			roll = (roll + 180) % 360;
+			pitch = -1*pitch;
+			yaw = -1*yaw;
+			robot_to_april_y = -1*robot_to_april_y;
+			robot_to_april_z = -1*robot_to_april_z;
+			robot_to_april = new Transform3d(new Translation3d(robot_to_april_x, robot_to_april_y, robot_to_april_z), new Rotation3d(roll, pitch, yaw));
+			// End of upside down transformations
+
+			// Gets april to robot
 			Transform3d april_to_robot = robot_to_april.inverse();
-			// Converts the Transform3d object into a Pose2d object. Probably not entirely necessary to shift everything to 2d but its 2:30 in the morning and honestly my brain is kind of not working
-			Pose2d april_to_robot_pose2d = new Pose2d(
-				april_to_robot.getTranslation().toTranslation2d(), 
-				april_to_robot.getRotation().toRotation2d());
+
+			//System.out.println("Best Camera to target: " + april_to_robot_pose2d);
+
 
 			// Gets the fiducial ID and uses it to get the correct transform 2d object, which it then inverses to get the april to global perspective
 			int targetID = target.getFiducialId();
@@ -58,20 +87,27 @@ public class Vision extends SubsystemBase{
 			//System.out.println(april_to_global);
 			
 			// Uses the "Transform2d(Pose2d initial, Pose2d final)" feature to take the difference between april to robot and april to global
-			Pose2d global_to_camera = april_to_robot_pose2d.plus(april_to_global);
+			//Pose2d global_to_camera = april_to_robot_pose2d.plus(april_to_global);
 
 			// Gets the X and Y or the transform
-			double global_x = global_to_camera.getX();
-			double global_y = global_to_camera.getY();
-			double global_theta = global_to_camera.getRotation().getRadians();
+			//double global_x = global_to_camera.getX();
+			//double global_y = global_to_camera.getY();
+			//double global_theta = global_to_camera.getRotation().getRadians();
+
+			SmartDashboard.putNumber("Tag ID", result.getBestTarget().getFiducialId());
+			SmartDashboard.putNumber("X value", result.getBestTarget().getBestCameraToTarget().getX());
+			SmartDashboard.putNumber("Y value", result.getBestTarget().getBestCameraToTarget().getY());
+			SmartDashboard.putNumber("Z value", result.getBestTarget().getBestCameraToTarget().getZ());
+			SmartDashboard.putNumber("Angle (degrees)", result.getBestTarget().getBestCameraToTarget().getRotation().toRotation2d().getDegrees());
+
+
+
 
 			// Returns final global pose
 			//System.out.println("POSE (x, y, radians): (" + global_x + ", " + global_y + ", " + global_theta + ")");
 			return new double[] {global_x, global_y, global_theta}; // If this line doesnt work create a double[] called "global_pose" and return that instead
 		}
 
-		else {return null;}
-	}
 
 	public static boolean checkForTarget(PhotonCamera camera){
 		var result = camera.getLatestResult();//get a frame from the camera

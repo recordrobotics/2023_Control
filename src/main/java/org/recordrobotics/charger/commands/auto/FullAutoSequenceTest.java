@@ -25,7 +25,7 @@ public class FullAutoSequenceTest extends SequentialCommandGroup {
 	 * e
 	 */
 	public FullAutoSequenceTest(Vision vision, Drive drive, ArrayList<Trajectory> trajectory, DifferentialDrivePoseEstimator estimator, NavSensor nav){
-		String sequenceType = "docking";//TODO:
+		String sequenceType = "test";//TODO:
 
 		if (sequenceType.equals("scoring")){
 		addCommands(

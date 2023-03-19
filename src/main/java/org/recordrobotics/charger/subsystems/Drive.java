@@ -71,8 +71,9 @@ public class Drive extends SubsystemBase {
 		// Arcade drive expects rotational inputs, while get translational
 		// inputs. Therefore the values must be switched around
 		// https://docs.wpilib.org/en/stable/docs/software/hardware-apis/motors/wpi-drive-classes.html
-		_differentialDrive.arcadeDrive(Subsystems.limitSpeed(-latSpeed),
-			Subsystems.limitSpeed(-longSpeed));
+
+		//_differentialDrive.arcadeDrive(Subsystems.limitSpeed(-latSpeed),
+		//	Subsystems.limitSpeed(-longSpeed));
 	}
 
 	public void moveWithWheelSPeedInput(double left_motor_speed, double right_motor_speed) {
