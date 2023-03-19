@@ -37,7 +37,7 @@ public class VisionDrive extends CommandBase {
 	 *
 	 * @param vision vision system
 	 * @param drive drivetrain
-	 * @param trajectories trajectories
+	 * @param trajectories trajectories 
 	 * @param target 0 for april tag target, 1 for cubes
 	 */
 	public VisionDrive(Vision vision, Drive drive, Trajectory trajectory, DifferentialDrivePoseEstimator estimator, NavSensor nav, int target){
@@ -66,34 +66,27 @@ public class VisionDrive extends CommandBase {
 
 		//System.out.println("Executing visiondrive! Timer: " + Timer.getFPGATimestamp() + ", Vision is detected: " + Vision.checkForTarget(_vision.camera));
 
+		// If photonvision detects a target, it will add it to the kalman filter
 		try {
 			if (Vision.checkForTarget(_vision.camera)){
 				double[] globalPose = Vision.estimateGlobalPose(_vision.camera);
-				Pose2d visPose = new Pose2d(globalPose[0], globalPose[1], new Rotation2d(globalPose[2]));
+				Pose2d visPose = new Pose2d(globalPose[0], globalPose[1], new Rotation2d(globalPose[5]));
 				_estimator.addVisionMeasurement(visPose, Timer.getFPGATimestamp());
-
-				System.out.println("Vision measurement added at: " + globalPose[0] + " " + globalPose[1] + " " + globalPose[2]);
-
-
-
-			}
-		} catch (NullPointerException e) {
-
-		}
+				//System.out.println("Vision measurement added at: " + globalPose[0] + " " + globalPose[1] + " " + globalPose[5]);}
+		} catch (NullPointerException e) {}
 
 
-		// Calculates angle measurements given encoder values
+		// Spoofs the nav sensor's yaw, then updates it
 		Rotation2d nav_sensor_spoof = new Rotation2d(
 			((-1*_drive.getRightEncoder()/1000)-(-1*_drive.getLeftEncoder()/1000))/(2*Units.inchesToMeters(11)));
-
-		//System.out.println("Nav sensor spoof angle: " + nav_sensor_spoof);
-
 		_estimator.update(nav_sensor_spoof, -1*_drive.getLeftEncoder()/1000, -1*_drive.getRightEncoder()/1000);
 
 
+		// Get the desired pose from the trajectory. Also calculates the desired velocity
+		double current_time = Timer.getFPGATimestamp() // gets current time
+		double MARGIN_FOR_DERIVATIVE = 0.02
+		desired_velocity = _traj.sample
 
-		// Get the desired pose from the trajectory.
-		
 		var desiredPose = _traj.sample(Timer.getFPGATimestamp());
 
 		desiredPose.velocityMetersPerSecond = 0.1;

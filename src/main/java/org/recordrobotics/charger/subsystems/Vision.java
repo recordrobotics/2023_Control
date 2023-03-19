@@ -26,28 +26,6 @@ public class Vision extends SubsystemBase{
 	//	camera.setPipelineIndex(2);
 	//}
 
-	static final Transform2d[] tag_transforms = {//april tags 1-8 in order. values contained are x, y, z, theta, in that order. x, y, z are distances in meters, theta is in radians.
-		
-		new Transform2d(new Translation2d(15.513558, 4.424426), new Rotation2d(Math.PI)), //tag 1
-		new Transform2d(new Translation2d(15.513558, 2.748026), new Rotation2d(Math.PI)), //tag 2
-		new Transform2d(new Translation2d(15.513558, 4.424426), new Rotation2d(Math.PI)), //tag 3
-		new Transform2d(new Translation2d(16.178784, 6.749796), new Rotation2d(Math.PI)), //tag 4
-		new Transform2d(new Translation2d(0.36195, 6.749796), new Rotation2d(0)), //tag 5
-		new Transform2d(new Translation2d(1.02743, 4.424426), new Rotation2d(0)), //tag 6
-		new Transform2d(new Translation2d(1.02743, 2.748026), new Rotation2d(0)), //tag 7
-		new Transform2d(new Translation2d(1.02743, 1.071626), new Rotation2d(0)),}; //tag 8
-	
-	/*static double[][] tags = {
-		{15.513558, 1.071626, 0.462788, Math.PI}, //tag 1
-		{15.513558, 2.748026, 0.462788, Math.PI}, //tag 2
-		{15.513558, 4.424426, 0.462788, Math.PI}, //tag 3
-		{16.178784, 6.749796, 0.695452, Math.PI}, //tag 4
-		{0.36195, 6.749796, 0.695452, 0}, //tag 5
-		{1.02743, 4.424426, 0.462788, 0}, //tag 6
-		{1.02743, 2.748026, 0.462788, 0}, //tag 7
-		{1.02743, 1.071626, 0.462788, 0}}; //tag 8
-	*/
-
 	static Transform3d[] tags = {//april tags 1-8 in order. values contained are x, y, z, theta, in that order. x, y, z are distances in meters, theta is in radians.
 		
 		new Transform3d(new Translation3d(15.513558, 1.071626, 0.462788), new Rotation3d(0,0,Math.PI)),
@@ -68,14 +46,17 @@ public class Vision extends SubsystemBase{
 
 			// Gets target object from apriltag perspective photonvision
 			PhotonTrackedTarget target = result.getBestTarget();
-
-			//System.out.println("Best Camera to target: " + target.getBestCameraToTarget());
-
+			// Gets the Transform3d object for april to robot
 			Transform3d robot_to_april = target.getBestCameraToTarget()/*.plus(robotToCam.inverse())*/; // you could put the offset here if you were testing for reals
+			Transform3d april_to_robot = robot_to_april.inverse();
+			// Gets the fiducial ID and uses it to get the correct transform 2d object
+			int targetID = target.getFiducialId();
+			Transform3d global_to_april = tags[targetID - 1];
+			// Adds the two transform objects together to get robot to global
+			Transform3d robot_to_global = global_to_april.plus(april_to_robot);
+
 			
-			/* 
-			//System.out.println(robot_to_april.getRotation().getQuaternion());
-			
+			// Calculates pitch, roll, and yaw
 			double w = robot_to_april.getRotation().getQuaternion().getW();
 			double x = robot_to_april.getRotation().getQuaternion().getX();
 			double y = robot_to_april.getRotation().getQuaternion().getY();
@@ -85,60 +66,8 @@ public class Vision extends SubsystemBase{
 			double pitch = Math.atan2(2*x*w - 2*y*z, 1 - 2*x*x - 2*z*z);
 			double yaw   =  Math.asin(2*x*y + 2*z*w);
 
-			double robot_to_april_x = robot_to_april.getX();
-			double robot_to_april_y = robot_to_april.getY();
-			double robot_to_april_z = robot_to_april.getZ();
 
-
-			// if camera is upside down, rotates it. Comment out the below code if the camera is not upside down
-			roll = (roll + 180) % 360;
-			pitch = -1*pitch;
-			yaw = -1*yaw;
-			robot_to_april_y = -1*robot_to_april_y;
-			robot_to_april_z = -1*robot_to_april_z;
-			// End of upside down transformations
-
-
-			//Creates a new transform 3d object
-			Transform3d robot_to_april_transform3d = new Transform3d(new Translation3d(robot_to_april_x, robot_to_april_y, robot_to_april_z), new Rotation3d(roll, pitch, yaw));
-
-			// Gets april to robot
-			Transform3d april_to_robot = robot_to_april_transform3d.inverse();
-			Pose3d april_to_robot_pose3d = new Pose3d(april_to_robot.getTranslation(), april_to_robot.getRotation());
-			*/
-
-			Transform3d april_to_robot = robot_to_april.inverse();
-
-			// Gets the fiducial ID and uses it to get the correct transform 2d object, which it then inverses to get the april to global perspective
-			int targetID = target.getFiducialId();
-			//Transform2d april_to_global = tag_transforms[targetID - 1].inverse();
-
-			//Transform3d april_to_global = tags[targetID - 1].inverse();
-			//Pose3d global_to_april_pose3d = new Pose3d(tags[targetID - 1].getTranslation(),tags[targetID - 1].getRotation());
-			//Pose3d april_to_global_pose3d = new Pose3d(april_to_global.getTranslation(), april_to_global.getRotation());
-
-			Transform3d global_to_april = tags[targetID - 1];
-
-			Transform3d robot_to_global = global_to_april.plus(april_to_robot);
-
-			// finds difference
-			//Transform3d global_to_camera = new Transform3d(april_to_global_pose3d, april_to_robot_pose3d);
-
-			System.out.println(robot_to_global);
-
-			
-			// Uses the "Transform2d(Pose2d initial, Pose2d final)" feature to take the difference between april to robot and april to global
-			//Pose2d global_to_camera = april_to_robot_pose2d.plus(april_to_global);
-
-			// Gets the X and Y or the transform
-			
-			/*double global_x = global_to_camera.getX();
-			double global_y = global_to_camera.getY();
-			double global_z = global_to_camera.getZ();
-			double global_theta = global_to_camera.getRotation().toRotation2d().getRadians();
-			double pitch_relative_to_apriltag = pitch;*/
-
-			//SmartDashboard.putNumber("Tag ID", result.getBestTarget().getFiducialId());
+			//Puts the important stuff on the SmartDashboard
 			SmartDashboard.putNumber("X value", robot_to_global.getX());
 			SmartDashboard.putNumber("Y value", robot_to_global.getY());
 			SmartDashboard.putNumber("Z value", robot_to_global.getZ());
@@ -146,8 +75,11 @@ public class Vision extends SubsystemBase{
 
 
 			// Returns final global pose
-			//System.out.println("POSE (x, y, radians): (" + global_x + ", " + global_y + ", " + global_theta + ")");
-			return new double[] {robot_to_global.getX(), robot_to_global.getY(), robot_to_global.getRotation().toRotation2d().getRadians()}; // If this line doesnt work create a double[] called "global_pose" and return that instead
+			return new double[] {
+				robot_to_global.getX(), 
+				robot_to_global.getY(), 
+				robot_to_global.getZ(),
+				pitch, roll, yaw}; 
 		
 		}
 
