@@ -42,6 +42,6 @@ public class RobotMap {
 	public class Claw {
 		public static final int LIMIT_SWITCH = 9;//the pwm port is port 9
 
-		public static final int MOTOR_PORT = 2;//was 9
+		public static final int MOTOR_PORT = 9;//was 9
 	}
 }

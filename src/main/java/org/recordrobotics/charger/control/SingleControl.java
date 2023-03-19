@@ -1,6 +1,7 @@
 package org.recordrobotics.charger.control;
 
 import edu.wpi.first.wpilibj.XboxController;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class SingleControl implements IControlInput {
 
@@ -24,6 +25,7 @@ public class SingleControl implements IControlInput {
 
 	@Override
 	public ClawState getClawTurn() {
+		SmartDashboard.putNumber("left trigger", _gamepad.getLeftTriggerAxis());
 		if (_gamepad.getLeftTriggerAxis() >= _TRIGGER_THRESHOLD) {
 			return ClawState.OPENING;
 		} else if (_gamepad.getRightTriggerAxis() >= _TRIGGER_THRESHOLD) {

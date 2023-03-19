@@ -1,5 +1,6 @@
 package org.recordrobotics.charger.commands.manual;
 
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import org.recordrobotics.charger.subsystems.Claw;
 import org.recordrobotics.charger.control.IControlInput;
@@ -10,7 +11,7 @@ public class ManualClaw extends CommandBase {
 	private Claw _claw;
 	private IControlInput _controls;
 
-	private static final double TURN_SPEED = 0.05;
+	private static final double TURN_SPEED = 0.4;
 
 	public ManualClaw(Claw claw, IControlInput controls) {
 		if (claw == null) {
@@ -32,9 +33,9 @@ public class ManualClaw extends CommandBase {
 
 	@Override
 	public void execute() {
+		SmartDashboard.putBoolean("switch state", _claw.getSwitchState());
 		switch (_controls.getClawTurn()) {
 			case OPENING:
-				_claw.brake(false);
 				if(_claw.getSwitchState()){
 					_claw.turn(TURN_SPEED);
 				}else{
@@ -43,9 +44,9 @@ public class ManualClaw extends CommandBase {
 				break;
 			case GRABING:
 				_claw.brake(true);
+				_claw.turn(-TURN_SPEED);
 				break;
 			default:
-				_claw.brake(false);
 				_claw.turn(0);
 				break;
 			}
