@@ -9,16 +9,16 @@ import edu.wpi.first.math.geometry.*;
 import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
-//import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 
 @SuppressWarnings({"PMD.SystemPrintln", "PMD.FieldNamingConventions"})
 public class Vision extends SubsystemBase{
 
+
 	public PhotonCamera camera = new PhotonCamera("OV5647"); //IMPORTANT: This camera name MUST match the one on the Raspberry Pi, accessible through the PhotonVision UI.
 	public Transform3d robotToCam = new Transform3d(new Translation3d(Units.inchesToMeters(11), -1*Units.inchesToMeters(9), 0.1725), new Rotation3d(0,0,0)); //The offset from the center of the robot to the camera, and from facing exactly forward to the orientation of the camera.
 	//TODO: SET TRANSFORM!!!!!!
-
 
 	// Sends photonvision camera output to shuffleboard
 	//public void runDriverMode() {
@@ -61,6 +61,7 @@ public class Vision extends SubsystemBase{
 	};
 	
 	public static double[] estimateGlobalPose(PhotonCamera camera) {
+		System.out.println("vision detected!");
 
 		// Gets a frame from the camera
 		var result = camera.getLatestResult();
@@ -72,6 +73,7 @@ public class Vision extends SubsystemBase{
 
 			Transform3d robot_to_april = target.getBestCameraToTarget()/*.plus(robotToCam.inverse())*/; // you could put the offset here if you were testing for reals
 			
+			/* 
 			//System.out.println(robot_to_april.getRotation().getQuaternion());
 			
 			double w = robot_to_april.getRotation().getQuaternion().getW();
@@ -103,43 +105,49 @@ public class Vision extends SubsystemBase{
 			// Gets april to robot
 			Transform3d april_to_robot = robot_to_april_transform3d.inverse();
 			Pose3d april_to_robot_pose3d = new Pose3d(april_to_robot.getTranslation(), april_to_robot.getRotation());
-			
+			*/
+
+			Transform3d april_to_robot = robot_to_april.inverse();
 
 			// Gets the fiducial ID and uses it to get the correct transform 2d object, which it then inverses to get the april to global perspective
 			int targetID = target.getFiducialId();
 			//Transform2d april_to_global = tag_transforms[targetID - 1].inverse();
 
-			Transform3d april_to_global = tags[targetID - 1].inverse();
+			//Transform3d april_to_global = tags[targetID - 1].inverse();
 			//Pose3d global_to_april_pose3d = new Pose3d(tags[targetID - 1].getTranslation(),tags[targetID - 1].getRotation());
-			Pose3d april_to_global_pose3d = new Pose3d(april_to_global.getTranslation(), april_to_global.getRotation());
+			//Pose3d april_to_global_pose3d = new Pose3d(april_to_global.getTranslation(), april_to_global.getRotation());
+
+			Transform3d global_to_april = tags[targetID - 1];
+
+			Transform3d robot_to_global = global_to_april.plus(april_to_robot);
 
 			// finds difference
-			Transform3d global_to_camera = new Transform3d(april_to_global_pose3d, april_to_robot_pose3d);
+			//Transform3d global_to_camera = new Transform3d(april_to_global_pose3d, april_to_robot_pose3d);
 
-			System.out.println(global_to_camera);
-
+			System.out.println(robot_to_global);
 
 			
 			// Uses the "Transform2d(Pose2d initial, Pose2d final)" feature to take the difference between april to robot and april to global
 			//Pose2d global_to_camera = april_to_robot_pose2d.plus(april_to_global);
 
 			// Gets the X and Y or the transform
-			double global_x = global_to_camera.getX();
+			
+			/*double global_x = global_to_camera.getX();
 			double global_y = global_to_camera.getY();
 			double global_z = global_to_camera.getZ();
 			double global_theta = global_to_camera.getRotation().toRotation2d().getRadians();
-			double pitch_relative_to_apriltag = pitch;
+			double pitch_relative_to_apriltag = pitch;*/
 
 			//SmartDashboard.putNumber("Tag ID", result.getBestTarget().getFiducialId());
-			//SmartDashboard.putNumber("X value", result.getBestTarget().getBestCameraToTarget().getX());
-			//SmartDashboard.putNumber("Y value", result.getBestTarget().getBestCameraToTarget().getY());
-			//SmartDashboard.putNumber("Z value", result.getBestTarget().getBestCameraToTarget().getZ());
-			//SmartDashboard.putNumber("Angle (degrees)", result.getBestTarget().getBestCameraToTarget().getRotation().toRotation2d().getDegrees());
+			SmartDashboard.putNumber("X value", robot_to_global.getX());
+			SmartDashboard.putNumber("Y value", robot_to_global.getY());
+			SmartDashboard.putNumber("Z value", robot_to_global.getZ());
+			SmartDashboard.putNumber("Angle (degrees)", robot_to_global.getRotation().toRotation2d().getDegrees());
 
 
 			// Returns final global pose
 			//System.out.println("POSE (x, y, radians): (" + global_x + ", " + global_y + ", " + global_theta + ")");
-			return new double[] {global_x, global_y, global_theta}; // If this line doesnt work create a double[] called "global_pose" and return that instead
+			return new double[] {robot_to_global.getX(), robot_to_global.getY(), robot_to_global.getRotation().toRotation2d().getRadians()}; // If this line doesnt work create a double[] called "global_pose" and return that instead
 		
 		}
 
