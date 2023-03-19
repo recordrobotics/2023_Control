@@ -38,6 +38,7 @@ public class Pathfinding {
 	public Pathfinding(Pose2d start, ArrayList<Pose2d> score, ArrayList<Pose2d> pieces, String r) {
 		double robotBuffer = 19;
 		routine = r;
+		backward.setReversed(true);
 
 		// coordinates for what side we're on
 		if(start.getX() < Units.inchesToMeters(325.16)) {
@@ -71,7 +72,6 @@ public class Pathfinding {
 			finalPath = scoring(start);
 		}
 
-		backward.setReversed(true);
 
 	}
 
