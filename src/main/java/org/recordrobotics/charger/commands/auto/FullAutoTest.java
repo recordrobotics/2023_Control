@@ -19,14 +19,14 @@ public class FullAutoTest extends ParallelCommandGroup {
     
 
 
-    public FullAutoTest(Vision vision, Drive drive, PIDController originPid, PIDController changePid, ArrayList<Trajectory> trajectory, DifferentialDrivePoseEstimator estimator, NavSensor nav){
+    public FullAutoTest(Vision vision, Drive drive, PIDController originPid, PIDController changePid, ArrayList<Trajectory> trajectory, DifferentialDrivePoseEstimator estimator, NavSensor nav, double auto_start_time){
        
         System.out.println("auto move arm");
 
         addCommands(
             //moveArm,
 
-            new FullAutoSequenceTest(vision, drive, trajectory, estimator, nav)
+            new FullAutoSequenceTest(vision, drive, trajectory, estimator, nav, auto_start_time)
         );
     }
 

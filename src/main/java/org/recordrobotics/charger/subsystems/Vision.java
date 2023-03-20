@@ -68,10 +68,10 @@ public class Vision extends SubsystemBase{
 
 
 			//Puts the important stuff on the SmartDashboard
-			SmartDashboard.putNumber("X value", robot_to_global.getX());
-			SmartDashboard.putNumber("Y value", robot_to_global.getY());
-			SmartDashboard.putNumber("Z value", robot_to_global.getZ());
-			SmartDashboard.putNumber("Angle (degrees)", robot_to_global.getRotation().toRotation2d().getDegrees());
+			//SmartDashboard.putNumber("X value", robot_to_global.getX());
+			//SmartDashboard.putNumber("Y value", robot_to_global.getY());
+			//SmartDashboard.putNumber("Z value", robot_to_global.getZ());
+			//SmartDashboard.putNumber("Angle (degrees)", robot_to_global.getRotation().toRotation2d().getDegrees());
 
 
 			// Returns final global pose

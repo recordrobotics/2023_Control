@@ -24,9 +24,9 @@ import edu.wpi.first.math.util.Units;
 @SuppressWarnings({"PMD"})
 public class Pathfinding {
 
-	public TrajectoryConfig forward = new TrajectoryConfig(6, 3);
-	public TrajectoryConfig backward = new TrajectoryConfig(6, 3);
-	public TrajectoryConfig slooooowwww = new TrajectoryConfig(2, 1);
+	public TrajectoryConfig forward = new TrajectoryConfig(3, 1);
+	public TrajectoryConfig backward = new TrajectoryConfig(3, 1);
+	public TrajectoryConfig slooooowwww = new TrajectoryConfig(1, 0.5);
 
 	char side;
 	ArrayList<Pose2d> scoreSpots;

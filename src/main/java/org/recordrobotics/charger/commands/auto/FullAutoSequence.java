@@ -24,17 +24,17 @@ public class FullAutoSequence extends SequentialCommandGroup {
 	/**
 	 * e
 	 */
-	public FullAutoSequence(Vision vision, Drive drive, ArrayList<Trajectory> trajectory, DifferentialDrivePoseEstimator estimator, NavSensor nav, AutoMoveArm mover, Claw claw){
+	public FullAutoSequence(Vision vision, Drive drive, ArrayList<Trajectory> trajectory, DifferentialDrivePoseEstimator estimator, NavSensor nav, AutoMoveArm mover, Claw claw, double auto_start_time){
 		String sequenceType = "test";
 
 		if (sequenceType == "scoring"){
 		addCommands(
 			new AutoArmHolder(mover, _pos1),
 			new AutoMoveClaw(claw, clawSpeed, clawRelease),
-			new VisionDrive(vision, drive, trajectory.get(0), estimator, nav, 0),//When colored object code gets implemented, use it here
+			new VisionDrive(vision, drive, trajectory.get(0), estimator, nav, 0, auto_start_time),//When colored object code gets implemented, use it here
 			new AutoArmHolder(mover, _pos2),
 			new AutoMoveClaw(claw, clawSpeed, clawGrab),
-			new VisionDrive(vision, drive, trajectory.get(1), estimator, nav, 0),
+			new VisionDrive(vision, drive, trajectory.get(1), estimator, nav, 0, auto_start_time),
 			new AutoArmHolder(mover, _pos3),
 			new AutoMoveClaw(claw, clawSpeed, clawRelease)
 		);
@@ -43,13 +43,13 @@ public class FullAutoSequence extends SequentialCommandGroup {
 		addCommands(
 			new AutoArmHolder(mover, _pos1),
 			new AutoMoveClaw(claw, clawSpeed, clawRelease),
-			new VisionDrive(vision, drive, trajectory.get(0), estimator, nav, 0),
+			new VisionDrive(vision, drive, trajectory.get(0), estimator, nav, 0, auto_start_time),
 			new ChargeStationBalance(drive, nav)
 		);
 		}
 		else if (sequenceType == "test"){
 			addCommands(
-				new VisionDrive(vision, drive, trajectory.get(0), estimator, nav, 0)
+				new VisionDrive(vision, drive, trajectory.get(0), estimator, nav, 0, auto_start_time)
 			);
 		}
 }

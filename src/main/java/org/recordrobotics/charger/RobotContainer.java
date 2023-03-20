@@ -7,6 +7,7 @@ package org.recordrobotics.charger;
 import java.util.ArrayList;
 import java.util.List;
 
+//import org.apache.commons.collections4.Get;
 import org.recordrobotics.charger.commands.auto.AutoDrive;
 import org.recordrobotics.charger.commands.auto.FullAutoTest;
 
@@ -23,6 +24,8 @@ import org.recordrobotics.charger.control.IControlInput;
 import org.recordrobotics.charger.control.SingleControl;
 import org.recordrobotics.charger.subsystems.*;
 import org.recordrobotics.charger.util.Pair;
+import org.recordrobotics.charger.util.GetStartTime;
+
 
 import edu.wpi.first.math.estimator.DifferentialDrivePoseEstimator;
 import edu.wpi.first.math.geometry.Pose2d;
@@ -30,6 +33,7 @@ import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.kinematics.DifferentialDriveKinematics;
 import edu.wpi.first.math.trajectory.Trajectory;
 import edu.wpi.first.math.util.Units;
+import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
 import edu.wpi.first.math.controller.PIDController;
@@ -58,6 +62,7 @@ public class RobotContainer {
 	//private Arm _arm;
 	private PIDController _pid1;
 	private PIDController _pid2;
+	public GetStartTime _GetStartTime;
 
 	// Commands
 	private List<Pair<Subsystem, Command>> _teleopPairs;
@@ -113,12 +118,14 @@ public class RobotContainer {
 
 		_drive.resetEncoders(); // resets encoders
 
+		double auto_start_time = Timer.getFPGATimestamp();
+		//double auto_start_time = Timer.getFPGATimestamp();
 
 		//return new TrajectoryPresets(_vision, _drive, _pid2, _pid1, _trajectories, _estimator, _navSensor);//new ParallelFullAuto(_vision, _drive, _arm, _claw, _pid1, _pid2, _trajectories, _estimator, _navSensor)//
 
 		//return new ParallelFullAuto(_vision, _drive, _pid2, _pid1, _trajectories, _estimator, _navSensor);//new ParallelFullAuto(_vision, _drive, _arm, _claw, _pid1, _pid2, _trajectories, _estimator, _navSensor)
 
-		return new FullAutoTest(_vision, _drive, _pid2, _pid1, _trajectories, _estimator, _navSensor);//new ParallelFullAuto(_vision, _drive, _arm, _claw, _pid1, _pid2, _trajectories, _estimator, _navSensor)
+		return new FullAutoTest(_vision, _drive, _pid2, _pid1, _trajectories, _estimator, _navSensor, auto_start_time);//new ParallelFullAuto(_vision, _drive, _arm, _claw, _pid1, _pid2, _trajectories, _estimator, _navSensor)
 	}
 	/**
 	 * Set control scheme to Single
