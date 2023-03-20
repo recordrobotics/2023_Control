@@ -44,6 +44,7 @@ public class VisionDrive extends CommandBase {
 
 	public GetStartTime _GetStartTime;
 
+	
 	/**
 	 *
 	 * @param vision vision system
@@ -74,16 +75,18 @@ public class VisionDrive extends CommandBase {
 	}
 
 	@Override
-	public void execute() {
+	public Pose2d execute() {
 
-		System.out.println("Executing visiondrive! Timer: " + Timer.getFPGATimestamp() + ", Vision is detected: " + Vision.checkForTarget(_vision.camera));
+		double current_time = Timer.getFPGATimestamp() - _auto_start_time; // gets current time
+
+		//System.out.println("Executing visiondrive! Timer: " + Timer.getFPGATimestamp() + ", Vision is detected: " + Vision.checkForTarget(_vision.camera));
 
 		// If photonvision detects a target, it will add it to the kalman filter
 		try {
 			if (Vision.checkForTarget(_vision.camera)){
 				double[] globalPose = Vision.estimateGlobalPose(_vision.camera);
 				Pose2d visPose = new Pose2d(globalPose[0], globalPose[1], new Rotation2d(globalPose[5]));
-				_estimator.addVisionMeasurement(visPose, Timer.getFPGATimestamp());
+				_estimator.addVisionMeasurement(visPose, current_time);
 				//System.out.println("Vision measurement added at: " + globalPose[0] + " " + globalPose[1] + " " + globalPose[5]);
 			}
 		} catch (NullPointerException e) {}
@@ -97,7 +100,6 @@ public class VisionDrive extends CommandBase {
 
 		// Get the desired pose from the trajectory. Also calculates the desired velocity
 		double MARGIN_FOR_DERIVATIVE = 0.02;
-		double current_time = Timer.getFPGATimestamp() - _auto_start_time; // gets current time
 		Translation2d old_traj = _traj.sample(current_time - MARGIN_FOR_DERIVATIVE).poseMeters.getTranslation();
 		Translation2d new_traj = _traj.sample(current_time + MARGIN_FOR_DERIVATIVE).poseMeters.getTranslation();
 		//System.out.println(old_traj.getDistance(new_traj));
@@ -114,52 +116,7 @@ public class VisionDrive extends CommandBase {
 
 		Pose2d pose = _estimator.getEstimatedPosition();
 
-		System.out.println(pose);
-
-		SmartDashboard.putNumber("Left Encoder", -1*_drive.getLeftEncoder()/1000);
-		SmartDashboard.putNumber("Right Encoder", -1*_drive.getRightEncoder()/1000);
-		SmartDashboard.putNumber("X: ", pose.getX());
-		SmartDashboard.putNumber("Y: ", pose.getY());
-		SmartDashboard.putNumber("Angle: ", pose.getRotation().getDegrees());
-
-
-		Pose2d newpose = new Pose2d(pose.getTranslation(), new Rotation2d(Math.toRadians((pose.getRotation().getDegrees() + 180))));
-
-
-		//System.out.println("Kalman filter pose: " + pose.getX() + ", " + pose.getY() + ", " + pose.getRotation().getRadians());
-		//System.out.println("Desired pose: " + desiredPose);
-
-
-		// Get the reference chassis speeds from the Ramsete controller.
-		var refChassisSpeeds = _ramseteController.calculate(newpose, desiredPose);
-
-		
-		// Makes the calculations for velocity in terms of drive speed
-		double ROBOT_MAX_SPEED = 7; // In meters per second. Figure this out by using encoders during testing
-		double final_speed = refChassisSpeeds.vxMetersPerSecond/ROBOT_MAX_SPEED;
-
-		Math.max(final_speed, 0.4);
-
-		System.out.println(desiredPose);
-
-		//System.out.println(final_speed);
-
-		// COMMENTS THAT ARE RANDOM :P
-			//ChassisSpeeds adjustedspeeds = _ramseteController.calculate(pose, desiredPose);
-			//System.out.println(refChassisSpeeds.vxMetersPerSecond+", "+refChassisSpeeds.omegaRadiansPerSecond);
-			//var chassisSpeeds = ChassisSpeeds(refChassisSpeeds.vxMetersPerSecond, refChassisSpeeds.omegaRadiansPerSecond);
-			//DifferentialDriveKinematics kinematics = new DifferentialDriveKinematics(adjustedSpeeds);
-			//DifferentialDriveWheelSpeeds wheelSpeeds = kinematics.toWheelSpeeds(adjustedSpeeds);
-			// Set the linear and angular speeds.
-			//System.out.println("adjusted speeds from ramsete x, y, radians: " + adjustedspeeds.vxMetersPerSecond + " " + adjustedspeeds.vyMetersPerSecond + " " + adjustedspeeds.omegaRadiansPerSecond);
-
-
-		_drive.move(final_speed/10, refChassisSpeeds.omegaRadiansPerSecond/10);
-		
-		//System.out.println(_traj.getTotalTimeSeconds());
-		
-		//_drive.move(0.4,0);
-		
+		return pose;
 	}
 	
 	@Override
