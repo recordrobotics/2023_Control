@@ -25,7 +25,7 @@ public class Arm extends SubsystemBase {
 	private static final double CHANGE_START_OFFSET = 0;//-90;
 
 	private static final double TICKS_PER_REV = 2048;
-	private static final double GEAR_RATIO = 16;
+	private static final double GEAR_RATIO = 48;
 	private static final double ERROR_MARGIN = 10;
 
 	private GenericEntry _entryAngles;
