@@ -36,7 +36,7 @@ public class AutoMoveClaw extends CommandBase{
 	 */
 	@Override
 
-	public void initialize() {
+	public void execute() {
 		SmartDashboard.putBoolean("switch state", _claw.getSwitchState());
 		if (_status == _grab) {
 			_claw.turn(-_speed);
