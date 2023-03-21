@@ -175,16 +175,16 @@ public class Arm2 extends SubsystemBase{
 		SmartDashboard.putNumber("Raw Change Encoder", _changeMotor.getSelectedSensorPosition());
 		_entryAngles.setDoubleArray(_angles);
 
-		if(_angles[0] != prevAngles[0]) {
+//		if(_angles[0] != prevAngles[0]) {
     		_originPid.setSetpoint(_angles[0]);
 			SmartDashboard.putNumber("Origin Target", _angles[0]);
 			prevAngles[0] = _angles[0];
-		}	
-		if(_angles[1] != prevAngles[1]) {
+//		}	
+//		if(_angles[1] != prevAngles[1]) {
 			_changePid.setSetpoint(_angles[1]);
 			SmartDashboard.putNumber("Change Target", _angles[1]);
 			prevAngles[1] = _angles[1];
-		}
+//		}
 
 		double originPos = getOriginEncoder();
 		double changePos = getChangeEncoder();

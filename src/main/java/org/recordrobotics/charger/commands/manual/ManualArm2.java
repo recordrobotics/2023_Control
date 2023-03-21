@@ -7,7 +7,7 @@ import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 
 public class ManualArm2 extends CommandBase{
-    private static final int CHANGE_MODIFIER = 1;
+    private static final int CHANGE_MODIFIER = 0;
 	private Arm2 _arm;
 	private IControlInput _controls;
 
@@ -21,6 +21,8 @@ public class ManualArm2 extends CommandBase{
 
 		_arm = arm;
 		_controls = controls;
+
+		addRequirements(arm);
 	}
 
     @Override
