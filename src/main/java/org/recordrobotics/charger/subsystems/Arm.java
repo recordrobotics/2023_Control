@@ -151,4 +151,8 @@ public class Arm extends SubsystemBase {
 	public void periodic() {
 		_entryAngles.setDoubleArray(_angles);
 	}
+
+    public double[] getAnglesRestricted(double _second) {
+        return null;
+    }
 }

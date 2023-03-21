@@ -1,6 +1,5 @@
 package org.recordrobotics.charger.commands.manual;
 
-import org.recordrobotics.charger.Constants;
 import org.recordrobotics.charger.control.IControlInput;
 import org.recordrobotics.charger.subsystems.Arm2;
 
@@ -8,7 +7,8 @@ import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 
 public class ManualArm2 extends CommandBase{
-    private Arm2 _arm;
+    private static final int CHANGE_MODIFIER = 1;
+	private Arm2 _arm;
 	private IControlInput _controls;
 
     public ManualArm2(Arm2 arm, IControlInput controls, PIDController originPid, PIDController changePid) {
@@ -30,19 +30,19 @@ public class ManualArm2 extends CommandBase{
 		switch (_controls.getArmPosition()) {//TODO: get better heights, and maybe differentiate between cubes and cones
 			case SECOND: // X Button
 				angles[0] = -60;
-				angles[1] = 0;
+				angles[1] = 0 + CHANGE_MODIFIER*angles[0];
 				break;
 			case THIRD: // Y button
 				angles[0] = -60;
-				angles[1] = 30;
+				angles[1] = 30 + CHANGE_MODIFIER*angles[0];
 				break;
 			case SUBSTATION: // B button
 				angles[0] = -60;
-				angles[1] = 30;
+				angles[1] = 30 + CHANGE_MODIFIER*angles[0];
 				break;
 			case GROUND://How far away must we be, A button
 				angles[0] = -75;
-				angles[1] = -10;
+				angles[1] = -10 + CHANGE_MODIFIER*angles[0];
 				break;
 	//		case THIRD:
 	//			angles = _arm.getAngles(Arm2.FIRST_ARM_LENGTH, Arm2.SECOND_ARM_LENGTH, Constants.FieldElements.DISTANCE_TO_FAR_NODE, Constants.FieldElements.CUBE_TOP_HEIGHT, "L");

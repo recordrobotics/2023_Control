@@ -3,7 +3,7 @@ package org.recordrobotics.charger.commands.auto;
 import java.util.ArrayList;
 
 import org.recordrobotics.charger.commands.manual.ArmPosition;
-import org.recordrobotics.charger.commands.auto.AutoMoveArm;
+//import org.recordrobotics.charger.commands.auto.AutoMoveArm;
 import org.recordrobotics.charger.subsystems.Drive;
 import org.recordrobotics.charger.subsystems.NavSensor;
 import org.recordrobotics.charger.subsystems.Vision;

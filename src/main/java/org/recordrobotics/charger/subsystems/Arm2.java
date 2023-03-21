@@ -23,8 +23,8 @@ public class Arm2 extends SubsystemBase{
 	private WPI_TalonFX _changeMotor = new WPI_TalonFX(RobotMap.Arm.CHANGE_MOTOR_PORT);
 	public static final double FIRST_ARM_LENGTH = Units.inchesToMeters(40); // TODO: All of these lengths and angles are off slightly, and should be modified
 	public static final double SECOND_ARM_LENGTH = Units.inchesToMeters(20); // TODO: check all of these constants
-    private static final double FIRST_ARM_ZERO = Math.PI/3;
-    private static final double SECOND_ARM_ZERO = Math.PI;
+    //private static final double FIRST_ARM_ZERO = Math.PI/3;
+    //private static final double SECOND_ARM_ZERO = Math.PI;
 	private static final double TICKS_PER_REV = 2048;
 	private static final double GEAR_RATIO = 48;
 	// private static final double ERROR_MARGIN = 0;
