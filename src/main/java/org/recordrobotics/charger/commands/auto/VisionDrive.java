@@ -67,16 +67,7 @@ public class VisionDrive extends CommandBase {
 
 	}
 
-	@Override
-	public void initialize() {
-		_timer = new Timer();
-		_timer.start();
-		_vision.camera.setPipelineIndex(_target);
-	}
-
-	@Override
-	public Pose2d execute() {
-
+	public Pose2d whateverUsedToBeInExecute(){
 		double current_time = Timer.getFPGATimestamp() - _auto_start_time; // gets current time
 
 		//System.out.println("Executing visiondrive! Timer: " + Timer.getFPGATimestamp() + ", Vision is detected: " + Vision.checkForTarget(_vision.camera));
@@ -117,6 +108,20 @@ public class VisionDrive extends CommandBase {
 		Pose2d pose = _estimator.getEstimatedPosition();
 
 		return pose;
+	}
+
+	@Override
+	public void initialize() {
+		_timer = new Timer();
+		_timer.start();
+		_vision.camera.setPipelineIndex(_target);
+	}
+
+	@Override
+	public void execute() {
+
+		whateverUsedToBeInExecute();
+		
 	}
 	
 	@Override

@@ -31,6 +31,7 @@ import org.recordrobotics.charger.util.GetStartTime;
 import edu.wpi.first.math.estimator.DifferentialDrivePoseEstimator;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
+import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.kinematics.DifferentialDriveKinematics;
 import edu.wpi.first.math.trajectory.Trajectory;
 import edu.wpi.first.math.trajectory.TrajectoryConfig;
@@ -159,8 +160,8 @@ public class RobotContainer {
 		RamseteCommand ramseteCommand =
 			new RamseteCommand(
 				exampleTrajectory,
-				m_robotDrive::getPose,
-				new RamseteController(Constants.AutoConstants.kRamseteB, Constants.AutoConstants.kRamseteZeta),
+				_estimator.getEstimatedPosition(),
+				new RamseteController(),
 				new SimpleMotorFeedforward(
 					Constants.DriveConstants.ksVolts,
 					Constants.DriveConstants.kvVoltSecondsPerMeter,
@@ -171,10 +172,10 @@ public class RobotContainer {
 				new PIDController(Constants.DriveConstants.kPDriveVel, 0, 0),
 				// RamseteCommand passes volts to the callback
 				m_robotDrive::tankDriveVolts,
-				m_robotDrive);
+				_drive);
 
 		// Reset odometry to the starting pose of the trajectory.
-		m_robotDrive.resetOdometry(exampleTrajectory.getInitialPose());
+		_estimator.resetPosition(new Rotation2d(_navSensor.getYaw()), _drive.getLeftEncoder(), _drive.getRightEncoder(),  exampleTrajectory.getInitialPose());
 
 		// Run path following command, then stop at the end.
 		return ramseteCommand.andThen(() -> m_robotDrive.tankDriveVolts(0, 0));
