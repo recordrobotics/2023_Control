@@ -122,8 +122,6 @@ public class RobotContainer {
 	}
 
 	public Command getAutonomousCommand() {
-		//return new AutoDrive(_drive,0.4,-1750);
-
 
 		// Create a voltage constraint to ensure we don't accelerate too fast
 		var autoVoltageConstraint =
