@@ -31,6 +31,7 @@ import org.recordrobotics.charger.util.GetStartTime;
 import edu.wpi.first.math.estimator.DifferentialDrivePoseEstimator;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
+import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.kinematics.DifferentialDriveKinematics;
 import edu.wpi.first.math.trajectory.Trajectory;
 import edu.wpi.first.math.trajectory.TrajectoryConfig;
@@ -121,8 +122,6 @@ public class RobotContainer {
 	}
 
 	public Command getAutonomousCommand() {
-		//return new AutoDrive(_drive,0.4,-1750);
-
 
 		// Create a voltage constraint to ensure we don't accelerate too fast
 		var autoVoltageConstraint =
