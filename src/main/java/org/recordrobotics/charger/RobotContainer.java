@@ -164,13 +164,15 @@ public class RobotContainer {
 					Constants.DriveConstants.ksVolts,
 					Constants.DriveConstants.kvVoltSecondsPerMeter,
 					Constants.DriveConstants.kaVoltSecondsSquaredPerMeter),
-					Constants.DriveConstants.kDriveKinematics,
-				m_robotDrive::getWheelSpeeds,
+				Constants.DriveConstants.kDriveKinematics,
+				_drive.getwheelspeeds(),
 				new PIDController(Constants.DriveConstants.kPDriveVel, 0, 0),
 				new PIDController(Constants.DriveConstants.kPDriveVel, 0, 0),
 				// RamseteCommand passes volts to the callback
 				m_robotDrive::tankDriveVolts,
 				_drive);
+
+			new Ramsete
 
 		// Reset odometry to the starting pose of the trajectory.
 		_estimator.resetPosition(new Rotation2d(_navSensor.getYaw()), _drive.getLeftEncoder(), _drive.getRightEncoder(),  exampleTrajectory.getInitialPose());

@@ -85,8 +85,13 @@ public class VisionDrive extends CommandBase {
 
 		// Spoofs the nav sensor's yaw, then updates it
 		Rotation2d nav_sensor_spoof = new Rotation2d(
-			((-1*_drive.getRightEncoder()/1000)-(-1*_drive.getLeftEncoder()/1000))/(2*Units.inchesToMeters(11)));
-		_estimator.update(nav_sensor_spoof, -1*_drive.getLeftEncoder()/1000, -1*_drive.getRightEncoder()/1000);
+			(_drive.getRightEncoder()-_drive.getLeftEncoder())/(2*Units.inchesToMeters(11)));
+		_estimator.update(nav_sensor_spoof, _drive.getLeftEncoder(), _drive.getRightEncoder());
+
+
+		//Rotation2d nav_sensor_spoof = new Rotation2d(
+		//	((-1*_drive.getRightEncoder()/1000)-(-1*_drive.getLeftEncoder()/1000))/(2*Units.inchesToMeters(11)));
+		//_estimator.update(nav_sensor_spoof, -1*_drive.getLeftEncoder()/1000, -1*_drive.getRightEncoder()/1000);
 
 
 		// Get the desired pose from the trajectory. Also calculates the desired velocity
