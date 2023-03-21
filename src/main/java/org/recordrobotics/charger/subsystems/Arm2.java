@@ -37,8 +37,8 @@ public class Arm2 extends SubsystemBase{
 	private static final double O_KP = 0.005;
 	private static final double O_KI = 0.001;
 	private static final double O_KD = 0.0005;
-	private double _changeTolerance = 0;
-	private double _originTolerance = 0;
+	private double _changeTolerance = 0.5;
+	private double _originTolerance = 0.5;
 	private double _originMaxSpeed = 0.2;
 	private double _changeMaxSpeed = 0.1;
 	private double[] prevAngles = {0, 0};
@@ -77,11 +77,17 @@ public class Arm2 extends SubsystemBase{
 	}
 
 	public void setAngles(double[] angles) {
-		_originPid.setSetpoint(angles[0]);
-		_changePid.setSetpoint(angles[1]);
+		_angles[0] = angles[0];
+		_angles[1] = angles[1];
 	}
 
-    public double[] getAngles(double L1, double L2, double x, double y, String direction) {//For more information, see Modern Robotics: Mechanics, Design and Control, chapter 6
+	public double[] getCurrentAngles() {
+		return _angles;
+	}
+
+    public double[] getAngles(double x, double y, String direction) {//For more information, see Modern Robotics: Mechanics, Design and Control, chapter 6
+		double L1 = FIRST_ARM_LENGTH;
+		double L2 = SECOND_ARM_LENGTH;
         double beta = Math.acos((L1*L1 + L2*L2 - x*x - y*y)/(2*L1*L2));
         double alpha = Math.acos((x*x + y*y + L1*L1 - L2*L2)/(2*L1*Math.sqrt(x*x + y*y)));
         double gamma = Math.atan2(y, x);
@@ -102,7 +108,8 @@ public class Arm2 extends SubsystemBase{
         return angles;
     }
 
-    public double[] getAnglesRestricted(double L1, double L2, double y){//Angles but holding the second segment parallel to the ground
+    public double[] getAnglesRestricted(double y){//Angles but holding the second segment parallel to the ground
+		double L1 = FIRST_ARM_LENGTH;
         double theta1 = Math.asin(y/L1);
         double theta2 = Math.PI - theta1;
         double[] angles = {theta1, theta2};
@@ -117,10 +124,18 @@ public class Arm2 extends SubsystemBase{
 		_changeMotor.set(speed);
 	}
 
-    public double[] getCurrentAngles(){
-        double[] currentAngles = {getOriginEncoder() + FIRST_ARM_ZERO, getChangeEncoder() + SECOND_ARM_ZERO};
-        return currentAngles;
-    }
+	public boolean originAtSetpoint() {
+		return _originPid.atSetpoint();
+	}
+
+	public boolean changeAtSetpoint() {
+		return _changePid.atSetpoint();
+	}
+	
+    //public double[] getCurrentAngles(){ // Why does this exist?
+        //double[] currentAngles = {getOriginEncoder() + FIRST_ARM_ZERO, getChangeEncoder() + SECOND_ARM_ZERO};
+        //return currentAngles;
+    //}
 
     public double getOriginEncoderSpeed(){
         return _originMotor.getSelectedSensorVelocity() / TICKS_PER_REV * Math.PI / GEAR_RATIO;//TODO: TUNE THE CONFIGS FOR THESE

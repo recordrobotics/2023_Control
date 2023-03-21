@@ -58,8 +58,6 @@ public class RobotContainer {
 		//_navSensor = new NavSensor();
 		//_claw = new Claw();
 		_arm = new Arm2();
-		_pid1 = new PIDController(0, 0, 0);
-		_pid2 = new PIDController(0, 0, 0);
 
 		//_vision = new Vision();
 		//_kinematics = new DifferentialDriveKinematics(Units.inchesToMeters(22));//This value should be confirmed when possible
