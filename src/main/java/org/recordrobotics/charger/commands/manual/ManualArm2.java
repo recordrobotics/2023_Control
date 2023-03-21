@@ -7,36 +7,9 @@ import org.recordrobotics.charger.subsystems.Arm2;
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 
-import edu.wpi.first.networktables.GenericEntry;
-import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
-import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-
 public class ManualArm2 extends CommandBase{
     private Arm2 _arm;
 	private IControlInput _controls;
-
-	private PIDController _originPid;
-	private PIDController _changePid;
-	private static final double C_KP = 0.005; // Old Value: 0.005
-	private static final double C_KI = 0.001; // Old Value: 0.0025
-	private static final double C_KD = 0.0005; // Old Value: 0.0005
-	private static final double O_KP = 0.005; // Old Value: 0.005
-	private static final double O_KI = 0; // Old Value: 0.005
-	private static final double O_KD = 0.0015; // Old Value: 0
-	private double _changeTolerance = 0;
-	private double _originTolerance = 0;
-	private double _originMaxSpeed = 0.2;
-	private double _changeMaxSpeed = 0.1;
-	private double[] prevAngles = {0, 0};
-	//private double _maxDownSpeed = 0.15;
-
-	private GenericEntry _targetOrigin;
-	private GenericEntry _currentOrigin;
-	private GenericEntry _speedOfOrigin;
-	private GenericEntry _targetChange;
-	private GenericEntry _currentChange;
-	private GenericEntry _speedOfChange;
 
     public ManualArm2(Arm2 arm, IControlInput controls, PIDController originPid, PIDController changePid) {
 		if (arm == null) {
@@ -47,26 +20,7 @@ public class ManualArm2 extends CommandBase{
 		}
 
 		_arm = arm;
-		_arm.resetEncoders();
 		_controls = controls;
-		_originPid = originPid;
-		_originPid.setD(O_KD);
-		_originPid.setI(O_KI);
-		_originPid.setP(O_KP);
-		_originPid.setTolerance(_originTolerance);
-		_changePid = changePid;
-		_changePid.setD(C_KD);
-		_changePid.setI(C_KI);
-		_changePid.setP(C_KP);
-		_changePid.setTolerance(_changeTolerance);
-		addRequirements(arm);
-		ShuffleboardTab tab = Shuffleboard.getTab(Constants.DATA_TAB);
-		_targetOrigin = tab.add("Origin Target", new double[] {0}).getEntry();
-		_currentOrigin = tab.add("Origin Position", new double[] {0}).getEntry();
-		_speedOfOrigin = tab.add("Origin Speed", new double[] {0}).getEntry();
-		_targetChange = tab.add("Change Target", new double[] {0}).getEntry();
-		_currentChange = tab.add("Change Position", new double[] {0}).getEntry();
-		_speedOfChange = tab.add("Change Speed", new double[] {0}).getEntry();
 	}
 
     @Override
