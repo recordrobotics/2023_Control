@@ -9,6 +9,7 @@ import com.ctre.phoenix.motorcontrol.can.TalonFXConfiguration;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
 import com.ctre.phoenix.sensors.SensorInitializationStrategy;
 
+import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.util.Units;
 import edu.wpi.first.networktables.GenericEntry;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -28,6 +29,20 @@ public class Arm2 extends SubsystemBase{
 	private static final double GEAR_RATIO = 16;
 	private static final double ERROR_MARGIN = 0;
 
+	private PIDController _originPid;
+	private PIDController _changePid;
+	private static final double C_KP = 0.005;
+	private static final double C_KI = 0.001;
+	private static final double C_KD = 0.0005;
+	private static final double O_KP = 0.005;
+	private static final double O_KI = 0.001;
+	private static final double O_KD = 0.0005;
+	private double _changeTolerance = 0;
+	private double _originTolerance = 0;
+	private double _originMaxSpeed = 0.2;
+	private double _changeMaxSpeed = 0.1;
+	private double[] prevAngles = {0, 0};
+
 	private GenericEntry _entryAngles;
 
 	private static final TalonFXConfiguration armConfig = new TalonFXConfiguration();
@@ -44,12 +59,27 @@ public class Arm2 extends SubsystemBase{
 		_originMotor.set(0);
 		_changeMotor.set(0);
 
+		_originPid = new PIDController(0, 0, 0);
+		_originPid.setD(O_KD);
+		_originPid.setI(O_KI);
+		_originPid.setP(O_KP);
+		_originPid.setTolerance(_originTolerance);
+		_changePid = new PIDController(0, 0, 0);
+		_changePid.setD(C_KD);
+		_changePid.setI(C_KI);
+		_changePid.setP(C_KP);
+		_changePid.setTolerance(_changeTolerance);
+
 		resetEncoders();
 
 		ShuffleboardTab tab = Shuffleboard.getTab(Constants.DATA_TAB);
 		_entryAngles = tab.add("Pure sensor output", new double[] {0, 0}).getEntry();
 	}
 
+	public void setAngles(double[] angles) {
+		_originPid.setSetpoint(angles[0]);
+		_changePid.setSetpoint(angles[1]);
+	}
 
     public double[] getAngles(double L1, double L2, double x, double y, String direction) {//For more information, see Modern Robotics: Mechanics, Design and Control, chapter 6
         double beta = Math.acos((L1*L1 + L2*L2 - x*x - y*y)/(2*L1*L2));
@@ -129,5 +159,30 @@ public class Arm2 extends SubsystemBase{
 		SmartDashboard.putNumber("Raw Origin Encoder", _originMotor.getSelectedSensorPosition());
 		SmartDashboard.putNumber("Raw Change Encoder", _changeMotor.getSelectedSensorPosition());
 		_entryAngles.setDoubleArray(_angles);
+
+		if(_angles[0] != prevAngles[0]) {
+    		_originPid.setSetpoint(_angles[0]);
+			SmartDashboard.putNumber("Origin Target", _angles[0]);
+			prevAngles[0] = _angles[0];
+		}	
+		if(_angles[1] != prevAngles[1]) {
+			_changePid.setSetpoint(_angles[1]);
+			SmartDashboard.putNumber("Change Target", _angles[1]);
+			prevAngles[1] = _angles[1];
+		}
+
+		double originPos = getOriginEncoder();
+		double changePos = getChangeEncoder();
+		SmartDashboard.putNumber("Origin Pos", originPos);
+		SmartDashboard.putNumber("Change Pos", changePos);
+		double _originSpeed = _originPid.calculate(originPos);
+		double _changeSpeed = _changePid.calculate(changePos);  
+		_originSpeed = Math.min(Math.abs(_originSpeed), _originMaxSpeed) * Math.signum(_originSpeed);
+		_changeSpeed = Math.min(Math.abs(_changeSpeed), _changeMaxSpeed) * Math.signum(_changeSpeed);
+		SmartDashboard.putNumber("Origin Speed", _originSpeed);
+		SmartDashboard.putNumber("Change Speed", _changeSpeed);
+		
+		spinOrigin(_originSpeed);
+		spinChange(_changeSpeed);
 	}
 }

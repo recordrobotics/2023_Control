@@ -110,43 +110,6 @@ public class ManualArm2 extends CommandBase{
 				//angles = _arm.getAngles(Arm2.FIRST_ARM_LENGTH, Arm2.SECOND_ARM_LENGTH, 1.07, 1.07, "R");//This should extend mostly fully, but not quite
 				break;
 		}
-
-		if(angles[0] != prevAngles[0]) {
-    		_originPid.setSetpoint(angles[0]);
-			_targetOrigin.setDouble(angles[0]);
-			SmartDashboard.putNumber("Origin Target", angles[0]);
-			prevAngles[0] = angles[0];
-		}	
-		if(angles[1] != prevAngles[1]) {
-			_changePid.setSetpoint(angles[1]);
-			_targetChange.setDouble(angles[1]);
-			SmartDashboard.putNumber("Change Target", angles[1]);
-			prevAngles[1] = angles[1];
-		}
-
-		double originPos = _arm.getOriginEncoder();
-		double changePos = _arm.getChangeEncoder();
-		_currentOrigin.setDouble(originPos);
-		SmartDashboard.putNumber("Origin Pos", originPos);
-		_currentChange.setDouble(changePos);
-		SmartDashboard.putNumber("Change Pos", changePos);
-		double _originSpeed = _originPid.calculate(originPos);
-		double _changeSpeed = _changePid.calculate(changePos);  
-		_originSpeed = Math.min(Math.abs(_originSpeed), _originMaxSpeed) * Math.signum(_originSpeed);
-		_changeSpeed = Math.min(Math.abs(_changeSpeed), _changeMaxSpeed) * Math.signum(_changeSpeed);
-		_speedOfOrigin.setDouble(_originSpeed);
-		SmartDashboard.putNumber("Origin Speed", _originSpeed);
-		_speedOfChange.setDouble(_changeSpeed);
-		SmartDashboard.putNumber("Change Speed", _changeSpeed);
-		
-		_arm.spinOrigin(_originSpeed);
-		_arm.spinChange(_changeSpeed);
-
-	//	System.out.println("Origin Encoder Value = " + _arm.getOriginEncoder());
-	//	System.out.println("Origin Speed = " + _originSpeed);
-	//	System.out.println("Origin Target = " + angles[0]);
-	//	System.out.println("Change Encoder Value = " + _arm.getChangeEncoder());
-	//	System.out.println("Change Speed = " + _changeSpeed);
-	//	System.out.println("Change Target = " + angles[1]);
+		_arm.setAngles(angles);
     }
 }
