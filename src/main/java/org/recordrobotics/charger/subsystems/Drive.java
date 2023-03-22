@@ -132,4 +132,10 @@ public class Drive extends SubsystemBase {
 	public void periodic() {
 		_encoderEntry.setDouble(getPosition());
 	}
+
+	public void tankDriveVolts(double leftVolts, double rightVolts) {
+		_leftMotors.setVoltage(leftVolts);
+		_rightMotors.setVoltage(rightVolts);
+		_differentialDrive.feed();
+	  }
 }
