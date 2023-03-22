@@ -11,6 +11,10 @@ public class ChargeStationBalance extends CommandBase {
 	private Drive _drive;
 	private NavSensor _nav;
 
+	private double bkp = 0;
+	private double bki = 0;
+	private double bkd = 0;
+
 	private double _tolerance = 3;
 
 	/**
@@ -21,7 +25,7 @@ public class ChargeStationBalance extends CommandBase {
 	 * @param nav navigation sensor object, used here as a vertical gyro
 	 */
 	public ChargeStationBalance(Drive drive, NavSensor nav){
-		_pid = new PIDController(0, 0, 0);
+		_pid = new PIDController(bkp, bki, bkd);
 		_drive = drive;
 		_nav = nav;
 		_pid.setTolerance(_tolerance);

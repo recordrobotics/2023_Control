@@ -11,6 +11,9 @@ import org.recordrobotics.charger.commands.manual.ArmPosition;
 import org.recordrobotics.charger.commands.manual.ManualArm;
 import org.recordrobotics.charger.commands.auto.AutoMoveArm;
 import org.recordrobotics.charger.commands.auto.FullAutoSequence;
+import org.recordrobotics.charger.commands.auto.AutoDrive;
+import org.recordrobotics.charger.commands.manual.ManualClaw;
+import org.recordrobotics.charger.commands.manual.ManualDrive;
 import org.recordrobotics.charger.commands.dash.DashRunFunc;
 import org.recordrobotics.charger.control.DoubleControl;
 import org.recordrobotics.charger.control.IControlInput;
@@ -61,9 +64,9 @@ public class RobotContainer {
 
 		// Configure the button bindings
 		_controlInput = new SingleControl(RobotMap.Control.SINGLE_GAMEPAD);
-		//_drive = new Drive();
+		_drive = new Drive();
 		//_navSensor = new NavSensor();
-		//_claw = new Claw();
+		_claw = new Claw();
 		_arm = new Arm();
 
 		//_vision = new Vision();
@@ -81,8 +84,8 @@ public class RobotContainer {
 
 	private void initTeleopCommands() {
 		_teleopPairs = new ArrayList<>();
-		//_teleopPairs.add(new Pair<Subsystem, Command>(_drive, new ManualDrive(_drive, _controlInput)));
-		//_teleopPairs.add(new Pair<Subsystem, Command>(_claw, new ManualClaw(_claw, _controlInput)));
+		_teleopPairs.add(new Pair<Subsystem, Command>(_drive, new ManualDrive(_drive, _controlInput)));
+		_teleopPairs.add(new Pair<Subsystem, Command>(_claw, new ManualClaw(_claw, _controlInput)));
 		_teleopPairs.add(new Pair<Subsystem, Command>(_arm, new ManualArm(_arm, _controlInput, _pid1, _pid2)));
 	}
 
@@ -94,7 +97,7 @@ public class RobotContainer {
 
 	/**
 	 * Executes teleop commands
-	 */	
+	 */
 	public void teleopInit() {
 		for (Pair<Subsystem, Command> c : _teleopPairs) {
 			c.getKey().setDefaultCommand(c.getValue());
@@ -118,8 +121,9 @@ public class RobotContainer {
 
 /*
 	public Command getAutonomousCommand() {
-		return new AutoDrive(_drive,0.4,1750);//new ParallelFullAuto(_vision, _drive, _arm, _claw, _pid1, _pid2, _trajectory, _estimator, _navSensor)
-	}*/
+		return new AutoDrive(_drive,0.4,1750);
+		//new ParallelFullAuto(_vision, _drive, _arm, _claw, _pid1, _pid2, _trajectory, _estimator, _navSensor)
+	}
 	/**
 	 * Set control scheme to Single
 	 */

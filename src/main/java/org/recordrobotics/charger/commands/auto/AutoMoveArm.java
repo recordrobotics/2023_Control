@@ -103,7 +103,7 @@ public class AutoMoveArm extends CommandBase {
 
 	public void setArmPosition(ArmPosition position){
 		_armPosition = position;
-	} 
+	}
 
 	@Override
 	public void end(boolean interrupted) {
