@@ -102,6 +102,8 @@ public class Arm extends SubsystemBase {
 		return angles;
 	}
 
+	public void setAngles(double a[]) {}
+
 	/**
 	 * moves motors to reach a certain point on a cartesian plane, with the first motor as the origin point
 	 * keeps second arm parallel to the ground
