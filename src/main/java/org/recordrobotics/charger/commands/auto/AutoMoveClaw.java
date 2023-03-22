@@ -22,7 +22,7 @@ public class AutoMoveClaw extends CommandBase{
 			throw new IllegalArgumentException("Speed must be positive");
 		}
 		if (claw == null) {
-			throw new IllegalArgumentException("Drive is null");
+			throw new IllegalArgumentException("Claw is null");
 		}
 
 		_claw = claw;

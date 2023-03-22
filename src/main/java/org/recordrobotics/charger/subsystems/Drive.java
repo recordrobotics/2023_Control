@@ -140,7 +140,7 @@ public class Drive extends SubsystemBase {
 		_differentialDrive.feed();
 	  }
 
-	public DifferentialDriveWheelSpeeds getSpeeds(){
+	public DifferentialDriveWheelSpeeds getWheelSpeeds() {
 		return new DifferentialDriveWheelSpeeds(getLeftEncoder(), getRightEncoder());
 	}
 }
