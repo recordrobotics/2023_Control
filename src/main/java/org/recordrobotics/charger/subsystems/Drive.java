@@ -10,6 +10,7 @@ import org.recordrobotics.charger.RobotMap;
 import com.ctre.phoenix.motorcontrol.FeedbackDevice;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
 
+import edu.wpi.first.math.kinematics.DifferentialDriveWheelSpeeds;
 import edu.wpi.first.networktables.GenericEntry;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 import edu.wpi.first.wpilibj.motorcontrol.MotorControllerGroup;
@@ -138,4 +139,8 @@ public class Drive extends SubsystemBase {
 		_rightMotors.setVoltage(rightVolts);
 		_differentialDrive.feed();
 	  }
+
+	public DifferentialDriveWheelSpeeds getSpeeds(){
+		return new DifferentialDriveWheelSpeeds(getLeftEncoder(), getRightEncoder());
+	}
 }
