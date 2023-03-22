@@ -31,6 +31,7 @@ public final class Constants {
 		public static final double ksVolts = 8;
 		public static final double kvVoltSecondsPerMeter = 4;
 		public static final double kaVoltSecondsSquaredPerMeter = 2;
+		public static final double kPDriveVel = 0.1;
 		public final static DifferentialDriveKinematics kDriveKinematics = new DifferentialDriveKinematics(Units.inchesToMeters(22));
 	}
 
