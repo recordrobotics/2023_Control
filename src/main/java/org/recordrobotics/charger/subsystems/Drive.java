@@ -138,4 +138,10 @@ public class Drive extends SubsystemBase {
 		_rightMotors.setVoltage(rightVolts);
 		_differentialDrive.feed();
 	  }
+
+	public interface tankDriveVolts2<leftVolts, rightVolts> {
+	
+		
+
+	  }
 }
