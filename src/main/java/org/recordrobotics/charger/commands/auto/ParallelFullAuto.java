@@ -3,7 +3,7 @@ package org.recordrobotics.charger.commands.auto;
 import java.util.ArrayList;
 
 import org.recordrobotics.charger.commands.manual.ArmPosition;
-import org.recordrobotics.charger.subsystems.Arm2;
+import org.recordrobotics.charger.subsystems.Arm;
 import org.recordrobotics.charger.subsystems.Drive;
 import org.recordrobotics.charger.subsystems.Claw;
 import org.recordrobotics.charger.subsystems.NavSensor;
@@ -19,7 +19,7 @@ public class ParallelFullAuto extends ParallelCommandGroup {
     
 
 
-    public ParallelFullAuto(Vision vision, Drive drive, Arm2 arm, Claw claw, PIDController originPid, PIDController changePid, ArrayList<Trajectory> trajectory, DifferentialDrivePoseEstimator estimator, NavSensor nav){
+    public ParallelFullAuto(Vision vision, Drive drive, Arm arm, Claw claw, PIDController originPid, PIDController changePid, ArrayList<Trajectory> trajectory, DifferentialDrivePoseEstimator estimator, NavSensor nav){
        
         AutoMoveArm moveArm = new AutoMoveArm(arm, _armPosition);
 

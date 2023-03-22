@@ -1,6 +1,6 @@
 package org.recordrobotics.charger.commands.auto;
 
-import org.recordrobotics.charger.subsystems.Arm2;
+import org.recordrobotics.charger.subsystems.Arm;
 import org.recordrobotics.charger.commands.manual.ArmPosition;
 
 import edu.wpi.first.wpilibj.Timer;
@@ -8,7 +8,7 @@ import edu.wpi.first.wpilibj2.command.CommandBase;
 
 @SuppressWarnings({"PMD.TooManyFields","PMD.FieldNamingConventions"})
 public class AutoMoveArm extends CommandBase {
-	private Arm2 _arm;
+	private Arm _arm;
 
 	//private PIDController _originPid;
 	//private PIDController _changePid;
@@ -40,7 +40,7 @@ public class AutoMoveArm extends CommandBase {
 	private static double _flipGroundOriginY = 22;
 	private static double _flipGroundChangeX = 22;*/
 
-	public AutoMoveArm(Arm2 arm, ArmPosition armPosition) {
+	public AutoMoveArm(Arm arm, ArmPosition armPosition) {
 		if (arm == null) {
 			throw new IllegalArgumentException("Arm is null");
 		}

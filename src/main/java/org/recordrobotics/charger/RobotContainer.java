@@ -8,7 +8,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.recordrobotics.charger.commands.manual.ArmPosition;
-import org.recordrobotics.charger.commands.manual.ManualArm2;
+import org.recordrobotics.charger.commands.manual.ManualArm;
 import org.recordrobotics.charger.commands.auto.AutoMoveArm;
 import org.recordrobotics.charger.commands.auto.FullAutoSequence;
 import org.recordrobotics.charger.commands.dash.DashRunFunc;
@@ -47,7 +47,7 @@ public class RobotContainer {
 	private NavSensor _navSensor;
 	private Vision _vision;
 	private Command armCommand;
-	private Arm2 _arm;
+	private Arm _arm;
 	private PIDController _pid1;
 	private PIDController _pid2;
 
@@ -64,7 +64,7 @@ public class RobotContainer {
 		//_drive = new Drive();
 		//_navSensor = new NavSensor();
 		//_claw = new Claw();
-		_arm = new Arm2();
+		_arm = new Arm();
 
 		//_vision = new Vision();
 		//_kinematics = new DifferentialDriveKinematics(Units.inchesToMeters(22));//This value should be confirmed when possible
@@ -83,7 +83,7 @@ public class RobotContainer {
 		_teleopPairs = new ArrayList<>();
 		//_teleopPairs.add(new Pair<Subsystem, Command>(_drive, new ManualDrive(_drive, _controlInput)));
 		//_teleopPairs.add(new Pair<Subsystem, Command>(_claw, new ManualClaw(_claw, _controlInput)));
-		_teleopPairs.add(new Pair<Subsystem, Command>(_arm, new ManualArm2(_arm, _controlInput, _pid1, _pid2)));
+		_teleopPairs.add(new Pair<Subsystem, Command>(_arm, new ManualArm(_arm, _controlInput, _pid1, _pid2)));
 	}
 
 	private void initDashCommands() {
@@ -102,7 +102,7 @@ public class RobotContainer {
 	}
 
 	public void testInit() {
-		armCommand = new ManualArm2(_arm, _controlInput, _pid1, _pid2);
+		armCommand = new ManualArm(_arm, _controlInput, _pid1, _pid2);
 	}
 
 	public void testPeriodic() {

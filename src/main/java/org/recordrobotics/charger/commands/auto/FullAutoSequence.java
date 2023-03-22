@@ -8,7 +8,7 @@ import org.recordrobotics.charger.subsystems.Drive;
 import org.recordrobotics.charger.subsystems.NavSensor;
 import org.recordrobotics.charger.subsystems.Vision;
 import org.recordrobotics.charger.subsystems.Claw;
-import org.recordrobotics.charger.subsystems.Arm2;
+import org.recordrobotics.charger.subsystems.Arm;
 
 import edu.wpi.first.math.estimator.DifferentialDrivePoseEstimator;
 import edu.wpi.first.math.trajectory.Trajectory;
@@ -27,7 +27,7 @@ public class FullAutoSequence extends SequentialCommandGroup {
 	/**
 	 * e
 	 */
-	public FullAutoSequence(Vision vision, Drive drive, ArrayList<Trajectory> trajectory, DifferentialDrivePoseEstimator estimator, NavSensor nav, AutoMoveArm mover, Claw claw, Arm2 arm){
+	public FullAutoSequence(Vision vision, Drive drive, ArrayList<Trajectory> trajectory, DifferentialDrivePoseEstimator estimator, NavSensor nav, AutoMoveArm mover, Claw claw, Arm arm){
 		String sequenceType = "test";
 
 		if (sequenceType == "scoring"){
