@@ -67,20 +67,24 @@ public class VisionDrive extends CommandBase {
 
 	}
 
-	public Pose2d whateverUsedToBeInExecute(){
-		double current_time = Timer.getFPGATimestamp() - _auto_start_time; // gets current time
+	@Override
+	public void execute() {
+		double current_time = Timer.getFPGATimestamp() - _auto_start_time;
 
-		//System.out.println("Executing visiondrive! Timer: " + Timer.getFPGATimestamp() + ", Vision is detected: " + Vision.checkForTarget(_vision.camera));
+		System.out.println("Executing visiondrive! Timer: " + current_time);
 
-		// If photonvision detects a target, it will add it to the kalman filter
 		try {
 			if (Vision.checkForTarget(_vision.camera)){
 				double[] globalPose = Vision.estimateGlobalPose(_vision.camera);
-				Pose2d visPose = new Pose2d(globalPose[0], globalPose[1], new Rotation2d(globalPose[5]));
+				Pose2d visPose = new Pose2d(globalPose[0], globalPose[1], new Rotation2d(globalPose[2]));
 				_estimator.addVisionMeasurement(visPose, current_time);
-				//System.out.println("Vision measurement added at: " + globalPose[0] + " " + globalPose[1] + " " + globalPose[5]);
+
+				System.out.println("Vision measurement added at: " + globalPose[0] + " " + globalPose[1] + " " + globalPose[2]);
+
 			}
-		} catch (NullPointerException e) {}
+		} catch (NullPointerException e) {
+
+		}
 
 
 		// Spoofs the nav sensor's yaw, then updates it
@@ -105,14 +109,37 @@ public class VisionDrive extends CommandBase {
 		// Gets desired meters per second
 		var desiredPose = _traj.sample(current_time * _traj.getTotalTimeSeconds()/15);
 		System.out.println(_traj.getTotalTimeSeconds()+ "% "+current_time);
-		desiredPose.velocityMetersPerSecond = desired_velocity_meters_per_second;
+		desiredPose.velocityMetersPerSecond = desired_velocity_meters_per_second/10;
 
-
-		// Gets current pose
 
 		Pose2d pose = _estimator.getEstimatedPosition();
+		System.out.println("Kalman filter pose: " + pose.getX() + ", " + pose.getY() + ", " + pose.getRotation().getRadians());
+		System.out.println("Desired pose: " + desiredPose);
 
-		return pose;
+		var refChassisSpeeds = _ramseteController.calculate(pose, desiredPose);
+
+
+		ChassisSpeeds adjustedspeeds = _ramseteController.calculate(pose, desiredPose);
+
+
+		if (adjustedspeeds.vxMetersPerSecond > 4) {
+			adjustedspeeds.vxMetersPerSecond = 4;
+		}
+
+		//System.out.println(refChassisSpeeds.vxMetersPerSecond+", "+refChassisSpeeds.omegaRadiansPerSecond);
+
+		//var chassisSpeeds = ChassisSpeeds(refChassisSpeeds.vxMetersPerSecond, refChassisSpeeds.omegaRadiansPerSecond);
+	
+		//DifferentialDriveKinematics kinematics = new DifferentialDriveKinematics(adjustedSpeeds);
+		//DifferentialDriveWheelSpeeds wheelSpeeds = kinematics.toWheelSpeeds(adjustedSpeeds);
+
+
+		// Set the linear and angular speeds.
+
+		System.out.println("adjusted speeds from ramsete x, y, radians: " + adjustedspeeds.vxMetersPerSecond + " " + adjustedspeeds.vyMetersPerSecond + " " + adjustedspeeds.omegaRadiansPerSecond);
+
+		_drive.move(adjustedspeeds.vxMetersPerSecond, adjustedspeeds.omegaRadiansPerSecond);
+		
 	}
 
 	@Override
@@ -122,12 +149,8 @@ public class VisionDrive extends CommandBase {
 		_vision.camera.setPipelineIndex(_target);
 	}
 
-	@Override
-	public void execute() {
 
-		whateverUsedToBeInExecute();
-		
-	}
+
 	
 	@Override
 	public boolean isFinished() {
