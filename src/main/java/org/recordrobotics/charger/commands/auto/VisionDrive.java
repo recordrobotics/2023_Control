@@ -68,10 +68,10 @@ public class VisionDrive extends CommandBase {
 		try {
 			if (Vision.checkForTarget(_vision.camera)){
 				double[] globalPose = Vision.estimateGlobalPose(_vision.camera);
-				Pose2d visPose = new Pose2d(globalPose[0], globalPose[1], new Rotation2d(globalPose[2]));
+				Pose2d visPose = new Pose2d(globalPose[0], globalPose[1], new Rotation2d(globalPose[5]));
 				_estimator.addVisionMeasurement(visPose, Timer.getFPGATimestamp());
 
-				System.out.println("Vision measurement added at: " + globalPose[0] + " " + globalPose[1] + " " + globalPose[2]);
+				System.out.println("Vision measurement added at: " + globalPose[0] + " " + globalPose[1] + " " + globalPose[5]);
 
 			}
 		} catch (NullPointerException e) {
