@@ -18,6 +18,7 @@ public class FullAutoSequence extends SequentialCommandGroup {
 	ArmPosition _pos1 = ArmPosition.SECOND;
 	ArmPosition _pos2 = ArmPosition.GROUND;
 	ArmPosition _pos3 = ArmPosition.THIRD;
+	ArmPosition _pos4 = ArmPosition.NEUTRAL;
 
 	private double clawSpeed = 0.05;
 	private int clawGrab = 1;
@@ -51,7 +52,11 @@ public class FullAutoSequence extends SequentialCommandGroup {
 		}
 		else if (sequenceType == "test"){
 			addCommands(
-				new VisionDrive(vision, drive, trajectory.get(0), estimator, nav, 0)
+				new AutoMoveArm(arm, _pos3),
+				new AutoMoveArm(arm, _pos2),
+				new AutoMoveArm(arm, _pos1),
+				new AutoMoveArm(arm, _pos4)
+				//new VisionDrive(vision, drive, trajectory.get(0), estimator, nav, 0)
 			);
 		}
 }

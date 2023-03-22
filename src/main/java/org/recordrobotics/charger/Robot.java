@@ -15,7 +15,6 @@ public class Robot extends TimedRobot {
 	private Command _autonomousCommand;
 
 
-
 	@SuppressWarnings("PMD.SingularField")
 	private Field2d field;
 
@@ -66,7 +65,7 @@ public class Robot extends TimedRobot {
 	@Override
 	public void autonomousInit() {
 		System.out.println("Autonomous Init");
-		//_autonomousCommand = _robotContainer.getAutonomousCommand();
+		_autonomousCommand = _robotContainer.getAutonomousCommand();
 
 
 		// schedule the autonomous command (example)
@@ -104,5 +103,19 @@ public class Robot extends TimedRobot {
 		//placholder
 		}
 
+	@Override
+	public void testInit() {
+		System.out.println("Test init");
+		// TODO
+		if (_autonomousCommand != null) {
+			_autonomousCommand.cancel();
+		}
+		_robotContainer.testInit();		
+	}
+
+	@Override
+	public void testPeriodic() {
+		_robotContainer.testPeriodic();
+	}
 
 	}

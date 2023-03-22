@@ -4,6 +4,7 @@ import org.recordrobotics.charger.control.IControlInput;
 import org.recordrobotics.charger.subsystems.Arm2;
 
 import edu.wpi.first.math.controller.PIDController;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 
 public class ManualArm2 extends CommandBase{
@@ -66,6 +67,7 @@ public class ManualArm2 extends CommandBase{
 				//angles = _arm.getAngles(Arm2.FIRST_ARM_LENGTH, Arm2.SECOND_ARM_LENGTH, 1.07, 1.07, "R");//This should extend mostly fully, but not quite
 				break;
 		}
+		SmartDashboard.putNumber("command set origin", angles[0]);
 		_arm.setAngles(angles);
     }
 }

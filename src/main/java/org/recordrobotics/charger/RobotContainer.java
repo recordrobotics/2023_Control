@@ -7,7 +7,10 @@ package org.recordrobotics.charger;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.recordrobotics.charger.commands.manual.ArmPosition;
 import org.recordrobotics.charger.commands.manual.ManualArm2;
+import org.recordrobotics.charger.commands.auto.AutoMoveArm;
+import org.recordrobotics.charger.commands.auto.FullAutoSequence;
 import org.recordrobotics.charger.commands.dash.DashRunFunc;
 import org.recordrobotics.charger.control.DoubleControl;
 import org.recordrobotics.charger.control.IControlInput;
@@ -18,6 +21,9 @@ import org.recordrobotics.charger.util.Pair;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
 import edu.wpi.first.math.controller.PIDController;
+import edu.wpi.first.math.estimator.DifferentialDrivePoseEstimator;
+import edu.wpi.first.math.kinematics.DifferentialDriveKinematics;
+import edu.wpi.first.math.trajectory.Trajectory;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import edu.wpi.first.wpilibj2.command.Subsystem;
@@ -33,13 +39,14 @@ public class RobotContainer {
 	// The robot's subsystems and commands are defined here...
 	//private TrajectoryPresets _trajectoryPresets;
 	private IControlInput _controlInput;
-	//private Claw _claw;
-	//private Drive _drive;
-	//private DifferentialDrivePoseEstimator _estimator;
-	//private DifferentialDriveKinematics _kinematics;
-	//private ArrayList<Trajectory> _trajectories;
-	//private NavSensor _navSensor;
-	//private Vision _vision;
+	private Claw _claw;
+	private Drive _drive;
+	private DifferentialDrivePoseEstimator _estimator;
+	private DifferentialDriveKinematics _kinematics;
+	private ArrayList<Trajectory> _trajectories;
+	private NavSensor _navSensor;
+	private Vision _vision;
+	private Command armCommand;
 	private Arm2 _arm;
 	private PIDController _pid1;
 	private PIDController _pid2;
@@ -94,8 +101,23 @@ public class RobotContainer {
 		}
 	}
 
-	public void getAutonomousCommand() {
+	public void testInit() {
+		armCommand = new AutoMoveArm(_arm, ArmPosition.THIRD);
+	}
+
+	public void testPeriodic() {
+		_arm.periodic();
+		if (!armCommand.isFinished()) {
+			armCommand.execute();
+		} else {
+			armCommand = new AutoMoveArm(_arm, ArmPosition.NEUTRAL);
+		}
+	}
+
+	public Command getAutonomousCommand() {
+		System.out.println("Auto Init");
 		resetCommands();
+		return new FullAutoSequence(_vision, _drive, _trajectories, _estimator, _navSensor, new AutoMoveArm(_arm, ArmPosition.NEUTRAL), _claw, _arm);
 	}
 
 /*
