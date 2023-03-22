@@ -6,6 +6,7 @@ package org.recordrobotics.charger;
 import org.recordrobotics.charger.subsystems.Drive;
 import org.recordrobotics.charger.subsystems.Vision;
 
+
 import edu.wpi.first.math.estimator.DifferentialDrivePoseEstimator;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
@@ -18,6 +19,8 @@ import edu.wpi.first.wpilibj.smartdashboard.Field2d;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
+
+
 
 
 @SuppressWarnings({"PMD.SystemPrintln", "PMD.FieldNamingConventions"})
@@ -50,7 +53,6 @@ public class Robot extends TimedRobot {
 		field = new Field2d();
 		_vision = new Vision();
 		//_timer = new Timer();
-		//_navSensor = new NavSensor();
 		//_drive = new Drive();
 		//_kinematics = new DifferentialDriveKinematics(Units.inchesToMeters(22));//This value should be confirmed when possible
 		//_estimator = new DifferentialDrivePoseEstimator(_kinematics, new Rotation2d(_navSensor.getYaw()), _drive.getLeftEncoder(), _drive.getRightEncoder(), new Pose2d(2.54, 4.65, new Rotation2d(0))); //The default standard deviations of the model states are 0.02 meters for x, 0.02 meters for y, and 0.01 radians for heading. The default standard deviations of the vision measurements are 0.1 meters for x, 0.1 meters for y, and 0.1 radians for heading.
@@ -110,7 +112,6 @@ public class Robot extends TimedRobot {
 	 */
 	@Override
 	public void autonomousPeriodic() {
-		//placeholder
 	}
 
 	/**

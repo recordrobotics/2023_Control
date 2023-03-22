@@ -104,7 +104,7 @@ public class VisionDrive extends CommandBase {
 
 		// Gets desired meters per second
 		var desiredPose = _traj.sample(current_time * _traj.getTotalTimeSeconds()/15);
-		System.out.println(_traj.getTotalTimeSeconds()+ "% "+current_time);
+		//System.out.println(_traj.getTotalTimeSeconds()+ "% "+current_time);
 		desiredPose.velocityMetersPerSecond = desired_velocity_meters_per_second;
 
 

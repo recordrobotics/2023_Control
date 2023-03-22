@@ -39,7 +39,7 @@ public class Vision extends SubsystemBase{
 	};
 	
 	public static double[] estimateGlobalPose(PhotonCamera camera) {
-		System.out.println("vision detected!");
+		//System.out.println("vision detected!");
 
 		// Gets a frame from the camera
 		var result = camera.getLatestResult();

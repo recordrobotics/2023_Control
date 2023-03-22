@@ -30,10 +30,13 @@ public class ChargeStationBalance extends CommandBase {
 
 	/**
 	 * runs the pid controller and then runs the drive motors accordingly
+	 * 
 	 */
 	@Override
 	public void execute() {
 		double _speed = _pid.calculate(_nav.getPitch(), 0);
+		double DIVISION_CONSTANT = 10;
+		_speed = _speed/DIVISION_CONSTANT;
 		_drive.move(_speed, 0);
 	}
 

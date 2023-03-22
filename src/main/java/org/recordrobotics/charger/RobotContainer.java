@@ -9,10 +9,11 @@ import java.util.List;
 
 //import org.apache.commons.collections4.Get;
 import org.recordrobotics.charger.commands.auto.AutoDrive;
+import org.recordrobotics.charger.commands.auto.ChargeStationBalance;
 import org.recordrobotics.charger.commands.auto.FullAutoTest;
 
 import org.recordrobotics.charger.commands.auto.TrajectoryPresets;
-
+import org.recordrobotics.charger.commands.auto.VisionDrive;
 import org.recordrobotics.charger.commands.auto.ParallelFullAuto;
 import org.recordrobotics.charger.commands.auto.TrajectoryPresets;
 import org.recordrobotics.charger.commands.manual.ManualClaw;
@@ -49,6 +50,7 @@ import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import edu.wpi.first.wpilibj2.command.RamseteCommand;
 import edu.wpi.first.wpilibj2.command.Subsystem;
 
+
 /**
  * This class is where the bulk of the robot should be declared. Since Command-based is a
  * "declarative" paradigm, very little robot logic should actually be handled in the {@link Robot}
@@ -65,12 +67,14 @@ public class RobotContainer {
 	private DifferentialDrivePoseEstimator _estimator;
 	private DifferentialDriveKinematics _kinematics;
 	private ArrayList<Trajectory> _trajectories;
-	private NavSensor _navSensor;
+	//private NavSensor _navSensor;
 	private Vision _vision;
 	//private Arm _arm;
 	private PIDController _pid1;
 	private PIDController _pid2;
 	public GetStartTime _GetStartTime;
+
+	public ChargeStationBalance _ChargeStationBalance;
 
 	// Commands
 	private List<Pair<Subsystem, Command>> _teleopPairs;
@@ -81,7 +85,7 @@ public class RobotContainer {
 		// Configure the button bindings
 		_controlInput = new SingleControl((RobotMap.Control.SINGLE_GAMEPAD));
 		_drive = new Drive();
-		_navSensor = new NavSensor();
+		//_navSensor = new NavSensor();
 		//_claw = new Claw();
 		//_arm = new Arm();
 		_pid1 = new PIDController(0, 0, 0);
@@ -89,11 +93,12 @@ public class RobotContainer {
 
 		_vision = new Vision();
 		_kinematics = new DifferentialDriveKinematics(Units.inchesToMeters(22));//This value should be confirmed when possible
-		_estimator = new DifferentialDrivePoseEstimator(_kinematics, new Rotation2d(_navSensor.getYaw()), _drive.getLeftEncoder(), _drive.getRightEncoder(), new Pose2d(2.54, 4.65, new Rotation2d(0))); //The default standard deviations of the model states are 0.02 meters for x, 0.02 meters for y, and 0.01 radians for heading. The default standard deviations of the vision measurements are 0.1 meters for x, 0.1 meters for y, and 0.1 radians for heading.
+		//_estimator = new DifferentialDrivePoseEstimator(_kinematics, new Rotation2d(_navSensor.getYaw()), _drive.getLeftEncoder(), _drive.getRightEncoder(), new Pose2d(2.54, 4.65, new Rotation2d(0))); //The default standard deviations of the model states are 0.02 meters for x, 0.02 meters for y, and 0.01 radians for heading. The default standard deviations of the vision measurements are 0.1 meters for x, 0.1 meters for y, and 0.1 radians for heading.
 		//TODO: set an initial pose
 
 		_trajectoryPresets = new TrajectoryPresets();
 		_trajectories = _trajectoryPresets.SpinSpin9000();
+
 
 		initTeleopCommands();
 		initDashCommands();
@@ -123,62 +128,9 @@ public class RobotContainer {
 
 	public Command getAutonomousCommand() {
 
-		// Create a voltage constraint to ensure we don't accelerate too fast
-		var autoVoltageConstraint =
-        new DifferentialDriveVoltageConstraint(
-            new SimpleMotorFeedforward(
-                Constants.DriveConstants.ksVolts,
-                Constants.DriveConstants.kvVoltSecondsPerMeter,
-                Constants.DriveConstants.kaVoltSecondsSquaredPerMeter),
-				Constants.DriveConstants.kDriveKinematics,
-            8);
-
-		// Create config for trajectory
-		TrajectoryConfig config =
-			new TrajectoryConfig(
-					Constants.AutoConstants.kMaxSpeedMetersPerSecond,
-					Constants.AutoConstants.kMaxAccelerationMetersPerSecondSquared)
-				// Add kinematics to ensure max speed is actually obeyed
-				.setKinematics(Constants.DriveConstants.kDriveKinematics)
-				// Apply the voltage constraint
-				.addConstraint(autoVoltageConstraint);
-
-		// An example trajectory to follow.  All units in meters.
-		Trajectory exampleTrajectory =
-			TrajectoryGenerator.generateTrajectory(
-				// Start at the origin facing the +X direction
-				new Pose2d(0, 0, new Rotation2d(0)),
-				// Pass through these two interior waypoints, making an 's' curve path
-				List.of(new Translation2d(1, 1), new Translation2d(2, -1)),
-				// End 3 meters straight ahead of where we started, facing forward
-				new Pose2d(3, 0, new Rotation2d(0)),
-				// Pass config
-				config);
-
-		RamseteCommand ramseteCommand =
-			new RamseteCommand(
-				exampleTrajectory,
-				_estimator.getEstimatedPosition(),
-				new RamseteController(),
-				new SimpleMotorFeedforward(
-					Constants.DriveConstants.ksVolts,
-					Constants.DriveConstants.kvVoltSecondsPerMeter,
-					Constants.DriveConstants.kaVoltSecondsSquaredPerMeter),
-				Constants.DriveConstants.kDriveKinematics,
-				_drive.getwheelspeeds(),
-				new PIDController(Constants.DriveConstants.kPDriveVel, 0, 0),
-				new PIDController(Constants.DriveConstants.kPDriveVel, 0, 0),
-				// RamseteCommand passes volts to the callback
-				m_robotDrive::tankDriveVolts,
-				_drive);
-
-			new Ramsete
-
-		// Reset odometry to the starting pose of the trajectory.
-		_estimator.resetPosition(new Rotation2d(_navSensor.getYaw()), _drive.getLeftEncoder(), _drive.getRightEncoder(),  exampleTrajectory.getInitialPose());
-
+		//_ChargeStationBalance = new ChargeStationBalance(_drive, _navSensor);
 		// Run path following command, then stop at the end.
-		return ramseteCommand.andThen(() -> m_robotDrive.tankDriveVolts(0, 0));
+		return _ChargeStationBalance;
   }
 	
 	/**

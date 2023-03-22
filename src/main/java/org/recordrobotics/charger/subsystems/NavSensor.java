@@ -6,6 +6,8 @@ import com.kauailabs.navx.frc.AHRS;
 import edu.wpi.first.wpilibj.SPI;
 import edu.wpi.first.wpilibj.I2C;
 
+import edu.wpi.first.math.util.Units;
+
 
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
@@ -15,8 +17,8 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 public class NavSensor extends SubsystemBase {
 
 
-	//public AHRS _nav = new AHRS(SPI.Port.kMXP, AHRS.SerialDataType , byte 50);
-	public AHRS _nav = new AHRS(I2C.Port.kMXP);
+	public AHRS _nav = new AHRS(I2C.Port.kMXP, AHRS.SerialDataType , byte 50);
+	//public AHRS _nav = new AHRS(I2C.Port.kMXP);
 
 
 	
@@ -30,10 +32,21 @@ public class NavSensor extends SubsystemBase {
 
 	public NavSensor() {
 
+		_nav.reset();
 		_nav.calibrate();
 
 		//_nav.enableBoardlevelYawReset​(true);
 	}
+
+
+	public double getAngle() {
+
+		System.out.println(_nav.getAngle());
+		System.out.println(_nav.getRate());
+
+		return Units.degreesToRadians(_nav.getAngle());
+	}
+	
 
 	public double getPitch() {
 		return _nav.getPitch();
@@ -44,10 +57,6 @@ public class NavSensor extends SubsystemBase {
 	}
 
 	public double getYaw() {
-
-		//System.out.println("YEE-YAW: " + _nav.getYaw());
-		//System.out.println("YEE-YAW2: " + _nav.isMoving());
-
 
 		return _nav.getYaw();
 
