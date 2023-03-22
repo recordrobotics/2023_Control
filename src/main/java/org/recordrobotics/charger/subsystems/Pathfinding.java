@@ -83,11 +83,11 @@ public class Pathfinding {
 		path.add(start);
 
 		if(side == 'B') {
-			path.add(new Pose2d(Units.inchesToMeters(70), Units.inchesToMeters(108.015), new Rotation2d(Math.PI));
+			path.add(new Pose2d(Units.inchesToMeters(70), Units.inchesToMeters(108.015), new Rotation2d(Math.PI)));
 			Pose2d dock = new Pose2d(Units.inchesToMeters(153.0025), Units.inchesToMeters(108.015), new Rotation2d(Math.PI));
 			path.add(dock);
 		} else {
-			path.add(new Pose2d(Units.inchesToMeters(580), Units.inchesToMeters(108.015), new Rotation2d(0));
+			path.add(new Pose2d(Units.inchesToMeters(580), Units.inchesToMeters(108.015), new Rotation2d(0)));
 			Pose2d dock = new Pose2d(Units.inchesToMeters(497.3175), Units.inchesToMeters(108.015), new Rotation2d(0));
 			path.add(dock);
 		}
