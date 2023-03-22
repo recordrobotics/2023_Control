@@ -32,20 +32,20 @@ public class ManualArm2 extends CommandBase{
 		double[] angles = {0, 0};
 		switch (_controls.getArmPosition()) {//TODO: get better heights, and maybe differentiate between cubes and cones
 			case SECOND: // X Button
-				angles[0] = -60;
+				angles[0] = -30;
 				angles[1] = 0 + CHANGE_MODIFIER*angles[0];
 				break;
 			case THIRD: // Y button
-				angles[0] = -60;
-				angles[1] = 30 + CHANGE_MODIFIER*angles[0];
+				angles[0] = 0;
+				angles[1] = 0 + CHANGE_MODIFIER*angles[0];
 				break;
 			case SUBSTATION: // B button
-				angles[0] = -60;
-				angles[1] = 30 + CHANGE_MODIFIER*angles[0];
+				angles[0] = -70;
+				angles[1] = 0 + CHANGE_MODIFIER*angles[0];
 				break;
 			case GROUND://How far away must we be, A button
-				angles[0] = -75;
-				angles[1] = -10 + CHANGE_MODIFIER*angles[0];
+				angles[0] = 0;
+				angles[1] = 0 + CHANGE_MODIFIER*angles[0];
 				break;
 	//		case THIRD:
 	//			angles = _arm.getAngles(Arm2.FIRST_ARM_LENGTH, Arm2.SECOND_ARM_LENGTH, Constants.FieldElements.DISTANCE_TO_FAR_NODE, Constants.FieldElements.CUBE_TOP_HEIGHT, "L");

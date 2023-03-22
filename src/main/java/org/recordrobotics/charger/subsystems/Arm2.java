@@ -34,13 +34,13 @@ public class Arm2 extends SubsystemBase{
 	private static final double C_KP = 0.005;
 	private static final double C_KI = 0.001;
 	private static final double C_KD = 0.0005;
-	private static final double O_KP = 0.005;
-	private static final double O_KI = 0.001;
-	private static final double O_KD = 0.0005;
+	private static final double O_KP = 0.025;
+	private static final double O_KI = 0;
+	private static final double O_KD = 0;
 	private double _changeTolerance = 0.5;
 	private double _originTolerance = 0.5;
-	private double _originMaxSpeed = 0.2;
-	private double _changeMaxSpeed = 0.1;
+	private double _originMaxSpeed = 0.5;
+	private double _changeMaxSpeed = 0.5;
 	private double[] prevAngles = {0, 0};
 
 	private GenericEntry _entryAngles;
@@ -149,16 +149,14 @@ public class Arm2 extends SubsystemBase{
 	 * @return value of origin motor encoder in RADIANS
 	 */
 	public double getOriginEncoder() {
-		_angles[0] = _originMotor.getSelectedSensorPosition();
-		return (_angles[0] / TICKS_PER_REV * 360 / GEAR_RATIO);
+		return (_originMotor.getSelectedSensorPosition() / TICKS_PER_REV * 360 / GEAR_RATIO);
 	}
 
 	/**
 	 * @return value of change motor encoder in RADIANS
 	 */
 	public double getChangeEncoder() {
-		_angles[1] = _changeMotor.getSelectedSensorPosition();
-		return _angles[1] / TICKS_PER_REV * 360 / GEAR_RATIO;
+		return _changeMotor.getSelectedSensorPosition() / TICKS_PER_REV * 360 / GEAR_RATIO;
 	}
 
 	/**
@@ -198,6 +196,6 @@ public class Arm2 extends SubsystemBase{
 		SmartDashboard.putNumber("Change Speed", _changeSpeed);
 		
 		spinOrigin(_originSpeed);
-		spinChange(_changeSpeed);
+		//spinChange(_changeSpeed);
 	}
 }

@@ -102,16 +102,12 @@ public class RobotContainer {
 	}
 
 	public void testInit() {
-		armCommand = new AutoMoveArm(_arm, ArmPosition.THIRD);
+		armCommand = new ManualArm2(_arm, _controlInput, _pid1, _pid2);
 	}
 
 	public void testPeriodic() {
-		_arm.periodic();
-		if (!armCommand.isFinished()) {
-			armCommand.execute();
-		} else {
-			armCommand = new AutoMoveArm(_arm, ArmPosition.NEUTRAL);
-		}
+		//_arm.periodic();
+	//	armCommand.execute();
 	}
 
 	public Command getAutonomousCommand() {
