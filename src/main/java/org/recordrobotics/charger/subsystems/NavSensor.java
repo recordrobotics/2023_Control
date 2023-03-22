@@ -17,8 +17,8 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 public class NavSensor extends SubsystemBase {
 
 
-	public AHRS _nav = new AHRS(I2C.Port.kMXP, AHRS.SerialDataType , byte 50);
-	//public AHRS _nav = new AHRS(I2C.Port.kMXP);
+	//public AHRS _nav = new AHRS(I2C.Port.kMXP, AHRS.SerialDataType , byte 50);
+	public AHRS _nav = new AHRS(I2C.Port.kMXP);
 
 
 	
