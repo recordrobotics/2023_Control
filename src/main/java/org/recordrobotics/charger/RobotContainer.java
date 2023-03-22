@@ -27,14 +27,22 @@ import org.recordrobotics.charger.util.Pair;
 import edu.wpi.first.math.estimator.DifferentialDrivePoseEstimator;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
+import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.kinematics.DifferentialDriveKinematics;
+import edu.wpi.first.math.kinematics.DifferentialDriveWheelSpeeds;
 import edu.wpi.first.math.trajectory.Trajectory;
+import edu.wpi.first.math.trajectory.TrajectoryConfig;
+import edu.wpi.first.math.trajectory.TrajectoryGenerator;
+import edu.wpi.first.math.trajectory.constraint.DifferentialDriveVoltageConstraint;
 import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
 import edu.wpi.first.math.controller.PIDController;
+import edu.wpi.first.math.controller.RamseteController;
+import edu.wpi.first.math.controller.SimpleMotorFeedforward;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
+import edu.wpi.first.wpilibj2.command.RamseteCommand;
 import edu.wpi.first.wpilibj2.command.Subsystem;
 
 /**
@@ -109,17 +117,61 @@ public class RobotContainer {
 	}
 
 	public Command getAutonomousCommand() {
-		//return new AutoDrive(_drive,0.4,-1750);
+		
+		// Create a voltage constraint to ensure we don't accelerate too fast
+		var autoVoltageConstraint =
+        new DifferentialDriveVoltageConstraint(
+            new SimpleMotorFeedforward(
+                Constants.DriveConstants.ksVolts,
+                Constants.DriveConstants.kvVoltSecondsPerMeter,
+                Constants.DriveConstants.kaVoltSecondsSquaredPerMeter),
+				Constants.DriveConstants.kDriveKinematics,
+            8);
 
-		_drive.resetEncoders(); // resets encoders
+		// Create config for trajectory
+		TrajectoryConfig config =
+			new TrajectoryConfig(
+					Constants.AutoConstants.kMaxSpeedMetersPerSecond,
+					Constants.AutoConstants.kMaxAccelerationMetersPerSecondSquared)
+				// Add kinematics to ensure max speed is actually obeyed
+				.setKinematics(Constants.DriveConstants.kDriveKinematics)
+				// Apply the voltage constraint
+				.addConstraint(autoVoltageConstraint);
 
+		// An example trajectory to follow.  All units in meters.
+		Trajectory exampleTrajectory =
+			TrajectoryGenerator.generateTrajectory(
+				// Start at the origin facing the +X direction
+				new Pose2d(0, 0, new Rotation2d(0)),
+				// Pass through these two interior waypoints, making an 's' curve path
+				List.of(new Translation2d(1, 1), new Translation2d(2, -1)),
+				// End 3 meters straight ahead of where we started, facing forward
+				new Pose2d(3, 0, new Rotation2d(0)),
+				// Pass config
+				config);
 
-		//return new TrajectoryPresets(_vision, _drive, _pid2, _pid1, _trajectories, _estimator, _navSensor);//new ParallelFullAuto(_vision, _drive, _arm, _claw, _pid1, _pid2, _trajectories, _estimator, _navSensor)//
+		RamseteCommand ramseteCommand =
+			new RamseteCommand(
+				exampleTrajectory,
+				_estimator.getEstimatedPosition(),
+				new RamseteController(),
+				new SimpleMotorFeedforward(
+					Constants.DriveConstants.ksVolts,
+					Constants.DriveConstants.kvVoltSecondsPerMeter,
+					Constants.DriveConstants.kaVoltSecondsSquaredPerMeter),
+				Constants.DriveConstants.kDriveKinematics,
+				new DifferentialDriveWheelSpeeds(_drive.getLeftEncoder(), _drive.getRightEncoder()),
+				new PIDController(Constants.DriveConstants.kPDriveVel, 0, 0),
+				new PIDController(Constants.DriveConstants.kPDriveVel, 0, 0),
+				// RamseteCommand passes volts to the callback
+				m_robotDrive::tankDriveVolts,
+				_drive);
 
-		//return new ParallelFullAuto(_vision, _drive, _pid2, _pid1, _trajectories, _estimator, _navSensor);//new ParallelFullAuto(_vision, _drive, _arm, _claw, _pid1, _pid2, _trajectories, _estimator, _navSensor)
+		// Reset odometry to the starting pose of the trajectory.
+		_estimator.resetPosition(new Rotation2d(_navSensor.getYaw()), _drive.getLeftEncoder(), _drive.getRightEncoder(),  exampleTrajectory.getInitialPose());
 
-		return new FullAutoTest(_vision, _drive, _pid2, _pid1, _trajectories, _estimator, _navSensor);//new ParallelFullAuto(_vision, _drive, _arm, _claw, _pid1, _pid2, _trajectories, _estimator, _navSensor)
-	}
+		// Run path following command, then stop at the end.
+		return ramseteCommand.andThen(() -> m_robotDrive.tankDriveVolts(0, 0));}
 	/**
 	 * Set control scheme to Single
 	 */
