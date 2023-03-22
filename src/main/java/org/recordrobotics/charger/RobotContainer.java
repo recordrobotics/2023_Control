@@ -13,6 +13,7 @@ import org.recordrobotics.charger.commands.auto.FullAutoTest;
 import org.recordrobotics.charger.commands.auto.TrajectoryPresets;
 
 import org.recordrobotics.charger.commands.auto.ParallelFullAuto;
+import org.recordrobotics.charger.commands.auto.SimpleScoreAndTaxi;
 import org.recordrobotics.charger.commands.auto.TrajectoryPresets;
 import org.recordrobotics.charger.commands.manual.ManualClaw;
 import org.recordrobotics.charger.commands.manual.ManualArm;
@@ -117,61 +118,8 @@ public class RobotContainer {
 	}
 
 	public Command getAutonomousCommand() {
-		
-		// Create a voltage constraint to ensure we don't accelerate too fast
-		var autoVoltageConstraint =
-        new DifferentialDriveVoltageConstraint(
-            new SimpleMotorFeedforward(
-                Constants.DriveConstants.ksVolts,
-                Constants.DriveConstants.kvVoltSecondsPerMeter,
-                Constants.DriveConstants.kaVoltSecondsSquaredPerMeter),
-				Constants.DriveConstants.kDriveKinematics,
-            8);
-
-		// Create config for trajectory
-		TrajectoryConfig config =
-			new TrajectoryConfig(
-					Constants.AutoConstants.kMaxSpeedMetersPerSecond,
-					Constants.AutoConstants.kMaxAccelerationMetersPerSecondSquared)
-				// Add kinematics to ensure max speed is actually obeyed
-				.setKinematics(Constants.DriveConstants.kDriveKinematics)
-				// Apply the voltage constraint
-				.addConstraint(autoVoltageConstraint);
-
-		// An example trajectory to follow.  All units in meters.
-		Trajectory exampleTrajectory =
-			TrajectoryGenerator.generateTrajectory(
-				// Start at the origin facing the +X direction
-				new Pose2d(0, 0, new Rotation2d(0)),
-				// Pass through these two interior waypoints, making an 's' curve path
-				List.of(new Translation2d(1, 1), new Translation2d(2, -1)),
-				// End 3 meters straight ahead of where we started, facing forward
-				new Pose2d(3, 0, new Rotation2d(0)),
-				// Pass config
-				config);
-
-		RamseteCommand ramseteCommand =
-			new RamseteCommand(
-				exampleTrajectory,
-				_estimator.getEstimatedPosition(),
-				new RamseteController(),
-				new SimpleMotorFeedforward(
-					Constants.DriveConstants.ksVolts,
-					Constants.DriveConstants.kvVoltSecondsPerMeter,
-					Constants.DriveConstants.kaVoltSecondsSquaredPerMeter),
-				Constants.DriveConstants.kDriveKinematics,
-				_drive::getWheelSpeeds,
-				new PIDController(0, 0, 0),
-				new PIDController(0, 0, 0),
-				// RamseteCommand passes volts to the callback
-				_drive::tankDriveVolts,
-				_drive);
-
-		// Reset odometry to the starting pose of the trajectory.
-		_estimator.resetPosition(new Rotation2d(_navSensor.getYaw()), _drive.getLeftEncoder(), _drive.getRightEncoder(),  exampleTrajectory.getInitialPose());
-
-		// Run path following command, then stop at the end.
-		return ramseteCommand.andThen(() -> _drive.tankDriveVolts(0, 0));}
+		return new SimpleScoreAndTaxi(_drive);
+		}
 	/**
 	 * Set control scheme to Single
 	 */
