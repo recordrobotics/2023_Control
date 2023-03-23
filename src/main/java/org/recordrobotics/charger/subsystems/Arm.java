@@ -121,12 +121,50 @@ public class Arm extends SubsystemBase{
 		_changeMotor.set(speed);
 	}
 
+<<<<<<< HEAD
 	public boolean originAtSetpoint() {
 		return _originPid.atSetpoint();
 	}
 
 	public boolean changeAtSetpoint() {
 		return _changePid.atSetpoint();
+=======
+	/**
+	 * moves motors to reach a certain point on a cartesian plane, with the first motor as the origin point
+	 * @param targetX x value of the cartesian point
+	 * @param targetY y value of the cartesian point
+	 * @return angles of rotation in array of length 2 IN DEGREES
+	 */
+	public double[] getAnglesOfRotation(double targetX, double targetY) {
+		double[] angles = new double[2];
+		// law of cosines
+		double side3 = Math.sqrt(Math.pow(targetX, 2) + Math.pow(targetY, 2));
+		double angleC = Math.acos(Math.pow(FIRST_ARM_LENGTH, 2) + Math.pow(side3, 2) - Math.pow(SECOND_ARM_LENGTH, 2)/(side3 * FIRST_ARM_LENGTH * 2));
+		// angle of rotation for the first motor
+		angles[0] = -Math.toDegrees(2 * Math.PI - angleC - Math.atan(targetY / targetX)) + ORIGIN_START_OFFSET;
+		// law of sines
+		// angle of rotation for the second motor
+		angles[1] = -Math.toDegrees(Math.asin(side3 * Math.sin(angleC) / SECOND_ARM_LENGTH)) + CHANGE_START_OFFSET;
+		_angles = angles;
+		return angles;
+	}
+
+	public void setAngles(double a[]) {}
+
+	/**
+	 * moves motors to reach a certain point on a cartesian plane, with the first motor as the origin point
+	 * keeps second arm parallel to the ground
+	 * @param targetY y value of the cartesian point
+	 * @return angles of rotation in array of length 2 IN DEGREES
+	 */
+	public double[] getRelatedAngles(double targetY) {
+		double[] angles = new double[2];
+		// core angle is the complement of angle 1 and supplement of angle 2
+		double coreAngle = Math.asin((targetY - 13.625) / FIRST_ARM_LENGTH);
+		angles[0] = -Math.toDegrees(Math.PI - coreAngle) - ORIGIN_START_OFFSET;
+		angles[1] = 1/7 * angles[0] - ORIGIN_START_OFFSET;
+		return angles;
+>>>>>>> claw-from-first-comp
 	}
 	
     //public double[] getCurrentAngles(){ // Why does this exist?
@@ -146,7 +184,7 @@ public class Arm extends SubsystemBase{
 	 * @return value of origin motor encoder in RADIANS
 	 */
 	public double getOriginEncoder() {
-		return (_originMotor.getSelectedSensorPosition() / TICKS_PER_REV * 360 / GEAR_RATIO);
+		return _originMotor.getSelectedSensorPosition() / TICKS_PER_REV * 360 / GEAR_RATIO;
 	}
 
 	/**

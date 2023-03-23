@@ -34,10 +34,10 @@ public class FullAutoSequence extends SequentialCommandGroup {
 		addCommands(
 			new AutoMoveArm(arm, _pos3),
 			new AutoMoveClaw(claw, clawSpeed, clawRelease),
-			new VisionDrive(vision, drive, trajectory.get(0), estimator, nav, 0),//When colored object code gets implemented, use it here
+			//new VisionDrive(vision, drive, trajectory.get(0), estimator, nav, 0),//When colored object code gets implemented, use it here
 			new AutoMoveArm(arm, _pos2),
 			new AutoMoveClaw(claw, clawSpeed, clawGrab),
-			new VisionDrive(vision, drive, trajectory.get(1), estimator, nav, 0),
+			//new VisionDrive(vision, drive, trajectory.get(1), estimator, nav, 0),
 			new AutoMoveArm(arm, _pos3),
 			new AutoMoveClaw(claw, clawSpeed, clawRelease)
 		);
@@ -46,7 +46,7 @@ public class FullAutoSequence extends SequentialCommandGroup {
 		addCommands(
 			new AutoMoveArm(arm, _pos3),
 			new AutoMoveClaw(claw, clawSpeed, clawRelease),
-			new VisionDrive(vision, drive, trajectory.get(0), estimator, nav, 0),
+			//new VisionDrive(vision, drive, trajectory.get(0), estimator, nav, 0),
 			new ChargeStationBalance(drive, nav)
 		);
 		}
