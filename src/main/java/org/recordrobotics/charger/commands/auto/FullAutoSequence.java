@@ -20,14 +20,16 @@ public class FullAutoSequence extends SequentialCommandGroup {
 	private double clawSpeed = 0.05;
 	private int clawGrab = 1;
 	private int clawRelease = -1;
+	private double trajStartTime;
 
 	/**
 	 * e
 	 */
 	public FullAutoSequence(Vision vision, Drive drive, ArrayList<Trajectory> trajectory, DifferentialDrivePoseEstimator estimator, NavSensor nav, AutoMoveArm mover, Claw claw, double auto_start_time){
-		String sequenceType = "test";
+		//0 = scoring, 1 = docking, 2 = test
+		int sequenceType = 1;
 
-		if (sequenceType == "scoring"){
+		if (sequenceType == 0){
 		addCommands(
 			new AutoArmHolder(mover, _pos1),
 			new AutoMoveClaw(claw, clawSpeed, clawRelease),
@@ -39,7 +41,7 @@ public class FullAutoSequence extends SequentialCommandGroup {
 			new AutoMoveClaw(claw, clawSpeed, clawRelease)
 		);
 		}
-		else if (sequenceType == "docking"){
+		else if (sequenceType == 1){
 		addCommands(
 			new AutoArmHolder(mover, _pos1),
 			new AutoMoveClaw(claw, clawSpeed, clawRelease),
@@ -47,7 +49,7 @@ public class FullAutoSequence extends SequentialCommandGroup {
 			new ChargeStationBalance(drive, nav)
 		);
 		}
-		else if (sequenceType == "test"){
+		else if (sequenceType == 2){
 			addCommands(
 				new VisionDrive(vision, drive, trajectory.get(0), estimator, nav, 0, auto_start_time)
 			);

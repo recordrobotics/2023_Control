@@ -27,6 +27,7 @@ import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import org.recordrobotics.charger.util.GetStartTime;
 
@@ -62,7 +63,7 @@ public class VisionDrive extends CommandBase {
 		_traj = trajectory;
 		_estimator = estimator;
 		_target = target;
-		_auto_start_time = auto_start_time;
+		//_auto_start_time = auto_start_time;
 
 		//_ramseteController = new RamseteController(1, 0);
 		_ramseteController = new RamseteController();
@@ -71,7 +72,7 @@ public class VisionDrive extends CommandBase {
 
 	@Override
 	public void execute() {
-		double current_time = Timer.getFPGATimestamp() - _auto_start_time;
+		double current_time = _timer.get();//Timer.getFPGATimestamp() - _auto_start_time
 
 		System.out.println("Executing visiondrive! Timer: " + current_time);
 
@@ -146,17 +147,13 @@ public class VisionDrive extends CommandBase {
 	public void initialize() {
 		_timer = new Timer();
 		_timer.start();
-		startTime = _timer.getFPGATimestamp();
 		_vision.camera.setPipelineIndex(_target);
 	}
-
-
-
 	
 	@Override
 	public boolean isFinished() {
 
-		return _timer.getFPGATimestamp() - startTime >= _traj.getTotalTimeSeconds();
+		return _timer.get() >= _traj.getTotalTimeSeconds();
 		//change this lol
 		//return false;
 		//return Timer.getFPGATimestamp() > 10*_traj.getTotalTimeSeconds();

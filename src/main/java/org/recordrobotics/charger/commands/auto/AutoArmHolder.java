@@ -21,8 +21,8 @@ public class AutoArmHolder  extends CommandBase{
 
     @Override
     public boolean isFinished() {
-        return _mover.originIsFliped() && _mover._changeIsFliped();
-    }
+        //return _mover.originIsFliped() && _mover._changeIsFliped();
+        return true;//added to make the error go away
     
-
+    }
 }

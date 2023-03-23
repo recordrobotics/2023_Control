@@ -21,12 +21,12 @@ public class ParallelFullAuto extends ParallelCommandGroup {
 
     public ParallelFullAuto(Vision vision, Drive drive, Arm arm, Claw claw, PIDController originPid, PIDController changePid, ArrayList<Trajectory> trajectory, DifferentialDrivePoseEstimator estimator, NavSensor nav, double auto_start_time){
        
-        AutoMoveArm moveArm = new AutoMoveArm(arm, originPid, changePid, _armPosition);
+        //AutoMoveArm moveArm = new AutoMoveArm(arm, originPid, changePid, _armPosition);
 
         addCommands(
-            moveArm,
+           // moveArm,
 
-            new FullAutoSequence(vision, drive, trajectory, estimator, nav, moveArm, claw, auto_start_time)
+         //   new FullAutoSequence(vision, drive, trajectory, estimator, nav, moveArm, claw, auto_start_time)
 
             
         );
