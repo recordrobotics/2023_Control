@@ -7,6 +7,7 @@ import org.recordrobotics.charger.subsystems.Pathfinding;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.trajectory.Trajectory;
+import edu.wpi.first.math.trajectory.TrajectoryConfig;
 import edu.wpi.first.math.trajectory.TrajectoryGenerator;
 import edu.wpi.first.math.util.Units;
 
@@ -239,5 +240,33 @@ public class TrajectoryPresets {
 
         _pathfinding = new Pathfinding(start, score, pieces, "docking");
         return _pathfinding.finalPath;  
+    }
+    
+    public ArrayList<Trajectory> testTraj2() {
+        ArrayList<Pose2d> list = new ArrayList<>();
+        ArrayList<Trajectory> ret = new ArrayList<>();
+
+        Pose2d start = new Pose2d(2.54, 2.748, new Rotation2d(Math.PI));
+        list.add(start);
+        list.add(new Pose2d(4, 2.748, new Rotation2d(Math.PI)));
+        list.add(new Pose2d(6, 4, new Rotation2d(Math.PI)));
+        list.add(new Pose2d(7.5, 2.748, new Rotation2d(Math.PI)));
+
+        TrajectoryConfig config = new TrajectoryConfig(3, 1);
+        config.setReversed(true);
+
+        ret.add(TrajectoryGenerator.generateTrajectory(list, config));
+
+        list.clear();
+        config.setReversed(false);
+
+        list.add(new Pose2d(7.5, 2.748, new Rotation2d(Math.PI)));
+        list.add(new Pose2d(6, 1.5, new Rotation2d(Math.PI)));
+        list.add(new Pose2d(4, 2.748, new Rotation2d(Math.PI)));
+
+        ret.add(TrajectoryGenerator.generateTrajectory(list, config));
+
+        return ret;
+
     }
 }
