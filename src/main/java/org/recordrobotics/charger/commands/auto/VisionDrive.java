@@ -138,7 +138,7 @@ public class VisionDrive extends CommandBase {
 
 		System.out.println("adjusted speeds from ramsete x, y, radians: " + adjustedspeeds.vxMetersPerSecond + " " + adjustedspeeds.vyMetersPerSecond + " " + adjustedspeeds.omegaRadiansPerSecond);
 
-		_drive.move(adjustedspeeds.vxMetersPerSecond, adjustedspeeds.omegaRadiansPerSecond);
+		//_drive.move(adjustedspeeds.vxMetersPerSecond, adjustedspeeds.omegaRadiansPerSecond);
 		
 	}
 

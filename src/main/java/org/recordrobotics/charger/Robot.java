@@ -6,6 +6,9 @@ package org.recordrobotics.charger;
 import org.recordrobotics.charger.subsystems.Drive;
 import org.recordrobotics.charger.subsystems.Vision;
 
+import org.recordrobotics.charger.subsystems.NavSensor;
+
+
 import edu.wpi.first.math.estimator.DifferentialDrivePoseEstimator;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
@@ -20,6 +23,8 @@ import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 
 
+
+
 @SuppressWarnings({"PMD.SystemPrintln", "PMD.FieldNamingConventions"})
 public class Robot extends TimedRobot {
 	private RobotContainer _robotContainer;
@@ -27,12 +32,14 @@ public class Robot extends TimedRobot {
 	private Vision _vision;
 	private Timer _timer;
 
+	public NavSensor _NavSensor;
+
 	//private NavSensor _navSensor;
 
 	private Drive _drive;
 	private DifferentialDriveKinematics _kinematics = new DifferentialDriveKinematics(22);
 
-	private DifferentialDrivePoseEstimator _estimator /* = new DifferentialDrivePoseEstimator(_kinematics, null, kDefaultPeriod, kDefaultPeriod, null, null, null))*/;
+	//private DifferentialDrivePoseEstimator _estimator /* = new DifferentialDrivePoseEstimator(_kinematics, null, kDefaultPeriod, kDefaultPeriod, null, null, null))*/;
 
 
 	@SuppressWarnings("PMD.SingularField")
@@ -50,7 +57,7 @@ public class Robot extends TimedRobot {
 		field = new Field2d();
 		_vision = new Vision();
 		//_timer = new Timer();
-		//_navSensor = new NavSensor();
+		_NavSensor = new NavSensor();
 		//_drive = new Drive();
 		//_kinematics = new DifferentialDriveKinematics(Units.inchesToMeters(22));//This value should be confirmed when possible
 		//_estimator = new DifferentialDrivePoseEstimator(_kinematics, new Rotation2d(_navSensor.getYaw()), _drive.getLeftEncoder(), _drive.getRightEncoder(), new Pose2d(2.54, 4.65, new Rotation2d(0))); //The default standard deviations of the model states are 0.02 meters for x, 0.02 meters for y, and 0.01 radians for heading. The default standard deviations of the vision measurements are 0.1 meters for x, 0.1 meters for y, and 0.1 radians for heading.
@@ -96,13 +103,13 @@ public class Robot extends TimedRobot {
 	@Override
 	public void autonomousInit() {
 		System.out.println("Autonomous Init");
-		_autonomousCommand = _robotContainer.getAutonomousCommand();
+		//_autonomousCommand = _robotContainer.getAutonomousCommand();
 
 
 		// schedule the autonomous command (example)
-		if (_autonomousCommand != null) {
-			_autonomousCommand.schedule();
-		}
+		//if (_autonomousCommand != null) {
+		//	_autonomousCommand.schedule();
+		//}
 	}
 
 	/**
@@ -131,6 +138,8 @@ public class Robot extends TimedRobot {
 	*/
 	@Override
 	public void teleopPeriodic() {
+
+		System.out.println(_NavSensor.getYaw() + " " + _NavSensor.getDisplacementX());
 
 		//placholder
 		/*if (Vision.checkForTarget(_vision.camera)){
