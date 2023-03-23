@@ -67,8 +67,6 @@ public class VisionDrive extends CommandBase {
 		//_ramseteController = new RamseteController(1, 0);
 		_ramseteController = new RamseteController();
 		_nav = new NavSensor();
-
-
 	}
 
 	@Override
