@@ -30,13 +30,13 @@ public class ManualArm extends CommandBase{
 		// sets arm motor angles based on which actions is needed
 		double[] angles = {0, 0};
 		switch (_controls.getArmPosition()) {//TODO: get better heights, and maybe differentiate between cubes and cones
-			case SECOND: // X Button
-				angles[0] = -30;
-				angles[1] = 30;
-				break;
-			case THIRD: // Y button
+			case SECOND: // X Button -- working
 				angles[0] = -40;
-				angles[1] = 40;
+				angles[1] = 45;
+				break;
+			case THIRD: // Y button -- NEEDS TUNING
+				angles[0] = -40;
+				angles[1] = 50;
 				break;
 			case SUBSTATION: // B button
 				angles[0] = -35;
