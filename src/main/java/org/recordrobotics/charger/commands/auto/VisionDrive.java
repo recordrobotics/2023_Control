@@ -1,24 +1,13 @@
 package org.recordrobotics.charger.commands.auto;
 
-import org.recordrobotics.charger.Robot;
 //import org.apache.commons.collections4.Get;
 import org.recordrobotics.charger.subsystems.Drive;
 import org.recordrobotics.charger.subsystems.NavSensor;
 import org.recordrobotics.charger.subsystems.Vision;
 
 import edu.wpi.first.math.trajectory.Trajectory;
-import edu.wpi.first.math.trajectory.Trajectory.State;
 import edu.wpi.first.math.controller.RamseteController;
 import edu.wpi.first.math.estimator.DifferentialDrivePoseEstimator;
-
-import edu.wpi.first.math.kinematics.DifferentialDriveWheelSpeeds;
-import edu.wpi.first.math.kinematics.DifferentialDriveKinematics;
-
-import edu.wpi.first.math.util.Units;
-
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-
 
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
 
@@ -26,8 +15,6 @@ import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.wpilibj.Timer;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import org.recordrobotics.charger.util.GetStartTime;
 
