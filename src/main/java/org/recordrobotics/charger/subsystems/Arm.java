@@ -59,15 +59,9 @@ public class Arm extends SubsystemBase{
 		_originMotor.set(0);
 		_changeMotor.set(0);
 
-		_originPid = new PIDController(0, 0, 0);
-		_originPid.setD(O_KD);
-		_originPid.setI(O_KI);
-		_originPid.setP(O_KP);
+		_originPid = new PIDController(O_KP, O_KI, O_KD);
 		_originPid.setTolerance(_originTolerance);
-		_changePid = new PIDController(0, 0, 0);
-		_changePid.setD(C_KD);
-		_changePid.setI(C_KI);
-		_changePid.setP(C_KP);
+		_changePid = new PIDController(C_KP, C_KI, C_KD);
 		_changePid.setTolerance(_changeTolerance);
 
 		resetEncoders();
