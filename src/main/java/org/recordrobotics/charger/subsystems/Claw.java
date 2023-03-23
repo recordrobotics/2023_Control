@@ -4,12 +4,14 @@ import edu.wpi.first.networktables.GenericEntry;
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 import org.recordrobotics.charger.Constants;
 import org.recordrobotics.charger.RobotMap;
 
 import com.revrobotics.CANSparkMax;
+import com.revrobotics.CANSparkMax.IdleMode;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
 public class Claw extends SubsystemBase {
@@ -22,7 +24,7 @@ public class Claw extends SubsystemBase {
 	private GenericEntry _voltageEntry;
 	private GenericEntry _encoderEntry;
 
-	public double _OPEN_CLAW_ENCODER = 0.2;
+	public double _CLOSED_CLAW_ENCODER = -0.4;
 	public double _CURRENT_GRAB_THRESHOLD = 5;
 
 	public Claw() {
@@ -32,20 +34,26 @@ public class Claw extends SubsystemBase {
 		ShuffleboardTab tab = Shuffleboard.getTab(Constants.DATA_TAB);
 		_voltageEntry = tab.add("Motor Current", 0).getEntry();
 		_encoderEntry = tab.add("Encoder Value", 0).getEntry();
+
+		SmartDashboard.putNumber("Voltage Output", 0);
 	}
 
 	@Override
 	public void periodic() {
 		_voltageEntry.setDouble(_motor.getOutputCurrent());
 		_encoderEntry.setDouble(getPosition());
+		if (!getSwitchState()) {
+			resetEncoders();
+		}
+		SmartDashboard.putNumber("Voltage Output", getCurrent());
 	}
 
 	/*
 	 * Returns the the Claw Switch
-	 *  @return true if Claw in boundary
+	 * @return true if Claw in boundary
 	 */
 	public boolean getSwitchState(){
-		return !_limitSwitch.get();
+		return _limitSwitch.get();
 	}
 
 	/**
@@ -61,11 +69,24 @@ public class Claw extends SubsystemBase {
 	 * @return The encoder value
 	 */
 	public double getPosition() {
-		return _motor.getEncoder().getPosition();
+		double position = _motor.getEncoder().getPosition();
+		SmartDashboard.putNumber("claw Encoder", position);
+		return position;
 	}
 
 	public double getCurrent() {
 		return _motor.getOutputCurrent();
+	}
+
+	/*
+	 * sets break to true or false
+	 */
+	public void brake(boolean mode){
+		if(mode){
+			_motor.setIdleMode(IdleMode.kBrake);
+		} else {
+			_motor.setIdleMode(IdleMode.kCoast);
+		}
 	}
 
 	/**

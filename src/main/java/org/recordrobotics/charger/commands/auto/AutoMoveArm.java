@@ -1,16 +1,14 @@
 package org.recordrobotics.charger.commands.auto;
 
-//import org.recordrobotics.charger.subsystems.Arm2;
-import org.recordrobotics.charger.commands.manual.ArmPosition;
 import org.recordrobotics.charger.subsystems.Arm;
+import org.recordrobotics.charger.commands.manual.ArmPosition;
 
 import edu.wpi.first.wpilibj.Timer;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 
 @SuppressWarnings({"PMD.TooManyFields","PMD.FieldNamingConventions"})
 public class AutoMoveArm extends CommandBase {
-	private Arm _arm;//was Arm2, changed to make the error go away; this arm code should never be run
+	private Arm _arm;
 
 	//private PIDController _originPid;
 	//private PIDController _changePid;
@@ -36,7 +34,12 @@ public class AutoMoveArm extends CommandBase {
 	private static double _third = 34;
 	//private static double _ground[] = {40, 42};
 	private static double _substation = 37.375;
+
 	private static double _neutral[] = {0, 0};
+	private static double _secondAngles[] = {0, 0};
+	private static double _groundAngles[] = {0, 0};
+	private static double _substationAngles[] = {0, 0};
+	private static double _thirdAngles[] = {0, 0};
 
 	/*private static double _flipGroundOriginX = 22;
 	private static double _flipGroundOriginY = 22;
@@ -58,6 +61,11 @@ public class AutoMoveArm extends CommandBase {
 		//_changePid.setI(_cki);
 		//_changePid.setP(_ckp);
 		//_changePid.setTolerance(_changeTolerance);
+
+		_secondAngles = _arm.getAnglesRestricted(_second);
+		_thirdAngles = _arm.getAnglesRestricted(_third);
+		_substationAngles = _arm.getAnglesRestricted(_substation);
+
 		_armPosition = armPosition;
 		_timer = new Timer();
 	}
@@ -69,16 +77,16 @@ public class AutoMoveArm extends CommandBase {
 		double[] angles;
 		switch (_armPosition) {
 			case SECOND:
-				//angles = _arm.getAnglesRestricted(_second);
+				angles = _secondAngles;
 				break;
 			case THIRD:
-				//angles = _arm.getAnglesRestricted(_third);
+				angles = _thirdAngles;
 				break;
 			case GROUND:
 				angles = _placehold;//_arm.getAnglesOfRotation(_ground[0], _ground[1]);
 				break;
 			case SUBSTATION:
-				//angles = _arm.getAnglesRestricted(_substation);
+				angles = _substationAngles;
 				break;
 			case FLIP_GROUND_ORIGIN:
 				angles = _placehold;//_arm.getAnglesOfRotation(_flipGroundOriginX,_flipGroundOriginY);
@@ -90,12 +98,12 @@ public class AutoMoveArm extends CommandBase {
 				angles = _neutral;
 				break;
 		}
-		//_arm.setAngles(angles);
+		_arm.setAngles(angles);
 	}
 
 	public void setArmPosition(ArmPosition position){
 		_armPosition = position;
-	} 
+	}
 
 	@Override
 	public void end(boolean interrupted) {
@@ -104,8 +112,7 @@ public class AutoMoveArm extends CommandBase {
 
 	@Override
 	public boolean isFinished() {
-		//return _arm.originAtSetpoint() && _arm.changeAtSetpoint();
-		return true;//this was added to make the error go away
+		return _arm.originAtSetpoint() && _arm.changeAtSetpoint();
 	}
 
 }
