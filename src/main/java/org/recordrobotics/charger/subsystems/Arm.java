@@ -32,10 +32,10 @@ public class Arm extends SubsystemBase{
 	private PIDController _originPid;
 	private PIDController _changePid;
 	private static final double C_KP = 0.025;
-	private static final double C_KI = 0;
+	private static final double C_KI = 0.005;
 	private static final double C_KD = 0;
 	private static final double O_KP = 0.025;
-	private static final double O_KI = 0;
+	private static final double O_KI = 0.005;
 	private static final double O_KD = 0;
 	private double _changeTolerance = 0.5;
 	private double _originTolerance = 0.5;
@@ -121,50 +121,12 @@ public class Arm extends SubsystemBase{
 		_changeMotor.set(speed);
 	}
 
-<<<<<<< HEAD
 	public boolean originAtSetpoint() {
 		return _originPid.atSetpoint();
 	}
 
 	public boolean changeAtSetpoint() {
 		return _changePid.atSetpoint();
-=======
-	/**
-	 * moves motors to reach a certain point on a cartesian plane, with the first motor as the origin point
-	 * @param targetX x value of the cartesian point
-	 * @param targetY y value of the cartesian point
-	 * @return angles of rotation in array of length 2 IN DEGREES
-	 */
-	public double[] getAnglesOfRotation(double targetX, double targetY) {
-		double[] angles = new double[2];
-		// law of cosines
-		double side3 = Math.sqrt(Math.pow(targetX, 2) + Math.pow(targetY, 2));
-		double angleC = Math.acos(Math.pow(FIRST_ARM_LENGTH, 2) + Math.pow(side3, 2) - Math.pow(SECOND_ARM_LENGTH, 2)/(side3 * FIRST_ARM_LENGTH * 2));
-		// angle of rotation for the first motor
-		angles[0] = -Math.toDegrees(2 * Math.PI - angleC - Math.atan(targetY / targetX)) + ORIGIN_START_OFFSET;
-		// law of sines
-		// angle of rotation for the second motor
-		angles[1] = -Math.toDegrees(Math.asin(side3 * Math.sin(angleC) / SECOND_ARM_LENGTH)) + CHANGE_START_OFFSET;
-		_angles = angles;
-		return angles;
-	}
-
-	public void setAngles(double a[]) {}
-
-	/**
-	 * moves motors to reach a certain point on a cartesian plane, with the first motor as the origin point
-	 * keeps second arm parallel to the ground
-	 * @param targetY y value of the cartesian point
-	 * @return angles of rotation in array of length 2 IN DEGREES
-	 */
-	public double[] getRelatedAngles(double targetY) {
-		double[] angles = new double[2];
-		// core angle is the complement of angle 1 and supplement of angle 2
-		double coreAngle = Math.asin((targetY - 13.625) / FIRST_ARM_LENGTH);
-		angles[0] = -Math.toDegrees(Math.PI - coreAngle) - ORIGIN_START_OFFSET;
-		angles[1] = 1/7 * angles[0] - ORIGIN_START_OFFSET;
-		return angles;
->>>>>>> claw-from-first-comp
 	}
 	
     //public double[] getCurrentAngles(){ // Why does this exist?
@@ -242,7 +204,7 @@ public class Arm extends SubsystemBase{
 		SmartDashboard.putNumber("Origin Speed", _originSpeed);
 		SmartDashboard.putNumber("Change Speed", _changeSpeed);
 		
-		//spinOrigin(_originSpeed);
+		spinOrigin(_originSpeed);
 		spinChange(_changeSpeed);
 	}
 }

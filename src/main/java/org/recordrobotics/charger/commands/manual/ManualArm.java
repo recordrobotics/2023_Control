@@ -31,37 +31,20 @@ public class ManualArm extends CommandBase{
 		double[] angles = {0, 0};
 		switch (_controls.getArmPosition()) {//TODO: get better heights, and maybe differentiate between cubes and cones
 			case SECOND: // X Button
-<<<<<<< HEAD
-				angles[0] = 0;
-				angles[1] = 60;
-				break;
-			case THIRD: // Y button
-				angles[0] = 0;
-				angles[1] = 90;
-				break;
-			case SUBSTATION: // B button
-				angles[0] = 0;
+				angles[0] = -30;
 				angles[1] = 30;
 				break;
-			case GROUND://How far away must we be, A button
-				angles[0] = 0;
-				angles[1] = 10;
-=======
-				angles[0] = -30;
-				angles[1] = 0;
-				break;
 			case THIRD: // Y button
-				angles[0] = 0;
-				angles[1] = 0;
+				angles[0] = -40;
+				angles[1] = 40;
 				break;
 			case SUBSTATION: // B button
-				angles[0] = -70;
-				angles[1] = 0;
+				angles[0] = -35;
+				angles[1] = 35;
 				break;
 			case GROUND://How far away must we be, A button
-				angles[0] = 0;
-				angles[1] = 0;
->>>>>>> claw-from-first-comp
+				angles[0] = -20;
+				angles[1] = 10;
 				break;
 	//		case THIRD:
 	//			angles = _arm.getAngles(Arm2.FIRST_ARM_LENGTH, Arm2.SECOND_ARM_LENGTH, Constants.FieldElements.DISTANCE_TO_FAR_NODE, Constants.FieldElements.CUBE_TOP_HEIGHT, "L");
@@ -81,11 +64,8 @@ public class ManualArm extends CommandBase{
 		//		break;
 			default:
 				//angles = _arm.getAngles(Arm2.FIRST_ARM_LENGTH, Arm2.SECOND_ARM_LENGTH, 1.07, 1.07, "R");//This should extend mostly fully, but not quite
-<<<<<<< HEAD
-				angles[0] = 0;
+				angles[0] = -20;
 				angles[1] = 10;
-=======
->>>>>>> claw-from-first-comp
 				break;
 		}
 		SmartDashboard.putNumber("command set origin", angles[0]);
