@@ -66,48 +66,7 @@ public class ManualArm extends CommandBase{
 				//angles = _arm.getAngles(Arm2.FIRST_ARM_LENGTH, Arm2.SECOND_ARM_LENGTH, 1.07, 1.07, "R");//This should extend mostly fully, but not quite
 				break;
 		}
-<<<<<<< HEAD
 		SmartDashboard.putNumber("command set origin", angles[0]);
 		_arm.setAngles(angles);
     }
-=======
-		_originPid.setSetpoint(angles[0]);
-		_changePid.setSetpoint(angles[1]);
-		double _originSpeed = _originPid.calculate(_arm.getOriginEncoder());
-		double _changeSpeed = _changePid.calculate(_arm.getChangeEncoder());
-		if(Math.abs(_originSpeed) > _maxSpeed){
-			if(Math.sin(Units.degreesToRadians(_arm.getOriginEncoder())) < -Math.sqrt(2)/2){
-				_originSpeed = _maxDownSpeed * Math.signum(_originSpeed);
-			}else{
-				_originSpeed = _maxSpeed * Math.signum(_originSpeed);
-			}
-		}
-		if(Math.abs(_changeSpeed) > _maxSpeed){
-			if(Math.sin(Units.degreesToRadians(_arm.getChangeEncoder() + _arm.getOriginEncoder() * 5/7)) < -Math.sqrt(2)/2){
-			_changeSpeed = _maxDownSpeed * Math.signum(_changeSpeed);
-			}else{
-				_changeSpeed = _maxSpeed * Math.signum(_changeSpeed);
-			}
-		}
-
-		_arm.spinOrigin(_originSpeed);
-		_arm.spinChange(_changeSpeed);
-		//System.out.println(_arm.getOriginEncoder() + " " + angles[0]);
-	}
-
-	public boolean originIsFliped(){
-		return _originPid.atSetpoint();
-	}
-
-	public boolean _changeIsFliped(){
-		return _changePid.atSetpoint();
-	}
-
-	@Override
-	public void end(boolean interrupted) {
-		// sets arm back to 0
-		_arm.moveAngles(_speed, _arm.getAnglesOfRotation(0, 0));
-
-	}
->>>>>>> second-competion-merge
 }

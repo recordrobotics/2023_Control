@@ -7,12 +7,11 @@ package org.recordrobotics.charger;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.recordrobotics.charger.commands.manual.ArmPosition;
-import org.recordrobotics.charger.commands.manual.ManualArm;
-import org.recordrobotics.charger.commands.auto.AutoMoveArm;
-import org.recordrobotics.charger.commands.auto.FullAutoSequence;
 import org.recordrobotics.charger.commands.auto.AutoDrive;
+//import org.recordrobotics.charger.commands.auto.ParallelFullAuto;
+import org.recordrobotics.charger.commands.auto.TrajectoryPresets;
 import org.recordrobotics.charger.commands.manual.ManualClaw;
+import org.recordrobotics.charger.commands.manual.ManualArm;
 import org.recordrobotics.charger.commands.manual.ManualDrive;
 import org.recordrobotics.charger.commands.dash.DashRunFunc;
 import org.recordrobotics.charger.control.DoubleControl;
@@ -21,12 +20,15 @@ import org.recordrobotics.charger.control.SingleControl;
 import org.recordrobotics.charger.subsystems.*;
 import org.recordrobotics.charger.util.Pair;
 
+//import edu.wpi.first.math.estimator.DifferentialDrivePoseEstimator;
+//import edu.wpi.first.math.geometry.Pose2d;
+//import edu.wpi.first.math.geometry.Rotation2d;
+//import edu.wpi.first.math.kinematics.DifferentialDriveKinematics;
+import edu.wpi.first.math.trajectory.Trajectory;
+//import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
 import edu.wpi.first.math.controller.PIDController;
-import edu.wpi.first.math.estimator.DifferentialDrivePoseEstimator;
-import edu.wpi.first.math.kinematics.DifferentialDriveKinematics;
-import edu.wpi.first.math.trajectory.Trajectory;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import edu.wpi.first.wpilibj2.command.Subsystem;
@@ -42,21 +44,20 @@ public class RobotContainer {
 	// The robot's subsystems and commands are defined here...
 	//private TrajectoryPresets _trajectoryPresets;
 	private IControlInput _controlInput;
-	private Claw _claw;
+	//private Claw _claw;
 	private Drive _drive;
-	private DifferentialDrivePoseEstimator _estimator;
-	private DifferentialDriveKinematics _kinematics;
-	private ArrayList<Trajectory> _trajectories;
-	private NavSensor _navSensor;
-	private Vision _vision;
-	private Command armCommand;
+	//private DifferentialDrivePoseEstimator _estimator;
+	//private DifferentialDriveKinematics _kinematics;
+	//private ArrayList<Trajectory> _trajectories;
+	//private NavSensor _navSensor;
+	//private Vision _vision;
 	private Arm _arm;
 	private PIDController _pid1;
 	private PIDController _pid2;
 
 	// Commands
 	private List<Pair<Subsystem, Command>> _teleopPairs;
-	// private Command _autoCommand;
+	//private Command _autoCommand;
 
 	/** The container for the robot. Contains subsystems, OI devices, and commands. */
 	public RobotContainer() {
@@ -66,8 +67,10 @@ public class RobotContainer {
 		_controlInput = new SingleControl(RobotMap.Control.SINGLE_GAMEPAD);
 		_drive = new Drive();
 		//_navSensor = new NavSensor();
-		_claw = new Claw();
+		//_claw = new Claw();
 		_arm = new Arm();
+		_pid1 = new PIDController(0, 0, 0);
+		_pid2 = new PIDController(0, 0, 0);
 
 		//_vision = new Vision();
 		//_kinematics = new DifferentialDriveKinematics(Units.inchesToMeters(22));//This value should be confirmed when possible
@@ -85,7 +88,7 @@ public class RobotContainer {
 	private void initTeleopCommands() {
 		_teleopPairs = new ArrayList<>();
 		_teleopPairs.add(new Pair<Subsystem, Command>(_drive, new ManualDrive(_drive, _controlInput)));
-		_teleopPairs.add(new Pair<Subsystem, Command>(_claw, new ManualClaw(_claw, _controlInput)));
+		//_teleopPairs.add(new Pair<Subsystem, Command>(_claw, new ManualClaw(_claw, _controlInput)));
 		_teleopPairs.add(new Pair<Subsystem, Command>(_arm, new ManualArm(_arm, _controlInput, _pid1, _pid2)));
 	}
 
@@ -97,29 +100,13 @@ public class RobotContainer {
 
 	/**
 	 * Executes teleop commands
-	 */
+	 */	
 	public void teleopInit() {
 		for (Pair<Subsystem, Command> c : _teleopPairs) {
 			c.getKey().setDefaultCommand(c.getValue());
 		}
 	}
 
-	public void testInit() {
-		armCommand = new ManualArm(_arm, _controlInput, _pid1, _pid2);
-	}
-
-	public void testPeriodic() {
-		//_arm.periodic();
-	//	armCommand.execute();
-	}
-
-	public Command getAutonomousCommand() {
-		System.out.println("Auto Init");
-		resetCommands();
-		return new FullAutoSequence(_vision, _drive, _trajectories, _estimator, _navSensor, new AutoMoveArm(_arm, ArmPosition.NEUTRAL), _claw, _arm);
-	}
-
-/*
 	public Command getAutonomousCommand() {
 		return new AutoDrive(_drive,0.4,1750);
 		//new ParallelFullAuto(_vision, _drive, _arm, _claw, _pid1, _pid2, _trajectory, _estimator, _navSensor)
@@ -144,6 +131,10 @@ public class RobotContainer {
 		initTeleopCommands();
 		teleopInit();
 	}
+
+	public void testInit() {}
+
+	public void testPeriodic() {}
 
 	/**
 	 * Clear commands

@@ -26,7 +26,7 @@ public class ParallelFullAuto extends ParallelCommandGroup {
 		addCommands(
 			moveArm,
 
-			new FullAutoSequence(vision, drive, trajectory, estimator, nav, moveArm, claw)
+			new FullAutoSequence(vision, drive, trajectory, estimator, nav, moveArm, claw, arm)
 
 
 		);
