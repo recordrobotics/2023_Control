@@ -31,9 +31,9 @@ public class Arm extends SubsystemBase{
 
 	private PIDController _originPid;
 	private PIDController _changePid;
-	private static final double C_KP = 0.005;
-	private static final double C_KI = 0.001;
-	private static final double C_KD = 0.0005;
+	private static final double C_KP = 0.025;
+	private static final double C_KI = 0;
+	private static final double C_KD = 0;
 	private static final double O_KP = 0.025;
 	private static final double O_KI = 0;
 	private static final double O_KD = 0;
@@ -42,6 +42,9 @@ public class Arm extends SubsystemBase{
 	private double _originMaxSpeed = 0.5;
 	private double _changeMaxSpeed = 0.5;
 	private double[] prevAngles = {0, 0};
+
+	private double[] commandAngles = {0, 0};
+	private double rampConstant = 1;
 
 	private GenericEntry _entryAngles;
 
@@ -71,8 +74,8 @@ public class Arm extends SubsystemBase{
 	}
 
 	public void setAngles(double[] angles) {
-		_angles[0] = angles[0];
-		_angles[1] = angles[1];
+		commandAngles[0] = angles[0];
+		commandAngles[1] = angles[1];
 	}
 
 	public double[] getCurrentAngles() {
@@ -163,6 +166,18 @@ public class Arm extends SubsystemBase{
 
 	@Override
 	public void periodic() {
+
+		if(_angles[0] > commandAngles[0]) {
+			_angles[0] -= rampConstant;
+		} else if(_angles[0] < commandAngles[0]) {
+			_angles[0] += rampConstant;
+		}
+		if(_angles[1] > commandAngles[1]) {
+			_angles[1] -= rampConstant;
+		} else if(_angles[1] < commandAngles[1]) {
+			_angles[1] += rampConstant;
+		}
+
 		SmartDashboard.putNumber("Raw Origin Encoder", _originMotor.getSelectedSensorPosition());
 		SmartDashboard.putNumber("Raw Change Encoder", _changeMotor.getSelectedSensorPosition());
 		_entryAngles.setDoubleArray(_angles);
@@ -189,7 +204,7 @@ public class Arm extends SubsystemBase{
 		SmartDashboard.putNumber("Origin Speed", _originSpeed);
 		SmartDashboard.putNumber("Change Speed", _changeSpeed);
 		
-		spinOrigin(_originSpeed);
-		//spinChange(_changeSpeed);
+		//spinOrigin(_originSpeed);
+		spinChange(_changeSpeed);
 	}
 }
