@@ -5,6 +5,11 @@ import org.recordrobotics.charger.Constants;
 import com.kauailabs.navx.frc.AHRS;
 import edu.wpi.first.wpilibj.SPI;
 import edu.wpi.first.wpilibj.I2C;
+import edu.wpi.first.wpilibj.SerialPort;
+
+import edu.wpi.first.math.util.Units;
+
+import java.lang.*;
 
 
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
@@ -13,13 +18,11 @@ import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 public class NavSensor extends SubsystemBase {
-
-
-	//public AHRS _nav = new AHRS(SPI.Port.kMXP, AHRS.SerialDataType , byte 50);
-	public AHRS _nav = new AHRS(I2C.Port.kMXP);
-
+	AHRS _nav;
 
 	
+	//public AHRS _nav = new AHRS(SerialPort.Port.kUSB1);
+
 	//public NavSensor(){
 	//	ShuffleboardTab tab = Shuffleboard.getTab(Constants.DATA_TAB);
 	//	tab.add("Pitch", _nav.getPitch());
@@ -30,28 +33,30 @@ public class NavSensor extends SubsystemBase {
 
 	public NavSensor() {
 
-		_nav.calibrate();
+		_nav = new AHRS(SerialPort.Port.kUSB1);
+
+		_nav.reset();
+		_nav.resetDisplacement();
 
 		//_nav.enableBoardlevelYawReset​(true);
 	}
 
 	public double getPitch() {
-		return _nav.getPitch();
+		double pitch = _nav.getRoll();
+		return Units.degreesToRadians(pitch);
 	}
 
 	public double getRoll() {
-		return _nav.getRoll();
+		double roll = _nav.getPitch();
+		return Units.degreesToRadians(-1*roll);
 	}
 
 	public double getYaw() {
-
-		//System.out.println("YEE-YAW: " + _nav.getYaw());
-		//System.out.println("YEE-YAW2: " + _nav.isMoving());
-
-
-		return _nav.getYaw();
-
+		double yaw = _nav.getYaw();
+		return Units.degreesToRadians(-1*yaw);
 	}
+
+	//None of the below are guarenteed to work (weird axis changes)
 
 	public double getDisplacementX() {
 		return _nav.getDisplacementX();

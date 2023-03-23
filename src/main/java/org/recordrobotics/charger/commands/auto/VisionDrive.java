@@ -62,11 +62,12 @@ public class VisionDrive extends CommandBase {
 		_traj = trajectory;
 		_estimator = estimator;
 		_target = target;
-		_nav = nav;
 		_auto_start_time = auto_start_time;
 
 		//_ramseteController = new RamseteController(1, 0);
 		_ramseteController = new RamseteController();
+		_nav = new NavSensor();
+
 
 	}
 
@@ -91,9 +92,7 @@ public class VisionDrive extends CommandBase {
 
 
 		// Spoofs the nav sensor's yaw, then updates it
-		Rotation2d nav_sensor_spoof = new Rotation2d(
-			(_drive.getRightEncoder()-_drive.getLeftEncoder())/(2*Units.inchesToMeters(11)));
-		_estimator.update(nav_sensor_spoof, _drive.getLeftEncoder(), _drive.getRightEncoder());
+		_estimator.update(new Rotation2d(_nav.getYaw()), _drive.getLeftEncoder(), _drive.getRightEncoder());
 
 
 		//Rotation2d nav_sensor_spoof = new Rotation2d(
@@ -119,7 +118,7 @@ public class VisionDrive extends CommandBase {
 		System.out.println("Kalman filter pose: " + pose.getX() + ", " + pose.getY() + ", " + pose.getRotation().getRadians());
 		System.out.println("Desired pose: " + desiredPose);
 
-		var refChassisSpeeds = _ramseteController.calculate(pose, desiredPose);
+		//var refChassisSpeeds = _ramseteController.calculate(pose, desiredPose);
 
 
 		ChassisSpeeds adjustedspeeds = _ramseteController.calculate(pose, desiredPose);
