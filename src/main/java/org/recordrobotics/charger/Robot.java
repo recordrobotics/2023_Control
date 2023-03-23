@@ -133,7 +133,7 @@ public class Robot extends TimedRobot {
 	public void teleopPeriodic() {
 
 		//placholder
-		/*if (Vision.checkForTarget(_vision.camera)){
+		if (Vision.checkForTarget(_vision.camera)){
 			double[] globalPose = Vision.estimateGlobalPose(_vision.camera);
 			Pose2d visPose = new Pose2d(globalPose[0], globalPose[1], new Rotation2d(globalPose[2]));
 			_estimator.addVisionMeasurement(visPose, _timer.get());
@@ -146,7 +146,7 @@ public class Robot extends TimedRobot {
 
 		_estimator.update(nav_sensor_spoof, -1*_drive.getLeftEncoder()/1000, -1*_drive.getRightEncoder()/1000);
 		
-		Pose2d pose = _estimator.getEstimatedPosition();*/
+		Pose2d pose = _estimator.getEstimatedPosition();
 		
 		//System.out.print("yaw " + _navSensor.getYaw());
 		//System.out.println("y " + _navSensor.getDisplacementY());

@@ -1,11 +1,13 @@
 package org.recordrobotics.charger.commands.auto;
 
+import org.recordrobotics.charger.Robot;
 //import org.apache.commons.collections4.Get;
 import org.recordrobotics.charger.subsystems.Drive;
 import org.recordrobotics.charger.subsystems.NavSensor;
 import org.recordrobotics.charger.subsystems.Vision;
 
 import edu.wpi.first.math.trajectory.Trajectory;
+import edu.wpi.first.math.trajectory.Trajectory.State;
 import edu.wpi.first.math.controller.RamseteController;
 import edu.wpi.first.math.estimator.DifferentialDrivePoseEstimator;
 
@@ -39,6 +41,7 @@ public class VisionDrive extends CommandBase {
 	private int _target;
 	private Timer _timer;
 	private RamseteController _ramseteController;
+	private double startTime;
 
 	public double _auto_start_time;
 
@@ -146,6 +149,7 @@ public class VisionDrive extends CommandBase {
 	public void initialize() {
 		_timer = new Timer();
 		_timer.start();
+		startTime = _timer.getFPGATimestamp();
 		_vision.camera.setPipelineIndex(_target);
 	}
 
@@ -155,8 +159,9 @@ public class VisionDrive extends CommandBase {
 	@Override
 	public boolean isFinished() {
 
+		return _timer.getFPGATimestamp() - startTime >= _traj.getTotalTimeSeconds();
 		//change this lol
-		return false;
+		//return false;
 		//return Timer.getFPGATimestamp() > 10*_traj.getTotalTimeSeconds();
 	}
 
