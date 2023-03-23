@@ -7,6 +7,10 @@ import edu.wpi.first.wpilibj.SPI;
 import edu.wpi.first.wpilibj.I2C;
 import edu.wpi.first.wpilibj.SerialPort;
 
+import edu.wpi.first.math.util.Units;
+
+import java.lang.*;
+
 
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
@@ -31,22 +35,28 @@ public class NavSensor extends SubsystemBase {
 
 		_nav = new AHRS(SerialPort.Port.kUSB1);
 
-		//_nav.calibrate();
+		_nav.reset();
+		_nav.resetDisplacement();
 
 		//_nav.enableBoardlevelYawReset​(true);
 	}
 
-	public float getPitch() {
-		return _nav.getPitch();
+	public double getPitch() {
+		double pitch = _nav.getRoll();
+		return Units.degreesToRadians(pitch);
 	}
 
-	public float getRoll() {
-		return _nav.getRoll();
+	public double getRoll() {
+		double roll = _nav.getPitch();
+		return Units.degreesToRadians(-1*roll);
 	}
 
-	public float getYaw() {
-		return _nav.getYaw();
+	public double getYaw() {
+		double yaw = _nav.getYaw();
+		return Units.degreesToRadians(-1*yaw);
 	}
+
+	//None of the below are guarenteed to work (weird axis changes)
 
 	public double getDisplacementX() {
 		return _nav.getDisplacementX();
