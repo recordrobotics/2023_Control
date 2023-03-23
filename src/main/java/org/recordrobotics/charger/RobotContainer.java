@@ -80,7 +80,7 @@ public class RobotContainer {
 		//TODO: set an initial pose
 
 		_trajectoryPresets = new TrajectoryPresets();
-		_trajectories = _trajectoryPresets.SpinSpin9000();
+		_trajectories = _trajectoryPresets.testTraj2();
 
 		initTeleopCommands();
 		initDashCommands();
