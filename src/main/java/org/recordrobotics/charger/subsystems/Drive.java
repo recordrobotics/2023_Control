@@ -134,7 +134,7 @@ public class Drive extends SubsystemBase {
 	};
 
 	// Function that returns getdifferentialdrivewheelspeeds
-	public DifferentialDriveWheelSpeeds getwheelspeeds() {
+	public DifferentialDriveWheelSpeeds getWheelSpeeds() {
 		DifferentialDriveWheelSpeeds wheelspeeds = new DifferentialDriveWheelSpeeds(getLeftEncoder(), getRightEncoder());
 		return wheelspeeds;
 	}
