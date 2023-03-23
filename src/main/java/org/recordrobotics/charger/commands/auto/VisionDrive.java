@@ -42,7 +42,6 @@ public class VisionDrive extends CommandBase {
 	private int _target;
 	private Timer _timer;
 	private RamseteController _ramseteController;
-	private double startTime;
 
 	public double _auto_start_time;
 
