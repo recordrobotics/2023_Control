@@ -3,17 +3,36 @@
 // the WPILib BSD license file in the root directory of this project.
 
 package org.recordrobotics.charger;
+import org.recordrobotics.charger.subsystems.Drive;
+import org.recordrobotics.charger.subsystems.Vision;
+
+import edu.wpi.first.math.estimator.DifferentialDrivePoseEstimator;
+import edu.wpi.first.math.geometry.Pose2d;
+import edu.wpi.first.math.geometry.Rotation2d;
+import edu.wpi.first.math.kinematics.DifferentialDriveKinematics;
+import edu.wpi.first.math.util.Units;
+
 import edu.wpi.first.wpilibj.TimedRobot;
+import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.smartdashboard.Field2d;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 
+
 @SuppressWarnings({"PMD.SystemPrintln", "PMD.FieldNamingConventions"})
 public class Robot extends TimedRobot {
 	private RobotContainer _robotContainer;
 	private Command _autonomousCommand;
+	private Vision _vision;
+	private Timer _timer;
 
+	//private NavSensor _navSensor;
+
+	private Drive _drive;
+	private DifferentialDriveKinematics _kinematics = new DifferentialDriveKinematics(22);
+
+	private DifferentialDrivePoseEstimator _estimator /* = new DifferentialDrivePoseEstimator(_kinematics, null, kDefaultPeriod, kDefaultPeriod, null, null, null))*/;
 
 
 	@SuppressWarnings("PMD.SingularField")
@@ -29,7 +48,13 @@ public class Robot extends TimedRobot {
 		// Create container
 		_robotContainer = new RobotContainer();
 		field = new Field2d();
-		SmartDashboard.putData(field);
+		_vision = new Vision();
+		//_timer = new Timer();
+		//_navSensor = new NavSensor();
+		//_drive = new Drive();
+		//_kinematics = new DifferentialDriveKinematics(Units.inchesToMeters(22));//This value should be confirmed when possible
+		//_estimator = new DifferentialDrivePoseEstimator(_kinematics, new Rotation2d(_navSensor.getYaw()), _drive.getLeftEncoder(), _drive.getRightEncoder(), new Pose2d(2.54, 4.65, new Rotation2d(0))); //The default standard deviations of the model states are 0.02 meters for x, 0.02 meters for y, and 0.01 radians for heading. The default standard deviations of the vision measurements are 0.1 meters for x, 0.1 meters for y, and 0.1 radians for heading.
+		//SmartDashboard.putData(field);
 	}
 
 
@@ -41,6 +66,11 @@ public class Robot extends TimedRobot {
 		//System.out.println("Robot periodic");
 		// Run command scheduler
 		CommandScheduler.getInstance().run();
+		
+		//System.out.println("Yaw: " + _navSensor.getYaw());
+		//System.out.println(_navSensor.getPitch());
+		//System.out.println(_navSensor.getRoll());
+
 	}
 
 	/**
@@ -101,7 +131,29 @@ public class Robot extends TimedRobot {
 	*/
 	@Override
 	public void teleopPeriodic() {
+
 		//placholder
+		if (Vision.checkForTarget(_vision.camera)){
+			double[] globalPose = Vision.estimateGlobalPose(_vision.camera);
+			Pose2d visPose = new Pose2d(globalPose[0], globalPose[1], new Rotation2d(globalPose[2]));
+			_estimator.addVisionMeasurement(visPose, _timer.get());
+		}
+		
+		// Calculates angle measurements given encoder values
+		Rotation2d nav_sensor_spoof = new Rotation2d(
+			((-1*_drive.getRightEncoder()/1000)-(-1*_drive.getLeftEncoder()/1000))/(2*Units.inchesToMeters(11))
+		);
+
+		_estimator.update(nav_sensor_spoof, -1*_drive.getLeftEncoder()/1000, -1*_drive.getRightEncoder()/1000);
+		
+		Pose2d pose = _estimator.getEstimatedPosition();
+		
+		//System.out.print("yaw " + _navSensor.getYaw());
+		//System.out.println("y " + _navSensor.getDisplacementY());
+		//System.out.println("x " + _navSensor.getDisplacementX());
+		//System.out.println("encoders " + _drive.getLeftEncoder() + ", " + _drive.getRightEncoder());
+
+		//System.out.println(pose.getX() + ", " + pose.getY() + ", " + pose.getRotation().getRadians());
 		}
 
 

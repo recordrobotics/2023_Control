@@ -1,5 +1,6 @@
 package org.recordrobotics.charger.commands.auto;
 
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 
 import org.recordrobotics.charger.subsystems.Claw;
@@ -35,21 +36,12 @@ public class AutoMoveClaw extends CommandBase{
 	 */
 	@Override
 
-	public void initialize() {
+	public void execute() {
+		SmartDashboard.putBoolean("switch state", _claw.getSwitchState());
 		if (_status == _grab) {
-			if (_claw.getCurrent() > _claw._CURRENT_GRAB_THRESHOLD) {
-				_claw.turn(0);
-			}
-			else {
-				_claw.turn(-_speed);
-			}
+			_claw.turn(-_speed);
 		} else if (_status == _release) {
-			if (_claw.getSwitchState()) {
-				_claw.turn(_speed);
-			}
-			else {
-				_claw.turn(0);
-			}
+			_claw.turn(_speed);
 		}
 	}
 
@@ -58,7 +50,7 @@ public class AutoMoveClaw extends CommandBase{
 	 */
 	@Override
 	public boolean isFinished() {
-		return _claw.getSwitchState() || _claw.getCurrent() > _claw._CURRENT_GRAB_THRESHOLD;
+		return _claw.getSwitchState() || _claw.getPosition() > -0.4;
 	}
 
 	public void end(boolean interrupted) {

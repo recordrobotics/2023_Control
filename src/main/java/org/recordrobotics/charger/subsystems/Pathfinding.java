@@ -24,9 +24,9 @@ import edu.wpi.first.math.util.Units;
 @SuppressWarnings({"PMD"})
 public class Pathfinding {
 
-	public TrajectoryConfig forward = new TrajectoryConfig(6, 3);
-	public TrajectoryConfig backward = new TrajectoryConfig(6, 3);
-	public TrajectoryConfig slooooowwww = new TrajectoryConfig(2, 1);
+	public TrajectoryConfig forward = new TrajectoryConfig(3, 1);
+	public TrajectoryConfig backward = new TrajectoryConfig(3, 1);
+	public TrajectoryConfig slooooowwww = new TrajectoryConfig(1, 0.5);
 
 	char side;
 	ArrayList<Pose2d> scoreSpots;
@@ -39,6 +39,7 @@ public class Pathfinding {
 		// config = c;
 		double robotBuffer = 19;
 		routine = r;
+		backward.setReversed(true);
 
 		// coordinates for what side we're on
 		if(start.getX() < Units.inchesToMeters(325.16)) {
@@ -72,7 +73,6 @@ public class Pathfinding {
 			finalPath = scoring(start);
 		}
 
-		backward.setReversed(true);
 
 	}
 
@@ -114,10 +114,10 @@ public class Pathfinding {
 		trajectories.add(TrajectoryGenerator.generateTrajectory(path2, backward));
 
 		for(Pose2d p: path1) {
-			System.out.println(p.getX() + " " + p.getY() + " " + p.getRotation().getRadians());
+			//System.out.println(p.getX() + " " + p.getY() + " " + p.getRotation().getRadians());
 		}
 		for(Pose2d p: path2) {
-			System.out.println(p.getX() + " " + p.getY() + " " + p.getRotation().getRadians());
+			//System.out.println(p.getX() + " " + p.getY() + " " + p.getRotation().getRadians());
 		}
 
 		return trajectories;
@@ -243,7 +243,7 @@ public class Pathfinding {
 
 					double angle = Math.PI - Math.atan( (a.getY()-b.getY()) / (b.getX()-a.getX()) );
 					if(dir.equals("right")) angle += Math.PI;
-					System.out.println(angle);
+					//System.out.println(angle);
 					ret[0] = new Pose2d(bLeft.getX(), bLeft.getY(), new Rotation2d(angle));
 
 				} else if(rightIntersects) {
@@ -457,14 +457,14 @@ public class Pathfinding {
 				if(!reverse) {
 					if(cur.getX() > path.get(i-1).getX()) {
 						trajectories.add(TrajectoryGenerator.generateTrajectory(path.subList(begin, i), forward));
-						System.out.println(begin + " " + i + " " + reverse);
+						//System.out.println(begin + " " + i + " " + reverse);
 						begin = i-1;
 						reverse = true;
 					}
 				} else {
 					if(cur.getX() < path.get(i-1).getX()) {
 						trajectories.add(TrajectoryGenerator.generateTrajectory(path.subList(begin, i), backward));
-						System.out.println(begin + " " + i + " " + reverse);
+						//System.out.println(begin + " " + i + " " + reverse);
 						begin = i-1;
 						reverse = false;
 					}
@@ -474,14 +474,14 @@ public class Pathfinding {
 				if(!reverse) {
 					if(cur.getX() < path.get(i-1).getX()) {
 						trajectories.add(TrajectoryGenerator.generateTrajectory(path.subList(begin, i), forward));
-						System.out.println(begin + " " + i + " " + reverse);
+						//System.out.println(begin + " " + i + " " + reverse);
 						begin = i-1;
 						reverse = true;
 					}
 				} else {
 					if(cur.getX() > path.get(i-1).getX()) {
 						trajectories.add(TrajectoryGenerator.generateTrajectory(path.subList(begin, i), backward));
-						System.out.println(begin + " " + i + " " + reverse);
+						//System.out.println(begin + " " + i + " " + reverse);
 						begin = i-1;
 						reverse = false;
 					}
@@ -494,10 +494,10 @@ public class Pathfinding {
 		if(begin != path.size()-2) {
 			if(!reverse) {
 				trajectories.add(TrajectoryGenerator.generateTrajectory(path.subList(begin, path.size()), forward));
-				System.out.println(begin + " " + path.size() + " " + reverse);
+				//System.out.println(begin + " " + path.size() + " " + reverse);
 			} else {
 				trajectories.add(TrajectoryGenerator.generateTrajectory(path.subList(begin, path.size()), backward));
-				System.out.println(begin + " " + path.size() + " " + reverse);
+				//System.out.println(begin + " " + path.size() + " " + reverse);
 			}
 		}
 
@@ -531,8 +531,8 @@ public class Pathfinding {
 
 	public void printWaypoints(ArrayList<Pose2d> path) {
 		for(Pose2d p: path) {
-			System.out.println(p.getX() + " " + p.getY() + " " + p.getRotation().getRadians());
+			//System.out.println(p.getX() + " " + p.getY() + " " + p.getRotation().getRadians());
 		}
-		System.out.println();
+		//System.out.println();
 	}
 }

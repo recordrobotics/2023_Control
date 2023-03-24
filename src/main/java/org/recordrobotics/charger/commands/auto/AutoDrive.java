@@ -45,9 +45,9 @@ public class AutoDrive extends CommandBase {
 	@Override
 	public boolean isFinished() {
 		if (_direction == Direction.FORWARD) {
-			return _drive.getPosition() >= _targetDistance;
+			return _drive.getPosition()/1000 >= _targetDistance;
 		} else {
-			return _drive.getPosition() <= _targetDistance;
+			return _drive.getPosition()/1000 <= _targetDistance;
 		}
 	}
 	/**

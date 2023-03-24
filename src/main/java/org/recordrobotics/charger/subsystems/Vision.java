@@ -1,82 +1,87 @@
 package org.recordrobotics.charger.subsystems;
 
+//import org.apache.commons.collections4.functors.TransformerClosure;
 import org.photonvision.PhotonCamera;
 import org.photonvision.targeting.PhotonTrackedTarget;
 
-import edu.wpi.first.math.estimator.DifferentialDrivePoseEstimator;
-import edu.wpi.first.math.geometry.Pose2d;
-import edu.wpi.first.math.geometry.Rotation3d;
-import edu.wpi.first.math.geometry.Transform3d;
-import edu.wpi.first.math.geometry.Translation3d;
+import edu.wpi.first.math.geometry.*;
+
 import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+
+
 @SuppressWarnings({"PMD.SystemPrintln", "PMD.FieldNamingConventions"})
 public class Vision extends SubsystemBase{
+
 
 	public PhotonCamera camera = new PhotonCamera("OV5647"); //IMPORTANT: This camera name MUST match the one on the Raspberry Pi, accessible through the PhotonVision UI.
 	public Transform3d robotToCam = new Transform3d(new Translation3d(Units.inchesToMeters(11), -1*Units.inchesToMeters(9), 0.1725), new Rotation3d(0,0,0)); //The offset from the center of the robot to the camera, and from facing exactly forward to the orientation of the camera.
 	//TODO: SET TRANSFORM!!!!!!
 
-	static final double[][] tags = {//april tags 1-8 in order. values contained are x, y, z, theta, in that order. x, y, z are distances in meters, theta is in radians.
-		{15.513558, 1.071626, 0.462788, Math.PI}, //tag 1
-		{15.513558, 2.748026, 0.462788, Math.PI}, //tag 2
-		{15.513558, 4.424426, 0.462788, Math.PI}, //tag 3
-		{16.178784, 6.749796, 0.695452, Math.PI}, //tag 4
-		{0.36195, 6.749796, 0.695452, 0}, //tag 5
-		{1.02743, 4.424426, 0.462788, 0}, //tag 6
-		{1.02743, 2.748026, 0.462788, 0}, //tag 7
-		{1.02743, 1.071626, 0.462788, 0}}; //tag 8
-	double[] fieldDimensions = {16.54175, 8.0137};//x, y. The origin is at the bottom corner of the blue alliance wall as seen on the field drawings. 0 radians is parallel to the positive x-axis. Distances are meters.
+	// Sends photonvision camera output to shuffleboard
+	//public void runDriverMode() {
+	//	camera.setDriverMode(true);
+	//	camera.setPipelineIndex(2);
+	//}
 
-	public static double getTagAngle(PhotonTrackedTarget target){//Currently not in use, but being left in for future reference.
-		double bottomLeftY = target.getDetectedCorners().get(0).y;
-		double topRightX = target.getDetectedCorners().get(2).x;
-		double topLeftX = target.getDetectedCorners().get(3).x;
-		double topLeftY = target.getDetectedCorners().get(3).y;
-		double height = topLeftY - bottomLeftY;
-		double width = topLeftX - topRightX;
-		double angle = Math.PI - Math.asin(width/height);//necessary to get the angle off of the line normal to the tag
-		return angle;
-	}
+	static Transform3d[] tags = {//april tags 1-8 in order. values contained are x, y, z, theta, in that order. x, y, z are distances in meters, theta is in radians.
+		
+		new Transform3d(new Translation3d(15.513558, 1.071626, 0.462788), new Rotation3d(0,0,Math.PI)),
+		new Transform3d(new Translation3d(15.513558, 2.748026, 0.462788), new Rotation3d(0,0,Math.PI)),
+		new Transform3d(new Translation3d(15.513558, 4.424426, 0.462788), new Rotation3d(0,0,Math.PI)),
+		new Transform3d(new Translation3d(16.178784, 6.749796, 0.695452), new Rotation3d(0,0,Math.PI)),
+		new Transform3d(new Translation3d(0.36195, 6.749796, 0.695452), new Rotation3d(0,0,0)),
+		new Transform3d(new Translation3d(1.02743, 4.424426, 0.462788), new Rotation3d(0,0,0)),
+		new Transform3d(new Translation3d(1.02743, 2.748026, 0.462788), new Rotation3d(0,0,0)),
+		new Transform3d(new Translation3d(1.02743, 1.071626, 0.462788), new Rotation3d(0,0,0))
+	};
+	
+	public static double[] estimateGlobalPose(PhotonCamera camera) {
+		System.out.println("vision detected!");
 
-	public static double[] getVisionPoseEstimate(PhotonCamera camera, Transform3d robotToCam){
-		var result = camera.getLatestResult();//get a frame from the camera
-		boolean hasTargets = result.hasTargets();//check for targets. This MUST be checked for, otherwise an error will occur if there isn't a target.
-		if (hasTargets){
-			PhotonTrackedTarget target = result.getBestTarget();//Choose the closest Apriltag
-			int targetID = target.getFiducialId();//get the ID
-			Transform3d bestRobotToTarget = target.getBestCameraToTarget().plus(robotToCam.inverse());//getting the transform from the robot center to the tag. This transform's values are robot relative, and so will be converted to global coordinates.
-			//double yaw = target.getYaw()*Math.PI/180
-			double targetAngle = getTagAngle(target);//getting the angle to the robot from the center of the april tag.
-			double distance = Math.sqrt(bestRobotToTarget.getX()*bestRobotToTarget.getX() + bestRobotToTarget.getY()*bestRobotToTarget.getY());//getting the distance between the camera and tag from the x and y components of the transform.
-			double x_transform = Math.cos(targetAngle)*distance;//getting the x transform from the tag to the robot.
-			double y_transform = Math.sin(targetAngle)*distance;//getting the y transform from the tag to the robot.
-			double global_x = tags[targetID][0] + Math.cos(tags[targetID][3])*x_transform;//the x transform from the tag to the robot is added to the tag's x coordinate to get the robot's global x coordinate.
-			double global_y = tags[targetID][1] + y_transform;//the y transform from the tag to the robot is added to the tag's y coordinate to get the robot's global y coordinate.
-			double global_theta = tags[targetID][3] + Math.PI + bestRobotToTarget.getRotation().toRotation2d().getRadians(); //getting the orientation of the robot from the tag's orientation and the transform. Pi is added because if the camera sees the tag, it is necessarily looking in the direction opposite the tag's orientation.
-			double[] globalPose = {global_x, global_y, global_theta};//returns a [x, y, theta] vector. The z of the robot is irrelevant for pose estimation this year, and so ignored here.
-			return globalPose;
-		} else
-		return null;//if no tag is visible, nothing will be returned.
-	}
+		// Gets a frame from the camera
+		var result = camera.getLatestResult();
 
-	public static double[] getColoredObjectPose(PhotonCamera camera, Transform3d robotToCam, DifferentialDrivePoseEstimator estimator){//THIS DOES NOT WORK; NO 3D FUNCTIONS FOR THIS YEARS GAME PIECES
-		var result = camera.getLatestResult();//get a frame from the camera
-		boolean hasTargets = result.hasTargets();//check for targets. This MUST be checked for, otherwise an error will occur if there isn't a target.
-		if (hasTargets){
-			PhotonTrackedTarget target = result.getBestTarget();//Choose the closest colored object of the type being looked for
-			Transform3d bestRobotToTarget = target.getBestCameraToTarget().plus(robotToCam.inverse());//getting the transform from the robot center to the object. These coordinates are robot-relative, and so for trajectory following will be converted to global coordinates below.
-			Pose2d robotPose = estimator.getEstimatedPosition();
-			double distance = Math.sqrt(bestRobotToTarget.getX()*bestRobotToTarget.getX() + bestRobotToTarget.getY()*bestRobotToTarget.getY());//getting the distance between the camera and the object from the x and y components of the transform.
-			double globalX = Math.cos(robotPose.getRotation().getRadians())*distance;
-			double globalY = Math.sin(robotPose.getRotation().getRadians())*distance;
-			double globalTheta = bestRobotToTarget.getRotation().toRotation2d().getRadians() + robotPose.getRotation().getRadians();
-			double[] globalPose = {globalX, globalY, globalTheta};
-			return globalPose;
-		} else
-		return null;
-	}
+			// Gets target object from apriltag perspective photonvision
+			PhotonTrackedTarget target = result.getBestTarget();
+			// Gets the Transform3d object for april to robot
+			Transform3d robot_to_april = target.getBestCameraToTarget()/*.plus(robotToCam.inverse())*/; // you could put the offset here if you were testing for reals
+			Transform3d april_to_robot = robot_to_april.inverse();
+			// Gets the fiducial ID and uses it to get the correct transform 2d object
+			int targetID = target.getFiducialId();
+			Transform3d global_to_april = tags[targetID - 1];
+			// Adds the two transform objects together to get robot to global
+			Transform3d robot_to_global = global_to_april.plus(april_to_robot);
+
+			
+			// Calculates pitch, roll, and yaw
+			double w = robot_to_april.getRotation().getQuaternion().getW();
+			double x = robot_to_april.getRotation().getQuaternion().getX();
+			double y = robot_to_april.getRotation().getQuaternion().getY();
+			double z = robot_to_april.getRotation().getQuaternion().getZ();
+			
+			double roll  = Math.atan2(2*y*w - 2*x*z, 1 - 2*y*y - 2*z*z);
+			double pitch = Math.atan2(2*x*w - 2*y*z, 1 - 2*x*x - 2*z*z);
+			double yaw   = Math.asin(2*x*y + 2*z*w);
+
+
+			//Puts the important stuff on the SmartDashboard
+			//SmartDashboard.putNumber("X value", robot_to_global.getX());
+			//SmartDashboard.putNumber("Y value", robot_to_global.getY());
+			//SmartDashboard.putNumber("Z value", robot_to_global.getZ());
+			//SmartDashboard.putNumber("Angle (degrees)", robot_to_global.getRotation().toRotation2d().getDegrees());
+
+
+			// Returns final global pose
+			return new double[] {
+				robot_to_global.getX(), 
+				robot_to_global.getY(), 
+				robot_to_global.getZ(),
+				pitch, roll, yaw}; 
+		}
+
 
 	public static boolean checkForTarget(PhotonCamera camera){
 		var result = camera.getLatestResult();//get a frame from the camera
@@ -84,17 +89,5 @@ public class Vision extends SubsystemBase{
 		return hasTargets;
 	}
 
-	public static boolean checkForTargetAndAmbiguity(PhotonCamera camera){
-		var result = camera.getLatestResult();//get a frame from the camera
-		boolean hasTargets = result.hasTargets();//check for targets. This MUST be checked for, otherwise an error will occur if there isn't a target.
-		boolean ambiguityAcceptible = false;
-		if (hasTargets){
-			PhotonTrackedTarget target = result.getBestTarget();//Choose the closest Apriltag
-			ambiguityAcceptible = target.getPoseAmbiguity() <= 0.2;}
-		if (hasTargets && ambiguityAcceptible){
-			return true;
-		} else {
-			return false;
-		}
-}
+
 }
