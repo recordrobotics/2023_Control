@@ -21,8 +21,9 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 public class Arm extends SubsystemBase{
     private WPI_TalonFX _originMotor = new WPI_TalonFX(RobotMap.Arm.ORIGIN_MOTOR_PORT);
 	private WPI_TalonFX _changeMotor = new WPI_TalonFX(RobotMap.Arm.CHANGE_MOTOR_PORT);
-	public static final double FIRST_ARM_LENGTH = Units.inchesToMeters(40); // TODO: All of these lengths and angles are off slightly, and should be modified
-	public static final double SECOND_ARM_LENGTH = Units.inchesToMeters(20); // TODO: check all of these constants
+	public static final double FIRST_ARM_LENGTH = Units.inchesToMeters(38); //TODO: All of these lengths and angles are off slightly, and should be modified
+	public static final double SECOND_ARM_LENGTH = Units.inchesToMeters(28); //31 when claw is closed 
+	private static final double ARM_BASE_HEIGHT = 14.75;
     //private static final double FIRST_ARM_ZERO = Math.PI/3;
     //private static final double SECOND_ARM_ZERO = Math.PI;
 	private static final double TICKS_PER_REV = 2048;
@@ -90,11 +91,11 @@ public class Arm extends SubsystemBase{
         double gamma = Math.atan2(y, x);
         double theta1 = 0;
         double theta2 = 0;
-        if (direction == "R"){
+        if (direction.equals("R")){
             theta1 = gamma - alpha;
             theta2 = Math.PI - beta;
         }
-        else if(direction == "L"){
+        else if(direction.equals("L")){
             theta1 = gamma + alpha;
             theta2 = beta - Math.PI;
         }
