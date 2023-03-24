@@ -91,6 +91,9 @@ public class ManualArm extends CommandBase {
 				angles = _arm.resetPositions();
 				break;
 		}
+
+		angles[0] += 5 * _controls.changeOriginAngle().value();
+		
 		_originPid.setSetpoint(angles[0]);
 		_changePid.setSetpoint(angles[1]);
 		double _originSpeed = _originPid.calculate(_arm.getOriginEncoder());
