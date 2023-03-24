@@ -57,8 +57,8 @@ public class FullAutoSequence extends SequentialCommandGroup {
 				new AutoMoveArm(arm, _pos3),
 				new AutoMoveArm(arm, _pos2),
 				new AutoMoveArm(arm, _pos1),
-				new AutoMoveArm(arm, _pos4)
-				//new VisionDrive(vision, drive, trajectory.get(0), estimator, nav, 0)
+				new AutoMoveArm(arm, _pos4),
+				new VisionDrive(vision, drive, trajectory.get(0), estimator, nav, 0, auto_start_time)
 			);
 		}
 }
