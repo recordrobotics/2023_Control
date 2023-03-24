@@ -68,6 +68,10 @@ public class ManualArm extends CommandBase{
 				angles[1] = 10;
 				break;
 		}
+
+		angles[0] += 5 * _controls.changeOriginAngle().value();
+		angles[1] += 5 * _controls.changeChangeAngle().value();
+
 		SmartDashboard.putNumber("command set origin", angles[0]);
 		_arm.setAngles(angles);
     }
