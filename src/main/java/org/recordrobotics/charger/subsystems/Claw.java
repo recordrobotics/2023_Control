@@ -26,6 +26,8 @@ public class Claw extends SubsystemBase {
 
 	public double _CLOSED_CLAW_ENCODER = -0.4;
 	public double _CURRENT_GRAB_THRESHOLD = 5;
+	
+	public boolean _calibrated = false;
 
 	public Claw() {
 		_motor.set(0);
@@ -44,6 +46,7 @@ public class Claw extends SubsystemBase {
 		_encoderEntry.setDouble(getPosition());
 		if (!getSwitchState()) {
 			resetEncoders();
+			_calibrated = true;
 		}
 		SmartDashboard.putNumber("Voltage Output", getCurrent());
 	}

@@ -43,7 +43,7 @@ public class ManualClaw extends CommandBase {
 				}
 				break;
 			case GRABING:
-				if (_claw.getPosition() > -0.4) {
+				if (_claw.getPosition() > _claw._CLOSED_CLAW_ENCODER && _claw._calibrated) {
 					_claw.turn(-TURN_SPEED);
 				} else {
 					_claw.turn(0);
