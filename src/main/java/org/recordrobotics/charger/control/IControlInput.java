@@ -30,6 +30,25 @@ public interface IControlInput {
 	}
 
 	/**
+	 * indicates which way the arm angle should change
+	 */
+	enum ChangeAngle {
+		INCREASE(1),
+		DECREASE(-1),
+		REMAIN(0);
+		
+		private final int _value;
+
+		private ChangeAngle(int value) {
+			_value = value;
+		}
+
+		public int value() {
+			return _value;
+		}
+	}
+
+	/**
 	 * Logitudinal drive input (forward & backward) value
 	 *
 	 * @return [-1, 0) - backward; (0, 1] - forward
@@ -42,6 +61,20 @@ public interface IControlInput {
 	 * @return [-1, 0) - left; (0, 1] - right
 	 */
 	double getDriveLat();
+
+	/**
+	 * changes the origin motor angle
+	 * 
+	 * @return ChangeAngle.INCREASE - increase; ChangeAngle.DECREASE - decrease; ChangeAngle.REMAIN - no change
+	 */
+	ChangeAngle changeOriginAngle();
+
+	/**
+	 * changes the change motor angle
+	 * 
+	 * @return ChangeAngle.INCREASE - increase; ChangeAngle.DECREASE - decrease; ChangeAngle.REMAIN - no change
+	 */
+	ChangeAngle changeChangeAngle();
 
 	/**
 	 * Determines the speed the robot drives at

@@ -8,6 +8,11 @@ public class DoubleControl implements IControlInput {
 	@SuppressWarnings({"PMD.UnusedPrivateField","PMD.SingularField"})
 	private XboxController _gamepad2;
 
+	private boolean _xLeftActivated = false;
+	private boolean _xRightActivated = false;
+	private boolean _yLeftActivated = false;
+	private boolean _yRightActivated = false;
+
 	private double _TRIGGER_THRESHOLD = 0.75;
 
 	public DoubleControl(int port1, int port2) {
@@ -23,6 +28,40 @@ public class DoubleControl implements IControlInput {
 	@Override
 	public double getDriveLat() {
 		return -_gamepad1.getLeftX();
+	}
+
+	@Override
+	public ChangeAngle changeOriginAngle() {
+		if (_gamepad2.getRightX() > 0.5 && Math.abs(_gamepad2.getRightY()) < 0.5 && !_xRightActivated) {
+			_xRightActivated = true;
+			return ChangeAngle.INCREASE;
+		} else if (_gamepad2.getRightX() < 0.5) {
+			_xRightActivated = false;
+		}
+		if (_gamepad2.getRightX() < -0.5 && Math.abs(_gamepad2.getRightY()) < 0.5 && !_xLeftActivated) {
+			_xLeftActivated = true;
+			return ChangeAngle.DECREASE;
+		} else if (_gamepad2.getRightX() > -0.5) {
+			_xLeftActivated = false;
+		}
+		return ChangeAngle.REMAIN;
+	}
+
+	@Override
+	public ChangeAngle changeChangeAngle() {
+		if (_gamepad2.getRightY() > 0.5 && Math.abs(_gamepad2.getRightX()) < 0.5 && !_yRightActivated) {
+			_yRightActivated = true;
+			return ChangeAngle.INCREASE;
+		} else if (_gamepad2.getRightY() < 0.5) {
+			_yRightActivated = false;
+		}
+		if (_gamepad2.getRightY() < -0.5 && Math.abs(_gamepad2.getRightX()) < 0.5 && !_yLeftActivated) {
+			_yLeftActivated = true;
+			return ChangeAngle.DECREASE;
+		} else if (_gamepad2.getRightY() > -0.5) {
+			_yLeftActivated = false;
+		}
+		return ChangeAngle.REMAIN
 	}
 
 	@Override

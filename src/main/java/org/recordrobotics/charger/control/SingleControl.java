@@ -6,6 +6,11 @@ public class SingleControl implements IControlInput {
 
 	private XboxController _gamepad;
 
+	private boolean _xLeftActivated = false;
+	private boolean _xRightActivated = false;
+	private boolean _yLeftActivated = false;
+	private boolean _yRightActivated = false;
+
 	private double _TRIGGER_THRESHOLD = 0.25;
 
 	public SingleControl(int port) {
@@ -20,6 +25,40 @@ public class SingleControl implements IControlInput {
 	@Override
 	public double getDriveLat() {
 		return _gamepad.getLeftX();
+	}
+
+	@Override
+	public ChangeAngle changeOriginAngle() {
+		if (_gamepad.getRightX() > 0.5 && Math.abs(_gamepad.getRightY()) < 0.5 && !_xRightActivated) {
+			_xRightActivated = true;
+			return ChangeAngle.INCREASE;
+		} else if (_gamepad.getRightX() < 0.5) {
+			_xRightActivated = false;
+		}
+		if (_gamepad.getRightX() < -0.5 && Math.abs(_gamepad.getRightY()) < 0.5 && !_xLeftActivated) {
+			_xLeftActivated = true;
+			return ChangeAngle.DECREASE;
+		} else if (_gamepad.getRightX() > -0.5) {
+			_xLeftActivated = false;
+		}
+		return ChangeAngle.REMAIN;
+	}
+
+	@Override
+	public ChangeAngle changeChangeAngle() {
+		if (_gamepad.getRightY() > 0.5 && Math.abs(_gamepad.getRightX()) < 0.5 && !_yRightActivated) {
+			_yRightActivated = true;
+			return ChangeAngle.INCREASE;
+		} else if (_gamepad.getRightY() < 0.5) {
+			_yRightActivated = false;
+		}
+		if (_gamepad.getRightY() < -0.5 && Math.abs(_gamepad.getRightX()) < 0.5 && !_yLeftActivated) {
+			_yLeftActivated = true;
+			return ChangeAngle.DECREASE;
+		} else if (_gamepad.getRightY() > -0.5) {
+			_yLeftActivated = false;
+		}
+		return ChangeAngle.REMAIN;
 	}
 
 	@Override
