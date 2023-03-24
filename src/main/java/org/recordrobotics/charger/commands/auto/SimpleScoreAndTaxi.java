@@ -14,11 +14,9 @@ import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 public class SimpleScoreAndTaxi extends ParallelCommandGroup{
     public SimpleScoreAndTaxi(Drive drive, Arm arm, Claw claw, PIDController originPid, PIDController changePid, ArmPosition armPosition, double clawSpeed){
         addCommands(
-        //new AutoMoveArm(arm, originPid, changePid, armPosition),
-        //new AutoMoveClaw(claw, clawSpeed, -1),
+        new AutoMoveArm(arm, armPosition),
+        new AutoMoveClaw(claw, clawSpeed, -1),
         new AutoDrive(drive, 0.8, -3)
     );
     }
-
-    //addisfijinished
 }
