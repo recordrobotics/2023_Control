@@ -4,6 +4,9 @@
 
 package org.recordrobotics.charger;
 
+import edu.wpi.first.math.kinematics.DifferentialDriveKinematics;
+import edu.wpi.first.math.util.Units;
+
 /**
  * Put constants here
  */
@@ -29,5 +32,21 @@ public final class Constants {
 		public static final double CUBE_TOP_HEIGHT = 0.826389;
 		public static final double SUBSTATION_HEIGHT = 0.949327;
 	}
+
+
+	public static class DriveConstants  {
+		public static final double ksVolts = 8;
+		public static final double kvVoltSecondsPerMeter = 4;
+		public static final double kaVoltSecondsSquaredPerMeter = 2;
+		public final static DifferentialDriveKinematics kDriveKinematics = new DifferentialDriveKinematics(Units.inchesToMeters(22));
+	}
+
+	public static class AutoConstants {
+		public static final double kMaxSpeedMetersPerSecond = 3;
+		public static final double kMaxAccelerationMetersPerSecondSquared = 3;
+
+	}
+	
+	
 
 }

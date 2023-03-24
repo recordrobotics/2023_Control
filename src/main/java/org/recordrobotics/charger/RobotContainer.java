@@ -8,8 +8,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.recordrobotics.charger.commands.auto.AutoDrive;
-//import org.recordrobotics.charger.commands.auto.ParallelFullAuto;
 import org.recordrobotics.charger.commands.auto.TrajectoryPresets;
+
+import org.recordrobotics.charger.commands.auto.TestPreset;
 import org.recordrobotics.charger.commands.manual.ManualClaw;
 import org.recordrobotics.charger.commands.manual.ManualArm;
 import org.recordrobotics.charger.commands.manual.ManualDrive;
@@ -19,13 +20,16 @@ import org.recordrobotics.charger.control.IControlInput;
 import org.recordrobotics.charger.control.SingleControl;
 import org.recordrobotics.charger.subsystems.*;
 import org.recordrobotics.charger.util.Pair;
+import org.recordrobotics.charger.util.GetStartTime;
 
-//import edu.wpi.first.math.estimator.DifferentialDrivePoseEstimator;
-//import edu.wpi.first.math.geometry.Pose2d;
-//import edu.wpi.first.math.geometry.Rotation2d;
-//import edu.wpi.first.math.kinematics.DifferentialDriveKinematics;
+
+import edu.wpi.first.math.estimator.DifferentialDrivePoseEstimator;
+import edu.wpi.first.math.geometry.Pose2d;
+import edu.wpi.first.math.geometry.Rotation2d;
+import edu.wpi.first.math.kinematics.DifferentialDriveKinematics;
 import edu.wpi.first.math.trajectory.Trajectory;
-//import edu.wpi.first.math.util.Units;
+import edu.wpi.first.math.util.Units;
+import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
 import edu.wpi.first.math.controller.PIDController;
@@ -42,18 +46,19 @@ import edu.wpi.first.wpilibj2.command.Subsystem;
 @SuppressWarnings({"PMD.SingularField","PMD.UnusedPrivateField"})
 public class RobotContainer {
 	// The robot's subsystems and commands are defined here...
-	//private TrajectoryPresets _trajectoryPresets;
+	private TrajectoryPresets _trajectoryPresets;
 	private IControlInput _controlInput;
 	private Claw _claw;
 	private Drive _drive;
-	//private DifferentialDrivePoseEstimator _estimator;
-	//private DifferentialDriveKinematics _kinematics;
-	//private ArrayList<Trajectory> _trajectories;
-	//private NavSensor _navSensor;
-	//private Vision _vision;
+	private DifferentialDrivePoseEstimator _estimator;
+	private DifferentialDriveKinematics _kinematics;
+	private ArrayList<Trajectory> _trajectories;
+	private NavSensor _navSensor;
+	private Vision _vision;
 	private Arm _arm;
 	private PIDController _pid1;
 	private PIDController _pid2;
+	public GetStartTime _GetStartTime;
 
 	// Commands
 	private List<Pair<Subsystem, Command>> _teleopPairs;
@@ -64,22 +69,21 @@ public class RobotContainer {
 		resetCommands();
 
 		// Configure the button bindings
-		_controlInput = new SingleControl(RobotMap.Control.SINGLE_GAMEPAD);
+		_controlInput = new SingleControl((RobotMap.Control.SINGLE_GAMEPAD));
 		_drive = new Drive();
-		//_navSensor = new NavSensor();
+		_navSensor = new NavSensor();
 		_claw = new Claw();
 		_arm = new Arm();
 		_pid1 = new PIDController(0, 0, 0);
 		_pid2 = new PIDController(0, 0, 0);
 
-		//_vision = new Vision();
-		//_kinematics = new DifferentialDriveKinematics(Units.inchesToMeters(22));//This value should be confirmed when possible
-		//_estimator = new DifferentialDrivePoseEstimator(_kinematics, new Rotation2d(_navSensor.getYaw()), _drive.getLeftEncoder(), _drive.getRightEncoder(), new Pose2d(2.54, 4.65, new Rotation2d(0))); //The default standard deviations of the model states are 0.02 meters for x, 0.02 meters for y, and 0.01 radians for heading. The default standard deviations of the vision measurements are 0.1 meters for x, 0.1 meters for y, and 0.1 radians for heading.
+		_vision = new Vision();
+		_kinematics = new DifferentialDriveKinematics(Units.inchesToMeters(22));//This value should be confirmed when possible
+		_estimator = new DifferentialDrivePoseEstimator(_kinematics, new Rotation2d(_navSensor.getYaw()), _drive.getLeftEncoder(), _drive.getRightEncoder(), new Pose2d(2.54, 4.65, new Rotation2d(0))); //The default standard deviations of the model states are 0.02 meters for x, 0.02 meters for y, and 0.01 radians for heading. The default standard deviations of the vision measurements are 0.1 meters for x, 0.1 meters for y, and 0.1 radians for heading.
 		//TODO: set an initial pose
 
-		//_trajectoryPresets = new TrajectoryPresets();
-		//_trajectories = new ArrayList<Trajectory>();//TODO: replace this with whatever trajectory preset is relevant
-		//_trajectories.add(_trajectoryPresets.testTraj());
+		_trajectoryPresets = new TrajectoryPresets();
+		_trajectories = _trajectoryPresets.testTraj2();
 
 		initTeleopCommands();
 		initDashCommands();
@@ -109,9 +113,16 @@ public class RobotContainer {
 	}
 
 	public Command getAutonomousCommand() {
-		return new AutoDrive(_drive,0.4,1750);
-		//new ParallelFullAuto(_vision, _drive, _arm, _claw, _pid1, _pid2, _trajectory, _estimator, _navSensor)
+		_drive.resetEncoders(); // resets encoders
+		//return new TrajectoryPresets(_vision, _drive, _pid2, _pid1, _trajectories, _estimator, _navSensor);//new ParallelFullAuto(_vision, _drive, _arm, _claw, _pid1, _pid2, _trajectories, _estimator, _navSensor)//
+
+		double auto_start_time = Timer.getFPGATimestamp();
+
+		//return new ParallelFullAuto(_vision, _drive, _pid2, _pid1, _trajectories, _estimator, _navSensor);//new ParallelFullAuto(_vision, _drive, _arm, _claw, _pid1, _pid2, _trajectories, _estimator, _navSensor)
+		return new TestPreset(_vision, _drive, _trajectories, _estimator, _navSensor, _arm, _claw);
+		//return new FullAutoTest(_vision, _drive, _pid2, _pid1, _trajectories, _estimator, _navSensor, auto_start_time);//new ParallelFullAuto(_vision, _drive, _arm, _claw, _pid1, _pid2, _trajectories, _estimator, _navSensor)
 	}
+	
 	/**
 	 * Set control scheme to Single
 	 */

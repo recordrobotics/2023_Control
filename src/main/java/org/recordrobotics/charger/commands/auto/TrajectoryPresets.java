@@ -7,6 +7,7 @@ import org.recordrobotics.charger.subsystems.Pathfinding;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.trajectory.Trajectory;
+import edu.wpi.first.math.trajectory.TrajectoryConfig;
 import edu.wpi.first.math.trajectory.TrajectoryGenerator;
 import edu.wpi.first.math.util.Units;
 
@@ -23,7 +24,8 @@ public class TrajectoryPresets {
  * scoring: score repeatedly, only score
  */
 
-	private Pathfinding _pathfinding;
+    private Pathfinding _pathfinding;
+    public double traj_start_time;
 
 	public ArrayList<Trajectory> blueBottomScoring(){
 		Pose2d start = new Pose2d(1.74, 1.07, new Rotation2d(Math.PI));
@@ -213,14 +215,58 @@ public class TrajectoryPresets {
 		return traj;
 	}
 
-	public Trajectory testTraj(){
-		Pose2d start = new Pose2d(2.54, 4.65, new Rotation2d(0));//middle start, facing outwards
-			Pose2d outOfCommunity = new Pose2d(4.54, 4.65, new Rotation2d(0));
-			ArrayList<Pose2d> poses = new ArrayList<Pose2d>();
-			poses.add(start);
-			poses.add(outOfCommunity);
-			_pathfinding = new Pathfinding(start, poses, poses, "string");
-			Trajectory traj = TrajectoryGenerator.generateTrajectory(poses, _pathfinding.slooooowwww);
-			return traj;
-	}
+    public Trajectory testTraj(){
+        Pose2d start = new Pose2d(2.54, 4.65, new Rotation2d(0));//middle start, facing outwards
+            Pose2d outOfCommunity = new Pose2d(4.54, 4.65, new Rotation2d(0));
+            ArrayList<Pose2d> poses = new ArrayList<Pose2d>();
+            poses.add(start);
+            poses.add(outOfCommunity);
+            _pathfinding = new Pathfinding(start, poses, poses, "string");
+            Trajectory traj = TrajectoryGenerator.generateTrajectory(poses, _pathfinding.slooooowwww);
+            return traj;
+    }
+
+    public ArrayList<Trajectory> SpinSpin9000(){
+
+        Pose2d start = new Pose2d(2.54, 2.748, new Rotation2d(Math.PI));
+
+        ArrayList<Pose2d> score = new ArrayList<Pose2d>();
+        Pose2d score1 = new Pose2d(4, 2.74837, new Rotation2d(Math.PI));
+        score.add(score1);
+        
+        ArrayList<Pose2d> pieces = new ArrayList<Pose2d>();
+        //Pose2d piece1 = new Pose2d(4,2.748, new Rotation2d(Math.PI));
+        //pieces.add(piece1);
+
+        _pathfinding = new Pathfinding(start, score, pieces, "docking");
+        return _pathfinding.finalPath;  
+    }
+    
+    public ArrayList<Trajectory> testTraj2() {
+        ArrayList<Pose2d> list = new ArrayList<>();
+        ArrayList<Trajectory> ret = new ArrayList<>();
+
+        Pose2d start = new Pose2d(2.54, 2.748, new Rotation2d(Math.PI));
+        list.add(start);
+        list.add(new Pose2d(4, 2.748, new Rotation2d(Math.PI)));
+        list.add(new Pose2d(6, 4, new Rotation2d(Math.PI)));
+        list.add(new Pose2d(7.5, 2.748, new Rotation2d(Math.PI)));
+
+        TrajectoryConfig config = new TrajectoryConfig(3, 1);
+        config.setReversed(true);
+
+        ret.add(TrajectoryGenerator.generateTrajectory(list, config));
+
+        list.clear();
+        config.setReversed(false);
+
+        list.add(new Pose2d(7.5, 2.748, new Rotation2d(Math.PI)));
+        list.add(new Pose2d(6, 1.5, new Rotation2d(Math.PI)));
+        list.add(new Pose2d(4, 2.748, new Rotation2d(Math.PI)));
+
+        ret.add(TrajectoryGenerator.generateTrajectory(list, config));
+
+        return ret;
+
+    }
 }

@@ -14,18 +14,21 @@ import edu.wpi.first.math.estimator.DifferentialDrivePoseEstimator;
 import edu.wpi.first.math.trajectory.Trajectory;
 import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 
-public class ParallelFullAuto extends ParallelCommandGroup {
-	private ArmPosition _armPosition = ArmPosition.NEUTRAL;
+public class FullAutoTest extends ParallelCommandGroup {
+    private ArmPosition _armPosition = ArmPosition.NEUTRAL;
+    
 
 
-    public ParallelFullAuto(Vision vision, Drive drive, Arm arm, Claw claw, PIDController originPid, PIDController changePid, ArrayList<Trajectory> trajectory, DifferentialDrivePoseEstimator estimator, NavSensor nav, double auto_start_time){
+    public FullAutoTest(Vision vision, Drive drive, PIDController originPid, PIDController changePid, ArrayList<Trajectory> trajectory, DifferentialDrivePoseEstimator estimator, NavSensor nav, double auto_start_time){
        
-        //AutoMoveArm moveArm = new AutoMoveArm(arm, originPid, changePid, _armPosition);
+        System.out.println("auto move arm");
 
         addCommands(
-           // moveArm,
+            //moveArm,
 
-         //   new FullAutoSequence(vision, drive, trajectory, estimator, nav, moveArm, claw, auto_start_time)
-		);
-	}
+            new FullAutoSequenceTest(vision, drive, trajectory, estimator, nav, auto_start_time)
+        );
+    }
+
+    
 }

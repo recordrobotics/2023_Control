@@ -23,40 +23,42 @@ public class FullAutoSequence extends SequentialCommandGroup {
 	private double clawSpeed = 0.05;
 	private int clawGrab = 1;
 	private int clawRelease = -1;
+	private double trajStartTime;
 
 	/**
 	 * e
 	 */
-	public FullAutoSequence(Vision vision, Drive drive, ArrayList<Trajectory> trajectory, DifferentialDrivePoseEstimator estimator, NavSensor nav, AutoMoveArm mover, Claw claw, Arm arm){
-		String sequenceType = "test";
+	public FullAutoSequence(Vision vision, Drive drive, ArrayList<Trajectory> trajectory, DifferentialDrivePoseEstimator estimator, NavSensor nav, Arm arm, Claw claw, double auto_start_time){
+		//0 = scoring, 1 = docking, 2 = test
+		int sequenceType = 1;
 
-		if (sequenceType == "scoring"){
+		if (sequenceType == 0){
 		addCommands(
 			new AutoMoveArm(arm, _pos3),
 			new AutoMoveClaw(claw, clawSpeed, clawRelease),
-			//new VisionDrive(vision, drive, trajectory.get(0), estimator, nav, 0),//When colored object code gets implemented, use it here
+			new VisionDrive(vision, drive, trajectory.get(0), estimator, nav, 0, auto_start_time),//When colored object code gets implemented, use it here
 			new AutoMoveArm(arm, _pos2),
 			new AutoMoveClaw(claw, clawSpeed, clawGrab),
-			//new VisionDrive(vision, drive, trajectory.get(1), estimator, nav, 0),
+			new VisionDrive(vision, drive, trajectory.get(1), estimator, nav, 0, auto_start_time),
 			new AutoMoveArm(arm, _pos3),
 			new AutoMoveClaw(claw, clawSpeed, clawRelease)
 		);
 		}
-		else if (sequenceType == "docking"){
+		else if (sequenceType == 1){
 		addCommands(
 			new AutoMoveArm(arm, _pos3),
 			new AutoMoveClaw(claw, clawSpeed, clawRelease),
-			//new VisionDrive(vision, drive, trajectory.get(0), estimator, nav, 0),
+			new VisionDrive(vision, drive, trajectory.get(0), estimator, nav, 0, auto_start_time),
 			new ChargeStationBalance(drive, nav)
 		);
 		}
-		else if (sequenceType == "test"){
+		else if (sequenceType == 2){
 			addCommands(
 				new AutoMoveArm(arm, _pos3),
 				new AutoMoveArm(arm, _pos2),
 				new AutoMoveArm(arm, _pos1),
-				new AutoMoveArm(arm, _pos4)
-				//new VisionDrive(vision, drive, trajectory.get(0), estimator, nav, 0)
+				new AutoMoveArm(arm, _pos4),
+				new VisionDrive(vision, drive, trajectory.get(0), estimator, nav, 0, auto_start_time)
 			);
 		}
 }
