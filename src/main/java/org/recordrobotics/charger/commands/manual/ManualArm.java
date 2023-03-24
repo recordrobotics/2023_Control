@@ -93,6 +93,7 @@ public class ManualArm extends CommandBase {
 		}
 
 		angles[0] += 5 * _controls.changeOriginAngle().value();
+		angles[1] += 5 * _controls.changeChangeAngle().value();
 		
 		_originPid.setSetpoint(angles[0]);
 		_changePid.setSetpoint(angles[1]);

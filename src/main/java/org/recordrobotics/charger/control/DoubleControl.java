@@ -61,7 +61,7 @@ public class DoubleControl implements IControlInput {
 		} else if (_gamepad2.getRightY() > -0.5) {
 			_yLeftActivated = false;
 		}
-		return ChangeAngle.REMAIN
+		return ChangeAngle.REMAIN;
 	}
 
 	@Override
