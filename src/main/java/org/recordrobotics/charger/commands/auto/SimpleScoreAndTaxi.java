@@ -12,7 +12,7 @@ import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
  * This is a last resort, if nothing else about auto works
  */
 public class SimpleScoreAndTaxi extends ParallelCommandGroup{
-    public SimpleScoreAndTaxi(Drive drive/*, Arm arm, Claw claw, PIDController originPid, PIDController changePid, ArmPosition armPosition, double clawSpeed*/){
+    public SimpleScoreAndTaxi(Drive drive, Arm arm, Claw claw, PIDController originPid, PIDController changePid, ArmPosition armPosition, double clawSpeed){
         addCommands(
         //new AutoMoveArm(arm, originPid, changePid, armPosition),
         //new AutoMoveClaw(claw, clawSpeed, -1),

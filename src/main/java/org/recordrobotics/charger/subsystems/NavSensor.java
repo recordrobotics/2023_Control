@@ -34,7 +34,6 @@ public class NavSensor extends SubsystemBase {
 	public NavSensor() {
 
 		_nav = new AHRS(SerialPort.Port.kUSB1);
-
 		_nav.reset();
 		_nav.resetDisplacement();
 
