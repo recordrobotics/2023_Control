@@ -28,15 +28,14 @@ public class ManualArm extends CommandBase{
     @Override
 	public void execute() {
 		// sets arm motor angles based on which actions is needed
-		double[] angles = {0, 0};
-		switch (_controls.getArmPosition()) {//TODO: get better heights, and maybe differentiate between cubes and cones
-			case SECOND: // X Button
-				angles[0] = -30;
-				angles[1] = 30;
+		// TODO: Set actual cartesian coords for ALL POSITIONS
+		double[] angles;
+		switch (_controls.getArmPosition()) {
+			case SECOND:
+				angles = _arm.getRelatedAngles(_second);
 				break;
-			case THIRD: // Y button
-				angles[0] = -40;
-				angles[1] = 40;
+			case THIRD:
+				angles = _arm.getRelatedAngles(_third);
 				break;
 			case SUBSTATION: // B button
 				angles[0] = -35;

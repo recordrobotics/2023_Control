@@ -49,7 +49,10 @@ public class ManualClaw extends CommandBase {
 					_claw.turn(0);
 				}
 				break;
-		}
+			default:
+				_claw.turn(0);
+				break;
+			}
 	}
 
 

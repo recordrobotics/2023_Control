@@ -13,7 +13,6 @@ import org.recordrobotics.charger.commands.auto.TrajectoryPresets;
 import org.recordrobotics.charger.commands.auto.TestPreset;
 import org.recordrobotics.charger.commands.manual.ManualClaw;
 import org.recordrobotics.charger.commands.manual.ManualArm;
-import org.recordrobotics.charger.commands.manual.ManualArm2;
 import org.recordrobotics.charger.commands.manual.ManualDrive;
 import org.recordrobotics.charger.commands.dash.DashRunFunc;
 import org.recordrobotics.charger.control.DoubleControl;
@@ -63,7 +62,7 @@ public class RobotContainer {
 
 	// Commands
 	private List<Pair<Subsystem, Command>> _teleopPairs;
-	private Command _autoCommand;
+	//private Command _autoCommand;
 
 	/** The container for the robot. Contains subsystems, OI devices, and commands. */
 	public RobotContainer() {
@@ -105,8 +104,9 @@ public class RobotContainer {
 
 	/**
 	 * Executes teleop commands
-	 */
+	 */	
 	public void teleopInit() {
+		_arm.resetPID();
 		for (Pair<Subsystem, Command> c : _teleopPairs) {
 			c.getKey().setDefaultCommand(c.getValue());
 		}
@@ -143,6 +143,10 @@ public class RobotContainer {
 		initTeleopCommands();
 		teleopInit();
 	}
+
+	public void testInit() {}
+
+	public void testPeriodic() {}
 
 	/**
 	 * Clear commands
