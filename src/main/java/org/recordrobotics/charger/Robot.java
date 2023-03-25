@@ -4,7 +4,7 @@
 
 package org.recordrobotics.charger;
 import org.recordrobotics.charger.subsystems.Drive;
-import org.recordrobotics.charger.subsystems.Vision;
+//import org.recordrobotics.charger.subsystems.Vision;
 
 import edu.wpi.first.math.estimator.DifferentialDrivePoseEstimator;
 import edu.wpi.first.math.geometry.Pose2d;
@@ -24,7 +24,7 @@ import edu.wpi.first.wpilibj2.command.CommandScheduler;
 public class Robot extends TimedRobot {
 	private RobotContainer _robotContainer;
 	private Command _autonomousCommand;
-	private Vision _vision;
+	//private Vision _vision;
 	private Timer _timer;
 
 	//private NavSensor _navSensor;
@@ -47,7 +47,7 @@ public class Robot extends TimedRobot {
 		// Create container
 		_robotContainer = new RobotContainer();
 		field = new Field2d();
-		_vision = new Vision();
+		//_vision = new Vision();
 		//_timer = new Timer();
 		//_navSensor = new NavSensor();
 		//_drive = new Drive();
@@ -132,21 +132,21 @@ public class Robot extends TimedRobot {
 	public void teleopPeriodic() {
 
 		//placholder
-		if (Vision.checkForTarget(_vision.camera)){
+		/*if (Vision.checkForTarget(_vision.camera)){
 			double[] globalPose = Vision.estimateGlobalPose(_vision.camera);
 			Pose2d visPose = new Pose2d(globalPose[0], globalPose[1], new Rotation2d(globalPose[2]));
 			_estimator.addVisionMeasurement(visPose, _timer.get());
-		}
+		}*/
 		
 		// Calculates angle measurements given encoder values
-		Rotation2d nav_sensor_spoof = new Rotation2d(
+		/*Rotation2d nav_sensor_spoof = new Rotation2d(
 			((-1*_drive.getRightEncoder()/1000)-(-1*_drive.getLeftEncoder()/1000))/(2*Units.inchesToMeters(11))
 		);
 
 		_estimator.update(nav_sensor_spoof, -1*_drive.getLeftEncoder()/1000, -1*_drive.getRightEncoder()/1000);
 		
 		Pose2d pose = _estimator.getEstimatedPosition();
-		
+		*/
 		//System.out.print("yaw " + _navSensor.getYaw());
 		//System.out.println("y " + _navSensor.getDisplacementY());
 		//System.out.println("x " + _navSensor.getDisplacementX());
