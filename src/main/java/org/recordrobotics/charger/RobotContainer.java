@@ -8,7 +8,13 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.recordrobotics.charger.commands.auto.AutoDrive;
+<<<<<<< HEAD
 /*import org.recordrobotics.charger.commands.auto.SimpleScoreAndTaxi;
+=======
+import org.recordrobotics.charger.commands.auto.MoveToChargeStation;
+import org.recordrobotics.charger.commands.auto.SelfStationBalance;
+import org.recordrobotics.charger.commands.auto.SimpleScoreAndTaxi;
+>>>>>>> 6d0f2108a53a47ca232a00a2aafaf55281236038
 import org.recordrobotics.charger.commands.auto.SimpleScoreTaxiDock;
 import org.recordrobotics.charger.commands.auto.TrajectoryPresets;
 
@@ -116,12 +122,24 @@ public class RobotContainer {
 	}
 
 	public Command getAutonomousCommand() {
+
+		// Gets nav sensors offset
+		double nav_offset = _navSensor.getPitch();
+
 		_drive.resetEncoders(); // resets encoders
 		//return new TrajectoryPresets(_vision, _drive, _pid2, _pid1, _trajectories, _estimator, _navSensor);//new ParallelFullAuto(_vision, _drive, _arm, _claw, _pid1, _pid2, _trajectories, _estimator, _navSensor)//
 
+<<<<<<< HEAD
 		double auto_start_time = Timer.getFPGATimestamp();
 		return new AutoDrive(_drive, 0.3, 3);
 		//return new SimpleScoreAndTaxi(_drive, _arm, _claw,  ArmPosition.SECOND);
+=======
+		//double auto_start_time = Timer.getFPGATimestamp();
+		//return new SimpleScoreAndTaxi(_drive, _arm, _claw,  ArmPosition.SECOND);
+
+		return new MoveToChargeStation(_drive, _navSensor, nav_offset);
+		//return new SelfStationBalance(_drive, _navSensor, nav_offset);
+>>>>>>> 6d0f2108a53a47ca232a00a2aafaf55281236038
 		//return new SimpleScoreTaxiDock(_drive, _navSensor, _arm, _claw, ArmPosition.SECOND);
 		//return new ParallelFullAuto(_vision, _drive, _pid2, _pid1, _trajectories, _estimator, _navSensor);//new ParallelFullAuto(_vision, _drive, _arm, _claw, _pid1, _pid2, _trajectories, _estimator, _navSensor)
 		//return new TestPreset(_vision, _drive, _trajectories, _estimator, _navSensor, _arm, _claw);

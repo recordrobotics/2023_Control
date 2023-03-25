@@ -131,6 +131,7 @@ public class Robot extends TimedRobot {
 	@Override
 	public void teleopPeriodic() {
 
+<<<<<<< HEAD
 		//placholder
 		/*if (Vision.checkForTarget(_vision.camera)){
 			double[] globalPose = Vision.estimateGlobalPose(_vision.camera);
@@ -153,6 +154,8 @@ public class Robot extends TimedRobot {
 		//System.out.println("encoders " + _drive.getLeftEncoder() + ", " + _drive.getRightEncoder());
 
 		//System.out.println(pose.getX() + ", " + pose.getY() + ", " + pose.getRotation().getRadians());
+=======
+>>>>>>> 6d0f2108a53a47ca232a00a2aafaf55281236038
 		}
 
 	@Override
