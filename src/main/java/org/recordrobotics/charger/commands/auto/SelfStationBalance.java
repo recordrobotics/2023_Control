@@ -88,7 +88,7 @@ public class SelfStationBalance extends CommandBase {
 		//
 
 		// Sets speed
-		_drive.move(-0.18, 0);
+		_drive.move(-0.17, 0);
 		//
 	}
 
