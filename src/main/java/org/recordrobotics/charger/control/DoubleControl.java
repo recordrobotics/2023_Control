@@ -14,6 +14,20 @@ public class DoubleControl implements IControlInput {
 
 	private double _TRIGGER_THRESHOLD = 0.75;
 
+
+	//
+	//
+	//	
+	// THE CONSTANT IS HERE
+	//
+	private double IS_FLIPPED_CONSTANT = 1;
+	//
+	//
+	// IF FLIPPED CHANGED CONSTANT TO -1
+	//
+	//
+	
+	
 	public DoubleControl(int port1, int port2) {
 		_gamepad1 = new XboxController(port1);
 		_gamepad2 = new XboxController(port2);
@@ -48,16 +62,25 @@ public class DoubleControl implements IControlInput {
 
 	@Override
 	public ChangeAngle changeChangeAngle() {
-		if (_gamepad2.getRightY() > 0.5 && !_yRightActivated) {
+
+
+		double gamepad_with_flip = _gamepad2.getRightY() * IS_FLIPPED_CONSTANT;
+
+
+
+		if (gamepad_with_flip > 0.5 && !_yRightActivated) {
 			_yRightActivated = true;
 			return ChangeAngle.INCREASE;
-		} else if (_gamepad2.getRightY() < 0.5) {
+
+		} else if (gamepad_with_flip < 0.5) {
 			_yRightActivated = false;
 		}
-		if (_gamepad2.getRightY() < -0.5 && !_yLeftActivated) {
+
+		if (gamepad_with_flip < -0.5 && !_yLeftActivated) {
 			_yLeftActivated = true;
 			return ChangeAngle.DECREASE;
-		} else if (_gamepad2.getRightY() > -0.5) {
+
+		} else if (gamepad_with_flip > -0.5) {
 			_yLeftActivated = false;
 		}
 		return ChangeAngle.REMAIN;

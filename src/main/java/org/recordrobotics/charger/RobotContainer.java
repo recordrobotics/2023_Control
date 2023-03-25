@@ -19,6 +19,7 @@ import org.recordrobotics.charger.commands.manual.ManualClaw;
 //import org.recordrobotics.charger.commands.manual.ArmPosition;
 //import org.recordrobotics.charger.commands.manual.ManualArm;
 import org.recordrobotics.charger.commands.manual.ManualDrive;
+import org.recordrobotics.charger.commands.manual.ManualSingleArm;
 import org.recordrobotics.charger.commands.dash.DashRunFunc;
 import org.recordrobotics.charger.control.DoubleControl;
 import org.recordrobotics.charger.control.IControlInput;
@@ -60,7 +61,7 @@ public class RobotContainer {
 	private ArrayList<Trajectory> _trajectories;
 	private NavSensor _navSensor;
 	private Vision _vision;
-	private Arm _arm;
+	private SingleSegmentArm _singleSegmentArm;
 	private PIDController _pid1;
 	private PIDController _pid2;
 	public GetStartTime _GetStartTime;
@@ -78,7 +79,7 @@ public class RobotContainer {
 		_drive = new Drive();
 		_navSensor = new NavSensor();
 		_claw = new Claw();
-		_arm = new Arm();
+		_singleSegmentArm = new SingleSegmentArm();
 		_pid1 = new PIDController(0, 0, 0);
 		_pid2 = new PIDController(0, 0, 0);
 
@@ -98,6 +99,8 @@ public class RobotContainer {
 		_teleopPairs = new ArrayList<>();
 		_teleopPairs.add(new Pair<Subsystem, Command>(_drive, new ManualDrive(_drive, _controlInput)));
 		_teleopPairs.add(new Pair<Subsystem, Command>(_claw, new ManualClaw(_claw, _controlInput)));
+		_teleopPairs.add(new Pair<Subsystem, Command>(_singleSegmentArm, new ManualSingleArm(_singleSegmentArm, _controlInput)));
+
 	}
 
 	private void initDashCommands() {
@@ -110,7 +113,7 @@ public class RobotContainer {
 	 * Executes teleop commands
 	 */	
 	public void teleopInit() {
-		_arm.resetPID();
+		_singleSegmentArm.resetPID();
 		for (Pair<Subsystem, Command> c : _teleopPairs) {
 			c.getKey().setDefaultCommand(c.getValue());
 		}
