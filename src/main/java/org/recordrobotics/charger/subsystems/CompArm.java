@@ -108,4 +108,7 @@ public class CompArm extends SubsystemBase{
 		
 		spinOrigin(_originSpeed);
 	}
+	public boolean originAtSetpoint() {
+		return _originPid.atSetpoint();
+	}
 }

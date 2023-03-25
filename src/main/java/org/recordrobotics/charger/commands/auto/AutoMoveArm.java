@@ -42,7 +42,7 @@ public class AutoMoveArm extends CommandBase {
 	public void execute() {
 		// sets arm motor angles based on which actions is needed
 		// TODO: Set actual cartesian coords for ALL POSITIONS
-		double[] angles = {0, 0};
+		double[] angles = {-84};
 		_arm.setAngles(angles);
 	}
 

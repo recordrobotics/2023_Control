@@ -80,15 +80,17 @@ public class SelfStationBalance extends CommandBase {
 		//
 
 		// marks done if the moving average of pitch is less than 
-		if (average < 0.0873 /*5 degrees*/) {
+		if (average < 0.04 /*5 degrees = 0.0873*/) {
+			System.out.println("degree");
 			_are_we_done_yet = true;}
 		// marks done if the moving average of the derivative is less than 0
 		if (d_average < 0 /*5 degrees*/) {
+			System.out.println("deriv");
 			_are_we_done_yet = true;}
 		//
 
 		// Sets speed
-		_drive.move(-0.17, 0);
+		_drive.move(-0.2, 0);
 		//
 	}
 

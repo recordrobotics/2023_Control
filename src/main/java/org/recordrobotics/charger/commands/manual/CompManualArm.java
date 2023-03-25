@@ -36,5 +36,8 @@ public class CompManualArm extends CommandBase{
         // TODO Auto-generated method stub
 		angles[0] += _controls.compArm() * _speedMod;
         _arm.setAngles(angles);
+
+		System.out.println(angles[0]);
+
     }
 }
