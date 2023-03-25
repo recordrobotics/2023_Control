@@ -8,10 +8,13 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.recordrobotics.charger.commands.auto.AutoDrive;
+import org.recordrobotics.charger.commands.auto.SimpleScoreAndTaxi;
+import org.recordrobotics.charger.commands.auto.SimpleScoreTaxiDock;
 import org.recordrobotics.charger.commands.auto.TrajectoryPresets;
 
 import org.recordrobotics.charger.commands.auto.TestPreset;
 import org.recordrobotics.charger.commands.manual.ManualClaw;
+import org.recordrobotics.charger.commands.manual.ArmPosition;
 import org.recordrobotics.charger.commands.manual.ManualArm;
 import org.recordrobotics.charger.commands.manual.ManualDrive;
 import org.recordrobotics.charger.commands.dash.DashRunFunc;
@@ -117,9 +120,10 @@ public class RobotContainer {
 		//return new TrajectoryPresets(_vision, _drive, _pid2, _pid1, _trajectories, _estimator, _navSensor);//new ParallelFullAuto(_vision, _drive, _arm, _claw, _pid1, _pid2, _trajectories, _estimator, _navSensor)//
 
 		double auto_start_time = Timer.getFPGATimestamp();
-
+		return new SimpleScoreAndTaxi(_drive, _arm, _claw,  ArmPosition.SECOND);
+		//return new SimpleScoreTaxiDock(_drive, _navSensor, _arm, _claw, ArmPosition.SECOND);
 		//return new ParallelFullAuto(_vision, _drive, _pid2, _pid1, _trajectories, _estimator, _navSensor);//new ParallelFullAuto(_vision, _drive, _arm, _claw, _pid1, _pid2, _trajectories, _estimator, _navSensor)
-		return new TestPreset(_vision, _drive, _trajectories, _estimator, _navSensor, _arm, _claw);
+		//return new TestPreset(_vision, _drive, _trajectories, _estimator, _navSensor, _arm, _claw);
 		//return new FullAutoTest(_vision, _drive, _pid2, _pid1, _trajectories, _estimator, _navSensor, auto_start_time);//new ParallelFullAuto(_vision, _drive, _arm, _claw, _pid1, _pid2, _trajectories, _estimator, _navSensor)
 	}
 	
