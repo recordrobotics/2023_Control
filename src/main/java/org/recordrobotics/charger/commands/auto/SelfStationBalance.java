@@ -58,7 +58,7 @@ public class SelfStationBalance extends CommandBase {
 		for (int i=1;i<_measurement_list.length;i++) {
 			_measurement_list[i-1] = _measurement_list[i];
 		}
-		_measurement_list[_measurement_list.length-1] = _nav.getPitch() - _nav_offset;
+		_measurement_list[_measurement_list.length-1] = -1*(_nav.getPitch() - _nav_offset); //-1 because facing backwards
 
 		// Takes average
 		int sum = 0;
