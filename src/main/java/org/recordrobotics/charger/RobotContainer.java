@@ -133,12 +133,12 @@ public class RobotContainer {
 		//return new SimpleScoreAndTaxi(_drive, _arm, _claw,  ArmPosition.SECOND);
 
 
-		//return new AutoDrive(_drive, 0.5, 2.5);
+		return new AutoDrive(_drive, 0.5, 2.5);
 
 
 
 
-		return new MoveToChargeStation(_drive, _navSensor, nav_offset);
+		//return new MoveToChargeStation(_drive, _navSensor, nav_offset);
 		//return new SelfStationBalance(_drive, _navSensor, nav_offset);
 		//return new SimpleScoreTaxiDock(_drive, _navSensor, _arm, _claw, ArmPosition.SECOND);
 		//return new ParallelFullAuto(_vision, _drive, _pid2, _pid1, _trajectories, _estimator, _navSensor);//new ParallelFullAuto(_vision, _drive, _arm, _claw, _pid1, _pid2, _trajectories, _estimator, _navSensor)
