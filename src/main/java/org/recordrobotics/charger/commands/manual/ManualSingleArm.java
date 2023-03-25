@@ -14,6 +14,8 @@ public class ManualSingleArm extends CommandBase{
 
 	private double _changeOffset;
 
+    private double[] angles = {0,0};
+
     public ManualSingleArm(SingleSegmentArm arm, IControlInput controls, PIDController changePid) {
 		if (arm == null) {
 			throw new IllegalArgumentException("Arm is null");
@@ -25,59 +27,37 @@ public class ManualSingleArm extends CommandBase{
 		_arm = arm;
 		_controls = controls;
 
+
 		addRequirements(arm);
+
 	}
 
     @Override
 	public void execute() {
 		// sets arm motor angles based on which actions is needed
-		double[] angles = {0, 0};
-		switch (_controls.getArmPosition()) {//TODO: get better heights, and maybe differentiate between cubes and cones
-			case SECOND: // X Button -- working
-				angles[0] = -40;
-				angles[1] = 45;
+		//angle = {0, 0};
+		switch (_controls.changeChangeAngle()) {//TODO: get better heights, and maybe differentiate between cubes and cones
+			case INCREASE: 
+				angles[1] += 0.3;
 				break;
-			case THIRD: // Y button -- NEEDS TUNING
-				angles[0] = -40;
-				angles[1] = 50;
+			case DECREASE:
+				angles[1] += -0.3;
 				break;
-			case SUBSTATION: // B button
-				angles[0] = -35;
-				angles[1] = 35;
+			case REMAIN: // B button
+				//angles[1] += 0;
 				break;
-			case GROUND://How far away must we be, A button
-				angles[0] = -20;
-				angles[1] = 10;
-				break;
-	//		case THIRD:
-	//			angles = _arm.getAngles(Arm2.FIRST_ARM_LENGTH, Arm2.SECOND_ARM_LENGTH, Constants.FieldElements.DISTANCE_TO_FAR_NODE, Constants.FieldElements.CUBE_TOP_HEIGHT, "L");
-	//			break;
-	//		case GROUND://How far away must we be
-	//			//angles = null; this still needs to be fixed
-	//			angles = _arm.getAngles(Arm2.FIRST_ARM_LENGTH, Arm2.SECOND_ARM_LENGTH, Constants.FieldElements.DISTANCE_TO_FAR_NODE, Constants.FieldElements.CUBE_TOP_HEIGHT, "L");
-	//			break;
-	//		case SUBSTATION:
-	//			angles = _arm.getAnglesRestricted(Arm2.FIRST_ARM_LENGTH, Arm2.SECOND_ARM_LENGTH, Constants.FieldElements.SUBSTATION_HEIGHT);
-	//			break;
-		//	case FLIP_GROUND_ORIGIN://What is this?
-		//		angles = null;
-		//		break;
-		//	case FLIP_GROUND_CHANGE://What is this?
-		//		angles = null;
-		//		break;
+
 			default:
-				//angles = _arm.getAngles(Arm2.FIRST_ARM_LENGTH, Arm2.SECOND_ARM_LENGTH, 1.07, 1.07, "R");//This should extend mostly fully, but not quite
-				angles[0] = -20;
-				angles[1] = 10;
-				_changeOffset = 0;
+				//angles[1] = 10;
+				//_changeOffset = 0;
 				break;
 		}
 
 		_changeOffset += 5 * _controls.changeChangeAngle().value();
-
 		angles[1] += _changeOffset;
 
 		SmartDashboard.putNumber("command set origin", angles[0]);
+
 		_arm.setAngles(angles);
     }
 }

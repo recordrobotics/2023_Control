@@ -141,11 +141,11 @@ public class SingleSegmentArm extends SubsystemBase{
 	@Override
 	public void periodic() {
 
-		if(_angles[0] > commandAngles[0]) {
+		/*if(_angles[0] > commandAngles[0]) {
 			_angles[0] -= rampConstant;
 		} else if(_angles[0] < commandAngles[0]) {
 			_angles[0] += rampConstant;
-		}
+		}*/
 		if(_angles[1] > commandAngles[1]) {
 			_angles[1] -= rampConstant;
 		} else if(_angles[1] < commandAngles[1]) {
@@ -164,7 +164,8 @@ public class SingleSegmentArm extends SubsystemBase{
 
 		double changePos = getChangeEncoder();
 		SmartDashboard.putNumber("Change Pos", changePos);
-		double _changeSpeed = _changePid.calculate(changePos);  
+		double _changeSpeed = _changePid.calculate(changePos); 
+		
 		_changeSpeed = Math.min(Math.abs(_changeSpeed), _maxSpeed) * Math.signum(_changeSpeed);
 		SmartDashboard.putNumber("Change Speed", _changeSpeed);
 		spinMotor(_changeSpeed);
