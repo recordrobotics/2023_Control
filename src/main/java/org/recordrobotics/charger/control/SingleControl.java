@@ -1,6 +1,7 @@
 package org.recordrobotics.charger.control;
 
 import edu.wpi.first.wpilibj.XboxController;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class SingleControl implements IControlInput {
 
@@ -94,7 +95,21 @@ public class SingleControl implements IControlInput {
 	}
 
 	@Override
+	public int compArm() {
+		if(_gamepad.getLeftBumper()) {
+			return -1;
+		} else if(_gamepad.getRightBumper()) {
+			return 1;
+		}
+		return 0;
+	}
+
+	@Override
 	public ArmPosition getArmPosition() {
+		SmartDashboard.putBoolean("y button", _gamepad.getYButton());
+		SmartDashboard.putBoolean("x button", _gamepad.getXButton());
+		SmartDashboard.putBoolean("a button", _gamepad.getAButton());
+		SmartDashboard.putBoolean("b button", _gamepad.getBButton());
 		boolean multiplePressed = (booleanToInt(_gamepad.getYButton())
 			+ booleanToInt(_gamepad.getXButton())
 			+ booleanToInt(_gamepad.getAButton())

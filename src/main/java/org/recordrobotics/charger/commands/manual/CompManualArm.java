@@ -12,6 +12,7 @@ public class CompManualArm extends CommandBase{
 	private IControlInput _controls;
 
     private double angles[] = {0};
+	private double zero[] = {0};
     private double _speedMod = 1;
 
     public CompManualArm(CompArm arm, IControlInput controls) {
@@ -25,13 +26,15 @@ public class CompManualArm extends CommandBase{
 		_arm = arm;
 		_controls = controls;
 
+		angles = zero;		
+
 		addRequirements(arm);
 	}
 
     @Override
     public void execute() {
         // TODO Auto-generated method stub
-        angles[0] += _controls.compArm() * _speedMod;
+		angles[0] += _controls.compArm() * _speedMod;
         _arm.setAngles(angles);
     }
 }

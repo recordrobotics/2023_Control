@@ -90,12 +90,7 @@ public class CompArm extends SubsystemBase{
 		} else if(_angles[0] < commandAngles[0]) {
 			_angles[0] += rampConstant;
 		}
-		if(_angles[1] > commandAngles[1]) {
-			_angles[1] -= rampConstant;
-		} else if(_angles[1] < commandAngles[1]) {
-			_angles[1] += rampConstant;
-		}
-
+		
 		SmartDashboard.putNumber("Raw Origin Encoder", _originMotor.getSelectedSensorPosition());
 		_entryAngles.setDoubleArray(_angles);
 

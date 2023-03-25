@@ -14,7 +14,7 @@ import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 public class MoveToChargeStation extends ParallelCommandGroup{
     public MoveToChargeStation(Drive drive, NavSensor nav, double nav_offset){
         addCommands(        
-        new AutoDrive(drive, 0.5, -1.5),//experimental values
+        new AutoDrive(drive, 0.5, -2),//experimental values
         new SelfStationBalance(drive, nav, nav_offset)
     );
     }

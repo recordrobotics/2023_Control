@@ -8,20 +8,18 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.recordrobotics.charger.commands.auto.AutoDrive;
-<<<<<<< HEAD
-/*import org.recordrobotics.charger.commands.auto.SimpleScoreAndTaxi;
-=======
 import org.recordrobotics.charger.commands.auto.MoveToChargeStation;
 import org.recordrobotics.charger.commands.auto.SelfStationBalance;
 import org.recordrobotics.charger.commands.auto.SimpleScoreAndTaxi;
->>>>>>> 6d0f2108a53a47ca232a00a2aafaf55281236038
-import org.recordrobotics.charger.commands.auto.SimpleScoreTaxiDock;
+/*import org.recordrobotics.charger.commands.auto.SimpleScoreTaxiDock;
 import org.recordrobotics.charger.commands.auto.TrajectoryPresets;
 
 import org.recordrobotics.charger.commands.auto.TestPreset;
-*/import org.recordrobotics.charger.commands.manual.ManualClaw;
-import org.recordrobotics.charger.commands.manual.ArmPosition;
-import org.recordrobotics.charger.commands.manual.ManualArm;
+*/
+import org.recordrobotics.charger.commands.manual.ManualClaw;
+//import org.recordrobotics.charger.commands.manual.ArmPosition;
+//import org.recordrobotics.charger.commands.manual.ManualArm;
+import org.recordrobotics.charger.commands.manual.CompManualArm;
 import org.recordrobotics.charger.commands.manual.ManualDrive;
 import org.recordrobotics.charger.commands.dash.DashRunFunc;
 import org.recordrobotics.charger.control.DoubleControl;
@@ -64,7 +62,7 @@ public class RobotContainer {
 	private ArrayList<Trajectory> _trajectories;
 	private NavSensor _navSensor;
 	//private Vision _vision;
-	private Arm _arm;
+	private CompArm _compArm;
 	private PIDController _pid1;
 	private PIDController _pid2;
 	public GetStartTime _GetStartTime;
@@ -82,7 +80,7 @@ public class RobotContainer {
 		_drive = new Drive();
 		_navSensor = new NavSensor();
 		_claw = new Claw();
-		_arm = new Arm();
+		_compArm = new CompArm();
 		_pid1 = new PIDController(0, 0, 0);
 		_pid2 = new PIDController(0, 0, 0);
 
@@ -101,8 +99,9 @@ public class RobotContainer {
 	private void initTeleopCommands() {
 		_teleopPairs = new ArrayList<>();
 		_teleopPairs.add(new Pair<Subsystem, Command>(_drive, new ManualDrive(_drive, _controlInput)));
+		_teleopPairs.add(new Pair<Subsystem, Command>(_compArm, new CompManualArm(_compArm, _controlInput)));
 		_teleopPairs.add(new Pair<Subsystem, Command>(_claw, new ManualClaw(_claw, _controlInput)));
-		_teleopPairs.add(new Pair<Subsystem, Command>(_arm, new ManualArm(_arm, _controlInput, _pid1, _pid2)));
+		//_teleopPairs.add(new Pair<Subsystem, Command>(_arm, new ManualArm(_arm, _controlInput, _pid1, _pid2)));
 	}
 
 	private void initDashCommands() {
@@ -115,7 +114,7 @@ public class RobotContainer {
 	 * Executes teleop commands
 	 */	
 	public void teleopInit() {
-		_arm.resetPID();
+		//_arm.resetPID();
 		for (Pair<Subsystem, Command> c : _teleopPairs) {
 			c.getKey().setDefaultCommand(c.getValue());
 		}
@@ -129,17 +128,16 @@ public class RobotContainer {
 		_drive.resetEncoders(); // resets encoders
 		//return new TrajectoryPresets(_vision, _drive, _pid2, _pid1, _trajectories, _estimator, _navSensor);//new ParallelFullAuto(_vision, _drive, _arm, _claw, _pid1, _pid2, _trajectories, _estimator, _navSensor)//
 
-<<<<<<< HEAD
-		double auto_start_time = Timer.getFPGATimestamp();
-		return new AutoDrive(_drive, 0.3, 3);
-		//return new SimpleScoreAndTaxi(_drive, _arm, _claw,  ArmPosition.SECOND);
-=======
+
 		//double auto_start_time = Timer.getFPGATimestamp();
 		//return new SimpleScoreAndTaxi(_drive, _arm, _claw,  ArmPosition.SECOND);
+		return new AutoDrive(_drive, 0.5, 2.5);
 
-		return new MoveToChargeStation(_drive, _navSensor, nav_offset);
+
+
+
+		//return new MoveToChargeStation(_drive, _navSensor, nav_offset);
 		//return new SelfStationBalance(_drive, _navSensor, nav_offset);
->>>>>>> 6d0f2108a53a47ca232a00a2aafaf55281236038
 		//return new SimpleScoreTaxiDock(_drive, _navSensor, _arm, _claw, ArmPosition.SECOND);
 		//return new ParallelFullAuto(_vision, _drive, _pid2, _pid1, _trajectories, _estimator, _navSensor);//new ParallelFullAuto(_vision, _drive, _arm, _claw, _pid1, _pid2, _trajectories, _estimator, _navSensor)
 		//return new TestPreset(_vision, _drive, _trajectories, _estimator, _navSensor, _arm, _claw);

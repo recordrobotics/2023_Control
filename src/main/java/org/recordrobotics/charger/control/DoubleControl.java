@@ -80,13 +80,23 @@ public class DoubleControl implements IControlInput {
 
 	@Override
 	public SpeedState speedState() {
-		if (_gamepad2.getBButton()) {
+		if (_gamepad1.getBButton()) {
 			return SpeedState.SLOW;
 		}
-		if (_gamepad2.getLeftBumper()) {
+		if (_gamepad1.getLeftBumper()) {
 			return SpeedState.FAST;
 		}
 		return SpeedState.NEUTRAL;
+	}
+
+	@Override
+	public int compArm() {
+		if(_gamepad2.getLeftBumper()) {
+			return -1;
+		} else if(_gamepad2.getRightBumper()) {
+			return 1;
+		}
+		return 0;
 	}
 
 	@Override

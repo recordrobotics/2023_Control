@@ -15,8 +15,8 @@ import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 public class MoveToChargeStationClaw extends ParallelCommandGroup{
     public MoveToChargeStationClaw(Drive drive, Arm arm, Claw claw, ArmPosition armPosition, NavSensor nav, double nav_offset){
         addCommands(
-        new AutoMoveArm(arm, armPosition),
-        new AutoMoveClaw(claw, 0.3, -1),
+        //new AutoMoveArm(arm, armPosition),
+        //new AutoMoveClaw(claw, 0.3, -1),
         new AutoDrive(drive, 0.2, -1.1),
         new SelfStationBalance(drive, nav, nav_offset)
     );

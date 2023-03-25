@@ -95,7 +95,7 @@ public class Drive extends SubsystemBase {
 	}
 
 	/**
-	 * @return The value of the right encoder in MM
+	 * @return The value of the right encoder in M
 	 */
 	public double getRightEncoder() {
 		return -(translateUnits(_right[0].getSelectedSensorPosition())
@@ -105,7 +105,7 @@ public class Drive extends SubsystemBase {
 	}
 
 	/**
-	 * @return The value of the left encoder in MM
+	 * @return The value of the left encoder in M
 	 */
 	public double getLeftEncoder() {
 		return (translateUnits(_left[0].getSelectedSensorPosition())
@@ -115,7 +115,7 @@ public class Drive extends SubsystemBase {
 	}
 
 	/**
-	 * @return The average value of the two encoders, left and right, in MM
+	 * @return The average value of the two encoders, left and right, in M
 	 */
 	public double getPosition() {
 		return (getRightEncoder() + getLeftEncoder()) / 2;

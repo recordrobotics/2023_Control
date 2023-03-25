@@ -162,7 +162,6 @@ public class Arm extends SubsystemBase{
 	 */
 	public void resetEncoders() {
 		_originMotor.setSelectedSensorPosition(0);
-		_changeMotor.setSelectedSensorPosition(0);
 	}
 
 	public void resetPID() {

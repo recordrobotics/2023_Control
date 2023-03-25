@@ -100,6 +100,8 @@ public interface IControlInput {
 	 */
 	ArmPosition getArmPosition();
 
+	int compArm();
+
 	public enum ArmPosition {
 		SUBSTATION,
 		GROUND,
