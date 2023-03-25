@@ -27,7 +27,12 @@ public class SingleControl implements IControlInput {
 		return _gamepad.getLeftX();
 	}
 
-	@Override
+	//@Override
+	//public double getSingleArm() {
+	//	return -_gamepad.getRightY();
+	//}
+
+	/*@Override
 	public ChangeAngle changeOriginAngle() {
 		if (_gamepad.getRightX() > 0.5 && Math.abs(_gamepad.getRightY()) < 0.5 && !_xRightActivated) {
 			_xRightActivated = true;
@@ -42,7 +47,7 @@ public class SingleControl implements IControlInput {
 			_xLeftActivated = false;
 		}
 		return ChangeAngle.REMAIN;
-	}
+	}*/
 
 	@Override
 	public ChangeAngle changeChangeAngle() {

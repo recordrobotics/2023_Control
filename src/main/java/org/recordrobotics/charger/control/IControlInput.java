@@ -67,7 +67,7 @@ public interface IControlInput {
 	 * 
 	 * @return ChangeAngle.INCREASE - increase; ChangeAngle.DECREASE - decrease; ChangeAngle.REMAIN - no change
 	 */
-	ChangeAngle changeOriginAngle();
+	//ChangeAngle changeOriginAngle();
 
 	/**
 	 * changes the change motor angle

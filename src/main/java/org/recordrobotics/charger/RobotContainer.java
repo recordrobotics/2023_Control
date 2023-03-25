@@ -16,8 +16,8 @@ import org.recordrobotics.charger.commands.auto.TrajectoryPresets;
 
 import org.recordrobotics.charger.commands.auto.TestPreset;
 import org.recordrobotics.charger.commands.manual.ManualClaw;
-import org.recordrobotics.charger.commands.manual.ArmPosition;
-import org.recordrobotics.charger.commands.manual.ManualArm;
+//import org.recordrobotics.charger.commands.manual.ArmPosition;
+//import org.recordrobotics.charger.commands.manual.ManualArm;
 import org.recordrobotics.charger.commands.manual.ManualDrive;
 import org.recordrobotics.charger.commands.dash.DashRunFunc;
 import org.recordrobotics.charger.control.DoubleControl;
@@ -98,7 +98,6 @@ public class RobotContainer {
 		_teleopPairs = new ArrayList<>();
 		_teleopPairs.add(new Pair<Subsystem, Command>(_drive, new ManualDrive(_drive, _controlInput)));
 		_teleopPairs.add(new Pair<Subsystem, Command>(_claw, new ManualClaw(_claw, _controlInput)));
-		_teleopPairs.add(new Pair<Subsystem, Command>(_arm, new ManualArm(_arm, _controlInput, _pid1, _pid2)));
 	}
 
 	private void initDashCommands() {
