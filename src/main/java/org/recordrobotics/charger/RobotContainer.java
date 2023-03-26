@@ -79,8 +79,8 @@ public class RobotContainer {
 		_controlInput = new DoubleControl(RobotMap.Control.DOUBLE_GAMEPAD_1, RobotMap.Control.DOUBLE_GAMEPAD_2);
 		_drive = new Drive();
 		_navSensor = new NavSensor();
-		_claw = new Claw();
-		_compArm = new CompArm();
+		//_claw = new Claw();
+		//_compArm = new CompArm();
 		_pid1 = new PIDController(0, 0, 0);
 		_pid2 = new PIDController(0, 0, 0);
 
@@ -99,8 +99,8 @@ public class RobotContainer {
 	private void initTeleopCommands() {
 		_teleopPairs = new ArrayList<>();
 		_teleopPairs.add(new Pair<Subsystem, Command>(_drive, new ManualDrive(_drive, _controlInput)));
-		_teleopPairs.add(new Pair<Subsystem, Command>(_compArm, new CompManualArm(_compArm, _controlInput)));
-		_teleopPairs.add(new Pair<Subsystem, Command>(_claw, new ManualClaw(_claw, _controlInput)));
+		//_teleopPairs.add(new Pair<Subsystem, Command>(_compArm, new CompManualArm(_compArm, _controlInput)));
+		//_teleopPairs.add(new Pair<Subsystem, Command>(_claw, new ManualClaw(_claw, _controlInput)));
 		//_teleopPairs.add(new Pair<Subsystem, Command>(_arm, new ManualArm(_arm, _controlInput, _pid1, _pid2)));
 	}
 
