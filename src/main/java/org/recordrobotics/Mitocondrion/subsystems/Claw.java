@@ -1,4 +1,4 @@
-package org.recordrobotics.charger.subsystems;
+package org.recordrobotics.Mitocondrion.subsystems;
 
 import edu.wpi.first.networktables.GenericEntry;
 import edu.wpi.first.wpilibj.DigitalInput;
@@ -7,8 +7,8 @@ import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
-import org.recordrobotics.charger.Constants;
-import org.recordrobotics.charger.RobotMap;
+import org.recordrobotics.Mitocondrion.Constants;
+import org.recordrobotics.Mitocondrion.RobotMap;
 
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkMax.IdleMode;

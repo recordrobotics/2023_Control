@@ -1,9 +1,9 @@
-package org.recordrobotics.charger.commands.auto;
+package org.recordrobotics.Mitocondrion.commands.auto;
+
+import org.recordrobotics.Mitocondrion.subsystems.Claw;
 
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
-
-import org.recordrobotics.charger.subsystems.Claw;
 
 public class AutoMoveClaw extends CommandBase{
 	private Claw _claw;

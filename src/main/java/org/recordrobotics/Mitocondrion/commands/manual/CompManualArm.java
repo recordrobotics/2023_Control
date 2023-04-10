@@ -1,7 +1,7 @@
-package org.recordrobotics.charger.commands.manual;
+package org.recordrobotics.Mitocondrion.commands.manual;
 
-import org.recordrobotics.charger.control.IControlInput;
-import org.recordrobotics.charger.subsystems.CompArm;
+import org.recordrobotics.Mitocondrion.control.IControlInput;
+import org.recordrobotics.Mitocondrion.subsystems.CompArm;
 
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;

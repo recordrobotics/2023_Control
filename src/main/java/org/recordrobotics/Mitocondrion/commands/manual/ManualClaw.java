@@ -1,9 +1,10 @@
-package org.recordrobotics.charger.commands.manual;
+package org.recordrobotics.Mitocondrion.commands.manual;
+
+import org.recordrobotics.Mitocondrion.control.IControlInput;
+import org.recordrobotics.Mitocondrion.subsystems.Claw;
 
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import org.recordrobotics.charger.subsystems.Claw;
-import org.recordrobotics.charger.control.IControlInput;
 
 
 public class ManualClaw extends CommandBase {

@@ -1,9 +1,9 @@
-package org.recordrobotics.charger.commands.auto;
+package org.recordrobotics.Mitocondrion.commands.auto;
 
-import org.recordrobotics.charger.commands.manual.ArmPosition;
-import org.recordrobotics.charger.subsystems.Arm;
-import org.recordrobotics.charger.subsystems.Claw;
-import org.recordrobotics.charger.subsystems.Drive;
+import org.recordrobotics.Mitocondrion.commands.manual.ArmPosition;
+import org.recordrobotics.Mitocondrion.subsystems.Arm;
+import org.recordrobotics.Mitocondrion.subsystems.Claw;
+import org.recordrobotics.Mitocondrion.subsystems.Drive;
 
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;

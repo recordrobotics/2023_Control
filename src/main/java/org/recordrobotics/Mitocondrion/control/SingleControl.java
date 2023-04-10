@@ -1,4 +1,4 @@
-package org.recordrobotics.charger.control;
+package org.recordrobotics.Mitocondrion.control;
 
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;

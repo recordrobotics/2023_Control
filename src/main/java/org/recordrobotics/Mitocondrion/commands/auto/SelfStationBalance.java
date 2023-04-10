@@ -1,11 +1,11 @@
-package org.recordrobotics.charger.commands.auto;
+package org.recordrobotics.Mitocondrion.commands.auto;
 
 import java.lang.reflect.Array;
 
 import javax.lang.model.element.ModuleElement.Directive;
 
-import org.recordrobotics.charger.subsystems.Drive;
-import org.recordrobotics.charger.subsystems.NavSensor;
+import org.recordrobotics.Mitocondrion.subsystems.Drive;
+import org.recordrobotics.Mitocondrion.subsystems.NavSensor;
 
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.wpilibj2.command.CommandBase;
