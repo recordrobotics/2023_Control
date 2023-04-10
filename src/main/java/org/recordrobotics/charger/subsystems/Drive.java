@@ -12,10 +12,14 @@ import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
 
 import edu.wpi.first.networktables.GenericEntry;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
+//import edu.wpi.first.wpilibj.drive.DifferentialDrive.WheelSpeeds;
 import edu.wpi.first.wpilibj.motorcontrol.MotorControllerGroup;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+
+import edu.wpi.first.math.kinematics.DifferentialDriveWheelSpeeds;
+
 
 @SuppressWarnings({"PMD.SystemPrintln", "PMD.FieldNamingConventions"})
 public class Drive extends SubsystemBase {
@@ -59,7 +63,7 @@ public class Drive extends SubsystemBase {
 		_right[2].setSelectedSensorPosition(0);
 
 		ShuffleboardTab tab = Shuffleboard.getTab(Constants.DATA_TAB);
-		_encoderEntry = tab.add("Drive Encoders", 0).getEntry();
+		_encoderEntry = tab.add("Drive Encoders768787878", 0).getEntry();
 	}
 
 	/**
@@ -71,8 +75,14 @@ public class Drive extends SubsystemBase {
 		// Arcade drive expects rotational inputs, while get translational
 		// inputs. Therefore the values must be switched around
 		// https://docs.wpilib.org/en/stable/docs/software/hardware-apis/motors/wpi-drive-classes.html
+
 		_differentialDrive.arcadeDrive(Subsystems.limitSpeed(-latSpeed),
-			Subsystems.limitSpeed(-longSpeed));
+		Subsystems.limitSpeed(-longSpeed));
+	}
+
+	public void moveWithWheelSPeedInput(double left_motor_speed, double right_motor_speed) {
+		_leftMotors.set(left_motor_speed);
+		_rightMotors.set(right_motor_speed);
 	}
 
 	/**
@@ -85,27 +95,27 @@ public class Drive extends SubsystemBase {
 	}
 
 	/**
-	 * @return The value of the right encoder in MM
+	 * @return The value of the right encoder in M
 	 */
 	public double getRightEncoder() {
 		return -(translateUnits(_right[0].getSelectedSensorPosition())
 			+ translateUnits(_right[1].getSelectedSensorPosition())
 			+ translateUnits(_right[2].getSelectedSensorPosition()))
-		/ 3;
+		/ 3000;
 	}
 
 	/**
-	 * @return The value of the left encoder in MM
+	 * @return The value of the left encoder in M
 	 */
 	public double getLeftEncoder() {
 		return (translateUnits(_left[0].getSelectedSensorPosition())
 			+ translateUnits(_left[1].getSelectedSensorPosition())
 			+ translateUnits(_left[2].getSelectedSensorPosition()))
-		/ 3;
+		/ 3000;
 	}
 
 	/**
-	 * @return The average value of the two encoders, left and right, in MM
+	 * @return The average value of the two encoders, left and right, in M
 	 */
 	public double getPosition() {
 		return (getRightEncoder() + getLeftEncoder()) / 2;
@@ -122,6 +132,12 @@ public class Drive extends SubsystemBase {
 		_right[1].setSelectedSensorPosition(0);
 		_right[2].setSelectedSensorPosition(0);
 	};
+
+	// Function that returns getdifferentialdrivewheelspeeds
+	public DifferentialDriveWheelSpeeds getWheelSpeeds() {
+		DifferentialDriveWheelSpeeds wheelspeeds = new DifferentialDriveWheelSpeeds(getLeftEncoder(), getRightEncoder());
+		return wheelspeeds;
+	}
 
 	@Override
 	public void periodic() {

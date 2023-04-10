@@ -5,6 +5,11 @@ import org.recordrobotics.charger.subsystems.Drive;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 
 public class AutoDrive extends CommandBase {
+	private enum Direction {
+		FORWARD,
+		BACKWARD;
+	}
+	
 	private Drive _drive;
 	private double _speed;
 	private double _targetDistance;
@@ -36,7 +41,7 @@ public class AutoDrive extends CommandBase {
 
 	@Override
 	public void execute() {
-		_drive.move(_speed * _direction.value(), 0);
+		_drive.move(_speed * directionValue(_direction), 0);
 	}
 
 	/**
@@ -50,6 +55,17 @@ public class AutoDrive extends CommandBase {
 			return _drive.getPosition() <= _targetDistance;
 		}
 	}
+
+	private int directionValue(Direction direction) {
+		if(direction == Direction.FORWARD) {
+			return 1;
+		} else if (direction == Direction.BACKWARD) {
+			return -1;
+		} else {
+			return 0;
+		}
+	}
+
 	/**
 	 * Stops the wheels once finished
 	 */

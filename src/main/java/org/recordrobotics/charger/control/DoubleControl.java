@@ -5,8 +5,12 @@ import edu.wpi.first.wpilibj.XboxController;
 public class DoubleControl implements IControlInput {
 
 	private XboxController _gamepad1;
-	@SuppressWarnings({"PMD.UnusedPrivateField","PMD.SingularField"})
 	private XboxController _gamepad2;
+
+	private boolean _xLeftActivated = false;
+	private boolean _xRightActivated = false;
+	private boolean _yLeftActivated = false;
+	private boolean _yRightActivated = false;
 
 	private double _TRIGGER_THRESHOLD = 0.75;
 
@@ -26,14 +30,47 @@ public class DoubleControl implements IControlInput {
 	}
 
 	@Override
-	public int getClawTurn() {
-		if (_gamepad2.getLeftTriggerAxis() >= _TRIGGER_THRESHOLD) {
-			return -1;
-		} else if (_gamepad2.getRightTriggerAxis() >= _TRIGGER_THRESHOLD) {
-			return 1;
-		} else {
-			return 0;
+	public ChangeAngle changeOriginAngle() {
+		if (_gamepad2.getRightX() > 0.5 && Math.abs(_gamepad2.getRightY()) < 0.5 && !_xRightActivated) {
+			_xRightActivated = true;
+			return ChangeAngle.INCREASE;
+		} else if (_gamepad2.getRightX() < 0.5) {
+			_xRightActivated = false;
 		}
+		if (_gamepad2.getRightX() < -0.5 && Math.abs(_gamepad2.getRightY()) < 0.5 && !_xLeftActivated) {
+			_xLeftActivated = true;
+			return ChangeAngle.DECREASE;
+		} else if (_gamepad2.getRightX() > -0.5) {
+			_xLeftActivated = false;
+		}
+		return ChangeAngle.REMAIN;
+	}
+
+	@Override
+	public ChangeAngle changeChangeAngle() {
+		if (_gamepad2.getRightY() > 0.5 && Math.abs(_gamepad2.getRightX()) < 0.5 && !_yRightActivated) {
+			_yRightActivated = true;
+			return ChangeAngle.INCREASE;
+		} else if (_gamepad2.getRightY() < 0.5) {
+			_yRightActivated = false;
+		}
+		if (_gamepad2.getRightY() < -0.5 && Math.abs(_gamepad2.getRightX()) < 0.5 && !_yLeftActivated) {
+			_yLeftActivated = true;
+			return ChangeAngle.DECREASE;
+		} else if (_gamepad2.getRightY() > -0.5) {
+			_yLeftActivated = false;
+		}
+		return ChangeAngle.REMAIN;
+	}
+
+	@Override
+	public ClawState getClawTurn() {
+		if (_gamepad2.getLeftTriggerAxis() >= _TRIGGER_THRESHOLD) {
+			return ClawState.OPENING;
+		} else if (_gamepad2.getRightTriggerAxis() >= _TRIGGER_THRESHOLD) {
+			return ClawState.GRABING;
+		}
+		return ClawState.NEUTRAL;
 	}
 
 	@Override
@@ -43,20 +80,30 @@ public class DoubleControl implements IControlInput {
 
 	@Override
 	public SpeedState speedState() {
-		if (_gamepad2.getBButton()) {
+		if (_gamepad1.getBButton()) {
 			return SpeedState.SLOW;
 		}
-		if (_gamepad2.getLeftBumper()) {
+		if (_gamepad1.getLeftBumper()) {
 			return SpeedState.FAST;
 		}
 		return SpeedState.NEUTRAL;
 	}
 
 	@Override
+	public int compArm() {
+		if(_gamepad2.getLeftBumper()) {
+			return -1;
+		} else if(_gamepad2.getRightBumper()) {
+			return 1;
+		}
+		return 0;
+	}
+
+	@Override
 	public boolean canTurn() {
 		return !_gamepad1.getRightBumper();
-  }
-  
+}
+
 	private int booleanToInt(boolean b) {
 		return b ? 1 : 0;
 	}

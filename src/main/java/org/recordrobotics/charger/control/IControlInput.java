@@ -12,9 +12,9 @@ public interface IControlInput {
 	 * 	CONE - grabs cone
 	 */
 	enum ClawState {
-		CUBE,
+		OPENING,
 		NEUTRAL,
-		CONE
+		GRABING
 	}
 
 	/**
@@ -27,6 +27,25 @@ public interface IControlInput {
 		FAST,
 		NEUTRAL,
 		SLOW
+	}
+
+	/**
+	 * indicates which way the arm angle should change
+	 */
+	enum ChangeAngle {
+		INCREASE(1),
+		DECREASE(-1),
+		REMAIN(0);
+		
+		private final int _value;
+
+		private ChangeAngle(int value) {
+			_value = value;
+		}
+
+		public int value() {
+			return _value;
+		}
 	}
 
 	/**
@@ -44,6 +63,20 @@ public interface IControlInput {
 	double getDriveLat();
 
 	/**
+	 * changes the origin motor angle
+	 * 
+	 * @return ChangeAngle.INCREASE - increase; ChangeAngle.DECREASE - decrease; ChangeAngle.REMAIN - no change
+	 */
+	ChangeAngle changeOriginAngle();
+
+	/**
+	 * changes the change motor angle
+	 * 
+	 * @return ChangeAngle.INCREASE - increase; ChangeAngle.DECREASE - decrease; ChangeAngle.REMAIN - no change
+	 */
+	ChangeAngle changeChangeAngle();
+
+	/**
 	 * Determines the speed the robot drives at
 	 *
 	 * @return true - lower speed; false - faster speed
@@ -56,7 +89,7 @@ public interface IControlInput {
 	 * @return true - can turn; false - cannot turn
 	 */
 	boolean canTurn();
-  /**
+/**
 	 * Returns goal of arm movement
 	 *
 	 * @return ArmPosition.SUBSTATION - go to substation
@@ -66,6 +99,8 @@ public interface IControlInput {
 	 * ArmPosition.NEUTRAL - go to neutral position
 	 */
 	ArmPosition getArmPosition();
+
+	int compArm();
 
 	public enum ArmPosition {
 		SUBSTATION,
@@ -81,5 +116,5 @@ public interface IControlInput {
 	 *
 	 * @return 1 Releasing, -1 Grabbing, 0 No Movement
 	 */
-	int getClawTurn();
+	ClawState getClawTurn();
 }
