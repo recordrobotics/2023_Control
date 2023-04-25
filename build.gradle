@@ -8,7 +8,7 @@ plugins {
 sourceCompatibility = JavaVersion.VERSION_11
 targetCompatibility = JavaVersion.VERSION_11
 
-def ROBOT_MAIN_CLASS = "org.recordrobotics.charger.Main"
+def ROBOT_MAIN_CLASS = "org.recordrobotics.Mitocondrion.Main"
 
 // PMD config
 pmd {

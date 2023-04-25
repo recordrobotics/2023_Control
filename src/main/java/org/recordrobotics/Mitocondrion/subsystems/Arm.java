@@ -70,8 +70,8 @@ public class Arm extends SubsystemBase{
 
 		resetEncoders();
 
-		ShuffleboardTab tab = Shuffleboard.getTab(Constants.DATA_TAB);
-		_entryAngles = tab.add("Pure sensor output", new double[] {0, 0}).getEntry();
+		//ShuffleboardTab tab = Shuffleboard.getTab(Constants.DATA_TAB);
+		//_entryAngles = tab.add("Pure sensor output", new double[] {0, 0}).getEntry();
 	}
 
 	public void setAngles(double[] angles) {
@@ -187,7 +187,7 @@ public class Arm extends SubsystemBase{
 
 		SmartDashboard.putNumber("Raw Origin Encoder", _originMotor.getSelectedSensorPosition());
 		SmartDashboard.putNumber("Raw Change Encoder", _changeMotor.getSelectedSensorPosition());
-		_entryAngles.setDoubleArray(_angles);
+		//_entryAngles.setDoubleArray(_angles);
 
 //		if(_angles[0] != prevAngles[0]) {
     		_originPid.setSetpoint(_angles[0]);
