@@ -49,6 +49,42 @@ public interface IControlInput {
 	}
 
 	/**
+	 * indicates which way the arm angle should change
+	 */
+	enum changeSetPointX {
+		FORWARD(1),
+		BACK(-1),
+		REMAIN(0);
+		
+		private final int _value;
+
+		private changeSetPointX(int value) {
+			_value = value;
+		}
+
+		public int value() {
+			return _value;
+		}
+	}
+
+	enum changeSetPointY {
+		UP(1),
+		DOWN(-1),
+		REMAIN(0);
+		
+		private final int _value;
+
+		private changeSetPointY(int value) {
+			_value = value;
+		}
+
+		public int value() {
+			return _value;
+		}
+	}
+
+
+	/**
 	 * Logitudinal drive input (forward & backward) value
 	 *
 	 * @return [-1, 0) - backward; (0, 1] - forward
@@ -75,6 +111,21 @@ public interface IControlInput {
 	 * @return ChangeAngle.INCREASE - increase; ChangeAngle.DECREASE - decrease; ChangeAngle.REMAIN - no change
 	 */
 	ChangeAngle changeChangeAngle();
+
+/**
+	 * changes set X value
+	 * 
+	 * @return ChangeAngle.FORWARD - forward; ChangeAngle.BACKWARD - backward; ChangeAngle.REMAIN - no change
+	 */
+	changeSetPointX changeSetPointX();
+
+/**
+	 * changes the change motor angle
+	 * 
+	 * @return ChangeAngle.UP - up; ChangeAngle.DOWN - down; ChangeAngle.REMAIN - no change
+	 */
+	changeSetPointY changeSetPointY();
+
 
 	/**
 	 * Determines the speed the robot drives at

@@ -106,6 +106,15 @@ public class Arm extends SubsystemBase{
         return angles;
     }
 
+	public double[] getPos(double angles[]){
+		double L1 = FIRST_ARM_LENGTH;
+		double L2 = SECOND_ARM_LENGTH;
+		double[] pos = new double[2]; // 0 - x, 1 - y
+		pos[0] = L1 * Math.cos(angles[0]) + L2 * Math.cos(angles[0] + angles[1]);
+		pos[1] = L1 * Math.sin(angles[0]) + L2 * Math.sin(angles[0] + angles[1]);
+		return pos;
+	}
+
     public double[] getAnglesRestricted(double y){//Angles but holding the second segment parallel to the ground
 		double L1 = FIRST_ARM_LENGTH;
         double theta1 = Math.asin(y/L1);

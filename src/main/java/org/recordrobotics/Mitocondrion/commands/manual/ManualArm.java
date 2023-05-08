@@ -31,6 +31,7 @@ public class ManualArm extends CommandBase{
 	public void execute() {
 		// sets arm motor angles based on which actions is needed
 		double[] angles = {0, 0};
+		double[] pos = {0, 0};
 		switch (_controls.getArmPosition()) {//TODO: get better heights, and maybe differentiate between cubes and cones
 			case SECOND: // X Button -- working
 				angles[0] = -10;
@@ -73,7 +74,29 @@ public class ManualArm extends CommandBase{
 				_changeOffset = 0;
 				break;
 		}
+		pos[0] = _arm.getPos(angles)[0];
+		pos[1] = _arm.getPos(angles)[1];
+		switch (_controls.changeSetPointX()){
+			case FORWARD:
+				pos[0]++;
+				break;
+			case BACK:
+				pos[0]--;
+			default:
+				break;
+		}
 
+		switch (_controls.changeSetPointY()){
+			case UP:
+				pos[0]++;
+				break;
+			case DOWN:
+				pos[0]--;
+			default:
+				break;
+		}
+
+		angles = _arm.getAngles(pos[0], pos[1], "L");
 		_changeOffset += 5 * _controls.changeChangeAngle().value();
 
 		angles[1] += _changeOffset;
