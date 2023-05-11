@@ -1,6 +1,6 @@
-package org.recordrobotics.Mitocondrion.commands.auto;
+package org.recordrobotics.Mitochondrion.commands.auto;
 
-import org.recordrobotics.Mitocondrion.subsystems.Drive;
+import org.recordrobotics.Mitochondrion.subsystems.Drive;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
 

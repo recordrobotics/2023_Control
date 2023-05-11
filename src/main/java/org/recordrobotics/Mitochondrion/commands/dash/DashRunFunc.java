@@ -1,6 +1,6 @@
-package org.recordrobotics.Mitocondrion.commands.dash;
+package org.recordrobotics.Mitochondrion.commands.dash;
 
-import org.recordrobotics.Mitocondrion.util.Procedure;
+import org.recordrobotics.Mitochondrion.util.Procedure;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
 

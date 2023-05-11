@@ -1,6 +1,4 @@
-package org.recordrobotics.Mitocondrion.subsystems;
-
-import org.recordrobotics.Mitocondrion.Constants;
+package org.recordrobotics.Mitochondrion.subsystems;
 
 import com.kauailabs.navx.frc.AHRS;
 import edu.wpi.first.wpilibj.SPI;
@@ -11,6 +9,7 @@ import edu.wpi.first.math.util.Units;
 
 import java.lang.*;
 
+import org.recordrobotics.Mitochondrion.Constants;
 
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;

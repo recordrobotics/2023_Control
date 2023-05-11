@@ -1,4 +1,4 @@
-package org.recordrobotics.Mitocondrion;
+package org.recordrobotics.Mitochondrion;
 
 /**
  * Hardware ports for computer and robot
