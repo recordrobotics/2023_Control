@@ -8,8 +8,8 @@ import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 
 @SuppressWarnings({"PMD.TooManyFields","PMD.FieldNamingConventions"})
-public class AutoMoveArm extends CommandBase {
-	private Arm _arm;
+public class AutoMoveCompArm extends CommandBase {
+	private CompArm _arm;
 
 	//private static double _second[] = {-122.42, -147.58 - 5/7 * -122.42};
 	//private static double _third[] = {-139.79, -139.87 - 5/7 * -139.79};
@@ -30,7 +30,7 @@ public class AutoMoveArm extends CommandBase {
 	private static double _flipGroundOriginY = 22;
 	private static double _flipGroundChangeX = 22;*/
 
-	public AutoMoveArm(Arm arm) {
+	public AutoMoveCompArm(CompArm arm) {
 		if (arm == null) {
 			throw new IllegalArgumentException("Arm is null");
 		}
