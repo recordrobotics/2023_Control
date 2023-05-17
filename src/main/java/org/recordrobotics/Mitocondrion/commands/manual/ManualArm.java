@@ -12,6 +12,7 @@ public class ManualArm extends CommandBase{
 	private IControlInput _controls;
 
 	private double _changeOffset;
+	private double _originOffset;
 
     public ManualArm(Arm arm, IControlInput controls, PIDController originPid, PIDController changePid) {
 		if (arm == null) {
@@ -70,12 +71,15 @@ public class ManualArm extends CommandBase{
 				//angles = _arm.getAngles(Arm2.FIRST_ARM_LENGTH, Arm2.SECOND_ARM_LENGTH, 1.07, 1.07, "R");//This should extend mostly fully, but not quite
 				angles[0] = -10;
 				angles[1] = 10;
+				_originOffset = 0;
 				_changeOffset = 0;
 				break;
 		}
 
-		_changeOffset += 5 * _controls.changeChangeAngle().value();
+		_originOffset += _controls.changeOriginAngle().value();
+		_changeOffset += _controls.changeChangeAngle().value();
 
+		angles[0] += _originOffset;
 		angles[1] += _changeOffset;
 
 		SmartDashboard.putNumber("command set origin", angles[0]);
