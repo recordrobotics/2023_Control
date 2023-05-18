@@ -21,7 +21,7 @@ public class ChargeStationBalance extends CommandBase {
 	 * @param nav navigation sensor object, used here as a vertical gyro
 	 */
 	public ChargeStationBalance(Drive drive, NavSensor nav){
-		_pid = new PIDController(0, 0, 0);
+		_pid = new PIDController(0.5, 0, 0);
 		_drive = drive;
 		_nav = nav;
 		_pid.setTolerance(_tolerance);
@@ -34,8 +34,19 @@ public class ChargeStationBalance extends CommandBase {
 	@Override
 	public void execute() {
 		double _speed = _pid.calculate(_nav.getPitch(), 0);
+
+		// Checks for max
+		double SPEED_THRESHOLD = 0.45;
+		if (_speed > SPEED_THRESHOLD) {
+			System.out.println("MAX, was originally: " + _speed);
+			_speed = SPEED_THRESHOLD;
+		}
+		// Prints
+		System.out.println("Speed: " + _speed);
+
+		// Moves
 		_drive.move(_speed, 0);
-	}
+		}
 
 	/**
 	 * ends the command if the pid controller is at the intended point within the correct tolerance
