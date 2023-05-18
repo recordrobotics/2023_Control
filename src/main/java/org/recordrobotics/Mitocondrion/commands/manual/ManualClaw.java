@@ -56,7 +56,6 @@ public class ManualClaw extends CommandBase {
 			}
 	}
 
-
 	@Override
 	public void end(boolean interrupted) {
 		_claw.turn(0);

@@ -85,4 +85,9 @@ public class ManualArm extends CommandBase{
 		SmartDashboard.putNumber("command set origin", angles[0]);
 		_arm.setAngles(angles);
     }
+
+	public void resetAngles() {
+		double[] coreAngles = {0, 0};
+		_arm.setAngles(coreAngles);
+	}
 }
