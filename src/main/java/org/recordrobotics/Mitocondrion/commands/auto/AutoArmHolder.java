@@ -1,6 +1,6 @@
-package org.recordrobotics.charger.commands.auto;
+package org.recordrobotics.Mitocondrion.commands.auto;
 
-import org.recordrobotics.charger.commands.manual.ArmPosition;
+import org.recordrobotics.Mitocondrion.commands.manual.ArmPosition;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
 
@@ -21,7 +21,7 @@ public class AutoArmHolder  extends CommandBase{
 
     @Override
     public boolean isFinished() {
-        return _mover.originIsFliped() && _mover._changeIsFliped();
+        return true;
     }
     
 

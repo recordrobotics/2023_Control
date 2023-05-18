@@ -1,8 +1,8 @@
-package org.recordrobotics.charger.commands.auto;
+package org.recordrobotics.Mitocondrion.commands.auto;
 
 import java.util.ArrayList;
 
-import org.recordrobotics.charger.subsystems.*;
+import org.recordrobotics.Mitocondrion.subsystems.*;
 
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.estimator.DifferentialDrivePoseEstimator;

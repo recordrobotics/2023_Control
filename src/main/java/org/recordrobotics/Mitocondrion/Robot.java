@@ -4,14 +4,14 @@
 
 package org.recordrobotics.Mitocondrion;
 import org.recordrobotics.Mitocondrion.subsystems.Drive;
-//import org.recordrobotics.Mitocondrion.subsystems.Vision;
+import org.recordrobotics.Mitocondrion.subsystems.Vision;
+import org.recordrobotics.Mitocondrion.subsystems.NavSensor;
 
 import edu.wpi.first.math.estimator.DifferentialDrivePoseEstimator;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.kinematics.DifferentialDriveKinematics;
 import edu.wpi.first.math.util.Units;
-
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.smartdashboard.Field2d;
@@ -19,20 +19,16 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 
-
 @SuppressWarnings({"PMD.SystemPrintln", "PMD.FieldNamingConventions"})
 public class Robot extends TimedRobot {
 	private RobotContainer _robotContainer;
 	private Command _autonomousCommand;
 	//private Vision _vision;
 	private Timer _timer;
-
-	//private NavSensor _navSensor;
-
+	private DifferentialDrivePoseEstimator _estimator;
 	private Drive _drive;
 	private DifferentialDriveKinematics _kinematics = new DifferentialDriveKinematics(22);
-
-	private DifferentialDrivePoseEstimator _estimator /* = new DifferentialDrivePoseEstimator(_kinematics, null, kDefaultPeriod, kDefaultPeriod, null, null, null))*/;
+	private NavSensor _navSensor;
 
 	@SuppressWarnings("PMD.SingularField")
 	private Field2d field;
@@ -65,11 +61,6 @@ public class Robot extends TimedRobot {
 		//System.out.println("Robot periodic");
 		// Run command scheduler
 		CommandScheduler.getInstance().run();
-		
-		//System.out.println("Yaw: " + _navSensor.getYaw());
-		//System.out.println(_navSensor.getPitch());
-		//System.out.println(_navSensor.getRoll());
-
 	}
 
 	/**
@@ -130,7 +121,6 @@ public class Robot extends TimedRobot {
 	*/
 	@Override
 	public void teleopPeriodic() {
-
 		//placholder
 		/*if (Vision.checkForTarget(_vision.camera)){
 			double[] globalPose = Vision.estimateGlobalPose(_vision.camera);

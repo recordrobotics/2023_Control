@@ -8,6 +8,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.recordrobotics.Mitocondrion.commands.auto.AutoDrive;
+import org.recordrobotics.Mitocondrion.commands.auto.FullAuto;
 import org.recordrobotics.Mitocondrion.commands.auto.MoveToChargeStation;
 import org.recordrobotics.Mitocondrion.commands.auto.SelfStationBalance;
 import org.recordrobotics.Mitocondrion.commands.auto.SimpleScoreAndTaxi;
@@ -40,6 +41,7 @@ import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
 import edu.wpi.first.math.controller.PIDController;
+import edu.wpi.first.math.controller.RamseteController;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import edu.wpi.first.wpilibj2.command.Subsystem;
@@ -61,12 +63,13 @@ public class RobotContainer {
 	private DifferentialDriveKinematics _kinematics;
 	private ArrayList<Trajectory> _trajectories;
 	private NavSensor _navSensor;
-	//private Vision _vision;
+	private Vision _vision;
 	//private CompArm _compArm;
 	private Arm _arm;
 	private PIDController _pid1;
 	private PIDController _pid2;
 	public GetStartTime _GetStartTime;
+	private RamseteController _ramsete;
 
 	// Commands
 	private List<Pair<Subsystem, Command>> _teleopPairs;
@@ -86,9 +89,10 @@ public class RobotContainer {
 		_pid1 = new PIDController(0, 0, 0);
 		_pid2 = new PIDController(0, 0, 0);
 
-		//_vision = new Vision();
+		_vision = new Vision();
 		_kinematics = new DifferentialDriveKinematics(Units.inchesToMeters(22));//This value should be confirmed when possible
 		_estimator = new DifferentialDrivePoseEstimator(_kinematics, new Rotation2d(_navSensor.getYaw()), _drive.getLeftEncoder(), _drive.getRightEncoder(), new Pose2d(2.54, 4.65, new Rotation2d(0))); //The default standard deviations of the model states are 0.02 meters for x, 0.02 meters for y, and 0.01 radians for heading. The default standard deviations of the vision measurements are 0.1 meters for x, 0.1 meters for y, and 0.1 radians for heading.
+		_ramsete = new RamseteController();
 		//TODO: set an initial pose
 
 		/*_trajectoryPresets = new TrajectoryPresets();
@@ -138,9 +142,8 @@ public class RobotContainer {
 		
 		//return new AutoDrive(_drive, 0.5, 2.5);
 
-
-		
-		return new MoveToChargeStation(_drive, _navSensor, nav_offset);
+		return new FullAuto(_vision, _drive, _trajectories, _ramsete, _kinematics, _estimator, _navSensor, null, _claw);
+		//return new MoveToChargeStation(_drive, _navSensor, nav_offset);
 		//return new SelfStationBalance(_drive, _navSensor, nav_offset);
 		//return new SimpleScoreTaxiDock(_drive, _navSensor, _arm, _claw, ArmPosition.SECOND);
 		//return new ParallelFullAuto(_vision, _drive, _pid2, _pid1, _trajectories, _estimator, _navSensor);//new ParallelFullAuto(_vision, _drive, _arm, _claw, _pid1, _pid2, _trajectories, _estimator, _navSensor)

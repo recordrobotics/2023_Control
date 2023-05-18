@@ -1,12 +1,11 @@
-package org.recordrobotics.charger.commands.auto;
+package org.recordrobotics.Mitocondrion.commands.auto;
 
 import java.util.ArrayList;
 
-import org.recordrobotics.charger.commands.manual.ArmPosition;
-import org.recordrobotics.charger.subsystems.Drive;
-import org.recordrobotics.charger.subsystems.NavSensor;
-import org.recordrobotics.charger.subsystems.Vision;
-import org.recordrobotics.charger.subsystems.Claw;
+import org.recordrobotics.Mitocondrion.commands.manual.ArmPosition;
+import org.recordrobotics.Mitocondrion.subsystems.Drive;
+import org.recordrobotics.Mitocondrion.subsystems.NavSensor;
+import org.recordrobotics.Mitocondrion.subsystems.Vision;
 
 import edu.wpi.first.math.estimator.DifferentialDrivePoseEstimator;
 import edu.wpi.first.math.trajectory.Trajectory;

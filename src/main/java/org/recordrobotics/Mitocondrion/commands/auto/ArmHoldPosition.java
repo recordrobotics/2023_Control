@@ -1,6 +1,6 @@
-package org.recordrobotics.charger.commands.auto;
+package org.recordrobotics.Mitocondrion.commands.auto;
 
-import org.recordrobotics.charger.subsystems.Arm;
+import org.recordrobotics.Mitocondrion.subsystems.Arm;
 
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.wpilibj2.command.CommandBase;

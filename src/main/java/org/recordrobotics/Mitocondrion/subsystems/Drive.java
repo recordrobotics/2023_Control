@@ -10,6 +10,7 @@ import org.recordrobotics.Mitocondrion.RobotMap;
 import com.ctre.phoenix.motorcontrol.FeedbackDevice;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
 
+import edu.wpi.first.math.kinematics.DifferentialDriveWheelSpeeds;
 import edu.wpi.first.networktables.GenericEntry;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 //import edu.wpi.first.wpilibj.drive.DifferentialDrive.WheelSpeeds;
@@ -143,4 +144,11 @@ public class Drive extends SubsystemBase {
 	public void periodic() {
 		_encoderEntry.setDouble(getPosition());
 	}
+
+	public void tankDriveVolts(double leftVolts, double rightVolts) {
+		_leftMotors.setVoltage(leftVolts);
+		_rightMotors.setVoltage(rightVolts);
+		_differentialDrive.feed();
+	  }
+
 }
