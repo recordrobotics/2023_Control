@@ -11,7 +11,7 @@ public class ChargeStationBalance extends CommandBase {
 	private Drive _drive;
 	private NavSensor _nav;
 
-	private double _tolerance = 3;
+	private double _tolerance = 0.0524;
 
 	/**
 	 * sets up PID controller with p,i, and d values
@@ -21,7 +21,7 @@ public class ChargeStationBalance extends CommandBase {
 	 * @param nav navigation sensor object, used here as a vertical gyro
 	 */
 	public ChargeStationBalance(Drive drive, NavSensor nav){
-		_pid = new PIDController(0.5, 0, 0);
+		_pid = new PIDController(6, 0, 0);
 		_drive = drive;
 		_nav = nav;
 		_pid.setTolerance(_tolerance);
@@ -43,9 +43,10 @@ public class ChargeStationBalance extends CommandBase {
 		}
 		// Prints
 		System.out.println("Speed: " + _speed);
+		//System.out.println("pitch " + _nav.getPitch());
 
 		// Moves
-		_drive.move(_speed, 0);
+		_drive.move(-1*_speed, 0);
 		}
 
 	/**
@@ -54,7 +55,7 @@ public class ChargeStationBalance extends CommandBase {
 	@Override
 	public boolean isFinished() {
 		//Ends the command when the robot is at it's intended position
-		return _pid.atSetpoint();
+		return false;
 	}
 
 	@Override

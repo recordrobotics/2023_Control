@@ -8,6 +8,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.recordrobotics.Mitocondrion.commands.auto.AutoDrive;
+import org.recordrobotics.Mitocondrion.commands.auto.ChargeStationBalance;
 import org.recordrobotics.Mitocondrion.commands.auto.FullAuto;
 import org.recordrobotics.Mitocondrion.commands.auto.MoveToChargeStation;
 import org.recordrobotics.Mitocondrion.commands.auto.SelfStationBalance;
@@ -83,9 +84,9 @@ public class RobotContainer {
 		_controlInput = new DoubleControl(RobotMap.Control.DOUBLE_GAMEPAD_1, RobotMap.Control.DOUBLE_GAMEPAD_2);
 		_drive = new Drive();
 		_navSensor = new NavSensor();
-		_claw = new Claw();
+		//_claw = new Claw();
 		//_compArm = new CompArm();
-		_arm = new Arm();
+		//_arm = new Arm();
 		_pid1 = new PIDController(0, 0, 0);
 		_pid2 = new PIDController(0, 0, 0);
 
@@ -106,8 +107,8 @@ public class RobotContainer {
 		_teleopPairs = new ArrayList<>();
 		_teleopPairs.add(new Pair<Subsystem, Command>(_drive, new ManualDrive(_drive, _controlInput)));
 		//_teleopPairs.add(new Pair<Subsystem, Command>(_compArm, new CompManualArm(_compArm, _controlInput)));
-		_teleopPairs.add(new Pair<Subsystem, Command>(_claw, new ManualClaw(_claw, _controlInput)));
-		_teleopPairs.add(new Pair<Subsystem, Command>(_arm, new ManualArm(_arm, _controlInput, _pid1, _pid2)));
+		//_teleopPairs.add(new Pair<Subsystem, Command>(_claw, new ManualClaw(_claw, _controlInput)));
+		//_teleopPairs.add(new Pair<Subsystem, Command>(_arm, new ManualArm(_arm, _controlInput, _pid1, _pid2)));
 	}
 
 	private void initDashCommands() {
@@ -141,7 +142,7 @@ public class RobotContainer {
 
 		
 		//return new FullAuto(_vision, _drive, _trajectories, _ramsete, _kinematics, _estimator, _navSensor, null, _claw);
-		return new MoveToChargeStation(_drive, _navSensor);
+		return new ChargeStationBalance(_drive, _navSensor);
 		//return new SelfStationBalance(_drive, _navSensor, nav_offset);
 		//return new FullAutoTest(_vision, _drive, _pid2, _pid1, _trajectories, _estimator, _navSensor, auto_start_time);//new ParallelFullAuto(_vision, _drive, _arm, _claw, _pid1, _pid2, _trajectories, _estimator, _navSensor)
 	}

@@ -1,20 +1,9 @@
 package org.recordrobotics.Mitocondrion.subsystems;
 
-import org.recordrobotics.Mitocondrion.Constants;
-
 import com.kauailabs.navx.frc.AHRS;
-import edu.wpi.first.wpilibj.SPI;
-import edu.wpi.first.wpilibj.I2C;
-import edu.wpi.first.wpilibj.SerialPort;
 
 import edu.wpi.first.math.util.Units;
-
-import java.lang.*;
-
-
-import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
-import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
-
+import edu.wpi.first.wpilibj.SerialPort;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 public class NavSensor extends SubsystemBase {
@@ -33,7 +22,9 @@ public class NavSensor extends SubsystemBase {
 
 	public NavSensor() {
 
-		_nav = new AHRS(I2C.Port.kMXP);
+		//_nav = new AHRS(I2C.Port.kMXP);
+		_nav = new AHRS(SerialPort.Port.kUSB1);
+
 		_nav.reset();
 		_nav.resetDisplacement();
 
@@ -41,6 +32,7 @@ public class NavSensor extends SubsystemBase {
 	}
 
 	public double getPitch() {
+		//System.out.println("pitch: " + _nav.getRoll());
 		double pitch = _nav.getRoll();
 		return Units.degreesToRadians(pitch);
 	}
