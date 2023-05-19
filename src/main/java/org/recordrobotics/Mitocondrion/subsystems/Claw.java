@@ -24,7 +24,7 @@ public class Claw extends SubsystemBase {
 	private GenericEntry _voltageEntry;
 	private GenericEntry _encoderEntry;
 
-	public double _CLOSED_CLAW_ENCODER = -0.4;
+	public double _CLOSED_CLAW_ENCODER = 0.4;
 	public double _CURRENT_GRAB_THRESHOLD = 5;
 	
 	public boolean _calibrated = false;

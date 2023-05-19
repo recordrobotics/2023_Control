@@ -38,14 +38,14 @@ public class ManualClaw extends CommandBase {
 		switch (_controls.getClawTurn()) {
 			case OPENING:
 				if(_claw.getSwitchState()){
-					_claw.turn(TURN_SPEED);
+					_claw.turn(-TURN_SPEED);
 				}else{
 					_claw.turn(0);
 				}
 				break;
 			case GRABING:
-				if (_claw.getPosition() > _claw._CLOSED_CLAW_ENCODER && _claw._calibrated) {
-					_claw.turn(-TURN_SPEED);
+				if (_claw.getPosition() < _claw._CLOSED_CLAW_ENCODER && _claw._calibrated) {
+					_claw.turn(TURN_SPEED);
 				} else {
 					_claw.turn(0);
 				}
