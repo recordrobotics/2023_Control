@@ -13,6 +13,7 @@ import org.recordrobotics.Mitocondrion.commands.auto.FullAuto;
 import org.recordrobotics.Mitocondrion.commands.auto.MoveToChargeStation;
 import org.recordrobotics.Mitocondrion.commands.auto.SelfStationBalance;
 import org.recordrobotics.Mitocondrion.commands.auto.SimpleScoreAndTaxi;
+import org.recordrobotics.Mitocondrion.commands.auto.VisionBalance;
 /*import org.recordrobotics.Mitocondrion.commands.auto.SimpleScoreTaxiDock;
 import org.recordrobotics.Mitocondrion.commands.auto.TrajectoryPresets;
 
@@ -142,7 +143,7 @@ public class RobotContainer {
 
 		
 		//return new FullAuto(_vision, _drive, _trajectories, _ramsete, _kinematics, _estimator, _navSensor, null, _claw);
-		return new ChargeStationBalance(_drive, _navSensor);
+		return new VisionBalance(_drive, _navSensor, _vision, new Pose2d(), _estimator);
 		//return new SelfStationBalance(_drive, _navSensor, nav_offset);
 		//return new FullAutoTest(_vision, _drive, _pid2, _pid1, _trajectories, _estimator, _navSensor, auto_start_time);//new ParallelFullAuto(_vision, _drive, _arm, _claw, _pid1, _pid2, _trajectories, _estimator, _navSensor)
 	}
