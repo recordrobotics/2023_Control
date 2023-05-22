@@ -1,6 +1,5 @@
 package org.recordrobotics.Mitocondrion.commands.manual;
 
-import org.apache.commons.lang3.ObjectUtils.Null;
 import org.recordrobotics.Mitocondrion.control.IControlInput;
 import org.recordrobotics.Mitocondrion.subsystems.Arm;
 
@@ -21,6 +20,8 @@ public class ManualArm extends CommandBase{
 	public final static double maxY = Units.inchesToMeters(78 - tolerance) - Arm.ARM_BASE_HEIGHT;
 	private static final double DEFAULT = -1;
 
+	private double[] pos = {0, 0};
+
     public ManualArm(Arm arm, IControlInput controls, PIDController originPid, PIDController changePid) {
 		if (arm == null) {
 			throw new IllegalArgumentException("Arm is null");
@@ -39,7 +40,6 @@ public class ManualArm extends CommandBase{
 	public void execute() {
 		// sets arm motor angles based on which actions is needed
 		double[] angles = {0, 0};
-		double[] pos = {0, 0};
 		switch (_controls.getArmPosition()) {//TODO: get better heights, and maybe differentiate between cubes and cones
 			case SECOND: // X Button -- working
 				pos[0] = Units.inchesToMeters(14.25 + tolerance);
@@ -105,7 +105,9 @@ public class ManualArm extends CommandBase{
 					}
 					break;
 				case DOWN:
-					pos[1]--;
+					if(pos[1] > 0) {
+						pos[1]--;
+					}
 				default:
 					break;
 			}
