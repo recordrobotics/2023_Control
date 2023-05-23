@@ -47,7 +47,6 @@ private List<Translation2d> _waypoints;
                 new SimpleMotorFeedforward(0, 0), kinematics, drive::getWheelSpeeds, new PIDController(0, 0, 0), 
                 new PIDController(0, 0, 0), drive::tankDriveVolts, _drive, _nav, _vision),
             new ChargeStationBalance(_drive, _nav)
-            );
+        );
     }
-    
 }
