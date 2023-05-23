@@ -102,7 +102,7 @@ public class Arm extends SubsystemBase{
         else{
             System.out.println("invalid direction set");
         }
-        double[] angles = {-Math.toDegrees(theta1), Math.toDegrees(theta2)};
+        double[] angles = {Math.toDegrees(theta1) - 130, Math.toDegrees(theta2)}; // correct theta2
         return angles;
     }
 
@@ -174,10 +174,8 @@ public class Arm extends SubsystemBase{
 	}
 
 	public void resetPID() {
-		_originPid = new PIDController(O_KP, O_KI, O_KD);
-		_originPid.setTolerance(_originTolerance);
-		_changePid = new PIDController(C_KP, C_KI, C_KD);
-		_changePid.setTolerance(_changeTolerance);
+		_originPid.reset();
+		_changePid.reset();
 	}
 
 	@Override

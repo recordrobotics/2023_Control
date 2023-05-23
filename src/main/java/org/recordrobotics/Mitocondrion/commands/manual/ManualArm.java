@@ -54,8 +54,8 @@ public class ManualArm extends CommandBase{
 			case SUBSTATION: // B button
 				//pos[0] = _arm.getPos(_arm.getAnglesRestricted(Units.inchesToMeters(37.375 + tolerance)))[0];
 				//pos[1] = Units.inchesToMeters(37.375 + tolerance) - Arm.ARM_BASE_HEIGHT;
-				pos[0] = 1;
-				pos[2] = 1;
+				pos[0] = 0.33;
+				pos[1] = 0.83;
 				//angles[1] = 35;
 				break;
 			case GROUND://How far away must we be, A button

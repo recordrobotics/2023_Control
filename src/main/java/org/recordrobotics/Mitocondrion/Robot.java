@@ -89,6 +89,11 @@ public class Robot extends TimedRobot {
 		// TODO
 	}
 
+	@Override
+	public void disabledExit() {
+		_robotContainer.disabledExit();
+	}
+
 	/**
 	 * Runs when robot enters auto mode
 	 */

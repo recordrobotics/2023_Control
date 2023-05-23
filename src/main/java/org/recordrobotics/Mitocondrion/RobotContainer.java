@@ -169,6 +169,10 @@ public class RobotContainer {
 		teleopInit();
 	}
 
+	public void disabledExit() {
+		_arm.resetPID();
+	}
+
 	public void testInit() {}
 
 	public void testPeriodic() {}
