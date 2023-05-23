@@ -21,6 +21,7 @@ public class ManualArm extends CommandBase{
 	private static final double DEFAULT = -1;
 
 	private double[] pos = {0, 0};
+	private double[] angles = {-10, 10};
 
     public ManualArm(Arm arm, IControlInput controls, PIDController originPid, PIDController changePid) {
 		if (arm == null) {
@@ -39,7 +40,6 @@ public class ManualArm extends CommandBase{
     @Override
 	public void execute() {
 		// sets arm motor angles based on which actions is needed
-		double[] angles = {0, 0};
 		switch (_controls.getArmPosition()) {//TODO: get better heights, and maybe differentiate between cubes and cones
 			case SECOND: // X Button -- working
 				pos[0] = Units.inchesToMeters(14.25 + tolerance);
@@ -52,15 +52,17 @@ public class ManualArm extends CommandBase{
 				//angles[1] = 30;
 				break;
 			case SUBSTATION: // B button
-				pos[0] = _arm.getPos(_arm.getAnglesRestricted(Units.inchesToMeters(37.375 + tolerance)))[0];
-				pos[1] = Units.inchesToMeters(37.375 + tolerance) - Arm.ARM_BASE_HEIGHT;
+				//pos[0] = _arm.getPos(_arm.getAnglesRestricted(Units.inchesToMeters(37.375 + tolerance)))[0];
+				//pos[1] = Units.inchesToMeters(37.375 + tolerance) - Arm.ARM_BASE_HEIGHT;
+				pos[0] = 1;
+				pos[2] = 1;
 				//angles[1] = 35;
 				break;
-			/*case GROUND://How far away must we be, A button
-				angles[0] = -55;
-				angles[1] = -50;
+			case GROUND://How far away must we be, A button
+				angles[0] = -10;
+				angles[1] = 10;
 				break;
-			*/
+			
 	//		case THIRD:
 	//			angles = _arm.getAngles(Arm2.FIRST_ARM_LENGTH, Arm2.SECOND_ARM_LENGTH, Constants.FieldElements.DISTANCE_TO_FAR_NODE, Constants.FieldElements.CUBE_TOP_HEIGHT, "L");
 	//			break;
@@ -79,8 +81,6 @@ public class ManualArm extends CommandBase{
 		//		break;
 			default:
 				//angles = _arm.getAngles(Arm2.FIRST_ARM_LENGTH, Arm2.SECOND_ARM_LENGTH, 1.07, 1.07, "R");//This should extend mostly fully, but not quite
-				pos[0] = DEFAULT;
-				pos[1] = DEFAULT;
 				_changeOffset = 0;
 				break;
 		}
@@ -89,11 +89,11 @@ public class ManualArm extends CommandBase{
 			switch (_controls.changeSetPointX()){
 				case FORWARD:
 					if(pos[0] < maX){
-						pos[0]++;
+						pos[0] += 1/2000;
 					}
 					break;
 				case BACK:
-					pos[0]--;
+					pos[0] -= 1/2000;
 				default:
 					break;
 			}
@@ -101,25 +101,27 @@ public class ManualArm extends CommandBase{
 			switch (_controls.changeSetPointY()){
 				case UP:
 					if(pos[1] < maxY){
-						pos[1]++;
+						pos[1] += 1/2000;
 					}
 					break;
 				case DOWN:
 					if(pos[1] > 0) {
-						pos[1]--;
+						pos[1] -= 1/2000;
 					}
 				default:
 					break;
 			}
 			angles = _arm.getAngles(pos[0], pos[1], "L");
 		} else {
-			angles[0] = 10;
+			angles[0] = -10;
 			angles[1] = 10;
 		}
 		_changeOffset += 5 * _controls.changeChangeAngle().value();
 
 		angles[1] += _changeOffset;
 
+		SmartDashboard.putNumber("Pos X", pos[0]);
+		SmartDashboard.putNumber("Pos Y", pos[1]);
 		SmartDashboard.putNumber("command set origin", angles[0]);
 		_arm.setAngles(angles);
     }

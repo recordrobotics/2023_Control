@@ -1,4 +1,4 @@
-package org.recordrobotics.Mitocondrion.commands.auto;
+/*package org.recordrobotics.Mitocondrion.commands.auto;
 
 import org.recordrobotics.Mitocondrion.subsystems.Claw;
 
@@ -17,7 +17,7 @@ public class AutoMoveClaw extends CommandBase{
 	 * @param claw Claw object
 	 * @param speed speed to turn
 	 * @param status grab or release, 1 is grab, -1 is release
-	 */
+	 *
 	public AutoMoveClaw(Claw claw, double speed, int status){
 		if (speed <= 0) {
 			throw new IllegalArgumentException("Speed must be positive");
@@ -33,7 +33,7 @@ public class AutoMoveClaw extends CommandBase{
 
 	/**
 	 * Open/close claw
-	 */
+	 *
 	@Override
 
 	public void execute() {
@@ -47,7 +47,7 @@ public class AutoMoveClaw extends CommandBase{
 
 	/**
 	 * Finished when opened or closed
-	 */
+	 *
 	@Override
 	public boolean isFinished() {
 		return _claw.getSwitchState() || _claw.getPosition() > -0.4;
@@ -57,3 +57,4 @@ public class AutoMoveClaw extends CommandBase{
 		_claw.turn(0);
 	}
 }
+*/

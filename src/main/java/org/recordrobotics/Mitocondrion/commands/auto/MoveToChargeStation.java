@@ -2,7 +2,7 @@ package org.recordrobotics.Mitocondrion.commands.auto;
 
 import org.recordrobotics.Mitocondrion.commands.manual.ArmPosition;
 import org.recordrobotics.Mitocondrion.subsystems.Arm;
-import org.recordrobotics.Mitocondrion.subsystems.Claw;
+//import org.recordrobotics.Mitocondrion.subsystems.Claw;
 import org.recordrobotics.Mitocondrion.subsystems.Drive;
 import org.recordrobotics.Mitocondrion.subsystems.NavSensor;
 

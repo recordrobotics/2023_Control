@@ -1,4 +1,4 @@
-package org.recordrobotics.Mitocondrion.commands.manual;
+/*package org.recordrobotics.Mitocondrion.commands.manual;
 
 import org.recordrobotics.Mitocondrion.control.IControlInput;
 import org.recordrobotics.Mitocondrion.subsystems.Claw;
@@ -63,3 +63,4 @@ public class ManualClaw extends CommandBase {
 	}
 
 }
+*/

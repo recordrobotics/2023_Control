@@ -16,7 +16,7 @@ import org.recordrobotics.Mitocondrion.commands.auto.TrajectoryPresets;
 
 import org.recordrobotics.Mitocondrion.commands.auto.TestPreset;
 */
-import org.recordrobotics.Mitocondrion.commands.manual.ManualClaw;
+//import org.recordrobotics.Mitocondrion.commands.manual.ManualClaw;
 import org.recordrobotics.Mitocondrion.commands.manual.ArmPosition;
 import org.recordrobotics.Mitocondrion.commands.manual.ManualArm;
 import org.recordrobotics.Mitocondrion.commands.manual.CompManualArm;
@@ -55,7 +55,7 @@ public class RobotContainer {
 	// The robot's subsystems and commands are defined here...
 	//private TrajectoryPresets _trajectoryPresets;
 	private IControlInput _controlInput;
-	private Claw _claw;
+	//private Claw _claw;
 	private Drive _drive;
 	private DifferentialDrivePoseEstimator _estimator;
 	private DifferentialDriveKinematics _kinematics;

@@ -70,8 +70,8 @@ public class Arm extends SubsystemBase{
 
 		resetEncoders();
 
-		ShuffleboardTab tab = Shuffleboard.getTab(Constants.DATA_TAB);
-		_entryAngles = tab.add("Pure sensor output", new double[] {0, 0}).getEntry();
+		//ShuffleboardTab tab = Shuffleboard.getTab(Constants.DATA_TAB);
+		//_entryAngles = tab.add("Pure sensor output", new double[] {0, 0}).getEntry();
 	}
 
 	public void setAngles(double[] angles) {
@@ -102,7 +102,7 @@ public class Arm extends SubsystemBase{
         else{
             System.out.println("invalid direction set");
         }
-        double[] angles = {theta1, theta2};
+        double[] angles = {-Math.toDegrees(theta1), Math.toDegrees(theta2)};
         return angles;
     }
 
@@ -196,7 +196,7 @@ public class Arm extends SubsystemBase{
 
 		SmartDashboard.putNumber("Raw Origin Encoder", _originMotor.getSelectedSensorPosition());
 		SmartDashboard.putNumber("Raw Change Encoder", _changeMotor.getSelectedSensorPosition());
-		_entryAngles.setDoubleArray(_angles);
+		//_entryAngles.setDoubleArray(_angles);
 
 //		if(_angles[0] != prevAngles[0]) {
     		_originPid.setSetpoint(_angles[0]);
@@ -220,7 +220,7 @@ public class Arm extends SubsystemBase{
 		SmartDashboard.putNumber("Origin Speed", _originSpeed);
 		SmartDashboard.putNumber("Change Speed", _changeSpeed);
 		
-		spinOrigin(_originSpeed);
-		spinChange(_changeSpeed);
+		//spinOrigin(_originSpeed);
+		//spinChange(_changeSpeed);
 	}
 }
