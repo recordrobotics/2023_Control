@@ -74,9 +74,9 @@ public class DoubleControl implements IControlInput {
 	}
 
 	public changeSetPointX changeSetPointX() {
-		if(_gamepad2.getLeftY() > 0.5){
+		if(_gamepad2.getLeftX() > 0.5){
 			return changeSetPointX.FORWARD;
-		} else if(_gamepad2.getLeftY() < -0.5) {
+		} else if(_gamepad2.getLeftX() < -0.5) {
 			return changeSetPointX.BACK;
 		}
 
