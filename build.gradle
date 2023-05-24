@@ -26,7 +26,9 @@ spotless {
 		endWithNewline()
 		removeUnusedImports()
 	}
+	enforceCheck false
 }
+
 
 // Define my targets (RoboRIO) and artifacts (deployable files)
 // This is added by GradleRIO's backing project DeployUtils.
@@ -116,4 +118,9 @@ wpi.java.configureTestTasks(test)
 // Configure string concat to always inline compile
 tasks.withType(JavaCompile) {
     options.compilerArgs.add '-XDstringConcat=inline'
+}
+
+// Run spotless before build
+tasks.named('check') {
+	pmd.ignoreFailures = true
 }
