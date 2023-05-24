@@ -1,7 +1,7 @@
-package org.recordrobotics.Mitocondrion.subsystems;
+package org.recordrobotics.Mitochondrion.subsystems;
 
-import org.recordrobotics.Mitocondrion.Constants;
-import org.recordrobotics.Mitocondrion.RobotMap;
+import org.recordrobotics.Mitochondrion.Constants;
+import org.recordrobotics.Mitochondrion.RobotMap;
 
 import com.ctre.phoenix.motorcontrol.FeedbackDevice;
 import com.ctre.phoenix.motorcontrol.NeutralMode;

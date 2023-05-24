@@ -2,32 +2,32 @@
 // Open Source Software; you can modify and/or share it under the terms of
 // the WPILib BSD license file in the root directory of this project.
 
-package org.recordrobotics.Mitocondrion;
+package org.recordrobotics.Mitochondrion;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import org.recordrobotics.Mitocondrion.commands.auto.AutoDrive;
-import org.recordrobotics.Mitocondrion.commands.auto.MoveToChargeStation;
-import org.recordrobotics.Mitocondrion.commands.auto.SelfStationBalance;
-import org.recordrobotics.Mitocondrion.commands.auto.SimpleScoreAndTaxi;
+import org.recordrobotics.Mitochondrion.commands.auto.AutoDrive;
+import org.recordrobotics.Mitochondrion.commands.auto.MoveToChargeStation;
+import org.recordrobotics.Mitochondrion.commands.auto.SelfStationBalance;
+import org.recordrobotics.Mitochondrion.commands.auto.SimpleScoreAndTaxi;
 /*import org.recordrobotics.Mitocondrion.commands.auto.SimpleScoreTaxiDock;
 import org.recordrobotics.Mitocondrion.commands.auto.TrajectoryPresets;
 
 import org.recordrobotics.Mitocondrion.commands.auto.TestPreset;
 */
-import org.recordrobotics.Mitocondrion.commands.manual.ManualClaw;
-import org.recordrobotics.Mitocondrion.commands.manual.ArmPosition;
-import org.recordrobotics.Mitocondrion.commands.manual.ManualArm;
-import org.recordrobotics.Mitocondrion.commands.manual.CompManualArm;
-import org.recordrobotics.Mitocondrion.commands.manual.ManualDrive;
-import org.recordrobotics.Mitocondrion.commands.dash.DashRunFunc;
-import org.recordrobotics.Mitocondrion.control.DoubleControl;
-import org.recordrobotics.Mitocondrion.control.IControlInput;
-import org.recordrobotics.Mitocondrion.control.SingleControl;
-import org.recordrobotics.Mitocondrion.subsystems.*;
-import org.recordrobotics.Mitocondrion.util.Pair;
-import org.recordrobotics.Mitocondrion.util.GetStartTime;
+import org.recordrobotics.Mitochondrion.commands.manual.ManualClaw;
+import org.recordrobotics.Mitochondrion.commands.manual.ArmPosition;
+import org.recordrobotics.Mitochondrion.commands.manual.ManualArm;
+import org.recordrobotics.Mitochondrion.commands.manual.CompManualArm;
+import org.recordrobotics.Mitochondrion.commands.manual.ManualDrive;
+import org.recordrobotics.Mitochondrion.commands.dash.DashRunFunc;
+import org.recordrobotics.Mitochondrion.control.DoubleControl;
+import org.recordrobotics.Mitochondrion.control.IControlInput;
+import org.recordrobotics.Mitochondrion.control.SingleControl;
+import org.recordrobotics.Mitochondrion.subsystems.*;
+import org.recordrobotics.Mitochondrion.util.Pair;
+import org.recordrobotics.Mitochondrion.util.GetStartTime;
 
 
 import edu.wpi.first.math.estimator.DifferentialDrivePoseEstimator;

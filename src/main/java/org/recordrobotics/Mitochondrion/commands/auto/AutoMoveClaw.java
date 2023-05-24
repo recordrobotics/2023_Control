@@ -1,6 +1,6 @@
-package org.recordrobotics.Mitocondrion.commands.auto;
+package org.recordrobotics.Mitochondrion.commands.auto;
 
-import org.recordrobotics.Mitocondrion.subsystems.Claw;
+import org.recordrobotics.Mitochondrion.subsystems.Claw;
 
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;

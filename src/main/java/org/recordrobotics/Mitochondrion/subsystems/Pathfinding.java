@@ -1,4 +1,4 @@
-package org.recordrobotics.Mitocondrion.subsystems;
+package org.recordrobotics.Mitochondrion.subsystems;
 
 import java.util.ArrayList;
 

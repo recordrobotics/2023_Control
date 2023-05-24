@@ -1,8 +1,8 @@
-package org.recordrobotics.Mitocondrion.commands.auto;
+package org.recordrobotics.Mitochondrion.commands.auto;
 
-import org.recordrobotics.Mitocondrion.commands.manual.ArmPosition;
-import org.recordrobotics.Mitocondrion.subsystems.Arm;
-import org.recordrobotics.Mitocondrion.subsystems.CompArm;
+import org.recordrobotics.Mitochondrion.commands.manual.ArmPosition;
+import org.recordrobotics.Mitochondrion.subsystems.Arm;
+import org.recordrobotics.Mitochondrion.subsystems.CompArm;
 
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.CommandBase;

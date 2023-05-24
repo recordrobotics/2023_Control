@@ -1,6 +1,6 @@
-package org.recordrobotics.Mitocondrion.subsystems;
+package org.recordrobotics.Mitochondrion.subsystems;
 
-import org.recordrobotics.Mitocondrion.Constants;
+import org.recordrobotics.Mitochondrion.Constants;
 
 import com.kauailabs.navx.frc.AHRS;
 import edu.wpi.first.wpilibj.SPI;

@@ -1,6 +1,6 @@
-package org.recordrobotics.Mitocondrion.commands.dashboard;
+package org.recordrobotics.Mitochondrion.commands.dashboard;
 
-import org.recordrobotics.Mitocondrion.subsystems.Arm;
+import org.recordrobotics.Mitochondrion.subsystems.Arm;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
 
