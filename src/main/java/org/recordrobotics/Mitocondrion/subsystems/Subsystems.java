@@ -2,7 +2,7 @@ package org.recordrobotics.Mitocondrion.subsystems;
 
 // put static functions that are used by multiple subsystems here
 public final class Subsystems {
-	private static final double SPEED_LIMIT = 0.4;
+	private static final double SPEED_LIMIT = 0.85;
 
 	// so that Subsystems can't be instantiated
 	private Subsystems() {}

@@ -77,7 +77,8 @@ public class RobotContainer {
 		resetCommands();
 
 		// Configure the button bindings
-		_controlInput = new SingleControl(RobotMap.Control.SINGLE_GAMEPAD);
+		_controlInput = new DoubleControl(RobotMap.Control.DOUBLE_GAMEPAD_1, RobotMap.Control.DOUBLE_GAMEPAD_2);
+		//_controlInput = new SingleControl(RobotMap.Control.SINGLE_GAMEPAD);
 		_drive = new Drive();
 		_navSensor = new NavSensor();
 		_claw = new Claw();
