@@ -112,6 +112,10 @@ public class RobotContainer {
 		tab.add("Double Control", new DashRunFunc(this::doubleControl));
 	}
 
+	public void disabledExit() {
+		_arm.resetPID();
+	}
+
 	/**
 	 * Executes teleop commands
 	 */	

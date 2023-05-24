@@ -165,10 +165,8 @@ public class Arm extends SubsystemBase{
 	}
 
 	public void resetPID() {
-		_originPid = new PIDController(O_KP, O_KI, O_KD);
-		_originPid.setTolerance(_originTolerance);
-		_changePid = new PIDController(C_KP, C_KI, C_KD);
-		_changePid.setTolerance(_changeTolerance);
+		_originPid.reset();
+		_changePid.reset();
 	}
 
 	@Override

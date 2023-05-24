@@ -88,6 +88,10 @@ public class Robot extends TimedRobot {
 		//System.out.println("Disabled periodic");
 		// TODO
 	}
+	
+	public void disabledExit() {
+		_robotContainer.disabledExit();
+	}
 
 	/**
 	 * Runs when robot enters auto mode
