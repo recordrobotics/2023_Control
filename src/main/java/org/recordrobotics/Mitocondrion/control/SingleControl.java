@@ -28,39 +28,6 @@ public class SingleControl implements IControlInput {
 		return _gamepad.getLeftX();
 	}
 
-	@Override
-	public ChangeAngle changeOriginAngle() {
-		if (_gamepad.getRightX() > 0.5 && Math.abs(_gamepad.getRightY()) < 0.5 && !_xRightActivated) {
-			_xRightActivated = true;
-			return ChangeAngle.INCREASE;
-		} else if (_gamepad.getRightX() < 0.5) {
-			_xRightActivated = false;
-		}
-		if (_gamepad.getRightX() < -0.5 && Math.abs(_gamepad.getRightY()) < 0.5 && !_xLeftActivated) {
-			_xLeftActivated = true;
-			return ChangeAngle.DECREASE;
-		} else if (_gamepad.getRightX() > -0.5) {
-			_xLeftActivated = false;
-		}
-		return ChangeAngle.REMAIN;
-	}
-
-	@Override
-	public ChangeAngle changeChangeAngle() {
-		if (_gamepad.getRightY() > 0.5 && Math.abs(_gamepad.getRightX()) < 0.5 && !_yRightActivated) {
-			_yRightActivated = true;
-			return ChangeAngle.INCREASE;
-		} else if (_gamepad.getRightY() < 0.5) {
-			_yRightActivated = false;
-		}
-		if (_gamepad.getRightY() < -0.5 && Math.abs(_gamepad.getRightX()) < 0.5 && !_yLeftActivated) {
-			_yLeftActivated = true;
-			return ChangeAngle.DECREASE;
-		} else if (_gamepad.getRightY() > -0.5) {
-			_yLeftActivated = false;
-		}
-		return ChangeAngle.REMAIN;
-	}
 
 	@Override
 	public ClawState getClawTurn() {
@@ -144,4 +111,39 @@ public class SingleControl implements IControlInput {
 		// TODO Auto-generated method stub
 		return null;
 	}
+	
+	/*
+	@Override
+	public ChangeAngle changeOriginAngle() {
+		if (_gamepad.getRightX() > 0.5 && Math.abs(_gamepad.getRightY()) < 0.5 && !_xRightActivated) {
+			_xRightActivated = true;
+			return ChangeAngle.INCREASE;
+		} else if (_gamepad.getRightX() < 0.5) {
+			_xRightActivated = false;
+		}
+		if (_gamepad.getRightX() < -0.5 && Math.abs(_gamepad.getRightY()) < 0.5 && !_xLeftActivated) {
+			_xLeftActivated = true;
+			return ChangeAngle.DECREASE;
+		} else if (_gamepad.getRightX() > -0.5) {
+			_xLeftActivated = false;
+		}
+		return ChangeAngle.REMAIN;
+	}
+
+	@Override
+	public ChangeAngle changeChangeAngle() {
+		if (_gamepad.getRightY() > 0.5 && Math.abs(_gamepad.getRightX()) < 0.5 && !_yRightActivated) {
+			_yRightActivated = true;
+			return ChangeAngle.INCREASE;
+		} else if (_gamepad.getRightY() < 0.5) {
+			_yRightActivated = false;
+		}
+		if (_gamepad.getRightY() < -0.5 && Math.abs(_gamepad.getRightX()) < 0.5 && !_yLeftActivated) {
+			_yLeftActivated = true;
+			return ChangeAngle.DECREASE;
+		} else if (_gamepad.getRightY() > -0.5) {
+			_yLeftActivated = false;
+		}
+		return ChangeAngle.REMAIN;
+	} dead code */
 }

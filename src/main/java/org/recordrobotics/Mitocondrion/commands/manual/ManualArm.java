@@ -64,8 +64,8 @@ public class ManualArm extends CommandBase{
 				//angles[1] = 35;
 				break;
 			case GROUND://How far away must we be, A button
-				angles[0] = -10;
-				angles[1] = 10;
+				pos[0] = 0;
+				pos[1] = 0.7;
 				break;
 			
 	//		case THIRD:
@@ -86,7 +86,6 @@ public class ManualArm extends CommandBase{
 		//		break;
 			default:
 				//angles = _arm.getAngles(Arm2.FIRST_ARM_LENGTH, Arm2.SECOND_ARM_LENGTH, 1.07, 1.07, "R");//This should extend mostly fully, but not quite
-				_changeOffset = 0;
 				break;
 		}
 
@@ -113,9 +112,6 @@ public class ManualArm extends CommandBase{
 		pos[0] = Math.max(Math.min(pos[0], maX), 0);
 		pos[1] = Math.max(Math.min(pos[1], maxY), 0);
 		angles = _arm.getAngles(pos[0], pos[1], "L");
-		_changeOffset += 5 * _controls.changeChangeAngle().value();
-
-		angles[1] += _changeOffset;
 
 		SmartDashboard.putNumber("Pos X", pos[0]);
 		SmartDashboard.putNumber("Pos Y", pos[1]);
