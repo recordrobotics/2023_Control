@@ -63,6 +63,26 @@ public class DoubleControl implements IControlInput {
 		return ChangeAngle.REMAIN;
 	}
 
+	public changeSetPointY changeSetPointY() {
+		if(_gamepad2.getLeftY() > 0.5){
+			return changeSetPointY.UP;
+		} else if(_gamepad2.getLeftY() < -0.5) {
+			return changeSetPointY.DOWN;
+		}
+
+		return changeSetPointY.REMAIN;
+	}
+
+	public changeSetPointX changeSetPointX() {
+		if(_gamepad2.getLeftX() > 0.5){
+			return changeSetPointX.FORWARD;
+		} else if(_gamepad2.getLeftX() < -0.5) {
+			return changeSetPointX.BACK;
+		}
+
+		return changeSetPointX.REMAIN;
+	}
+
 	@Override
 	public ClawState getClawTurn() {
 		if (_gamepad2.getLeftTriggerAxis() >= _TRIGGER_THRESHOLD) {

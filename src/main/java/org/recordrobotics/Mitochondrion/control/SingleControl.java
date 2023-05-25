@@ -132,4 +132,16 @@ public class SingleControl implements IControlInput {
 		}
 		return ArmPosition.NEUTRAL;
 	}
+
+	@Override
+	public org.recordrobotics.Mitocondrion.control.IControlInput.changeSetPointX changeSetPointX() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public org.recordrobotics.Mitocondrion.control.IControlInput.changeSetPointY changeSetPointY() {
+		// TODO Auto-generated method stub
+		return null;
+	}
 }

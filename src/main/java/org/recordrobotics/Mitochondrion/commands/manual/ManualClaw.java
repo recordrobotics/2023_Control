@@ -63,3 +63,4 @@ public class ManualClaw extends CommandBase {
 	}
 
 }
+*/

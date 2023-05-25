@@ -23,7 +23,7 @@ public class Arm extends SubsystemBase{
 	private WPI_TalonFX _changeMotor = new WPI_TalonFX(RobotMap.Arm.CHANGE_MOTOR_PORT);
 	public static final double FIRST_ARM_LENGTH = Units.inchesToMeters(38); //TODO: All of these lengths and angles are off slightly, and should be modified
 	public static final double SECOND_ARM_LENGTH = Units.inchesToMeters(28); //31 when claw is closed 
-	private static final double ARM_BASE_HEIGHT = 14.75;
+	public static final double ARM_BASE_HEIGHT = Units.inchesToMeters(14.75);
     //private static final double FIRST_ARM_ZERO = Math.PI/3;
     //private static final double SECOND_ARM_ZERO = Math.PI;
 	private static final double TICKS_PER_REV = 2048;
@@ -70,8 +70,8 @@ public class Arm extends SubsystemBase{
 
 		resetEncoders();
 
-		ShuffleboardTab tab = Shuffleboard.getTab(Constants.DATA_TAB);
-		_entryAngles = tab.add("Pure sensor output", new double[] {0, 0}).getEntry();
+		//ShuffleboardTab tab = Shuffleboard.getTab(Constants.DATA_TAB);
+		//_entryAngles = tab.add("Pure sensor output", new double[] {0, 0}).getEntry();
 	}
 
 	public void setAngles(double[] angles) {
@@ -102,9 +102,19 @@ public class Arm extends SubsystemBase{
         else{
             System.out.println("invalid direction set");
         }
-        double[] angles = {theta1, theta2};
+        double[] angles = {Math.toDegrees(theta1) - 130, 170 + Math.toDegrees(theta2)}; // correct theta2
+		angles[1] += 6 * angles[0] / 7;
         return angles;
     }
+
+	public double[] getPos(double angles[]){
+		double L1 = FIRST_ARM_LENGTH;
+		double L2 = SECOND_ARM_LENGTH;
+		double[] pos = new double[2]; // 0 - x, 1 - y
+		pos[0] = L1 * Math.cos(angles[0]) + L2 * Math.cos(angles[0] + angles[1]);
+		pos[1] = L1 * Math.sin(angles[0]) + L2 * Math.sin(angles[0] + angles[1]);
+		return pos;
+	}
 
     public double[] getAnglesRestricted(double y){//Angles but holding the second segment parallel to the ground
 		double L1 = FIRST_ARM_LENGTH;
@@ -165,10 +175,8 @@ public class Arm extends SubsystemBase{
 	}
 
 	public void resetPID() {
-		_originPid = new PIDController(O_KP, O_KI, O_KD);
-		_originPid.setTolerance(_originTolerance);
-		_changePid = new PIDController(C_KP, C_KI, C_KD);
-		_changePid.setTolerance(_changeTolerance);
+		_originPid.reset();
+		_changePid.reset();
 	}
 
 	@Override
@@ -187,7 +195,7 @@ public class Arm extends SubsystemBase{
 
 		SmartDashboard.putNumber("Raw Origin Encoder", _originMotor.getSelectedSensorPosition());
 		SmartDashboard.putNumber("Raw Change Encoder", _changeMotor.getSelectedSensorPosition());
-		_entryAngles.setDoubleArray(_angles);
+		//_entryAngles.setDoubleArray(_angles);
 
 //		if(_angles[0] != prevAngles[0]) {
     		_originPid.setSetpoint(_angles[0]);

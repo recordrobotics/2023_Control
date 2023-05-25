@@ -59,11 +59,12 @@ public class RobotContainer {
 	// The robot's subsystems and commands are defined here...
 	//private TrajectoryPresets _trajectoryPresets;
 	private IControlInput _controlInput;
-	private Claw _claw;
+	//private Claw _claw;
 	private Drive _drive;
 	private DifferentialDrivePoseEstimator _estimator;
 	private DifferentialDriveKinematics _kinematics;
 	private ArrayList<Trajectory> _trajectories;
+	private ManualArm _manualArm;
 	private NavSensor _navSensor;
 	private Vision _vision;
 	//private CompArm _compArm;
@@ -105,11 +106,12 @@ public class RobotContainer {
 	}
 
 	private void initTeleopCommands() {
+		_manualArm = new ManualArm(_arm, _controlInput, _pid1, _pid2);
 		_teleopPairs = new ArrayList<>();
 		_teleopPairs.add(new Pair<Subsystem, Command>(_drive, new ManualDrive(_drive, _controlInput)));
 		//_teleopPairs.add(new Pair<Subsystem, Command>(_compArm, new CompManualArm(_compArm, _controlInput)));
 		//_teleopPairs.add(new Pair<Subsystem, Command>(_claw, new ManualClaw(_claw, _controlInput)));
-		//_teleopPairs.add(new Pair<Subsystem, Command>(_arm, new ManualArm(_arm, _controlInput, _pid1, _pid2)));
+		_teleopPairs.add(new Pair<Subsystem, Command>(_arm, _manualArm));
 	}
 
 	private void initDashCommands() {
@@ -167,6 +169,11 @@ public class RobotContainer {
 			RobotMap.Control.DOUBLE_GAMEPAD_2);
 		initTeleopCommands();
 		teleopInit();
+	}
+
+	public void disabledExit() {
+		_arm.resetPID();
+		_manualArm.resetPos();
 	}
 
 	public void testInit() {}
