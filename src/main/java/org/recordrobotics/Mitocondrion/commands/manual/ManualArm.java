@@ -16,11 +16,11 @@ public class ManualArm extends CommandBase{
 
 	public final static double tolerance = 3;
 
-	public final static double maX = Units.inchesToMeters(40 - tolerance);
+	public final static double maX = Units.inchesToMeters(24 - tolerance);
 	public final static double maxY = Units.inchesToMeters(78 - tolerance) - Arm.ARM_BASE_HEIGHT;
 	private static final double DEFAULT = -1;
 
-	private double[] pos = {0, 0};
+	private double[] pos = {0, 0.7};
 	private double[] angles = {-10, 10};
 
     public ManualArm(Arm arm, IControlInput controls, PIDController originPid, PIDController changePid) {
@@ -35,6 +35,11 @@ public class ManualArm extends CommandBase{
 		_controls = controls;
 
 		addRequirements(arm);
+	}
+
+	public void resetPos() {
+		pos[0] = 0;
+		pos[1] = 0.7;
 	}
 
     @Override
@@ -85,37 +90,32 @@ public class ManualArm extends CommandBase{
 				break;
 		}
 
-		if(pos[0] != DEFAULT && pos[1] != DEFAULT){
-			switch (_controls.changeSetPointX()){
-				case FORWARD:
-					if(pos[0] < maX){
-						pos[0] += 1/2000;
-					}
-					break;
-				case BACK:
-					pos[0] -= 1/2000;
-				default:
-					break;
-			}
-	
-			switch (_controls.changeSetPointY()){
-				case UP:
-					if(pos[1] < maxY){
-						pos[1] += 1/2000;
-					}
-					break;
-				case DOWN:
-					if(pos[1] > 0) {
-						pos[1] -= 1/2000;
-					}
-				default:
-					break;
-			}
-			angles = _arm.getAngles(pos[0], pos[1], "L");
-		} else {
-			angles[0] = -10;
-			angles[1] = 10;
+		switch (_controls.changeSetPointX()){
+			case FORWARD:
+				if(pos[0] < maX){
+					pos[0] += 0.01;
+				}
+				break;
+			case BACK:
+				pos[0] -= 0.01;
+			default:
+				break;
 		}
+
+		switch (_controls.changeSetPointY()){
+			case UP:
+				if(pos[1] < maxY){
+					pos[1] += 0.01;
+				}
+				break;
+			case DOWN:
+				if(pos[1] > 0) {
+					pos[1] -= 0.01;
+				}
+			default:
+				break;
+		}
+		angles = _arm.getAngles(pos[0], pos[1], "L");
 		_changeOffset += 5 * _controls.changeChangeAngle().value();
 
 		angles[1] += _changeOffset;

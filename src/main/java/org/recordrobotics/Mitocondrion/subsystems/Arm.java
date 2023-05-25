@@ -102,7 +102,8 @@ public class Arm extends SubsystemBase{
         else{
             System.out.println("invalid direction set");
         }
-        double[] angles = {Math.toDegrees(theta1) - 130, Math.toDegrees(theta2)}; // correct theta2
+        double[] angles = {Math.toDegrees(theta1) - 130, 170 + Math.toDegrees(theta2)}; // correct theta2
+		angles[1] += 6 * angles[0] / 7;
         return angles;
     }
 
@@ -218,7 +219,7 @@ public class Arm extends SubsystemBase{
 		SmartDashboard.putNumber("Origin Speed", _originSpeed);
 		SmartDashboard.putNumber("Change Speed", _changeSpeed);
 		
-		//spinOrigin(_originSpeed);
-		//spinChange(_changeSpeed);
+		spinOrigin(_originSpeed);
+		spinChange(_changeSpeed);
 	}
 }
