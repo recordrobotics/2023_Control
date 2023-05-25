@@ -54,7 +54,7 @@ public class Claw extends SubsystemBase {
 	/*
 	 * Returns the the Claw Switch
 	 * @return true if Claw in boundary
-	 *
+	 */
 	public boolean getSwitchState(){
 		return _limitSwitch.get();
 	}
@@ -62,7 +62,7 @@ public class Claw extends SubsystemBase {
 	/**
 	 * turns motor
 	 * @param speed speed of the motor
-	 *
+	 */
 	public void turn(double speed) {
 		_motor.set(Subsystems.limitSpeed(speed));
 	}
@@ -70,7 +70,7 @@ public class Claw extends SubsystemBase {
 	/**
 	 * gets encoder value of the claw
 	 * @return The encoder value
-	 *
+	 */
 	public double getPosition() {
 		double position = _motor.getEncoder().getPosition();
 		SmartDashboard.putNumber("claw Encoder", position);
@@ -83,7 +83,7 @@ public class Claw extends SubsystemBase {
 
 	/*
 	 * sets break to true or false
-	 *
+	 */
 	public void brake(boolean mode){
 		if(mode){
 			_motor.setIdleMode(IdleMode.kBrake);
@@ -94,10 +94,9 @@ public class Claw extends SubsystemBase {
 
 	/**
 	 * resets encoder values
-	 *
+	 */
 	public void resetEncoders() {
 		_motor.getEncoder().setPosition(0);
 	}
 
 }
-*/
