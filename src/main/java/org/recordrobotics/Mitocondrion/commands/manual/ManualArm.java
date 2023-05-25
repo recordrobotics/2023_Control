@@ -92,9 +92,7 @@ public class ManualArm extends CommandBase{
 
 		switch (_controls.changeSetPointX()){
 			case FORWARD:
-				if(pos[0] < maX){
 					pos[0] += 0.01;
-				}
 				break;
 			case BACK:
 				pos[0] -= 0.01;
@@ -104,17 +102,16 @@ public class ManualArm extends CommandBase{
 
 		switch (_controls.changeSetPointY()){
 			case UP:
-				if(pos[1] < maxY){
 					pos[1] += 0.01;
-				}
 				break;
 			case DOWN:
-				if(pos[1] > 0) {
 					pos[1] -= 0.01;
-				}
 			default:
 				break;
 		}
+
+		pos[0] = Math.max(Math.min(pos[0], maX), 0);
+		pos[1] = Math.max(Math.min(pos[1], maxY), 0);
 		angles = _arm.getAngles(pos[0], pos[1], "L");
 		_changeOffset += 5 * _controls.changeChangeAngle().value();
 
