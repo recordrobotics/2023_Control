@@ -102,7 +102,8 @@ public class Arm extends SubsystemBase{
         else{
             System.out.println("invalid direction set");
         }
-        double[] angles = {Math.toDegrees(theta1) - 130, Math.toDegrees(theta2)}; // correct theta2
+        double[] angles = {Math.toDegrees(theta1) - 130, 170 + Math.toDegrees(theta2)}; // correct theta2
+		angles[1] += 6 * angles[0] / 7;
         return angles;
     }
 
@@ -186,11 +187,18 @@ public class Arm extends SubsystemBase{
 		} else if(_angles[0] < commandAngles[0]) {
 			_angles[0] += rampConstant;
 		}
+		if(Math.abs(commandAngles[0]-_angles[0]) < rampConstant) {
+			_angles[0] = commandAngles[0];
+		}
 		if(_angles[1] > commandAngles[1]) {
 			_angles[1] -= rampConstant;
 		} else if(_angles[1] < commandAngles[1]) {
 			_angles[1] += rampConstant;
 		}
+		if(Math.abs(commandAngles[1]-_angles[1]) < rampConstant) {
+			_angles[1] = commandAngles[1];
+		}
+
 
 		SmartDashboard.putNumber("Raw Origin Encoder", _originMotor.getSelectedSensorPosition());
 		SmartDashboard.putNumber("Raw Change Encoder", _changeMotor.getSelectedSensorPosition());

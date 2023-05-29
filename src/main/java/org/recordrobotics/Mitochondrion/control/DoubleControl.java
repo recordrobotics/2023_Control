@@ -1,4 +1,4 @@
-package org.recordrobotics.Mitocondrion.control;
+package org.recordrobotics.Mitochondrion.control;
 
 import edu.wpi.first.wpilibj.XboxController;
 
@@ -29,7 +29,7 @@ public class DoubleControl implements IControlInput {
 		return -_gamepad1.getLeftX();
 	}
 
-	// currently dead
+	/* currently dead
 	@Override
 	public ChangeAngle changeOriginAngle() {
 		if (_gamepad2.getRightX() > 0.5 && Math.abs(_gamepad2.getRightY()) < 0.5 && !_xRightActivated) {
@@ -63,7 +63,7 @@ public class DoubleControl implements IControlInput {
 			_yLeftActivated = false;
 		}
 		return ChangeAngle.REMAIN;
-	}
+	} */
 
 	public changeSetPointY changeSetPointY() {
 		if(_gamepad2.getLeftY() > 0.5){

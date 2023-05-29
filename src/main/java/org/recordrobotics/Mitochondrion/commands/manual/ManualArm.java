@@ -37,6 +37,11 @@ public class ManualArm extends CommandBase{
 		addRequirements(arm);
 	}
 
+	public void resetPos() {
+		pos[0] = 0;
+		pos[1] = 0.7;
+	}
+
     @Override
 	public void execute() {
 		// sets arm motor angles based on which actions is needed
@@ -81,20 +86,24 @@ public class ManualArm extends CommandBase{
 		//		break;
 			default:
 				//angles = _arm.getAngles(Arm2.FIRST_ARM_LENGTH, Arm2.SECOND_ARM_LENGTH, 1.07, 1.07, "R");//This should extend mostly fully, but not quite
-				_changeOffset = 0;
 				break;
 		}
 
 		switch (_controls.changeSetPointX()){
 			case FORWARD:
+<<<<<<< HEAD:src/main/java/org/recordrobotics/Mitocondrion/commands/manual/ManualArm.java
 				if(pos[0] < maX){
 					pos[0] += 0.01;
 				}
+=======
+					pos[0] += 0.01;
+>>>>>>> c16cc872b6c7d0652763b62a26ac47d1849d80d8:src/main/java/org/recordrobotics/Mitochondrion/commands/manual/ManualArm.java
 				break;
 			case BACK:
 				pos[0] -= 0.01;
 			default:
 				break;
+<<<<<<< HEAD:src/main/java/org/recordrobotics/Mitocondrion/commands/manual/ManualArm.java
 		}
 
 		switch (_controls.changeSetPointY()){
@@ -110,6 +119,22 @@ public class ManualArm extends CommandBase{
 			default:
 				break;
 		}
+=======
+		}
+
+		switch (_controls.changeSetPointY()){
+			case UP:
+					pos[1] += 0.01;
+				break;
+			case DOWN:
+					pos[1] -= 0.01;
+			default:
+				break;
+		}
+
+		pos[0] = Math.max(Math.min(pos[0], maX), 0);
+		pos[1] = Math.max(Math.min(pos[1], maxY), 0);
+>>>>>>> c16cc872b6c7d0652763b62a26ac47d1849d80d8:src/main/java/org/recordrobotics/Mitochondrion/commands/manual/ManualArm.java
 		angles = _arm.getAngles(pos[0], pos[1], "L");
 
 		SmartDashboard.putNumber("Pos X", pos[0]);

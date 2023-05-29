@@ -1,4 +1,4 @@
-package org.recordrobotics.Mitocondrion.control;
+package org.recordrobotics.Mitochondrion.control;
 
 /**
  * Specifies all control inputs needed for the robot
@@ -103,28 +103,28 @@ public interface IControlInput {
 	 * 
 	 * @return ChangeAngle.INCREASE - increase; ChangeAngle.DECREASE - decrease; ChangeAngle.REMAIN - no change
 	 */
-	ChangeAngle changeOriginAngle();
+	//ChangeAngle changeOriginAngle();
 
 	/**
 	 * changes the change motor angle
 	 * 
 	 * @return ChangeAngle.INCREASE - increase; ChangeAngle.DECREASE - decrease; ChangeAngle.REMAIN - no change
 	 */
-	ChangeAngle changeChangeAngle();
+	//ChangeAngle changeChangeAngle();
 
 /**
 	 * changes set X value
 	 * 
 	 * @return ChangeAngle.FORWARD - forward; ChangeAngle.BACKWARD - backward; ChangeAngle.REMAIN - no change
 	 */
-	changeSetPointX changeSetPointX();
+	void changeSetPointX();
 
 /**
 	 * changes the change motor angle
 	 * 
 	 * @return ChangeAngle.UP - up; ChangeAngle.DOWN - down; ChangeAngle.REMAIN - no change
 	 */
-	changeSetPointY changeSetPointY();
+	void changeSetPointY();
 
 
 	/**

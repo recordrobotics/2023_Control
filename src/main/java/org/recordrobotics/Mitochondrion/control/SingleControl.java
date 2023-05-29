@@ -1,4 +1,4 @@
-package org.recordrobotics.Mitocondrion.control;
+package org.recordrobotics.Mitochondrion.control;
 
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -28,7 +28,7 @@ public class SingleControl implements IControlInput {
 		return _gamepad.getLeftX();
 	}
 
-	// currently dead
+	/* currently dead
 	@Override
 	public ChangeAngle changeOriginAngle() {
 		if (_gamepad.getRightX() > 0.5 && Math.abs(_gamepad.getRightY()) < 0.5 && !_xRightActivated) {
@@ -62,7 +62,7 @@ public class SingleControl implements IControlInput {
 			_yLeftActivated = false;
 		}
 		return ChangeAngle.REMAIN;
-	}
+	} */
 
 	@Override
 	public ClawState getClawTurn() {
@@ -136,13 +136,13 @@ public class SingleControl implements IControlInput {
 	}
 
 	@Override
-	public org.recordrobotics.Mitocondrion.control.IControlInput.changeSetPointX changeSetPointX() {
+	public changeSetPointX changeSetPointX() {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
-	public org.recordrobotics.Mitocondrion.control.IControlInput.changeSetPointY changeSetPointY() {
+	public changeSetPointY changeSetPointY() {
 		// TODO Auto-generated method stub
 		return null;
 	}
