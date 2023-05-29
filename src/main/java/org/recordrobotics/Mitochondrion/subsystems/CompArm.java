@@ -17,6 +17,9 @@ import com.ctre.phoenix.motorcontrol.can.TalonFXConfiguration;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
 import com.ctre.phoenix.sensors.SensorInitializationStrategy;
 
+import org.recordrobotics.Mitochondrion.Constants;
+import org.recordrobotics.Mitochondrion.RobotMap;
+
 public class CompArm extends SubsystemBase{
     private WPI_TalonFX _originMotor = new WPI_TalonFX(RobotMap.Arm.ORIGIN_MOTOR_PORT);
 	private static final double TICKS_PER_REV = 2048;

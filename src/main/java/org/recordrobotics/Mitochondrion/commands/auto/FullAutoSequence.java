@@ -3,6 +3,7 @@ package org.recordrobotics.Mitochondrion.commands.auto;
 import java.util.ArrayList;
 
 import org.recordrobotics.Mitochondrion.commands.manual.ArmPosition;
+import org.recordrobotics.Mitochondrion.commands.auto.AutoMoveClaw;
 import org.recordrobotics.Mitochondrion.subsystems.Drive;
 import org.recordrobotics.Mitochondrion.subsystems.NavSensor;
 import org.recordrobotics.Mitochondrion.subsystems.Vision;
