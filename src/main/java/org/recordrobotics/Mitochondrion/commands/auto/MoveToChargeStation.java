@@ -2,10 +2,8 @@ package org.recordrobotics.Mitochondrion.commands.auto;
 
 import org.recordrobotics.Mitochondrion.commands.manual.ArmPosition;
 import org.recordrobotics.Mitochondrion.subsystems.Arm;
-import org.recordrobotics.Mitochondrion.subsystems.Claw;
 import org.recordrobotics.Mitochondrion.subsystems.Drive;
 import org.recordrobotics.Mitochondrion.subsystems.NavSensor;
-import org.recordrobotics.Mitochondrion.commands.auto.ChargeStationBalance;
 
 import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
