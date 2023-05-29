@@ -2,10 +2,7 @@ package org.recordrobotics.Mitochondrion.commands.auto;
 
 import org.recordrobotics.Mitochondrion.commands.manual.ArmPosition;
 import org.recordrobotics.Mitochondrion.subsystems.Arm;
-<<<<<<< HEAD:src/main/java/org/recordrobotics/Mitochondrion/commands/auto/MoveToChargeStationClaw.java
 import org.recordrobotics.Mitochondrion.subsystems.Claw;
-=======
->>>>>>> manual-arm:src/main/java/org/recordrobotics/Mitocondrion/commands/auto/MoveToChargeStationClaw.java
 import org.recordrobotics.Mitochondrion.subsystems.Drive;
 import org.recordrobotics.Mitochondrion.subsystems.NavSensor;
 
