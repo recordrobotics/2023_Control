@@ -7,43 +7,35 @@ package org.recordrobotics.Mitochondrion;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.recordrobotics.Mitochondrion.commands.auto.AutoDrive;
-import org.recordrobotics.Mitochondrion.commands.auto.ChargeStationBalance;
+import org.recordrobotics.Mitochondrion.commands.auto.AutoMoveArm;
 import org.recordrobotics.Mitochondrion.commands.auto.FullAuto;
-import org.recordrobotics.Mitochondrion.commands.auto.MoveToChargeStation;
-import org.recordrobotics.Mitochondrion.commands.auto.SelfStationBalance;
-import org.recordrobotics.Mitochondrion.commands.auto.SimpleScoreAndTaxi;
-import org.recordrobotics.Mitochondrion.commands.auto.VisionBalance;
-/*import org.recordrobotics.Mitochondrion.commands.auto.SimpleScoreTaxiDock;
-import org.recordrobotics.Mitochondrion.commands.auto.TrajectoryPresets;
-
-import org.recordrobotics.Mitochondrion.commands.auto.TestPreset;
-*/
-import org.recordrobotics.Mitochondrion.commands.manual.ManualClaw;
+import org.recordrobotics.Mitochondrion.commands.dash.DashRunFunc;
 //import org.recordrobotics.Mitochondrion.commands.manual.ArmPosition;
 import org.recordrobotics.Mitochondrion.commands.manual.ManualArm;
-import org.recordrobotics.Mitochondrion.commands.manual.CompManualArm;
 import org.recordrobotics.Mitochondrion.commands.manual.ManualDrive;
-import org.recordrobotics.Mitochondrion.commands.dash.DashRunFunc;
 import org.recordrobotics.Mitochondrion.control.DoubleControl;
 import org.recordrobotics.Mitochondrion.control.IControlInput;
 import org.recordrobotics.Mitochondrion.control.SingleControl;
-import org.recordrobotics.Mitochondrion.subsystems.*;
-import org.recordrobotics.Mitochondrion.util.Pair;
+import org.recordrobotics.Mitochondrion.subsystems.Claw;
+import org.recordrobotics.Mitochondrion.subsystems.Drive;
+import org.recordrobotics.Mitochondrion.subsystems.NavSensor;
+import org.recordrobotics.Mitochondrion.subsystems.Vision;
 import org.recordrobotics.Mitochondrion.util.GetStartTime;
+import org.recordrobotics.Mitochondrion.util.Pair;
 
-
+import edu.wpi.first.math.controller.PIDController;
+import edu.wpi.first.math.controller.RamseteController;
 import edu.wpi.first.math.estimator.DifferentialDrivePoseEstimator;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
+import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.kinematics.DifferentialDriveKinematics;
 import edu.wpi.first.math.trajectory.Trajectory;
+import edu.wpi.first.math.trajectory.TrajectoryConfig;
+import edu.wpi.first.math.trajectory.TrajectoryGenerator;
 import edu.wpi.first.math.util.Units;
-import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
-import edu.wpi.first.math.controller.PIDController;
-import edu.wpi.first.math.controller.RamseteController;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import edu.wpi.first.wpilibj2.command.Subsystem;
@@ -59,20 +51,22 @@ public class RobotContainer {
 	// The robot's subsystems and commands are defined here...
 	//private TrajectoryPresets _trajectoryPresets;
 	private IControlInput _controlInput;
-	//private Claw _claw;
+	private Claw _claw;
 	private Drive _drive;
 	private DifferentialDrivePoseEstimator _estimator;
 	private DifferentialDriveKinematics _kinematics;
-	private ArrayList<Trajectory> _trajectories;
+	private ArrayList<Trajectory> _trajectories = new ArrayList<Trajectory>();
 	private ManualArm _manualArm;
 	private NavSensor _navSensor;
 	private Vision _vision;
+	private AutoMoveArm _mover;
 	//private CompArm _compArm;
-	private Arm _arm;
+	//private Arm _arm;
 	private PIDController _pid1;
 	private PIDController _pid2;
 	public GetStartTime _GetStartTime;
 	private RamseteController _ramsete;
+	private List<Translation2d> tempList = new ArrayList<>();
 
 	// Commands
 	private List<Pair<Subsystem, Command>> _teleopPairs;
@@ -100,18 +94,20 @@ public class RobotContainer {
 
 		/*_trajectoryPresets = new TrajectoryPresets();
 		_trajectories = _trajectoryPresets.testTraj2();
-*/
+		*/
+		tempList.add(new Translation2d(1, 0));
+		_trajectories.add(TrajectoryGenerator.generateTrajectory(new Pose2d(), tempList, new Pose2d(new Translation2d(2, 0), new Rotation2d()), new TrajectoryConfig(1, 0.5)));
 		initTeleopCommands();
 		initDashCommands();
 	}
 
 	private void initTeleopCommands() {
-		_manualArm = new ManualArm(_arm, _controlInput, _pid1, _pid2);
+		//_manualArm = new ManualArm(_arm, _controlInput, _pid1, _pid2);
 		_teleopPairs = new ArrayList<>();
 		_teleopPairs.add(new Pair<Subsystem, Command>(_drive, new ManualDrive(_drive, _controlInput)));
 		//_teleopPairs.add(new Pair<Subsystem, Command>(_compArm, new CompManualArm(_compArm, _controlInput)));
 		//_teleopPairs.add(new Pair<Subsystem, Command>(_claw, new ManualClaw(_claw, _controlInput)));
-		_teleopPairs.add(new Pair<Subsystem, Command>(_arm, _manualArm));
+		//_teleopPairs.add(new Pair<Subsystem, Command>(_arm, _manualArm));
 	}
 
 	private void initDashCommands() {
@@ -137,15 +133,13 @@ public class RobotContainer {
 
 		_drive.resetEncoders(); // resets encoders
 		//return new TrajectoryPresets(_vision, _drive, _pid2, _pid1, _trajectories, _estimator, _navSensor);//new ParallelFullAuto(_vision, _drive, _arm, _claw, _pid1, _pid2, _trajectories, _estimator, _navSensor)//
-
-
 		//double auto_start_time = Timer.getFPGATimestamp();
 		//return new SimpleScoreAndTaxi(_drive, _arm, _claw,  ArmPosition.SECOND);
+		return new FullAuto(_vision, _drive, _trajectories, _ramsete, _kinematics, _estimator, _navSensor, _mover, _claw);
+		//return new VisionBalance(_drive, _navSensor, _vision, _estimator, _ramsete, _kinematics);
+		//return new ChargeStationBalance(_drive, _navSensor);
 
-
-		
-		//return new FullAuto(_vision, _drive, _trajectories, _ramsete, _kinematics, _estimator, _navSensor, null, _claw);
-		return new VisionBalance(_drive, _navSensor, _vision, _estimator, _ramsete, _kinematics);
+		//return new MoveToChargeStation(_drive, _navSensor);
 		//return new SelfStationBalance(_drive, _navSensor, nav_offset);
 		//return new FullAutoTest(_vision, _drive, _pid2, _pid1, _trajectories, _estimator, _navSensor, auto_start_time);//new ParallelFullAuto(_vision, _drive, _arm, _claw, _pid1, _pid2, _trajectories, _estimator, _navSensor)
 	}
@@ -172,8 +166,8 @@ public class RobotContainer {
 	}
 
 	public void disabledExit() {
-		_arm.resetPID();
-		_manualArm.resetPos();
+		//_arm.resetPID();
+		//_manualArm.resetPos();
 	}
 
 	public void testInit() {}

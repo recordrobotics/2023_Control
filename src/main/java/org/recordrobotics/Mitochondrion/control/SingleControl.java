@@ -134,13 +134,13 @@ public class SingleControl implements IControlInput {
 	}
 
 	@Override
-	public org.recordrobotics.Mitocondrion.control.IControlInput.changeSetPointX changeSetPointX() {
+	public org.recordrobotics.Mitochondrion.control.IControlInput.changeSetPointX changeSetPointX() {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
-	public org.recordrobotics.Mitocondrion.control.IControlInput.changeSetPointY changeSetPointY() {
+	public org.recordrobotics.Mitochondrion.control.IControlInput.changeSetPointY changeSetPointY() {
 		// TODO Auto-generated method stub
 		return null;
 	}

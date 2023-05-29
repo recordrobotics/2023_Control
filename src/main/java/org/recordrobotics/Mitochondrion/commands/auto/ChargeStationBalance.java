@@ -33,10 +33,11 @@ public class ChargeStationBalance extends CommandBase {
 		_drive = drive;
 		_nav = nav;
 		_pid.setTolerance(_PIDTolerance);
+		encoderAtZero = (_drive.getLeftEncoder() + _drive.getRightEncoder())/2;
 	}
 
 	public void setZero(){
-		encoderAtZero = (_drive.getLeftEncoder() + _drive.getRightEncoder())/2;
+		//encoderAtZero = (_drive.getLeftEncoder() + _drive.getRightEncoder())/2;
 	}
 
 	/**

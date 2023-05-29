@@ -31,6 +31,7 @@ private Vision _vision;
 private NavSensor _nav;
 private Trajectory _trajectory;
 private List<Translation2d> _waypoints;
+private double _kp;
 
     public VisionBalance(Drive drive, NavSensor nav, Vision vision, DifferentialDrivePoseEstimator estimator, RamseteController ramsete, DifferentialDriveKinematics kinematics){
         _center = new Pose2d(Units.inchesToMeters(153.0025), Units.inchesToMeters(108.015), new Rotation2d(Math.PI));
@@ -39,13 +40,14 @@ private List<Translation2d> _waypoints;
         _drive = drive;
         _nav = nav;
         _vision = vision;
+        _kp = 1;
         _waypoints.add(_edge);
         _trajectory = TrajectoryGenerator.generateTrajectory(_estimator.getEstimatedPosition(), _waypoints, _center, new TrajectoryConfig(1, 0.5));
 
         addCommands(
-            new RamseteCommand(_trajectory, estimator::getEstimatedPosition, ramsete, 
-                new SimpleMotorFeedforward(0, 0), kinematics, drive::getWheelSpeeds, new PIDController(0, 0, 0), 
-                new PIDController(0, 0, 0), drive::tankDriveVolts, _drive, _nav, _vision),
+            //new RamseteCommand(_trajectory, estimator::getEstimatedPosition, ramsete, 
+            //    new SimpleMotorFeedforward(-0.12215, 1.4629, 5.9068), kinematics, drive::getWheelSpeeds, new PIDController(_kp, 0, 0), 
+            //    new PIDController(_kp, 0, 0), drive::tankDriveVolts, _drive, _nav, _vision),
             new ChargeStationBalance(_drive, _nav)
         );
     }

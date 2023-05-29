@@ -23,6 +23,7 @@ public class FullAuto extends SequentialCommandGroup {
 	ArmPosition _pos2 = ArmPosition.GROUND;
 	ArmPosition _pos3 = ArmPosition.THIRD;
 
+	private double _kp = 1;
 	private double clawSpeed = 0.05;
 	private int clawGrab = 1;
 	private int clawRelease = -1;
@@ -56,8 +57,8 @@ public class FullAuto extends SequentialCommandGroup {
 		else if (sequenceType == "test"){
 			addCommands(
                 new RamseteCommand(trajectory.get(0), estimator::getEstimatedPosition, ramsete, 
-                new SimpleMotorFeedforward(0, 0), kinematics, drive::getWheelSpeeds, new PIDController(0, 0, 0), 
-                new PIDController(0, 0, 0), drive::tankDriveVolts, drive, nav, vision)
+                new SimpleMotorFeedforward(-0.12215, 1.4629, 5.9068), kinematics, drive::getWheelSpeeds, new PIDController(_kp, 0, 0), 
+                new PIDController(_kp, 0, 0), drive::tankDriveVolts, drive, nav, vision)
 			);
 		}
 }
