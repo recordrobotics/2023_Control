@@ -1,3 +1,4 @@
+package org.recordrobotics.Mitochondrion.commands.manual;
 /*package org.recordrobotics.Mitocondrion.commands.manual;
 
 import org.recordrobotics.Mitocondrion.control.IControlInput;

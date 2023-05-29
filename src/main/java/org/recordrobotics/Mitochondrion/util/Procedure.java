@@ -1,4 +1,4 @@
-package org.recordrobotics.Mitocondrion.util;
+package org.recordrobotics.Mitochondrion.util;
 
 @FunctionalInterface
 public interface Procedure {

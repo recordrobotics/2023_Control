@@ -1,4 +1,4 @@
-package org.recordrobotics.Mitocondrion.subsystems;
+package org.recordrobotics.Mitochondrion.subsystems;
 
 // put static functions that are used by multiple subsystems here
 public final class Subsystems {

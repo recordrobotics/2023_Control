@@ -1,3 +1,4 @@
+package org.recordrobotics.Mitochondrion.subsystems;
 /*package org.recordrobotics.Mitochondrion.subsystems;
 
 import edu.wpi.first.networktables.GenericEntry;

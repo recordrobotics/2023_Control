@@ -1,4 +1,4 @@
-package org.recordrobotics.Mitocondrion.commands.manual;
+package org.recordrobotics.Mitochondrion.commands.manual;
 
 public enum ArmPosition {
 	SUBSTATION,

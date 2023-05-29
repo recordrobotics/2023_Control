@@ -1,8 +1,9 @@
-package org.recordrobotics.Mitocondrion.subsystems;
-
-import org.recordrobotics.Mitocondrion.Constants;
+package org.recordrobotics.Mitochondrion.subsystems;
 
 import com.kauailabs.navx.frc.AHRS;
+
+import org.recordrobotics.Mitochondrion.Constants;
+
 import edu.wpi.first.wpilibj.SPI;
 import edu.wpi.first.wpilibj.I2C;
 import edu.wpi.first.wpilibj.SerialPort;

@@ -1,13 +1,13 @@
-package org.recordrobotics.Mitocondrion.subsystems;
-
-import org.recordrobotics.Mitocondrion.Constants;
-import org.recordrobotics.Mitocondrion.RobotMap;
+package org.recordrobotics.Mitochondrion.subsystems;
 
 import com.ctre.phoenix.motorcontrol.FeedbackDevice;
 import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.can.TalonFXConfiguration;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
 import com.ctre.phoenix.sensors.SensorInitializationStrategy;
+
+import org.recordrobotics.Mitochondrion.Constants;
+import org.recordrobotics.Mitochondrion.RobotMap;
 
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.util.Units;

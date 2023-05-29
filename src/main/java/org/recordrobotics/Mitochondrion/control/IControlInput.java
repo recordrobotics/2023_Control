@@ -117,14 +117,14 @@ public interface IControlInput {
 	 * 
 	 * @return ChangeAngle.FORWARD - forward; ChangeAngle.BACKWARD - backward; ChangeAngle.REMAIN - no change
 	 */
-	void changeSetPointX();
+	changeSetPointX changeSetPointX();
 
 /**
 	 * changes the change motor angle
 	 * 
 	 * @return ChangeAngle.UP - up; ChangeAngle.DOWN - down; ChangeAngle.REMAIN - no change
 	 */
-	void changeSetPointY();
+	changeSetPointY changeSetPointY();
 
 
 	/**

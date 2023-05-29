@@ -2,9 +2,8 @@
 // Open Source Software; you can modify and/or share it under the terms of
 // the WPILib BSD license file in the root directory of this project.
 
-package org.recordrobotics.Mitocondrion;
-import org.recordrobotics.Mitocondrion.subsystems.Drive;
-//import org.recordrobotics.Mitocondrion.subsystems.Vision;
+package org.recordrobotics.Mitochondrion;
+import org.recordrobotics.Mitochondrion.subsystems.Drive;
 
 import edu.wpi.first.math.estimator.DifferentialDrivePoseEstimator;
 import edu.wpi.first.math.geometry.Pose2d;

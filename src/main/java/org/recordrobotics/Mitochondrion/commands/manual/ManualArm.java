@@ -1,7 +1,7 @@
-package org.recordrobotics.Mitocondrion.commands.manual;
+package org.recordrobotics.Mitochondrion.commands.manual;
 
-import org.recordrobotics.Mitocondrion.control.IControlInput;
-import org.recordrobotics.Mitocondrion.subsystems.Arm;
+import org.recordrobotics.Mitochondrion.control.IControlInput;
+import org.recordrobotics.Mitochondrion.subsystems.Arm;
 
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.util.Units;
@@ -91,35 +91,12 @@ public class ManualArm extends CommandBase{
 
 		switch (_controls.changeSetPointX()){
 			case FORWARD:
-<<<<<<< HEAD:src/main/java/org/recordrobotics/Mitocondrion/commands/manual/ManualArm.java
-				if(pos[0] < maX){
 					pos[0] += 0.01;
-				}
-=======
-					pos[0] += 0.01;
->>>>>>> c16cc872b6c7d0652763b62a26ac47d1849d80d8:src/main/java/org/recordrobotics/Mitochondrion/commands/manual/ManualArm.java
 				break;
 			case BACK:
 				pos[0] -= 0.01;
 			default:
 				break;
-<<<<<<< HEAD:src/main/java/org/recordrobotics/Mitocondrion/commands/manual/ManualArm.java
-		}
-
-		switch (_controls.changeSetPointY()){
-			case UP:
-				if(pos[1] < maxY){
-					pos[1] += 0.01;
-				}
-				break;
-			case DOWN:
-				if(pos[1] > 0) {
-					pos[1] -= 0.01;
-				}
-			default:
-				break;
-		}
-=======
 		}
 
 		switch (_controls.changeSetPointY()){
@@ -134,7 +111,6 @@ public class ManualArm extends CommandBase{
 
 		pos[0] = Math.max(Math.min(pos[0], maX), 0);
 		pos[1] = Math.max(Math.min(pos[1], maxY), 0);
->>>>>>> c16cc872b6c7d0652763b62a26ac47d1849d80d8:src/main/java/org/recordrobotics/Mitochondrion/commands/manual/ManualArm.java
 		angles = _arm.getAngles(pos[0], pos[1], "L");
 
 		SmartDashboard.putNumber("Pos X", pos[0]);

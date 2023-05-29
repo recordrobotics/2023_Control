@@ -1,3 +1,4 @@
+package org.recordrobotics.Mitochondrion.commands.auto;
 /*package org.recordrobotics.Mitocondrion.commands.auto;
 
 import org.recordrobotics.Mitocondrion.subsystems.Claw;

@@ -1,4 +1,4 @@
-package org.recordrobotics.Mitocondrion.subsystems;
+package org.recordrobotics.Mitochondrion.subsystems;
 
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.util.Units;
@@ -8,14 +8,14 @@ import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
-import org.recordrobotics.Mitocondrion.Constants;
-import org.recordrobotics.Mitocondrion.RobotMap;
-
 import com.ctre.phoenix.motorcontrol.FeedbackDevice;
 import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.can.TalonFXConfiguration;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
 import com.ctre.phoenix.sensors.SensorInitializationStrategy;
+
+import org.recordrobotics.Mitochondrion.Constants;
+import org.recordrobotics.Mitochondrion.RobotMap;
 
 public class CompArm extends SubsystemBase{
     private WPI_TalonFX _originMotor = new WPI_TalonFX(RobotMap.Arm.ORIGIN_MOTOR_PORT);
