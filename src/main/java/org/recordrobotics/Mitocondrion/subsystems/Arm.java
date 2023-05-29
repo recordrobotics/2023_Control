@@ -218,7 +218,7 @@ public class Arm extends SubsystemBase{
 		SmartDashboard.putNumber("Origin Speed", _originSpeed);
 		SmartDashboard.putNumber("Change Speed", _changeSpeed);
 		
-		//spinOrigin(_originSpeed);
-		//spinChange(_changeSpeed);
+		spinOrigin(_originSpeed);
+		spinChange(_changeSpeed);
 	}
 }

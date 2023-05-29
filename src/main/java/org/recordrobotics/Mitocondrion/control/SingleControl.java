@@ -28,6 +28,7 @@ public class SingleControl implements IControlInput {
 		return _gamepad.getLeftX();
 	}
 
+	// currently dead
 	@Override
 	public ChangeAngle changeOriginAngle() {
 		if (_gamepad.getRightX() > 0.5 && Math.abs(_gamepad.getRightY()) < 0.5 && !_xRightActivated) {
@@ -45,6 +46,7 @@ public class SingleControl implements IControlInput {
 		return ChangeAngle.REMAIN;
 	}
 
+	// currently dead
 	@Override
 	public ChangeAngle changeChangeAngle() {
 		if (_gamepad.getRightY() > 0.5 && Math.abs(_gamepad.getRightX()) < 0.5 && !_yRightActivated) {

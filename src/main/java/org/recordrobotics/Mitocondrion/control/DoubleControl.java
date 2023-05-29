@@ -29,6 +29,7 @@ public class DoubleControl implements IControlInput {
 		return -_gamepad1.getLeftX();
 	}
 
+	// currently dead
 	@Override
 	public ChangeAngle changeOriginAngle() {
 		if (_gamepad2.getRightX() > 0.5 && Math.abs(_gamepad2.getRightY()) < 0.5 && !_xRightActivated) {
@@ -46,6 +47,7 @@ public class DoubleControl implements IControlInput {
 		return ChangeAngle.REMAIN;
 	}
 
+	// currently dead
 	@Override
 	public ChangeAngle changeChangeAngle() {
 		if (_gamepad2.getRightY() > 0.5 && Math.abs(_gamepad2.getRightX()) < 0.5 && !_yRightActivated) {
