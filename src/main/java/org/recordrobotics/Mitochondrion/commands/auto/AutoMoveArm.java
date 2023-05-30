@@ -48,7 +48,7 @@ public class AutoMoveArm extends CommandBase {
 	}
 
 	@Override
-	public void execute() {
+	public void initialize() {
 		if(_target == ArmPosition.THIRD) {
 			pos[0] = Units.inchesToMeters(34.625);
 			pos[1] = Units.inchesToMeters(38.5) - Arm.ARM_BASE_HEIGHT;
@@ -60,7 +60,10 @@ public class AutoMoveArm extends CommandBase {
 		pos[0] = Math.max(Math.min(pos[0], maX), minX);
 		pos[1] = Math.max(Math.min(pos[1], maxY), minY);
 		angles = _arm.getAngles(pos[0], pos[1], "L");
+	}
 
+	@Override
+	public void execute() {
 		SmartDashboard.putNumber("Pos X", pos[0]);
 		SmartDashboard.putNumber("Pos Y", pos[1]);
 		SmartDashboard.putNumber("command set origin", angles[0]);

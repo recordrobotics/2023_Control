@@ -41,8 +41,8 @@ public class Arm extends SubsystemBase{
 	private static final double O_KP = 0.025;
 	private static final double O_KI = 0.005;
 	private static final double O_KD = 0;
-	private double _changeTolerance = 0.5;
-	private double _originTolerance = 0.5;
+	private double _changeTolerance = 5;
+	private double _originTolerance = 5;
 	private double _originMaxSpeed = 0.5;
 	private double _changeMaxSpeed = 0.5;
 	private double[] prevAngles = {0, 0};
