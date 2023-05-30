@@ -18,9 +18,12 @@ public class ManualArm extends CommandBase{
 
 	public final static double maX = Units.inchesToMeters(24 - tolerance);
 	public final static double maxY = Units.inchesToMeters(78 - tolerance) - Arm.ARM_BASE_HEIGHT;
-	private static final double DEFAULT = -1;
+	public final static double minY = 0.25;
+	public final static double minX = -0.5;
+	private static final double defaultX = -0.14;
+	private static final double defaultY = 0.25;
 
-	private double[] pos = {0, 0.7};
+	private double[] pos = {defaultX, defaultY};
 	private double[] angles = {-10, 10};
 
     public ManualArm(Arm arm, IControlInput controls, PIDController originPid, PIDController changePid) {
@@ -38,8 +41,8 @@ public class ManualArm extends CommandBase{
 	}
 
 	public void resetPos() {
-		pos[0] = 0;
-		pos[1] = 0.7;
+		pos[0] = defaultX;
+		pos[1] = defaultY;
 	}
 
     @Override
@@ -47,8 +50,8 @@ public class ManualArm extends CommandBase{
 		// sets arm motor angles based on which actions is needed
 		switch (_controls.getArmPosition()) {//TODO: get better heights, and maybe differentiate between cubes and cones
 			case SECOND: // X Button -- working
-				pos[0] = Units.inchesToMeters(14.25 + tolerance);
-				pos[1] = Units.inchesToMeters(23.5 + tolerance) - Arm.ARM_BASE_HEIGHT;
+				pos[0] = 0.43815;
+				pos[1] = 0.49845;
 				break;
 			case THIRD: // Y button -- NEEDS TUNING
 				pos[0] = Units.inchesToMeters(31.625 + tolerance);
@@ -59,13 +62,13 @@ public class ManualArm extends CommandBase{
 			case SUBSTATION: // B button
 				//pos[0] = _arm.getPos(_arm.getAnglesRestricted(Units.inchesToMeters(37.375 + tolerance)))[0];
 				//pos[1] = Units.inchesToMeters(37.375 + tolerance) - Arm.ARM_BASE_HEIGHT;
-				pos[0] = 0.33;
-				pos[1] = 0.83;
+				pos[0] = 0.4834;
+				pos[1] = 0.54;
 				//angles[1] = 35;
 				break;
 			case GROUND://How far away must we be, A button
-				pos[0] = 0;
-				pos[1] = 0.7;
+				pos[0] = defaultX;
+				pos[1] = defaultY;
 				break;
 			
 	//		case THIRD:
@@ -109,8 +112,8 @@ public class ManualArm extends CommandBase{
 				break;
 		}
 
-		pos[0] = Math.max(Math.min(pos[0], maX), 0);
-		pos[1] = Math.max(Math.min(pos[1], maxY), 0);
+		pos[0] = Math.max(Math.min(pos[0], maX), minX);
+		pos[1] = Math.max(Math.min(pos[1], maxY), minY);
 		angles = _arm.getAngles(pos[0], pos[1], "L");
 
 		SmartDashboard.putNumber("Pos X", pos[0]);

@@ -1,6 +1,7 @@
 package org.recordrobotics.Mitochondrion.control;
 
 import edu.wpi.first.wpilibj.XboxController;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class DoubleControl implements IControlInput {
 
@@ -66,9 +67,9 @@ public class DoubleControl implements IControlInput {
 	} */
 
 	public changeSetPointY changeSetPointY() {
-		if(_gamepad2.getLeftY() > 0.5){
+		if(_gamepad2.getLeftY() < -0.5){
 			return changeSetPointY.UP;
-		} else if(_gamepad2.getLeftY() < -0.5) {
+		} else if(_gamepad2.getLeftY() > 0.5) {
 			return changeSetPointY.DOWN;
 		}
 
@@ -87,6 +88,8 @@ public class DoubleControl implements IControlInput {
 
 	@Override
 	public ClawState getClawTurn() {
+		SmartDashboard.putBoolean("left trigger", _gamepad2.getLeftTriggerAxis() >= _TRIGGER_THRESHOLD);
+		SmartDashboard.putBoolean("right trigger", _gamepad2.getRightTriggerAxis() >= _TRIGGER_THRESHOLD);
 		if (_gamepad2.getLeftTriggerAxis() >= _TRIGGER_THRESHOLD) {
 			return ClawState.OPENING;
 		} else if (_gamepad2.getRightTriggerAxis() >= _TRIGGER_THRESHOLD) {
