@@ -137,7 +137,7 @@ public class RobotContainer {
 		//return new TrajectoryPresets(_vision, _drive, _pid2, _pid1, _trajectories, _estimator, _navSensor);//new ParallelFullAuto(_vision, _drive, _arm, _claw, _pid1, _pid2, _trajectories, _estimator, _navSensor)//
 		//double auto_start_time = Timer.getFPGATimestamp();
 		//return new SimpleScoreAndTaxi(_drive, _arm, _claw,  ArmPosition.SECOND);
-		return new FullAuto(_vision, _drive, _trajectories, _ramsete, _kinematics, _estimator, _navSensor, _mover, _claw);
+		return new FullAuto(_vision, _drive, _trajectories, _ramsete, _kinematics, _estimator, _navSensor, _arm, _claw);
 		//return new VisionBalance(_drive, _navSensor, _vision, _estimator, _ramsete, _kinematics);
 		//return new ChargeStationBalance(_drive, _navSensor);
 

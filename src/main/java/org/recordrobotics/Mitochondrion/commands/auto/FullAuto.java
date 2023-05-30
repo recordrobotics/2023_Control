@@ -7,6 +7,7 @@ import org.recordrobotics.Mitochondrion.commands.manual.ArmPosition;
 import org.recordrobotics.Mitochondrion.subsystems.Drive;
 import org.recordrobotics.Mitochondrion.subsystems.NavSensor;
 import org.recordrobotics.Mitochondrion.subsystems.Vision;
+import org.recordrobotics.Mitochondrion.subsystems.Arm;
 import org.recordrobotics.Mitochondrion.subsystems.Claw;
 
 import edu.wpi.first.math.controller.PIDController;
@@ -24,31 +25,31 @@ public class FullAuto extends SequentialCommandGroup {
 	ArmPosition _pos3 = ArmPosition.THIRD;
 
 	private double _kp = 1;
-	private double clawSpeed = 0.05;
+	private double clawSpeed = 0.3;
 	private int clawGrab = 1;
 	private int clawRelease = -1;
 
 	/**
 	 * e
 	 */
-	public FullAuto(Vision vision, Drive drive, ArrayList<Trajectory> trajectory, RamseteController ramsete, DifferentialDriveKinematics kinematics, DifferentialDrivePoseEstimator estimator, NavSensor nav, AutoMoveArm mover, Claw claw){
-		String sequenceType = "test";
+	public FullAuto(Vision vision, Drive drive, ArrayList<Trajectory> trajectory, RamseteController ramsete, DifferentialDriveKinematics kinematics, DifferentialDrivePoseEstimator estimator, NavSensor nav, Arm arm, Claw claw){
+		String sequenceType = "testSimple";
 
 		if (sequenceType == "scoring"){
 		addCommands(
-			new AutoArmHolder(mover, _pos1),
+			//new AutoArmHolder(mover, _pos1),
 			new AutoMoveClaw(claw, clawSpeed, clawRelease),
 			new VisionDrive(vision, drive, trajectory.get(0), estimator, nav, 0),//When colored object code gets implemented, use it here
-			new AutoArmHolder(mover, _pos2),
+			//new AutoArmHolder(mover, _pos2),
 			new AutoMoveClaw(claw, clawSpeed, clawGrab),
 			new VisionDrive(vision, drive, trajectory.get(1), estimator, nav, 0),
-			new AutoArmHolder(mover, _pos3),
+			//new AutoArmHolder(mover, _pos3),
 			new AutoMoveClaw(claw, clawSpeed, clawRelease)
 		);
 		}
 		else if (sequenceType == "docking"){
 		addCommands(
-			new AutoArmHolder(mover, _pos1),
+			//new AutoArmHolder(mover, _pos1),
 			new AutoMoveClaw(claw, clawSpeed, clawRelease),
 			new VisionDrive(vision, drive, trajectory.get(0), estimator, nav, 0),
 			new ChargeStationBalance(drive, nav)
@@ -59,6 +60,13 @@ public class FullAuto extends SequentialCommandGroup {
                 new RamseteCommand(trajectory.get(0), estimator::getEstimatedPosition, ramsete, 
                 new SimpleMotorFeedforward(-0.12215, 1.4629, 5.9068), kinematics, drive::getWheelSpeeds, new PIDController(_kp, 0, 0), 
                 new PIDController(_kp, 0, 0), drive::tankDriveVolts, drive, nav, vision)
+			);
+		}
+		else if (sequenceType == "testSimple") {
+			addCommands(
+				new AutoMoveArm(arm, ArmPosition.THIRD),
+				new AutoMoveClaw(claw, clawSpeed, -1),
+				new AutoMoveArm(arm, ArmPosition.NEUTRAL)
 			);
 		}
 }

@@ -48,7 +48,7 @@ public class Arm extends SubsystemBase{
 	private double[] prevAngles = {0, 0};
 
 	private double[] commandAngles = {0, 0};
-	private double rampConstant = 1;
+	private double rampConstant = 0.5;
 
 	private GenericEntry _entryAngles;
 
@@ -135,7 +135,7 @@ public class Arm extends SubsystemBase{
 		_changeMotor.set(speed);
 	}
 
-	public boolean originAtSetpoint() {
+	public boolean originAtSetpoint() { // find better way
 		return _originPid.atSetpoint();
 	}
 

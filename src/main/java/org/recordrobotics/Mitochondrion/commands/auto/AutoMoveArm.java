@@ -18,8 +18,9 @@ public class AutoMoveArm extends CommandBase {
 	private static double _third = 34;
 	//private static double _ground[] = {40, 42};
 	private static double _substation = 37.375;
-	private double[] pos = {0, 0};
+	private double[] pos = {-0.14, 0.25};
 	private double[] angles = {0, 0};
+	private ArmPosition _target;
 	
 	public final static double maX = Units.inchesToMeters(21);
 	public final static double maxY = Units.inchesToMeters(75) - Arm.ARM_BASE_HEIGHT;
@@ -36,18 +37,25 @@ public class AutoMoveArm extends CommandBase {
 	private static double _flipGroundOriginY = 22;
 	private static double _flipGroundChangeX = 22;*/
 
-	public AutoMoveArm(Arm arm) {
+	public AutoMoveArm(Arm arm, ArmPosition target) {
 		if (arm == null) {
 			throw new IllegalArgumentException("Arm is null");
 		}
+		System.out.println("Auto Moving Arm");
 
 		_arm = arm;
+		_target = target;
 	}
 
 	@Override
 	public void execute() {
-		pos[0] = Units.inchesToMeters(34.625);
-		pos[1] = Units.inchesToMeters(38.5) - Arm.ARM_BASE_HEIGHT;
+		if(_target == ArmPosition.THIRD) {
+			pos[0] = Units.inchesToMeters(34.625);
+			pos[1] = Units.inchesToMeters(38.5) - Arm.ARM_BASE_HEIGHT;
+		} else if (_target == ArmPosition.NEUTRAL) {
+			pos[0] = -0.14;
+			pos[1] = 0.25;
+		}
 
 		pos[0] = Math.max(Math.min(pos[0], maX), minX);
 		pos[1] = Math.max(Math.min(pos[1], maxY), minY);
@@ -57,6 +65,7 @@ public class AutoMoveArm extends CommandBase {
 		SmartDashboard.putNumber("Pos Y", pos[1]);
 		SmartDashboard.putNumber("command set origin", angles[0]);
 		_arm.setAngles(angles);// sets arm motor angles based on which actions is needed
+		SmartDashboard.putBoolean("arm finished", _arm.originAtSetpoint());
 	}
 
 	public void setArmPosition(ArmPosition position){
@@ -70,7 +79,7 @@ public class AutoMoveArm extends CommandBase {
 
 	@Override
 	public boolean isFinished() {
-		return _arm.originAtSetpoint();
+		return _arm.originAtSetpoint() && _arm.changeAtSetpoint();
 	}
 
 }

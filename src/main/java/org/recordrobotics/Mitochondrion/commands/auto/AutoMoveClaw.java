@@ -25,6 +25,7 @@ public class AutoMoveClaw extends CommandBase{
 		if (claw == null) {
 			throw new IllegalArgumentException("Drive is null");
 		}
+		System.out.println("auto moving claw");
 
 		_claw = claw;
 		_speed = speed;
@@ -50,7 +51,7 @@ public class AutoMoveClaw extends CommandBase{
 	 */
 	@Override
 	public boolean isFinished() {
-		return _claw.getSwitchState() || _claw.getPosition() > -0.4;
+		return !_claw.getSwitchState() || _claw.getPosition() < _claw._CLOSED_CLAW_ENCODER;
 	}
 
 	public void end(boolean interrupted) {
