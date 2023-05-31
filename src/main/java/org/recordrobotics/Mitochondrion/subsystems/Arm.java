@@ -18,6 +18,7 @@ import edu.wpi.first.networktables.GenericEntry;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
+import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 
@@ -41,14 +42,14 @@ public class Arm extends SubsystemBase{
 	private static final double O_KP = 0.025;
 	private static final double O_KI = 0.005;
 	private static final double O_KD = 0;
-	private double _changeTolerance = 5;
-	private double _originTolerance = 5;
+	private double _changeTolerance = 2.5;
+	private double _originTolerance = 2.5;
 	private double _originMaxSpeed = 0.5;
 	private double _changeMaxSpeed = 0.5;
 	private double[] prevAngles = {0, 0};
 
 	private double[] commandAngles = {0, 0};
-	private double rampConstant = 0.5;
+	private double rampConstant = 1;
 
 	private GenericEntry _entryAngles;
 
@@ -136,11 +137,11 @@ public class Arm extends SubsystemBase{
 	}
 
 	public boolean originAtSetpoint() { // find better way
-		return _originPid.atSetpoint();
+		return _originPid.atSetpoint() && commandAngles[0] == _angles[0];
 	}
 
 	public boolean changeAtSetpoint() {
-		return _changePid.atSetpoint();
+		return _changePid.atSetpoint() && commandAngles[1] == _angles[1];
 	}
 	
     //public double[] getCurrentAngles(){ // Why does this exist?
