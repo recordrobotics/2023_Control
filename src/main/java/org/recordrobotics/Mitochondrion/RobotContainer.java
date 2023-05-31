@@ -10,18 +10,15 @@ import java.util.List;
 import org.photonvision.PhotonCamera;
 import org.recordrobotics.Mitochondrion.commands.auto.AutoMoveArm;
 import org.recordrobotics.Mitochondrion.commands.auto.VisionMoveToPoint;
-
-import org.recordrobotics.Mitochondrion.commands.auto.FullAuto;
 import org.recordrobotics.Mitochondrion.commands.dash.DashRunFunc;
-import org.recordrobotics.Mitochondrion.commands.manual.ArmPosition;
 import org.recordrobotics.Mitochondrion.commands.manual.ManualArm;
 import org.recordrobotics.Mitochondrion.commands.manual.ManualClaw;
 import org.recordrobotics.Mitochondrion.commands.manual.ManualDrive;
 import org.recordrobotics.Mitochondrion.control.DoubleControl;
 import org.recordrobotics.Mitochondrion.control.IControlInput;
 import org.recordrobotics.Mitochondrion.control.SingleControl;
-import org.recordrobotics.Mitochondrion.subsystems.Claw;
 import org.recordrobotics.Mitochondrion.subsystems.Arm;
+import org.recordrobotics.Mitochondrion.subsystems.Claw;
 import org.recordrobotics.Mitochondrion.subsystems.Drive;
 import org.recordrobotics.Mitochondrion.subsystems.NavSensor;
 import org.recordrobotics.Mitochondrion.subsystems.Vision;
@@ -65,7 +62,7 @@ public class RobotContainer {
 	private NavSensor _navSensor;
 	private Vision _vision;
 	private AutoMoveArm _mover;
-	private PhotonCamera _cam = _vision.camera;
+	private PhotonCamera _cam;
 	//private CompArm _compArm;
 	private Arm _arm;
 	private PIDController _pid1;
@@ -93,6 +90,7 @@ public class RobotContainer {
 		_pid2 = new PIDController(0, 0, 0);
 
 		_vision = new Vision();
+		_cam = _vision.camera;
 		_kinematics = new DifferentialDriveKinematics(Units.inchesToMeters(22));//This value should be confirmed when possible
 		_estimator = new DifferentialDrivePoseEstimator(_kinematics, new Rotation2d(_navSensor.getYaw()), _drive.getLeftEncoder(), _drive.getRightEncoder(), new Pose2d(2.54, 4.65, new Rotation2d(0))); //The default standard deviations of the model states are 0.02 meters for x, 0.02 meters for y, and 0.01 radians for heading. The default standard deviations of the vision measurements are 0.1 meters for x, 0.1 meters for y, and 0.1 radians for heading.
 		_ramsete = new RamseteController();
