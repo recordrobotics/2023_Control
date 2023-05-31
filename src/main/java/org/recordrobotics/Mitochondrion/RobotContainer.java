@@ -7,7 +7,10 @@ package org.recordrobotics.Mitochondrion;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.photonvision.PhotonCamera;
 import org.recordrobotics.Mitochondrion.commands.auto.AutoMoveArm;
+import org.recordrobotics.Mitochondrion.commands.auto.VisionMoveToPoint;
+
 import org.recordrobotics.Mitochondrion.commands.auto.FullAuto;
 import org.recordrobotics.Mitochondrion.commands.dash.DashRunFunc;
 import org.recordrobotics.Mitochondrion.commands.manual.ArmPosition;
@@ -62,6 +65,7 @@ public class RobotContainer {
 	private NavSensor _navSensor;
 	private Vision _vision;
 	private AutoMoveArm _mover;
+	private PhotonCamera _cam = _vision.camera;
 	//private CompArm _compArm;
 	private Arm _arm;
 	private PIDController _pid1;
@@ -132,12 +136,13 @@ public class RobotContainer {
 
 		// Gets nav sensors offset
 		double nav_offset = _navSensor.getPitch();
+		double [] targetPose = {1.502743, 1.071626, Math.PI};
 
 		_drive.resetEncoders(); // resets encoders
 		//return new TrajectoryPresets(_vision, _drive, _pid2, _pid1, _trajectories, _estimator, _navSensor);//new ParallelFullAuto(_vision, _drive, _arm, _claw, _pid1, _pid2, _trajectories, _estimator, _navSensor)//
 		//double auto_start_time = Timer.getFPGATimestamp();
 		//return new SimpleScoreAndTaxi(_drive, _arm, _claw,  ArmPosition.SECOND);
-		return new FullAuto(_vision, _drive, _trajectories, _ramsete, _kinematics, _estimator, _navSensor, _arm, _claw);
+		return new VisionMoveToPoint(_vision, _drive, targetPose, _cam, 0);
 		//return new VisionBalance(_drive, _navSensor, _vision, _estimator, _ramsete, _kinematics);
 		//return new ChargeStationBalance(_drive, _navSensor);
 

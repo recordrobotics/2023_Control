@@ -27,18 +27,28 @@ public VisionMoveToPoint (Vision vision, Drive drive, double[] targetPos, Photon
     _targetPos = targetPos;
     _side = side;
 
+    _speed = 0.2;
+
 }
 
     @Override
     public void execute(){
-        _currentPos = Vision.estimateGlobalPose(_cam);
 
-        if (_side == 0){
-            _drive.move(-1*Math.signum(_targetPos[0] - _currentPos[0])*_speed, 0);
-        }
 
-        if (_side == 1){
-            _drive.move(Math.signum(_targetPos[0] - _currentPos[0])*_speed, 0);
+        if (Vision.checkForTarget(_cam) == true) {
+
+
+            _currentPos = Vision.estimateGlobalPose(_cam);
+
+            if (_side == 0){
+                _drive.move(-1*Math.signum(_targetPos[0] - _currentPos[0])*_speed, 0);
+            }
+
+            if (_side == 1){
+                _drive.move(Math.signum(_targetPos[0] - _currentPos[0])*_speed, 0);
+            }
+
+
         }
 
     }
