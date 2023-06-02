@@ -9,6 +9,10 @@ import org.recordrobotics.Mitochondrion.subsystems.NavSensor;
 import org.recordrobotics.Mitochondrion.subsystems.Vision;
 import org.recordrobotics.Mitochondrion.subsystems.Arm;
 import org.recordrobotics.Mitochondrion.subsystems.Claw;
+import org.photonvision.PhotonCamera;
+// Vision movetopoint/balance
+import org.recordrobotics.Mitochondrion.commands.auto.VisionMoveToPoint;
+import org.recordrobotics.Mitochondrion.commands.auto.VisionBalance;
 
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.controller.RamseteController;
@@ -28,12 +32,13 @@ public class FullAuto extends SequentialCommandGroup {
 	private double clawSpeed = 0.3;
 	private int clawGrab = 1;
 	private int clawRelease = -1;
+	private PhotonCamera _cam;
 
 	/**
 	 * e
 	 */
 	public FullAuto(Vision vision, Drive drive, ArrayList<Trajectory> trajectory, RamseteController ramsete, DifferentialDriveKinematics kinematics, DifferentialDrivePoseEstimator estimator, NavSensor nav, Arm arm, Claw claw){
-		String sequenceType = "testSimple";
+		String sequenceType = "score+taxi";
 
 		if (sequenceType == "scoring"){
 		addCommands(
@@ -62,11 +67,20 @@ public class FullAuto extends SequentialCommandGroup {
                 new PIDController(_kp, 0, 0), drive::tankDriveVolts, drive, nav, vision)
 			);
 		}
-		else if (sequenceType == "testSimple") {
+		else if (sequenceType == "score+taxi") {
+			double [] targetPose = {14.513558, 1.071626, Math.PI};
+			_cam = vision.camera;
 			addCommands(
+				// Simple scoring
 				new AutoMoveArm(arm, ArmPosition.THIRD),
 				new AutoMoveClaw(claw, clawSpeed, -1),
-				new AutoMoveArm(arm, ArmPosition.NEUTRAL)
+				new AutoMoveArm(arm, ArmPosition.NEUTRAL),
+
+				// Moves/taxi
+				new VisionMoveToPoint(vision, drive, targetPose, _cam, 1)
+
+				// Balances
+				//new VisionBalance(drive, nav, vision, estimator, ramsete, kinematics)
 			);
 		}
 }

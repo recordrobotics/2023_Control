@@ -27,7 +27,7 @@ public VisionMoveToPoint (Vision vision, Drive drive, double[] targetPos, Photon
     _targetPos = targetPos;
     _side = side;
 
-    _speed = 0.2;
+    _speed = 0.45;
 
 }
 

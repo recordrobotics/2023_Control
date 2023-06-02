@@ -5,6 +5,8 @@ import java.util.List;
 import org.recordrobotics.Mitochondrion.subsystems.Drive;
 import org.recordrobotics.Mitochondrion.subsystems.NavSensor;
 import org.recordrobotics.Mitochondrion.subsystems.Vision;
+import org.photonvision.PhotonCamera;
+import org.recordrobotics.Mitochondrion.commands.auto.VisionMoveToPoint;
 
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.controller.RamseteController;
@@ -32,6 +34,7 @@ private NavSensor _nav;
 private Trajectory _trajectory;
 private List<Translation2d> _waypoints;
 private double _kp;
+private PhotonCamera _cam;
 
     public VisionBalance(Drive drive, NavSensor nav, Vision vision, DifferentialDrivePoseEstimator estimator, RamseteController ramsete, DifferentialDriveKinematics kinematics){
         _center = new Pose2d(Units.inchesToMeters(153.0025), Units.inchesToMeters(108.015), new Rotation2d(Math.PI));
@@ -40,6 +43,8 @@ private double _kp;
         _drive = drive;
         _nav = nav;
         _vision = vision;
+        _cam = _vision.camera;
+        double [] targetPose = {1.502743, 1.071626, Math.PI};
         _kp = 1;
         _waypoints.add(_edge);
         _trajectory = TrajectoryGenerator.generateTrajectory(_estimator.getEstimatedPosition(), _waypoints, _center, new TrajectoryConfig(1, 0.5));
@@ -48,6 +53,7 @@ private double _kp;
             //new RamseteCommand(_trajectory, estimator::getEstimatedPosition, ramsete, 
             //    new SimpleMotorFeedforward(-0.12215, 1.4629, 5.9068), kinematics, drive::getWheelSpeeds, new PIDController(_kp, 0, 0), 
             //    new PIDController(_kp, 0, 0), drive::tankDriveVolts, _drive, _nav, _vision),
+            new VisionMoveToPoint(_vision, drive, targetPose, _cam, _kp),
             new ChargeStationBalance(_drive, _nav)
         );
     }
