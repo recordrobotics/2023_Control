@@ -55,7 +55,7 @@ public class ManualArm extends CommandBase{
 				break;
 			case THIRD: // Y button -- NEEDS TUNING
 				pos[0] = Units.inchesToMeters(31.625 + tolerance);
-				pos[1] = Units.inchesToMeters(35.5 + tolerance) - Arm.ARM_BASE_HEIGHT;
+				pos[1] = 0.84325;
 				//angles[0] = -45;
 				//angles[1] = 30;
 				break;

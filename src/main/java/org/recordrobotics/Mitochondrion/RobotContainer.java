@@ -135,7 +135,9 @@ public class RobotContainer {
 
 		// Gets nav sensors offset
 		double nav_offset = _navSensor.getPitch();
-		double [] targetPose = {1.502743, 1.071626, Math.PI};
+
+		_arm.resetEncoders(); //HASHDASBDAGDASGHD
+		//_claw.resetEncoders();
 
 		_drive.resetEncoders(); // resets encoders
 		//return new TrajectoryPresets(_vision, _drive, _pid2, _pid1, _trajectories, _estimator, _navSensor);//new ParallelFullAuto(_vision, _drive, _arm, _claw, _pid1, _pid2, _trajectories, _estimator, _navSensor)//
