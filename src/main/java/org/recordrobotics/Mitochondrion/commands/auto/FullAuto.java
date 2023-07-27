@@ -1,18 +1,14 @@
 package org.recordrobotics.Mitochondrion.commands.auto;
 
 import java.util.ArrayList;
-import java.util.function.BiConsumer;
 
+import org.photonvision.PhotonCamera;
 import org.recordrobotics.Mitochondrion.commands.manual.ArmPosition;
+import org.recordrobotics.Mitochondrion.subsystems.Arm;
+import org.recordrobotics.Mitochondrion.subsystems.Claw;
 import org.recordrobotics.Mitochondrion.subsystems.Drive;
 import org.recordrobotics.Mitochondrion.subsystems.NavSensor;
 import org.recordrobotics.Mitochondrion.subsystems.Vision;
-import org.recordrobotics.Mitochondrion.subsystems.Arm;
-import org.recordrobotics.Mitochondrion.subsystems.Claw;
-import org.photonvision.PhotonCamera;
-// Vision movetopoint/balance
-import org.recordrobotics.Mitochondrion.commands.auto.VisionMoveToPoint;
-import org.recordrobotics.Mitochondrion.commands.auto.VisionBalance;
 
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.controller.RamseteController;
@@ -22,6 +18,7 @@ import edu.wpi.first.math.kinematics.DifferentialDriveKinematics;
 import edu.wpi.first.math.trajectory.Trajectory;
 import edu.wpi.first.wpilibj2.command.RamseteCommand;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
+import edu.wpi.first.wpilibj2.command.WaitCommand;
 
 public class FullAuto extends SequentialCommandGroup {
 	ArmPosition _pos1 = ArmPosition.THIRD;
@@ -38,7 +35,7 @@ public class FullAuto extends SequentialCommandGroup {
 	 * e
 	 */
 	public FullAuto(Vision vision, Drive drive, ArrayList<Trajectory> trajectory, RamseteController ramsete, DifferentialDriveKinematics kinematics, DifferentialDrivePoseEstimator estimator, NavSensor nav, Arm arm, Claw claw){
-		String sequenceType = "score+taxi";
+		String sequenceType = "scorething";
 
 		if (sequenceType == "scoring"){
 		addCommands(
@@ -67,8 +64,25 @@ public class FullAuto extends SequentialCommandGroup {
                 new PIDController(_kp, 0, 0), drive::tankDriveVolts, drive, nav, vision)
 			);
 		}
-		else if (sequenceType == "score+taxi") {
-			double [] targetPose = {14.513558, 1.071626, Math.PI};
+		else if (sequenceType == "scorething") {
+			addCommands(
+				// Simple scoring
+				new AutoMoveArm(arm, ArmPosition.THIRD),
+				new WaitCommand(2),
+				new AutoMoveClaw(claw, clawSpeed, -1),
+				new AutoMoveArm(arm, ArmPosition.NEUTRAL)
+			);
+		}
+
+
+		else if (sequenceType == "dontcrash") {
+
+			// 15.513558 - 2.820162 = 12.693396 (RED  = side 1)
+			// 1.02743 + 2.820162 = 3.847592 (BLUE = side 0)
+
+			double [] targetPose = {12.693396, 1.071626, Math.PI}; //CHANGE THE Y VALUE
+			double side = 1; // FOR SIDE: 0 = blue, 1 = red
+			
 			_cam = vision.camera;
 			addCommands(
 				// Simple scoring
@@ -77,10 +91,10 @@ public class FullAuto extends SequentialCommandGroup {
 				new AutoMoveArm(arm, ArmPosition.NEUTRAL),
 
 				// Moves/taxi
-				new VisionMoveToPoint(vision, drive, targetPose, _cam, 1)
+				new VisionMoveToPoint(vision, drive, targetPose, _cam, side),
 
 				// Balances
-				//new VisionBalance(drive, nav, vision, estimator, ramsete, kinematics)
+				new ChargeStationBalance(drive, nav)
 			);
 		}
 }

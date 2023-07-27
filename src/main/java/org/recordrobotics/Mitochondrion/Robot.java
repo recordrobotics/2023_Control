@@ -7,6 +7,9 @@ import org.recordrobotics.Mitochondrion.subsystems.Drive;
 import org.recordrobotics.Mitochondrion.subsystems.Vision;
 import org.recordrobotics.Mitochondrion.subsystems.NavSensor;
 
+import org.recordrobotics.Mitochondrion.subsystems.Arm;
+
+
 import edu.wpi.first.math.estimator.DifferentialDrivePoseEstimator;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
@@ -92,7 +95,6 @@ public class Robot extends TimedRobot {
 	public void autonomousInit() {
 		System.out.println("Autonomous Init");
 		_autonomousCommand = _robotContainer.getAutonomousCommand();
-
 
 		// schedule the autonomous command (example)
 		if (_autonomousCommand != null) {

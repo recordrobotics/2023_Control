@@ -50,8 +50,8 @@ public class AutoMoveArm extends CommandBase {
 	public void initialize() {
 		System.out.println("Auto Moving Arm");
 		if(_target == ArmPosition.THIRD) {
-			pos[0] = Units.inchesToMeters(34.625);
-			pos[1] = Units.inchesToMeters(38.5) - Arm.ARM_BASE_HEIGHT;
+			pos[0] = 0.533; //Units.inchesToMeters(34.625);
+			pos[1] = 0.9; //0.84325;
 			System.out.println("to third");
 		} else if (_target == ArmPosition.NEUTRAL) {
 			pos[0] = -0.14;
